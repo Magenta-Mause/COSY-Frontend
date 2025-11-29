@@ -9,7 +9,6 @@ const GameServerConfigurationHouseAligner = (props: {
 }) => {
   const getStyle = (index: number): React.CSSProperties => {
     const {x, y} = calculateCoordinate(index);
-    console.log(index, x, y)
 
     return {
       position: "absolute",
