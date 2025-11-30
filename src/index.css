@@ -1,1 +1,34 @@
 @import "../styles/globals.css";
+
+@font-face {
+  font-family: "Stardew Valley";
+  src: url("./assets/StardewValley.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Stardew Valley", sans-serif;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: none;
+}
+
+button:focus-visible:after,
+input:focus-visible:after,
+a:focus-visible:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* Use the --ring variable so it changes from orange (day) to gold (night) */
+  /* Also increased thickness slightly for chunkier pixel look */
+  outline: 4px dashed var(--ring);
+  outline-offset: 2px;
+  filter: drop-shadow(2px 2px 0 black); /* Hard pixel shadow */
+}

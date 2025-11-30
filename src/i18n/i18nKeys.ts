@@ -1,16 +1,8 @@
 export type i18nLanguage = {
-  index: {
-    clickCounter: string;
-    clickBtn: string;
-    dontClickBtn: string;
+  overviewPage: {
+    createNewServer: string;
   };
-
-  redirected: {
-    warning: string;
-    consequence: ContainsVariable<"counter">;
-    noConsequence: string;
-    earnMoreClicks: string;
-  };
+  consequence: ContainsVariable<"counter">; // example
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;

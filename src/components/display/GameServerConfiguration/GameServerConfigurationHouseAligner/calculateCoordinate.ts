@@ -1,26 +1,32 @@
+const POSITIONS = [
+    {x: 0.13, y: 0.045},
+    {x: 0.533, y: 0.095},
+    {x: 0.317, y: 0.285},
+    {x: 0.759, y: 0.305},
+    {x: 0.30, y: 0.33},
+    {x: 0.70, y: 0.40},
+    {x: 0.22, y: 0.48},
+    {x: 0.78, y: 0.55},
+    {x: 0.28, y: 0.62},
+    {x: 0.72, y: 0.68},
+    {x: 0.24, y: 0.75},
+    {x: 0.76, y: 0.80},
+    {x: 0.30, y: 0.86},
+    {x: 0.70, y: 0.92},
+    {x: 0.50, y: 0.98},
+];
+
 function calculateCoordinate(index: number) {
-  function noise(seed: number) {
-    const x = Math.sin(seed * 12.9898) * 43758.5453;
-    return x - Math.floor(x);
-  }
+    const base = POSITIONS[index % POSITIONS.length];
 
-  // ----- X (bounded, alternating) -----
-  const baseX = index % 2 === 0 ? 0.25 : 0.75;
-  const xJitter = (noise(index) - 0.5) * 0.15; // ±7.5%
+    if (base === undefined) {
+        return {x: 0, y: 0};
+    }
 
-  const x = clamp(baseX + xJitter, 0.05, 0.95);
-
-  // ----- Y (unbounded, flowing down) -----
-  const baseStepPx = 160;                // average vertical distance
-  const variationPx = noise(index + 999) * 40; // variation per step
-
-  const y = index * baseStepPx + variationPx;
-
-  return { x, y };
-}
-
-function clamp(v: number, min: number, max: number) {
-  return Math.min(Math.max(v, min), max);
+    return {
+        x: base.x,
+        y: base.y,
+    };
 }
 
 export default calculateCoordinate;

@@ -1,17 +1,10 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
-  index: {
-    clickCounter: "Klicks",
-    clickBtn: "Klick mich!",
-    dontClickBtn: "Klick mich nicht!",
+  overviewPage: {
+    createNewServer: "Neuer Game Server",
   },
-  redirected: {
-    warning: "Du solltest doch nicht klicken!",
-    consequence: "Das hat dich all deine {{counter}} Klicks gekostet!",
-    noConsequence: "Du hattest nichtmal Klicks als Entschädigung!",
-    earnMoreClicks: "Mehr Klicks verdienen",
-  },
+  consequence: "asd{{counter}}ajskod",
 };
 
 export default translation;
