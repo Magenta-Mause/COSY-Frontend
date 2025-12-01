@@ -9,7 +9,7 @@ export interface ApiResponse<T> {
 }
 
 export const AXIOS_INSTANCE = axios.create({
-    baseURL: '/api'
+    baseURL: 'http://localhost:8080/api'
 });
 
 AXIOS_INSTANCE.interceptors.response.use(
