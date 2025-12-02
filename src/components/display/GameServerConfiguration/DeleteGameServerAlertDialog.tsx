@@ -1,51 +1,73 @@
 import { Label } from "@radix-ui/react-label";
+import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 interface DeleteGameServerAlertDialogProps {
   serverName: string;
-  onConfirm: () => void;
-  children: React.ReactNode;
+  onConfirm: () => Promise<void>;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function DeleteGameServerAlertDialog({
   serverName,
   onConfirm,
-  children,
+  open,
+  onOpenChange,
 }: DeleteGameServerAlertDialogProps) {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState("");
-  const isConfirmButtonDisabled = inputValue !== serverName;
+  const [loading, setLoading] = useState(false);
+  const isConfirmButtonDisabled = inputValue !== serverName || loading;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    if (isConfirmButtonDisabled) return;
+
     if (inputValue === serverName) {
-      onConfirm();
-      setInputValue(""); // Clear input after confirmation
+      setLoading(true);
+      try {
+        await onConfirm();
+        setInputValue(""); // Clear input after confirmation
+        onOpenChange(false); // Close dialog on success
+      } catch (e) {
+        // Error is already handled by the hook, no need to toast here
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
+  const handleOpenChange = (newOpen: boolean) => {
+    if (loading) return; // Prevent closing while loading
+    onOpenChange(newOpen);
+    if (!newOpen) {
       setInputValue(""); // Clear input when dialog closes
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleConfirm();
+    }
+  };
+
   return (
-    <AlertDialog onOpenChange={handleOpenChange}>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent className={"font-['VT323']"}>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
+      <AlertDialogContent className={"font-mono"}>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("deleteGameServerDialog.title", { serverName })}</AlertDialogTitle>
           <AlertDialogDescription>{t("deleteGameServerDialog.description")}</AlertDialogDescription>
@@ -56,22 +78,25 @@ export function DeleteGameServerAlertDialog({
                 id="serverName"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder={serverName}
+                disabled={loading}
               />
             </div>
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter className={"flex gap-8 justify-end items-center"}>
-          <AlertDialogCancel className={"h-[50px]"}>
+          <AlertDialogCancel className={"h-[50px]"} disabled={loading}>
             {t("deleteGameServerDialog.cancel")}
           </AlertDialogCancel>
-          <AlertDialogAction
+          <button
+            type="button"
             onClick={handleConfirm}
-            className={"h-[50px]"}
+            className={cn(buttonVariants(), "h-[50px]")}
             disabled={isConfirmButtonDisabled}
           >
             {t("deleteGameServerDialog.confirm")}
-          </AlertDialogAction>
+          </button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

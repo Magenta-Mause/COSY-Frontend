@@ -16,37 +16,17 @@ const useBackendFunctionality = () => {
   const gameServers = useSelector(
     (state: RootState) => state.gameServerConfigurationSliceReducer.data,
   );
-  const { mutate } = useDeleteGameServerById({
+  const { mutateAsync } = useDeleteGameServerById({
     mutation: {
-      onMutate: async (variables) => {
-        const deletedUuid = variables.uuid;
-        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-        await queryClient.cancelQueries({
-          queryKey: getGetAllGameServersQueryKey(),
-        });
-
-        // Snapshot the previous value
-        const previousGameServers = gameServers;
-
-        // Optimistically update to the new value
-        dispatch(gameServerConfigurationSliceActions.removeGameServerConfiguration(deletedUuid));
-
-        // Return a context object with the snapshotted value
-        return { previousGameServers };
-      },
-      onSuccess: () => {
+      onSuccess: (_data, variables) => {
+        dispatch(gameServerConfigurationSliceActions.removeGameServerConfiguration(variables.uuid));
         toast.success(t("toasts.deleteGameServerSuccess"));
       },
-      // If the mutation fails, use the context returned from onMutate to roll back
-      onError: (_err, _variables, context) => {
-        if (context?.previousGameServers) {
-          dispatch(
-            gameServerConfigurationSliceActions.setGameServerConfigurations(
-              context.previousGameServers,
-            ),
-          );
-        }
+      // If the mutation fails, show an error toast
+      onError: (err) => {
         toast.error(t("toasts.deleteGameServerError"));
+        // rethrow error to allow for individual error handling
+        throw err;
       },
       // Always refetch after error or success:
       onSettled: () => {
@@ -57,8 +37,8 @@ const useBackendFunctionality = () => {
     },
   });
 
-  const deleteGameServer = (uuid: string) => {
-    mutate({ uuid });
+  const deleteGameServer = async (uuid: string) => {
+    await mutateAsync({ uuid });
   };
 
   return {

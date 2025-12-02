@@ -2,8 +2,8 @@ import RightClickMenu from "@components/display/configurations/RightClickMenu/Ri
 import { DeleteGameServerAlertDialog } from "@components/display/GameServerConfiguration/DeleteGameServerAlertDialog.tsx";
 import GameSign from "@components/display/GameServerConfiguration/GameSign/GameSign.tsx";
 import Link from "@components/ui/Link.tsx";
-import { ContextMenuItem } from "@components/ui/context-menu.tsx";
 import type { CSSProperties } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
@@ -18,6 +18,7 @@ const GameServerConfigurationHouse = (props: {
 }) => {
   const { t } = useTranslation();
   const { deleteGameServer } = useBackendFunctionality();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const actions = [
     {
@@ -28,44 +29,46 @@ const GameServerConfigurationHouse = (props: {
     },
     {
       label: t("rightClickMenu.delete"),
-      render: (
-        <DeleteGameServerAlertDialog
-          serverName={props.gameServer.server_name ?? ""}
-          onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
-        >
-          <ContextMenuItem className={"font-['VT323']"} onSelect={(e) => e.preventDefault()}>
-            {t("rightClickMenu.delete")}
-          </ContextMenuItem>
-        </DeleteGameServerAlertDialog>
-      ),
+      onClick: () => {
+        setIsDeleteDialogOpen(true);
+      },
+      closeOnClick: false,
     },
   ];
 
   return (
-    <RightClickMenu actions={actions}>
-      <Link
-        className={cn("block w-[14%] h-auto aspect-square select-none", props.className)}
-        to={`/game-server-configuration/${props.gameServer.uuid}`}
-        aria-label={t("aria.gameServerConfiguration", {
-          serverName: props.gameServer.server_name,
-        })}
-        style={props.style}
-      >
-        <img
-          alt={t("aria.gameServerConfiguration", {
-            serverName: props.gameServer.server_name,
-          })}
-          className="w-full h-full object-cover"
+    <>
+      <RightClickMenu actions={actions}>
+        <Link
+          className={cn("block w-[14%] h-auto aspect-square select-none", props.className)}
+          to={`/game-server-configuration/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
-          src={serverHouseImage}
-        />
-        <GameSign className="bottom-[-2%] right-[5%] w-[25%]" classNameTextChildren="!text-[.5vw]">
-          {props.gameServer.server_name}
-        </GameSign>
-      </Link>
-    </RightClickMenu>
+          style={props.style}
+        >
+          <img
+            alt={t("aria.gameServerConfiguration", {
+              serverName: props.gameServer.server_name,
+            })}
+            className="w-full h-full object-cover"
+            aria-label={t("aria.gameServerConfiguration", {
+              serverName: props.gameServer.server_name,
+            })}
+            src={serverHouseImage}
+          />
+          <GameSign className="bottom-[-2%] right-[5%] w-[25%]" classNameTextChildren="!text-[.5vw]">
+            {props.gameServer.server_name}
+          </GameSign>
+        </Link>
+      </RightClickMenu>
+      <DeleteGameServerAlertDialog
+        serverName={props.gameServer.server_name ?? ""}
+        onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      />
+    </>
   );
 };
 

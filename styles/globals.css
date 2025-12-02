@@ -42,6 +42,11 @@
     --radius-md: calc(var(--radius) - 1px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 2px);
+
+    fontFamily: {
+      sans: ["Stardew Valley", "sans-serif"],
+      mono: ["VT323", "monospace"],
+    },
 }
 
 :root {

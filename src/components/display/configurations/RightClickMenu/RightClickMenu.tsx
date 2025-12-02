@@ -10,6 +10,7 @@ export interface RightClickAction {
   label: string;
   onClick?: () => Promise<void> | void;
   render?: ReactNode;
+  closeOnClick?: boolean;
 }
 
 interface RightClickMenuProps {
@@ -48,12 +49,17 @@ const RightClickMenu = (props: RightClickMenuProps) => {
             <ContextMenuItem
               key={action.label}
               onSelect={async (e) => {
-                e.preventDefault();
+                if (action.closeOnClick === false) {
+                  e.preventDefault();
+                }
                 if (action.onClick) {
-                  await handleAsync(action.onClick);
+                  // We don't use handleAsync here because it closes the modal, which we want to control.
+                  setLoading(true);
+                  await action.onClick();
+                  setLoading(false);
                 }
               }}
-              className={"font-['VT323']"}
+              className={"font-mono"}
               disabled={loading}
             >
               {action.label}
