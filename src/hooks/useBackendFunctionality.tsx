@@ -13,7 +13,7 @@ const useBackendFunctionality = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslation();
-  const gameServers = useSelector(
+  const _gameServers = useSelector(
     (state: RootState) => state.gameServerConfigurationSliceReducer.data,
   );
   const { mutateAsync } = useDeleteGameServerById({

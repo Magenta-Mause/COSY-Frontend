@@ -57,7 +57,10 @@ const GameServerConfigurationHouse = (props: {
             })}
             src={serverHouseImage}
           />
-          <GameSign className="bottom-[-2%] right-[5%] w-[25%]" classNameTextChildren="!text-[.5vw]">
+          <GameSign
+            className="bottom-[-2%] right-[5%] w-[25%]"
+            classNameTextChildren="!text-[.5vw]"
+          >
             {props.gameServer.server_name}
           </GameSign>
         </Link>
