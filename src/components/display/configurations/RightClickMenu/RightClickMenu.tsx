@@ -31,7 +31,7 @@ const RightClickMenu = (props: RightClickMenuProps) => {
   };
   const [loading, setLoading] = useState(false);
 
-  const handleAsync = async (callback: () => Promise<void> | void) => {
+  const _handleAsync = async (callback: () => Promise<void> | void) => {
     setLoading(true);
     await callback();
     setLoading(false);
