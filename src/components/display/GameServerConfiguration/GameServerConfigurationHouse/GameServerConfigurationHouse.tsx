@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
 import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import GameSign from "@components/display/GameServerConfiguration/GameSign/GameSign.tsx";
 import Link from "@components/ui/Link.tsx";
 import type { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";

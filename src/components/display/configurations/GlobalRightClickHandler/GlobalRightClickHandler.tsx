@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
 import RightClickMenu, {
   type RightClickAction,
 } from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 

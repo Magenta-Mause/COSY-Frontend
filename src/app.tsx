@@ -5,9 +5,9 @@
  * It is included in `src/index.html`.
  */
 
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "@/routeTree.gen";
 import "@/index.css";
 import ProviderCollection from "@components/technical/Providers/ProviderCollection.tsx";

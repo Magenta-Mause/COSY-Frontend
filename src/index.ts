@@ -1,6 +1,6 @@
-import {serve} from "bun";
+import { API_TARGET } from "@config";
+import { serve } from "bun";
 import index from "./index.html";
-import {API_TARGET} from "@config";
 
 const server = serve({
   routes: {
@@ -23,7 +23,7 @@ const server = serve({
         status: backendRes.status,
         headers: backendRes.headers,
       });
-    }
+    },
   },
 
   development: process.env.NODE_ENV !== "production" && {

@@ -6,20 +6,13 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": [
-      "src/**",
-      "!src/routeTree.gen.ts",
-      "!src/components/ui",
-      "!src/api/generated"
-    ]
+    "includes": ["src/**", "!src/routeTree.gen.ts", "!src/components/ui", "!src/api/generated"]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "includes": [
-      "src/**"
-    ],
+    "includes": ["src/**"],
     "lineWidth": 100
   },
   "linter": {

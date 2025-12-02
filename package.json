@@ -10,7 +10,8 @@
     "build": "tsr generate && biome lint && bun run build.ts",
     "build:opt": "tsr generate && biome lint && bun run build.ts --minify --splitting",
     "lint": "biome lint",
-    "lint:fix": "biome lint --write"
+    "lint:fix": "biome lint --write",
+    "lint:fix:unsafe": "biome check --write --unsafe"
   },
   "dependencies": {
     "@radix-ui/react-context-menu": "^2.2.16",

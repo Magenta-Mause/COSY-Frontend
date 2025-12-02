@@ -1,19 +1,21 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 import {
   getGetAllGameServersQueryKey,
   useDeleteGameServerById,
 } from "@/api/generated/backend-api.ts";
-import { gameServerConfigurationSliceActions } from "@/stores/slices/gameServerConfigurationSlice.ts";
-import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import type { RootState } from "@/stores";
+import { gameServerConfigurationSliceActions } from "@/stores/slices/gameServerConfigurationSlice.ts";
 
 const useBackendFunctionality = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslation();
-  const gameServers = useSelector((state: RootState) => state.gameServerConfigurationSliceReducer.data);
+  const gameServers = useSelector(
+    (state: RootState) => state.gameServerConfigurationSliceReducer.data,
+  );
   const { mutate } = useDeleteGameServerById({
     mutation: {
       onMutate: async (variables) => {
@@ -36,7 +38,7 @@ const useBackendFunctionality = () => {
         toast.success(t("toasts.deleteGameServerSuccess"));
       },
       // If the mutation fails, use the context returned from onMutate to roll back
-      onError: (err, variables, context) => {
+      onError: (_err, _variables, context) => {
         if (context?.previousGameServers) {
           dispatch(
             gameServerConfigurationSliceActions.setGameServerConfigurations(
