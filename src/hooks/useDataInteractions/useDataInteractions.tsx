@@ -1,12 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import {
   getGetAllGameServersQueryKey,
   useDeleteGameServerById,
 } from "@/api/generated/backend-api.ts";
-import type { RootState } from "@/stores";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useDataInteractions = () => {

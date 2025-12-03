@@ -3,9 +3,7 @@ import GameServerConfigurationHouse from "@components/display/GameServerConfigur
 import calculateCoordinate from "@components/display/GameServerConfiguration/GameServerConfigurationHouseAligner/calculateCoordinate.ts";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
 
-const GameServerHouseAligner = (props: {
-  gameServers: GameServerConfigurationEntity[];
-}) => {
+const GameServerHouseAligner = (props: { gameServers: GameServerConfigurationEntity[] }) => {
   const getStyle = (index: number): React.CSSProperties => {
     const { x, y } = calculateCoordinate(index);
 
