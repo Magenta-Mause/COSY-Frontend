@@ -1,10 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { type TypedUseSelectorHook, useSelector } from "react-redux";
-import { gameServerConfigurationSliceReducer } from "@/stores/slices/gameServerConfigurationSlice.ts";
+import { gameServerSliceReducer } from "@/stores/slices/gameServerSlice.ts";
 import type { RootState } from ".";
 
 const appReducer = combineReducers({
-  gameServerConfigurationSliceReducer,
+  gameServerSliceReducer,
 });
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

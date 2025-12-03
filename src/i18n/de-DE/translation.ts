@@ -21,13 +21,13 @@ const translation: i18nLanguage = {
     title: "Möchten Sie {{serverName}} wirklich löschen?",
     description:
       "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
-    inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
+    inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen: ({{serverName}})",
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
-    gameServerConfiguration: "Gameserver-Konfiguration: {{serverName}}",
+    gameServer: "Gameserver-Konfiguration: {{serverName}}",
   },
   consequence: "asd{{counter}}ajskod",
 };

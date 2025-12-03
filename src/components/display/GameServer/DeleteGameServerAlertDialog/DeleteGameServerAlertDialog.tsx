@@ -1,8 +1,8 @@
-import { Label } from "@radix-ui/react-label";
-import type { KeyboardEvent } from "react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { buttonVariants } from "@/components/ui/button";
+import {Label} from "@radix-ui/react-label";
+import type {KeyboardEvent} from "react";
+import {useState} from "react";
+import {useTranslation} from "react-i18next";
+import {buttonVariants} from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -11,9 +11,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+} from "@components/ui/dialog.tsx";
+import {Input} from "@components/ui/input.tsx";
+import {cn} from "@/lib/utils.ts";
 
 interface DeleteGameServerAlertDialogProps {
   serverName: string;
@@ -23,12 +23,12 @@ interface DeleteGameServerAlertDialogProps {
 }
 
 export function DeleteGameServerAlertDialog({
-  serverName,
-  onConfirm,
-  open,
-  onOpenChange,
-}: DeleteGameServerAlertDialogProps) {
-  const { t } = useTranslation();
+                                              serverName,
+                                              onConfirm,
+                                              open,
+                                              onOpenChange,
+                                            }: DeleteGameServerAlertDialogProps) {
+  const {t} = useTranslation();
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
   const isConfirmButtonDisabled = inputValue !== serverName || loading;
@@ -69,11 +69,11 @@ export function DeleteGameServerAlertDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className={"font-mono"}>
         <DialogHeader>
-          <DialogTitle>{t("deleteGameServerDialog.title", { serverName })}</DialogTitle>
+          <DialogTitle>{t("deleteGameServerDialog.title", {serverName})}</DialogTitle>
           <DialogDescription>{t("deleteGameServerDialog.description")}</DialogDescription>
           <div className="grid gap-4 py-4">
             <div className="flex flex-col items-start gap-4">
-              <Label htmlFor="serverName">{t("deleteGameServerDialog.inputLabel")}</Label>
+              <Label htmlFor="serverName">{t("deleteGameServerDialog.inputLabel", {serverName})}</Label>
               <Input
                 id="serverName"
                 value={inputValue}

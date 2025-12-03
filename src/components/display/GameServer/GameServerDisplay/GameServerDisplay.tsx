@@ -1,7 +1,7 @@
 import GameServerConfigurationHouseAligner from "@components/display/GameServerConfiguration/GameServerConfigurationHouseAligner/GameServerConfigurationHouseAligner.tsx";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
 
-const GameServerConfigurationsDisplay = (props: {
+const GameServerDisplay = (props: {
   gameServerConfigurations: GameServerConfigurationEntity[];
 }) => {
   return (
@@ -11,4 +11,4 @@ const GameServerConfigurationsDisplay = (props: {
   );
 };
 
-export default GameServerConfigurationsDisplay;
+export default GameServerDisplay;

@@ -7,19 +7,16 @@ import {
   useDeleteGameServerById,
 } from "@/api/generated/backend-api.ts";
 import type { RootState } from "@/stores";
-import { gameServerConfigurationSliceActions } from "@/stores/slices/gameServerConfigurationSlice.ts";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
-const useBackendFunctionality = () => {
+const useDataInteractions = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslation();
-  const _gameServers = useSelector(
-    (state: RootState) => state.gameServerConfigurationSliceReducer.data,
-  );
   const { mutateAsync } = useDeleteGameServerById({
     mutation: {
       onSuccess: (_data, variables) => {
-        dispatch(gameServerConfigurationSliceActions.removeGameServerConfiguration(variables.uuid));
+        dispatch(gameServerSliceActions.removeGameServerConfiguration(variables.uuid));
         toast.success(t("toasts.deleteGameServerSuccess"));
       },
       // If the mutation fails, show an error toast
@@ -46,4 +43,4 @@ const useBackendFunctionality = () => {
   };
 };
 
-export default useBackendFunctionality;
+export default useDataInteractions;

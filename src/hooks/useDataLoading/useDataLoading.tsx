@@ -1,19 +1,19 @@
 import { useDispatch } from "react-redux";
 import { getAllGameServers } from "@/api/generated/backend-api.ts";
-import { gameServerConfigurationSliceActions } from "@/stores/slices/gameServerConfigurationSlice.ts";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
 
   const loadGameServers = async () => {
-    dispatch(gameServerConfigurationSliceActions.setState("loading"));
+    dispatch(gameServerSliceActions.setState("loading"));
     try {
       const gameServers = await getAllGameServers();
-      dispatch(gameServerConfigurationSliceActions.setState("idle"));
-      dispatch(gameServerConfigurationSliceActions.setGameServerConfigurations(gameServers));
+      dispatch(gameServerSliceActions.setState("idle"));
+      dispatch(gameServerSliceActions.setGameServerConfigurations(gameServers));
       return true;
     } catch {
-      dispatch(gameServerConfigurationSliceActions.setState("failed"));
+      dispatch(gameServerSliceActions.setState("failed"));
       return false;
     }
   };

@@ -2,8 +2,8 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
 
-const gameServerConfigurationSlice = createSlice({
-  name: "game-server-configuration-slice",
+const gameServerSlice = createSlice({
+  name: "game-server-slice",
   initialState: {
     data: [],
     state: "idle",
@@ -32,5 +32,5 @@ const gameServerConfigurationSlice = createSlice({
   },
 });
 
-export const gameServerConfigurationSliceActions = gameServerConfigurationSlice.actions;
-export const gameServerConfigurationSliceReducer = gameServerConfigurationSlice.reducer;
+export const gameServerSliceActions = gameServerSlice.actions;
+export const gameServerSliceReducer = gameServerSlice.reducer;
