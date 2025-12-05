@@ -15,7 +15,7 @@ export default defineConfig({
             // 4. Inject your custom instance to handle the "Wrapper"
             override: {
                 mutator: {
-                    path: './src/api/axios-instance.ts',
+                    path: './src/api/axiosInstance.ts',
                     name: 'customInstance',
                 },
             },

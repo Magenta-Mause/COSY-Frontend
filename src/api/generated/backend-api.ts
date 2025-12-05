@@ -20,10 +20,12 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  GameServerConfigurationEntity
+  GameServerConfigurationEntity,
+  LoginDto,
+  UserEntityDto
 } from './model';
 
-import { customInstance } from '../axiosInstance.ts';
+import { customInstance } from '../axiosInstance';
 type AwaitedInput<T> = PromiseLike<T> | T;
 
       type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
@@ -33,6 +35,247 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
+export const login = (
+    loginDto: LoginDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<string>(
+      {url: `/auth/login`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: loginDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getLoginMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto}, TContext> => {
+
+const mutationKey = ['login'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof login>>, {data: LoginDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  login(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LoginMutationResult = NonNullable<Awaited<ReturnType<typeof login>>>
+    export type LoginMutationBody = LoginDto
+    export type LoginMutationError = unknown
+
+    export const useLogin = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof login>>,
+        TError,
+        {data: LoginDto},
+        TContext
+      > => {
+
+      const mutationOptions = getLoginMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getAllUserEntities = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<UserEntityDto[]>(
+      {url: `/user-entity`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetAllUserEntitiesQueryKey = () => {
+    return [
+    `/user-entity`
+    ] as const;
+    }
+
+    
+export const getGetAllUserEntitiesQueryOptions = <TData = Awaited<ReturnType<typeof getAllUserEntities>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllUserEntities>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllUserEntitiesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserEntities>>> = ({ signal }) => getAllUserEntities(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUserEntities>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAllUserEntitiesQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUserEntities>>>
+export type GetAllUserEntitiesQueryError = unknown
+
+
+
+export function useGetAllUserEntities<TData = Awaited<ReturnType<typeof getAllUserEntities>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllUserEntities>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAllUserEntitiesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getUserEntity = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetUserEntityQueryKey = (uuid?: string,) => {
+    return [
+    `/user-entity/${uuid}`
+    ] as const;
+    }
+
+    
+export const getGetUserEntityQueryOptions = <TData = Awaited<ReturnType<typeof getUserEntity>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserEntity>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserEntityQueryKey(uuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEntity>>> = ({ signal }) => getUserEntity(uuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserEntity>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserEntityQueryResult = NonNullable<Awaited<ReturnType<typeof getUserEntity>>>
+export type GetUserEntityQueryError = unknown
+
+
+
+export function useGetUserEntity<TData = Awaited<ReturnType<typeof getUserEntity>>, TError = unknown>(
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserEntity>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserEntityQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const deleteUserEntity = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/user-entity/${uuid}`, method: 'DELETE'
+    },
+      options);
+    }
+  
+
+
+export const getDeleteUserEntityMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserEntity>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteUserEntity>>, TError,{uuid: string}, TContext> => {
+
+const mutationKey = ['deleteUserEntity'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserEntity>>, {uuid: string}> = (props) => {
+          const {uuid} = props ?? {};
+
+          return  deleteUserEntity(uuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteUserEntityMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserEntity>>>
+    
+    export type DeleteUserEntityMutationError = unknown
+
+    export const useDeleteUserEntity = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserEntity>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteUserEntity>>,
+        TError,
+        {uuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteUserEntityMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const getAllGameServers = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -215,6 +458,69 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const fetchToken = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<string>(
+      {url: `/auth/token`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getFetchTokenQueryKey = () => {
+    return [
+    `/auth/token`
+    ] as const;
+    }
+
+    
+export const getFetchTokenQueryOptions = <TData = Awaited<ReturnType<typeof fetchToken>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof fetchToken>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getFetchTokenQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof fetchToken>>> = ({ signal }) => fetchToken(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof fetchToken>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type FetchTokenQueryResult = NonNullable<Awaited<ReturnType<typeof fetchToken>>>
+export type FetchTokenQueryError = unknown
+
+
+
+export function useFetchToken<TData = Awaited<ReturnType<typeof fetchToken>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof fetchToken>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getFetchTokenQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const root = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
