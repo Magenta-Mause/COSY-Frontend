@@ -12,13 +12,28 @@ export const AXIOS_INSTANCE = axios.create({
   baseURL: "/api",
 });
 
+let authToken: string | null = null;
+
+export const setAuthToken = (token: string | null) => {
+  authToken = token;
+};
+
+AXIOS_INSTANCE.interceptors.request.use(
+  (config) => {
+    if (authToken) {
+      config.headers.Authorization = `Bearer ${authToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 AXIOS_INSTANCE.interceptors.response.use(
   (response) => {
     if (response.data && response.data.data !== undefined && "success" in response.data) {
       const apiResponse: ApiResponse<unknown> = response.data;
       return apiResponse.data;
     }
-
     return response.data;
   },
   (error) => {

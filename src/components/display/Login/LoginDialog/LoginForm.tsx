@@ -15,6 +15,7 @@ interface SignInElement extends HTMLFormElement {
 const LoginForm = (props: {
   loginCallback: (formValues: { username: string; password: string }) => void;
   error: string | null;
+  isLoading?: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -72,7 +73,9 @@ const LoginForm = (props: {
           <FormMessage className="underline flex justify-end text-link -my-2">
             {t("signIn.resetPassword")}
           </FormMessage>
-          <FormSubmit type="submit">{t("signIn.signIn")}</FormSubmit>
+          <FormSubmit type="submit" disabled={props.isLoading}>
+            {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
+          </FormSubmit>
           <FormMessage className="text-button-accent leading-none">
             {t("signIn.continueMeansAccept")}{" "}
             <span className="underline text-link">{t("signIn.legal")}</span>

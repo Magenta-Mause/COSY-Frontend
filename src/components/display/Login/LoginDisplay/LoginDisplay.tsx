@@ -1,53 +1,34 @@
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getLoginMutationOptions, useFetchToken } from "@/api/generated/backend-api";
+import { login } from "@/api/generated/backend-api";
 import LoginBanner from "../LoginBanner/LoginBanner";
 import LoginForm from "../LoginDialog/LoginForm";
 
 const LoginDisplay = () => {
   const { t } = useTranslation();
-  const [authorized, setAuthorized] = useState(false);
+  const { authorized, refreshIdentityToken } = useContext(AuthContext);
+
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const refreshToken = localStorage.getItem("refreshToken");
+  const handleLogin = async (credentials: { username: string; password: string }) => {
+    setIsLoggingIn(true);
+    setError(null);
 
-  const loginMutation = useMutation({
-    ...getLoginMutationOptions(),
-    onSuccess: (token) => {
-      localStorage.setItem("refreshToken", token);
+    try {
+      await login(credentials);
+
+      await refreshIdentityToken();
+
       setOpen(false);
-      setError(null);
-      setAuthorized(true);
-    },
-    onError: () => {
-      setError(t("signIn.incorrectCredentials"));
-    },
-  });
-
-  const identityTokenMutation = useMutation({
-    ...useFetchToken(),
-    onSuccess: (token) => {
-      localStorage.setItem("identityToken", token);
-      setAuthorized(true);
-      setOpen(false);
-      setError(null);
-    },
-    onError: () => {
-      setAuthorized(false);
-    },
-  });
-
-  useEffect(() => {
-    if (refreshToken) {
-      identityTokenMutation.mutate();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login failed");
+    } finally {
+      setIsLoggingIn(false);
     }
-  }, [refreshToken, identityTokenMutation]);
-
-  const handleLogin = async (formValues: { username: string; password: string }) => {
-    loginMutation.mutate({ data: formValues });
   };
 
   return (
@@ -56,12 +37,11 @@ const LoginDisplay = () => {
         <div className="w-full flex justify-center absolute bottom-10 right-10">
           <LoginBanner setOpen={setOpen} />
         </div>
-
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="bg-primary-modal-background text- w-100">
             <DialogTitle className="text-3xl">{t("signIn.signIn")}</DialogTitle>
             <DialogDescription className="text-lg -my-5">{t("signIn.desc")}</DialogDescription>
-            <LoginForm loginCallback={handleLogin} error={error} />
+            <LoginForm loginCallback={handleLogin} error={error} isLoading={isLoggingIn} />
           </DialogContent>
         </Dialog>
       </div>
