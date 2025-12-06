@@ -78,6 +78,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
       {
         onSuccess: () => {
           toast.success(t("toasts.accountCreatedSuccess"));
+          handleClose(); // Close modal and clear URL param immediately
         },
         onError: (e) => {
           const typedError = e as InvalidRequestError;
