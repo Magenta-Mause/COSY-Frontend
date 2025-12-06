@@ -39,6 +39,7 @@ const translation: i18nLanguage = {
     continueMeansAccept: "Durch die Anmeldung akzeptieren Sie unsere",
     legal: "Datenschutzerklärung",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
+    loading: "Lädt...",
   },
 };
 

@@ -39,6 +39,7 @@ const translation: i18nLanguage = {
     continueMeansAccept: "By signing in, you accept our",
     legal: "Privacy Policy",
     incorrectCredentials: "Incorrect username or password.",
+    loading: "Loading...",
   },
 };
 

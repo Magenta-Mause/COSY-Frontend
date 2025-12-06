@@ -36,6 +36,7 @@ export type i18nLanguage = {
     continueMeansAccept: string;
     legal: string;
     incorrectCredentials: string;
+    loading: string;
   };
 };
 
