@@ -1,7 +1,7 @@
-import {useQueryClient} from "@tanstack/react-query";
-import {useTranslation} from "react-i18next";
-import {useDispatch} from "react-redux";
-import {toast} from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import {
   getGetAllGameServersQueryKey,
   getGetAllUserInvitesQueryKey,
@@ -9,18 +9,18 @@ import {
   useDeleteGameServerById,
   useRevokeInvite,
 } from "@/api/generated/backend-api.ts";
-import type {UserInviteCreationDto} from "@/api/generated/model";
-import {gameServerSliceActions} from "@/stores/slices/gameServerSlice.ts";
-import {userInviteSliceActions} from "@/stores/slices/userInviteSlice.ts";
-import type {InvalidRequestError} from "@/types/errors.ts";
+import type { UserInviteCreationDto } from "@/api/generated/model";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
+import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
+import type { InvalidRequestError } from "@/types/errors.ts";
 
 const useDataInteractions = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   // Game Server Deletion
-  const {mutateAsync: mutateDeleteGameServer} = useDeleteGameServerById({
+  const { mutateAsync: mutateDeleteGameServer } = useDeleteGameServerById({
     mutation: {
       onSuccess: (_data, variables) => {
         dispatch(gameServerSliceActions.removeGameServer(variables.uuid));
@@ -39,11 +39,11 @@ const useDataInteractions = () => {
   });
 
   const deleteGameServer = async (uuid: string) => {
-    await mutateDeleteGameServer({uuid});
+    await mutateDeleteGameServer({ uuid });
   };
 
   // Invite Creation
-  const {mutateAsync: mutateCreateInvite} = useCreateInvite({
+  const { mutateAsync: mutateCreateInvite } = useCreateInvite({
     mutation: {
       onSuccess: (data) => {
         dispatch(userInviteSliceActions.addInvite(data));
@@ -59,7 +59,7 @@ const useDataInteractions = () => {
         } else if (errorData && typeof errorData === "string") {
           errorMessage = errorData;
         }
-        toast.error(t("toasts.inviteCreateError", {error: errorMessage}));
+        toast.error(t("toasts.inviteCreateError", { error: errorMessage }));
         throw err;
       },
       onSettled: () => {
@@ -71,11 +71,11 @@ const useDataInteractions = () => {
   });
 
   const createInvite = async (data: UserInviteCreationDto) => {
-    return await mutateCreateInvite({data});
+    return await mutateCreateInvite({ data });
   };
 
   // Invite Revocation
-  const {mutateAsync: mutateRevokeInvite} = useRevokeInvite({
+  const { mutateAsync: mutateRevokeInvite } = useRevokeInvite({
     mutation: {
       onSuccess: (_data, variables) => {
         dispatch(userInviteSliceActions.removeInvite(variables.uuid));
@@ -94,7 +94,7 @@ const useDataInteractions = () => {
   });
 
   const revokeInvite = async (uuid: string) => {
-    await mutateRevokeInvite({uuid});
+    await mutateRevokeInvite({ uuid });
   };
 
   return {

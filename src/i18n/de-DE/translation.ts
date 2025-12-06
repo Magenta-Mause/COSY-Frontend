@@ -17,15 +17,15 @@ const translation: i18nLanguage = {
     refreshGameServersSuccess: "Gameserver-Konfigurationen erfolgreich aktualisiert!",
     refreshGameServersError: "Fehler beim Aktualisieren der Gameserver-Konfigurationen!",
     inviteCreatedSuccess: "Einladung erfolgreich erstellt",
-    inviteCreateError: "Fehler beim Erstellen der Einladung. \"{{error}}\"",
+    inviteCreateError: 'Fehler beim Erstellen der Einladung. "{{error}}"',
     inviteRevokedSuccess: "Einladung widerrufen",
     inviteRevokeError: "Fehler beim Widerrufen der Einladung",
     copyClipboardSuccess: "Link in die Zwischenablage kopiert",
     passwordsDoNotMatch: "Passwörter stimmen nicht überein",
     usernameRequired: "Benutzername ist erforderlich",
-    accountCreatedSuccess: "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
-    accountCreateError:
-      "Fehler beim Erstellen des Kontos. \"{{error}}\"",
+    accountCreatedSuccess:
+      "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
+    accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
   },
   userModal: {
     title: "Benutzer",

@@ -3,5 +3,5 @@ export interface InvalidRequestError {
     data: {
       data: Record<string, string> | string;
     };
-  }
+  };
 }

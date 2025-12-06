@@ -1,4 +1,4 @@
-import {Button} from "@components/ui/button.tsx";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -7,22 +7,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import {Input} from "@components/ui/input.tsx";
-import {Loader2} from "lucide-react";
-import {useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {toast} from "sonner";
-import {useGetUserInvite, useLogin, useUseInvite} from "@/api/generated/backend-api";
-import type {InvalidRequestError} from "@/types/errors.ts";
+import { Input } from "@components/ui/input.tsx";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api";
+import type { InvalidRequestError } from "@/types/errors.ts";
 
 interface InviteRedemptionModalProps {
   inviteToken: string;
   onClose: () => void;
 }
 
-
-export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionModalProps) {
-  const {t} = useTranslation();
+export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemptionModalProps) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,10 +40,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
   });
 
   // Mutation to register the user
-  const {mutate: registerUser, isPending: isRegistering} = useUseInvite();
-
-  // Mutation to auto-login after registration (optional, but good UX)
-  const {mutate: login} = useLogin();
+  const { mutate: registerUser, isPending: isRegistering } = useUseInvite();
 
   useEffect(() => {
     if (inviteData?.username) {
@@ -73,7 +69,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
     registerUser(
       {
         secretKey: inviteToken,
-        data: {username, password},
+        data: { username, password },
       },
       {
         onSuccess: () => {
@@ -83,7 +79,9 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
         onError: (e) => {
           const typedError = e as InvalidRequestError;
           const error = Object.entries(typedError.response?.data.data)[0];
-          toast.error(t("toasts.accountCreateError", {error: error ? error[1] : "Unknown error"}));
+          toast.error(
+            t("toasts.accountCreateError", { error: error ? error[1] : "Unknown error" }),
+          );
         },
       },
     );
@@ -102,7 +100,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
 
         {isLoadingInvite ? (
           <div className="flex justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin text-primary"/>
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : isInviteError ? (
           <div className="py-4 text-center space-y-4">
@@ -115,7 +113,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
           <form onSubmit={handleSubmit} className="space-y-4 py-2">
             {inviteData?.invited_by && (
               <p className="text-sm text-muted-foreground text-center mb-4">
-                {t("inviteRedemption.invitedBy", {username: inviteData.invite_by_username})}
+                {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
               </p>
             )}
 
@@ -177,13 +175,19 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
             </div>
 
             <DialogFooter className="mt-6 flex gap-5">
-              <Button type="button" variant="ghost" onClick={handleClose} disabled={isRegistering} className={"h-15"}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={handleClose}
+                disabled={isRegistering}
+                className={"h-15"}
+              >
                 {t("inviteRedemption.cancel")}
               </Button>
               <Button type="submit" disabled={isRegistering} className={"h-15"}>
                 {isRegistering ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {t("inviteRedemption.creating")}
                   </>
                 ) : (

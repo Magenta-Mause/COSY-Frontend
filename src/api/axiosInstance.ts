@@ -41,7 +41,11 @@ export const customInstance = <T>(
     ...options,
     cancelToken: source.token,
     timeout: options?.timeout ?? 4000,
-    headers: { Authorization: `Bearer ${AUTH_TOKEN}` },
+    headers: {
+      ...(config.headers ?? {}),
+      ...(options?.headers ?? {}),
+      Authorization: `Bearer ${AUTH_TOKEN}`,
+    },
   }).then((response) => response as T);
 
   // @ts-expect-error

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -6,15 +6,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
-import { Users, UserPlus } from "lucide-react";
-import { cn } from "@/lib/utils.ts";
+import { UserPlus, Users } from "lucide-react";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import { useTranslation } from "react-i18next";
-import { UserList } from "./UserList";
+import { cn } from "@/lib/utils.ts";
 import { InviteForm } from "./InviteForm";
 import { InviteResult } from "./InviteResult";
+import { UserList } from "./UserList";
 
 type ViewState = "list" | "invite" | "result";
 
@@ -48,14 +48,21 @@ const UserModalButton = (props: { className?: string }) => {
     }
   };
 
-  const resetView = () => {
+  const resetView = useCallback(() => {
     setView("list");
     setInviteUsername("");
     setGeneratedKey(null);
-  };
+  }, []);
 
   return (
-    <Dialog onOpenChange={(open) => !open && resetView()}>
+    <Dialog
+      onOpenChange={(open) => {
+        if (open) {
+          resetView();
+        }
+        return !open;
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           className={cn("h-auto p-[.5vw] aspect-square", props.className)}

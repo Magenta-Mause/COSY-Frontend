@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button.tsx";
-import { Copy, ArrowLeft } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import { ArrowLeft, Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface InviteResultProps {
@@ -9,11 +9,7 @@ interface InviteResultProps {
   onBack: () => void;
 }
 
-export const InviteResult = ({
-  generatedKey,
-  onCopyLink,
-  onBack,
-}: InviteResultProps) => {
+export const InviteResult = ({ generatedKey, onCopyLink, onBack }: InviteResultProps) => {
   const { t } = useTranslation();
 
   return (
@@ -35,9 +31,7 @@ export const InviteResult = ({
                 }
               }}
             >
-              {generatedKey
-                ? `${window.location.origin}/?inviteToken=${generatedKey}`
-                : ""}
+              {generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : ""}
             </button>
           </TooltipTrigger>
           <TooltipContent>

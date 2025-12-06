@@ -1,11 +1,11 @@
-import { useTypedSelector } from "@/stores/rootReducer.ts";
-import { Fragment } from "react";
-import { UserCircle, UserPlus, Copy, Trash2 } from "lucide-react";
 import { Button } from "@components/ui/button.tsx";
 import { Separator } from "@components/ui/separator.tsx";
-import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import { Copy, Trash2, UserCircle, UserPlus } from "lucide-react";
+import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 interface UserListProps {
   onRevoke: (uuid: string) => void;
@@ -50,7 +50,9 @@ export const UserList = ({ onRevoke }: UserListProps) => {
                   </p>
                   {invite.created_at && (
                     <p className="text-sm text-muted-foreground font-mono truncate">
-                      {t("userModal.created", { date: new Date(invite.created_at).toLocaleString() })}
+                      {t("userModal.created", {
+                        date: new Date(invite.created_at).toLocaleString(),
+                      })}
                     </p>
                   )}
                 </div>
