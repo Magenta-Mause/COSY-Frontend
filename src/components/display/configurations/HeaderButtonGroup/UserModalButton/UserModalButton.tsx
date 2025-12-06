@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -6,16 +6,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
-import { Users, UserCircle, UserPlus, Copy, ArrowLeft, Trash2 } from "lucide-react";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
-import { Separator } from "@components/ui/separator.tsx";
-import { cn } from "@/lib/utils.ts";
 import { Input } from "@components/ui/input.tsx";
+import { Separator } from "@components/ui/separator.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import { ArrowLeft, Copy, Trash2, UserCircle, UserPlus, Users } from "lucide-react";
+import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
-import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils.ts";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 type ViewState = "list" | "invite" | "result";
 
@@ -116,7 +116,9 @@ const UserModalButton = (props: { className?: string }) => {
                         </p>
                         {invite.created_at && (
                           <p className="text-sm text-muted-foreground font-mono truncate">
-                            {t("userModal.created", { date: new Date(invite.created_at).toLocaleString() })}
+                            {t("userModal.created", {
+                              date: new Date(invite.created_at).toLocaleString(),
+                            })}
                           </p>
                         )}
                       </div>
@@ -137,22 +139,20 @@ const UserModalButton = (props: { className?: string }) => {
                           <span className="sr-only">{t("userModal.copyLink")}</span>
                         </Button>
                         <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                                  onClick={() =>
-                                    invite.uuid && revokeInvite(invite.uuid)
-                                  }
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                  <span className="sr-only">{t("userModal.revokeTooltip")}</span>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{t("userModal.revokeTooltip")}</p>
-                            </TooltipContent>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                              onClick={() => invite.uuid && revokeInvite(invite.uuid)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              <span className="sr-only">{t("userModal.revokeTooltip")}</span>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{t("userModal.revokeTooltip")}</p>
+                          </TooltipContent>
                         </Tooltip>
                       </div>
                     </div>
@@ -176,15 +176,18 @@ const UserModalButton = (props: { className?: string }) => {
                 value={inviteUsername}
                 onChange={(e) => setInviteUsername(e.target.value)}
               />
-              <p className="text-xs text-muted-foreground">
-                {t("userModal.usernameDescription")}
-              </p>
+              <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
             </div>
             <div className="flex justify-end gap-2 mt-4">
               <Button variant="outline" size="sm" onClick={() => setView("list")}>
                 {t("userModal.cancel")}
               </Button>
-              <Button variant="default" size="sm" onClick={handleCreateInvite} disabled={isCreating}>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleCreateInvite}
+                disabled={isCreating}
+              >
                 {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
               </Button>
             </div>
@@ -222,12 +225,7 @@ const UserModalButton = (props: { className?: string }) => {
               {t("userModal.shareInstructions")}
             </p>
             <div className="flex flex-col gap-2 mt-2">
-              <Button
-                variant="default"
-                size="sm"
-                className="w-full"
-                onClick={handleCopyLink}
-              >
+              <Button variant="default" size="sm" className="w-full" onClick={handleCopyLink}>
                 <Copy className="w-4 h-4 mr-2" />
                 {t("userModal.copyLink")}
               </Button>
@@ -244,4 +242,3 @@ const UserModalButton = (props: { className?: string }) => {
 };
 
 export default UserModalButton;
-

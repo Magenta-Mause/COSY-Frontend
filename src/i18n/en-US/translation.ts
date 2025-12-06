@@ -37,7 +37,8 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
     generateInvite: "Generate Invite",
     creating: "Creating...",
-    shareInstructions: "Share this link with the person you want to invite. They can use it to create their account.",
+    shareInstructions:
+      "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
     backToUsers: "Back to Users",
     pendingInvites: "Pending Invites",

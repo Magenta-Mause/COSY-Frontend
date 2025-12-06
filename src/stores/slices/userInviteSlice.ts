@@ -1,6 +1,6 @@
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {UserInviteDto} from "@/api/generated/model";
-import type {SliceState} from "@/stores";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { UserInviteDto } from "@/api/generated/model";
+import type { SliceState } from "@/stores";
 
 const userInviteSlice = createSlice({
   name: "user-invite-slice",
@@ -9,19 +9,14 @@ const userInviteSlice = createSlice({
     state: "idle",
   } as SliceState<UserInviteDto>,
   reducers: {
-    setInvites: (
-      state,
-      action: PayloadAction<UserInviteDto[]>,
-    ) => {
+    setInvites: (state, action: PayloadAction<UserInviteDto[]>) => {
       state.data = action.payload;
     },
     addInvite: (state, action: PayloadAction<UserInviteDto>) => {
       state.data.push(action.payload);
     },
     removeInvite: (state, action: PayloadAction<string>) => {
-      state.data = state.data.filter(
-        (user) => user.uuid !== action.payload,
-      );
+      state.data = state.data.filter((user) => user.uuid !== action.payload);
     },
     resetInvites: (state) => {
       state.data = [];

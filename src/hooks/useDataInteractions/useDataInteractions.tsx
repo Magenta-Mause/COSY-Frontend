@@ -9,9 +9,9 @@ import {
   useDeleteGameServerById,
   useRevokeInvite,
 } from "@/api/generated/backend-api.ts";
+import type { UserInviteCreationDto } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
-import type { UserInviteCreationDto } from "@/api/generated/model";
 
 const useDataInteractions = () => {
   const dispatch = useDispatch();

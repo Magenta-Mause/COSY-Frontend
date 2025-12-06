@@ -1,4 +1,4 @@
-import axios, {type AxiosRequestConfig} from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -41,7 +41,7 @@ export const customInstance = <T>(
     ...options,
     cancelToken: source.token,
     timeout: options?.timeout ?? 4000,
-    headers: {"Authorization": `Bearer ${AUTH_TOKEN}`}
+    headers: { Authorization: `Bearer ${AUTH_TOKEN}` },
   }).then((response) => response as T);
 
   // @ts-expect-error

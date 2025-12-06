@@ -1,8 +1,12 @@
-import {useDispatch} from "react-redux";
-import {getAllGameServers, getAllUserEntities, getAllUserInvites} from "@/api/generated/backend-api.ts";
-import {gameServerSliceActions} from "@/stores/slices/gameServerSlice.ts";
-import {userSliceActions} from "@/stores/slices/userSlice.ts";
-import {userInviteSliceActions} from "@/stores/slices/userInviteSlice.ts";
+import { useDispatch } from "react-redux";
+import {
+  getAllGameServers,
+  getAllUserEntities,
+  getAllUserInvites,
+} from "@/api/generated/backend-api.ts";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
+import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
+import { userSliceActions } from "@/stores/slices/userSlice.ts";
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
@@ -31,7 +35,7 @@ const useDataLoading = () => {
       dispatch(userSliceActions.setState("failed"));
       return false;
     }
-  }
+  };
 
   const loadInvites = async () => {
     dispatch(userInviteSliceActions.setState("loading"));
@@ -44,12 +48,13 @@ const useDataLoading = () => {
       dispatch(userInviteSliceActions.setState("failed"));
       return false;
     }
-  }
+  };
 
   const loadAllData = async () => {
     await Promise.all(
-      [loadGameServers(), loadUsers(), loadInvites()].map((promise) => promise.catch(() => false)));
-  }
+      [loadGameServers(), loadUsers(), loadInvites()].map((promise) => promise.catch(() => false)),
+    );
+  };
 
   return {
     loadGameServers,

@@ -9,10 +9,7 @@ const gameServerSlice = createSlice({
     state: "idle",
   } as SliceState<GameServerConfigurationEntity>,
   reducers: {
-    setGameServer: (
-      state,
-      action: PayloadAction<GameServerConfigurationEntity[]>,
-    ) => {
+    setGameServer: (state, action: PayloadAction<GameServerConfigurationEntity[]>) => {
       state.data = action.payload;
     },
     addGameServer: (state, action: PayloadAction<GameServerConfigurationEntity>) => {

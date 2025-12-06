@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { useGetUserInvite, useUseInvite, useLogin } from "@/api/generated/backend-api";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { useGetUserInvite, useLogin, useUseInvite } from "@/api/generated/backend-api";
 
 interface InviteRedemptionModalProps {
   inviteToken: string;
@@ -35,12 +35,12 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
     query: {
       retry: false,
       enabled: !!inviteToken,
-    }
+    },
   });
 
   // Mutation to register the user
   const { mutate: registerUser, isPending: isRegistering } = useUseInvite();
-  
+
   // Mutation to auto-login after registration (optional, but good UX)
   const { mutate: login } = useLogin();
 
@@ -87,14 +87,14 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               onError: () => {
                 toast.info(t("inviteRedemption.loginInfo"));
                 handleClose();
-              }
-            }
+              },
+            },
           );
         },
         onError: () => {
           toast.error(t("toasts.accountCreateError"));
         },
-      }
+      },
     );
   };
 
@@ -106,9 +106,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
       <DialogContent className="font-mono sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{t("inviteRedemption.title")}</DialogTitle>
-          <DialogDescription>
-            {t("inviteRedemption.description")}
-          </DialogDescription>
+          <DialogDescription>{t("inviteRedemption.description")}</DialogDescription>
         </DialogHeader>
 
         {isLoadingInvite ? (
@@ -118,18 +116,23 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
         ) : isInviteError ? (
           <div className="py-4 text-center space-y-4">
             <p className="text-destructive font-medium">{t("inviteRedemption.invalidLink")}</p>
-            <Button variant="outline" onClick={handleClose}>{t("inviteRedemption.close")}</Button>
+            <Button variant="outline" onClick={handleClose}>
+              {t("inviteRedemption.close")}
+            </Button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 py-2">
             {inviteData?.invited_by && (
-               <p className="text-sm text-muted-foreground text-center mb-4">
-                 {t("inviteRedemption.invitedBy", { username: inviteData.invited_by })}
-               </p>
+              <p className="text-sm text-muted-foreground text-center mb-4">
+                {t("inviteRedemption.invitedBy", { username: inviteData.invited_by })}
+              </p>
             )}
 
             <div className="space-y-2">
-              <label htmlFor="username" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <label
+                htmlFor="username"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 {t("inviteRedemption.usernameLabel")}
               </label>
               <Input
@@ -147,7 +150,10 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 {t("inviteRedemption.passwordLabel")}
               </label>
               <Input
@@ -162,7 +168,10 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <label
+                htmlFor="confirmPassword"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 {t("inviteRedemption.confirmPasswordLabel")}
               </label>
               <Input
@@ -182,12 +191,12 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               </Button>
               <Button type="submit" disabled={isRegistering}>
                 {isRegistering ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {t("inviteRedemption.creating")}
-                    </>
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t("inviteRedemption.creating")}
+                  </>
                 ) : (
-                    t("inviteRedemption.createAccount")
+                  t("inviteRedemption.createAccount")
                 )}
               </Button>
             </DialogFooter>

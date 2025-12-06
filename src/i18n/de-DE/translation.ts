@@ -24,7 +24,8 @@ const translation: i18nLanguage = {
     passwordsDoNotMatch: "Passwörter stimmen nicht überein",
     usernameRequired: "Benutzername ist erforderlich",
     accountCreatedSuccess: "Konto erfolgreich erstellt!",
-    accountCreateError: "Fehler beim Erstellen des Kontos. Die Einladung ist möglicherweise ungültig oder abgelaufen.",
+    accountCreateError:
+      "Fehler beim Erstellen des Kontos. Die Einladung ist möglicherweise ungültig oder abgelaufen.",
   },
   userModal: {
     title: "Benutzer",
@@ -37,7 +38,8 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
     generateInvite: "Einladung erstellen",
     creating: "Erstelle...",
-    shareInstructions: "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
+    shareInstructions:
+      "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
     backToUsers: "Zurück zu Benutzern",
     pendingInvites: "Ausstehende Einladungen",
