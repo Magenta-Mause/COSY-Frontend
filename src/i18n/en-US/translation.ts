@@ -29,7 +29,18 @@ const translation: i18nLanguage = {
     createNewGameServer: "Create a new Game Server Configuration",
     gameServer: "Game Server Configuration: {{serverName}}",
   },
-  consequence: "asd{{counter}}ajskod",
+  signIn: {
+    signIn: "Sign In",
+    desc: "C.O.S.Y. - Cost Optimized Server Yard",
+    username: "Username",
+    password: "Password",
+    resetPassword: "Forgot Password?",
+    question: "You are not signed in",
+    continueMeansAccept: "By signing in, you accept our",
+    legal: "Privacy Policy",
+    incorrectCredentials: "Incorrect username or password.",
+    loading: "Loading...",
+  },
 };
 
 export default translation;

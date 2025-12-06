@@ -43,17 +43,17 @@ const GameServerHouse = (props: {
           className={cn("block w-[14%] h-auto aspect-square select-none", props.className)}
           to={`/game-server-configuration/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
-            serverName: props.gameServer.server_name,
+            serverName: props.gameServer.serverName,
           })}
           style={props.style}
         >
           <img
             alt={t("aria.gameServerConfiguration", {
-              serverName: props.gameServer.server_name,
+              serverName: props.gameServer.serverName,
             })}
             className="w-full h-full object-cover"
             aria-label={t("aria.gameServerConfiguration", {
-              serverName: props.gameServer.server_name,
+              serverName: props.gameServer.serverName,
             })}
             src={serverHouseImage}
           />
@@ -61,12 +61,12 @@ const GameServerHouse = (props: {
             className="bottom-[-2%] right-[5%] w-[25%]"
             classNameTextChildren="!text-[.5vw]"
           >
-            {props.gameServer.server_name}
+            {props.gameServer.serverName}
           </GameSign>
         </Link>
       </RightClickMenu>
       <DeleteGameServerAlertDialog
-        serverName={props.gameServer.server_name ?? ""}
+        serverName={props.gameServer.serverName ?? ""}
         onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}

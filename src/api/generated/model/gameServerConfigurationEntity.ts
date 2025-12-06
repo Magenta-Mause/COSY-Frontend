@@ -11,14 +11,14 @@ import type { EnvironmentVariableConfiguration } from './environmentVariableConf
 
 export interface GameServerConfigurationEntity {
   uuid?: string;
-  server_name?: string;
-  owner_id?: string;
+  serverName?: string;
+  ownerId?: string;
   status?: GameServerConfigurationEntityStatus;
-  timestamp_last_started?: string;
-  game_uuid?: string;
-  docker_image_name?: string;
-  docker_image_tag?: string;
-  docker_execution_command?: string[];
-  port_mappings?: PortMapping[];
-  environment_variables?: EnvironmentVariableConfiguration[];
+  timestampLastStarted?: string;
+  gameUuid?: string;
+  dockerImageName?: string;
+  dockerImageTag?: string;
+  dockerExecutionCommand?: string[];
+  portMappings?: PortMapping[];
+  environmentVariables?: EnvironmentVariableConfiguration[];
 }
