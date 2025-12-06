@@ -1,7 +1,7 @@
-import { Form, FormControl, FormLabel, FormMessage, FormSubmit } from "@components/ui/form";
-import { Input } from "@components/ui/input";
-import { FormField } from "@radix-ui/react-form";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 interface FormElements extends HTMLFormControlsCollection {
   username: HTMLInputElement;
@@ -20,7 +20,7 @@ const LoginForm = (props: {
   const { t } = useTranslation();
 
   return (
-    <Form
+    <form
       onSubmit={(event: React.FormEvent<SignInElement>) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -31,58 +31,62 @@ const LoginForm = (props: {
         props.loginCallback(data);
       }}
     >
-      <FormField name="username">
-        <FormLabel
-          htmlFor="username"
-          className={`text-button-accent ${props.error ? "text-red-700" : ""}`}
-        >
-          {t("signIn.username")}
-        </FormLabel>
-        <FormControl asChild className="text-2xl">
+      <FieldGroup>
+        <div className="-mb-5">
+          <FieldLabel
+            htmlFor="username"
+            className={`text-button-accent text-2xl ${props.error ? "text-red-700" : ""}`}
+          >
+            {t("signIn.username")}
+          </FieldLabel>
           <Input
             type="text"
             id="username"
             name="username"
-            className={`bg-primary-banner [box-shadow:inset_0_1_2_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
+            className={`text-xl bg-primary-banner [box-shadow:inset_0_1px_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
             required
           />
-        </FormControl>
-      </FormField>
+        </div>
 
-      <FormField name="password">
-        <FormLabel
-          htmlFor="password"
-          className={`text-button-accent ${props.error ? "text-red-700" : ""}`}
-        >
-          {t("signIn.password")}
-        </FormLabel>
-        <FormControl asChild className="text-2xl">
+        <div>
+          <FieldLabel
+            htmlFor="password"
+            className={`text-button-accent text-2xl ${props.error ? "text-red-700" : ""}`}
+          >
+            {t("signIn.password")}
+          </FieldLabel>
           <Input
             type="password"
             id="password"
             name="password"
-            className={`bg-primary-banner [box-shadow:inset_0_1_2_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
+            className={`text-xl bg-primary-banner [box-shadow:inset_0_1px_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
             required
           />
-        </FormControl>
-        {props.error && (
-          <FormMessage className="text-error text-red-700 mt-1">{props.error}</FormMessage>
-        )}
-      </FormField>
+          {props.error && (
+            <FieldError className="text-red-700 mt-1 text-xl -mb-3">{props.error}</FieldError>
+          )}
+        </div>
 
-      <a href="#test" className="underline flex justify-end text-link text-xl">
-        {t("signIn.resetPassword")}
-      </a>
-      <FormSubmit type="submit" disabled={props.isLoading} className="w-full text-xl my-2">
-        {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
-      </FormSubmit>
-      <p className="text-button-accent leading-none text-xl">
-        {t("signIn.continueMeansAccept")}{" "}
-        <a href="#test" className="underline text-link text-xl">
-          {t("signIn.legal")}
+        <a href="#test" className="underline flex justify-end text-link text-xl -my-4">
+          {t("signIn.resetPassword")}
         </a>
-      </p>
-    </Form>
+
+        <Button
+          type="submit"
+          disabled={props.isLoading}
+          className="w-full text-xl bg-button text-primary-modal-background"
+        >
+          {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
+        </Button>
+
+        <p className="text-button-accent leading-none text-xl -mt-5 -mb-2">
+          {t("signIn.continueMeansAccept")}{" "}
+          <a href="#test" className="underline text-link text-xl">
+            {t("signIn.legal")}
+          </a>
+        </p>
+      </FieldGroup>
+    </form>
   );
 };
 
