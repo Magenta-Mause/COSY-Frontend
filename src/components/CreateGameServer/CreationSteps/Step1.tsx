@@ -5,17 +5,18 @@ import { useTranslation } from "react-i18next";
 import * as z from "zod";
 
 const GameServerCreationGameNamePage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(undefined, { keyPrefix: "components.CreateGameServer.steps.step1" });
 
   return (
     <GenericGameServerCreationPage>
-      <DialogTitle>{t("components.CreateGameServer.steps.step1.title")}</DialogTitle>
+      <DialogTitle>{t("title")}</DialogTitle>
       <GenericGameServerCreationInputField
         attribute="gameUuid"
         validator={z.string().min(1)}
         placeholder="Minecraft Server"
-        label={t("components.CreateGameServer.steps.step1.gameSelection.title")}
-        description={t("components.CreateGameServer.steps.step1.gameSelection.description")}
+        label={t("gameSelection.title")}
+        description={t("gameSelection.description")}
+        errorLabel={t("gameSelection.errorLabel")}
       />
     </GenericGameServerCreationPage>
   );

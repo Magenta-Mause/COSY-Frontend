@@ -1,6 +1,8 @@
 import { Button } from "@components/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
+import { CircleAlertIcon } from "lucide-react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import type { ZodType } from "zod";
 import { GameServerCreationContext, type GameServerCreationProps } from "./CreateGameServerModal";
@@ -14,6 +16,7 @@ interface Props {
   fieldDescription: string;
   keyValidator: ZodType;
   valueValidator: ZodType;
+  errorLabel: string;
 }
 
 export default function KeyValueInput({
@@ -24,9 +27,12 @@ export default function KeyValueInput({
   fieldDescription,
   keyValidator,
   valueValidator,
+  errorLabel,
 }: Props) {
   const { setGameServerState } = useContext(GameServerCreationContext);
-  const { setAttributeTouched, setAttributeValid } = useContext(GameServerCreationPageContext);
+  const { setAttributeTouched, setAttributeValid, attributesTouched } = useContext(
+    GameServerCreationPageContext,
+  );
 
   const [envVariables, setEnvVariables] = useState<
     Array<{ uuid: string; valid: boolean; key?: string; value?: string }>
@@ -88,23 +94,36 @@ export default function KeyValueInput({
     <Field>
       <FieldLabel htmlFor="key-value-input">{fieldLabel}</FieldLabel>
 
-      <div className="grid grid-cols-2 gap-4">
-        {envVariables.map((envVar, index) => (
-          <>
-            <Input
-              id="key-value-input-key"
-              placeholder={placeHolderKeyInput}
-              value={envVar.key || ""}
-              onChange={(e) => changeCallback("key", index)(e.target.value)}
-            />
-            <Input
-              id="key-value-input-value"
-              placeholder={placeHolderValueInput}
-              value={envVar.value || ""}
-              onChange={(e) => changeCallback("value", index)(e.target.value)}
-            />
-          </>
-        ))}
+      <div className="space-y-2 w-full">
+        {envVariables.map((envVar, index) => {
+          const rowError = attributesTouched[attribute] && !envVar.valid;
+          return (
+            <div key={envVar.uuid} className="flex items-center gap-2 w-full">
+              <Input
+                className={rowError ? "border-red-500" : ""}
+                id={`key-value-input-key-${index}`}
+                placeholder={placeHolderKeyInput}
+                value={envVar.key || ""}
+                onChange={(e) => changeCallback("key", index)(e.target.value)}
+              />
+              <Input
+                className={rowError ? "border-red-500" : ""}
+                id={`key-value-input-value-${index}`}
+                placeholder={placeHolderValueInput}
+                value={envVar.value || ""}
+                onChange={(e) => changeCallback("value", index)(e.target.value)}
+              />
+              {rowError && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <CircleAlertIcon className="text-red-500 w-5 h-5" />
+                  </TooltipTrigger>
+                  <TooltipContent>{errorLabel}</TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+          );
+        })}
       </div>
       <Button
         className="ml-2"

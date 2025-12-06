@@ -20,6 +20,7 @@ export default function Step2() {
         placeholder="Select a template"
         label={t("components.CreateGameServer.steps.step2.templateSelection.title")}
         description={t("components.CreateGameServer.steps.step2.templateSelection.description")}
+        errorLabel={t("components.CreateGameServer.steps.step2.templateSelection.errorLabel")}
       />
       <GenericGameServerCreationInputField
         attribute="serverName"
@@ -27,6 +28,7 @@ export default function Step2() {
         placeholder="My Game Server"
         label={t("components.CreateGameServer.steps.step2.serverNameSelection.title")}
         description={t("components.CreateGameServer.steps.step2.serverNameSelection.description")}
+        errorLabel={t("components.CreateGameServer.steps.step2.serverNameSelection.errorLabel")}
       />
     </GenericGameServerCreationPage>
   );

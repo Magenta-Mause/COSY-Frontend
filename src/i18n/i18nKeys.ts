@@ -24,6 +24,7 @@ export type i18nLanguage = {
           gameSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
         };
         step2: {
@@ -32,10 +33,12 @@ export type i18nLanguage = {
           templateSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
           serverNameSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
         };
         step3: {
@@ -44,26 +47,32 @@ export type i18nLanguage = {
           dockerImageSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
           imageTagSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
           portSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
           environmentVariablesSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
           executionCommandSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
           hostPathSelection: {
             title: string;
             description: string;
+            errorLabel: string;
           };
         };
       };

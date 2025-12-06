@@ -24,6 +24,7 @@ const translation: i18nLanguage = {
           gameSelection: {
             title: "Choose a game for your server",
             description: "Select a game to host on your server.",
+            errorLabel: "Please select a valid game.",
           },
         },
         step2: {
@@ -32,10 +33,12 @@ const translation: i18nLanguage = {
           templateSelection: {
             title: "Template",
             description: "Select a template for your server",
+            errorLabel: "Please select a valid template.",
           },
           serverNameSelection: {
             title: "Server Name",
             description: "Name your server",
+            errorLabel: "Please enter a valid server name.",
           },
         },
         step3: {
@@ -44,26 +47,32 @@ const translation: i18nLanguage = {
           dockerImageSelection: {
             title: "Docker image",
             description: "Docker image for your server",
+            errorLabel: "Please enter a valid Docker image.",
           },
           imageTagSelection: {
             title: "Image tag",
             description: "Tag for the Docker image",
+            errorLabel: "Please enter a valid image tag.",
           },
           portSelection: {
             title: "Port",
             description: "Port your Server will run on",
+            errorLabel: "Please enter a valid port.",
           },
           environmentVariablesSelection: {
             title: "Environment Variable",
             description: "Environment variables for your Server",
+            errorLabel: "Either both key and value must be provided or neither.",
           },
           executionCommandSelection: {
             title: "Execution Command",
             description: "Command to start your server",
+            errorLabel: "Please enter a valid execution command.",
           },
           hostPathSelection: {
             title: "Volume Mount",
             description: "Volume mounts for your server",
+            errorLabel: "Either both host path and container path must be provided or neither.",
           },
         },
       },

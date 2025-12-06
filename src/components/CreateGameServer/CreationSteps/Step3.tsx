@@ -27,6 +27,7 @@ export default function Step3() {
           description={t(
             "components.CreateGameServer.steps.step3.dockerImageSelection.description",
           )}
+          errorLabel={t("components.CreateGameServer.steps.step3.dockerImageSelection.errorLabel")}
         />
 
         <GenericGameServerCreationInputField
@@ -35,6 +36,7 @@ export default function Step3() {
           placeholder="latest"
           label={t("components.CreateGameServer.steps.step3.imageTagSelection.title")}
           description={t("components.CreateGameServer.steps.step3.imageTagSelection.description")}
+          errorLabel={t("components.CreateGameServer.steps.step3.imageTagSelection.errorLabel")}
         />
       </div>
 
@@ -44,6 +46,7 @@ export default function Step3() {
         placeholder="4433"
         label={t("components.CreateGameServer.steps.step3.portSelection.title")}
         description={t("components.CreateGameServer.steps.step3.portSelection.description")}
+        errorLabel={t("components.CreateGameServer.steps.step3.portSelection.errorLabel")}
         type={InputType.NUMBER}
       />
 
@@ -54,6 +57,9 @@ export default function Step3() {
         )}
         fieldDescription={t(
           "components.CreateGameServer.steps.step3.environmentVariablesSelection.description",
+        )}
+        errorLabel={t(
+          "components.CreateGameServer.steps.step3.environmentVariablesSelection.errorLabel",
         )}
         placeHolderKeyInput="KEY"
         placeHolderValueInput="VALUE"
@@ -69,6 +75,9 @@ export default function Step3() {
         description={t(
           "components.CreateGameServer.steps.step3.executionCommandSelection.description",
         )}
+        errorLabel={t(
+          "components.CreateGameServer.steps.step3.executionCommandSelection.errorLabel",
+        )}
       />
 
       <KeyValueInput
@@ -77,6 +86,7 @@ export default function Step3() {
         fieldDescription={t(
           "components.CreateGameServer.steps.step3.hostPathSelection.description",
         )}
+        errorLabel={t("components.CreateGameServer.steps.step3.hostPathSelection.errorLabel")}
         placeHolderKeyInput="Host Path"
         placeHolderValueInput="Container Path"
         keyValidator={z.string().min(1)}
