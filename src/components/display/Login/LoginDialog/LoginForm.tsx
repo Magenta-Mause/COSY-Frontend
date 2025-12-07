@@ -43,7 +43,7 @@ const LoginForm = (props: {
             type="text"
             id="username"
             name="username"
-            className={`text-xl bg-primary-banner [box-shadow:inset_0_1px_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
+            className={`text-xl ${props.error ? "border-red-700" : ""}`}
             required
           />
         </div>
@@ -59,23 +59,17 @@ const LoginForm = (props: {
             type="password"
             id="password"
             name="password"
-            className={`text-xl bg-primary-banner [box-shadow:inset_0_1px_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
+            className={`text-xl ${props.error ? "border-red-700" : ""}`}
             required
           />
-          {props.error && (
-            <FieldError className="text-red-700 mt-1 text-xl -mb-3">{props.error}</FieldError>
-          )}
+          {props.error && <FieldError className="text-red-700 mt-1">{props.error}</FieldError>}
         </div>
 
         <a href="#test" className="underline flex justify-end text-link text-xl -my-4">
           {t("signIn.resetPassword")}
         </a>
 
-        <Button
-          type="submit"
-          disabled={props.isLoading}
-          className="w-full text-xl bg-button text-primary-modal-background"
-        >
+        <Button type="submit" disabled={props.isLoading} variant={"stardewDark"} className="w-full">
           {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
         </Button>
 
