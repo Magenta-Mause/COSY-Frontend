@@ -3,7 +3,8 @@ import { Field, FieldDescription, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { CircleAlertIcon } from "lucide-react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
 import { GameServerCreationContext } from "./CreateGameServerModal";
@@ -34,6 +35,7 @@ export default function KeyValueInput({
   const { setAttributeTouched, setAttributeValid, attributesTouched } = useContext(
     GameServerCreationPageContext,
   );
+  const { t } = useTranslation();
 
   const [envVariables, setEnvVariables] = useState<
     Array<{ uuid: string; valid: boolean; key?: string; value?: string }>
@@ -132,7 +134,7 @@ export default function KeyValueInput({
           setEnvVariables((prev) => [...prev, { uuid: crypto.randomUUID(), valid: true }])
         }
       >
-        Add
+        {t("components.CreateGameServer.keyValueInputAddButton")}
       </Button>
       <FieldDescription>{fieldDescription}</FieldDescription>
     </Field>

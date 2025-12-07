@@ -16,6 +16,8 @@ const translation: i18nLanguage = {
     deleteGameServerError: "Failed to delete Game Server Configuration!",
     refreshGameServersSuccess: "Game Server Configurations refreshed successfully!",
     refreshGameServersError: "Failed to refresh Game Server Configurations!",
+    createGameServerSuccess: "Game Server created successfully!",
+    createGameServerError: "Failed to create Game Server!",
   },
   deleteGameServerDialog: {
     title: "Are you absolutely sure you want to delete {{serverName}}?",
@@ -35,9 +37,10 @@ const translation: i18nLanguage = {
       backButton: "Back",
       nextStepButton: "Next Step",
       createServerButton: "Create Server",
+      keyValueInputAddButton: "Add",
       steps: {
         step1: {
-          title: "Create Game Server Step 1: Choose Game",
+          title: "Step 1: Choose Game",
           gameSelection: {
             title: "Choose a game for your server",
             description: "Select a game to host on your server.",
@@ -45,7 +48,7 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Create Game Server Step 2: Choose Template and Name",
+          title: "Step 2: Choose Template and Name",
           description: "Choose a template and a name for your server.",
           templateSelection: {
             title: "Template",
@@ -59,7 +62,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Create Game Server Step 3: Configure your Server",
+          title: "Step 3: Configure your Server",
           description: "Here you can configure your server.",
           dockerImageSelection: {
             title: "Docker image",
