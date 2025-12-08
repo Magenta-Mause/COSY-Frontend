@@ -10,9 +10,9 @@ import Step3 from "./CreationSteps/Step3";
 
 export interface GameServerCreationContext {
   gameServerState: Partial<GameServerCreationDto>;
-  setGameServerState: (
-    gameStateKey: keyof GameServerCreationDto,
-  ) => (value: GameServerCreationDto[keyof GameServerCreationDto]) => void;
+  setGameServerState: <K extends keyof GameServerCreationDto>(
+  gameStateKey: K
+) => (value: GameServerCreationDto[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
 }
 
