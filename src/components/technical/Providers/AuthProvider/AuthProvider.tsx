@@ -11,7 +11,7 @@ interface AuthContextType {
   username: string | null;
   refreshIdentityToken: () => void;
   setToken: (token: string) => void;
-  logout: () => void;
+  handleLogout: () => void;
 }
 
 interface DecodedToken {
@@ -33,7 +33,7 @@ const AuthContext = createContext<AuthContextType>({
   setToken() {
     console.warn("Called setToken before auth context ready");
   },
-  logout() {
+  handleLogout() {
     console.warn("Called logout before auth context ready");
   },
 });
@@ -114,7 +114,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
     }
   }, [updateAuthState]);
 
-  const logout = useCallback(() => {
+  const handleLogout = useCallback(() => {
     updateAuthState(null);
     setAuthToken(null);
     logout();
@@ -164,7 +164,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         username,
         refreshIdentityToken,
         setToken,
-        logout,
+        handleLogout,
       }}
     >
       {props.children}

@@ -37,6 +37,7 @@ export type i18nLanguage = {
     legal: string;
     incorrectCredentials: string;
     loading: string;
+    logout: string;
   };
 };
 

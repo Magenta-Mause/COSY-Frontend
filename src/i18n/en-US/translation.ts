@@ -40,6 +40,7 @@ const translation: i18nLanguage = {
     legal: "Privacy Policy",
     incorrectCredentials: "Incorrect username or password.",
     loading: "Loading...",
+    logout: "Logout",
   },
 };
 
