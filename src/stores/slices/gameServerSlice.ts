@@ -9,21 +9,18 @@ const gameServerSlice = createSlice({
     state: "idle",
   } as SliceState<GameServerConfigurationEntity>,
   reducers: {
-    setGameServerConfigurations: (
-      state,
-      action: PayloadAction<GameServerConfigurationEntity[]>,
-    ) => {
+    setGameServer: (state, action: PayloadAction<GameServerConfigurationEntity[]>) => {
       state.data = action.payload;
     },
-    addGameServerConfiguration: (state, action: PayloadAction<GameServerConfigurationEntity>) => {
+    addGameServer: (state, action: PayloadAction<GameServerConfigurationEntity>) => {
       state.data.push(action.payload);
     },
-    removeGameServerConfiguration: (state, action: PayloadAction<string>) => {
+    removeGameServer: (state, action: PayloadAction<string>) => {
       state.data = state.data.filter(
         (gameServerConfiguration) => gameServerConfiguration.uuid !== action.payload,
       );
     },
-    resetGameServerConfigurations: (state) => {
+    resetGameServers: (state) => {
       state.data = [];
     },
     setState: (state, action: PayloadAction<SliceState<null>["state"]>) => {

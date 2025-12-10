@@ -6,7 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface PortMapping {
-  instance_port?: number;
-  container_port?: number;
+export interface LoginDto {
+  /** @minLength 1 */
+  username: string;
+  /** @minLength 1 */
+  password: string;
 }

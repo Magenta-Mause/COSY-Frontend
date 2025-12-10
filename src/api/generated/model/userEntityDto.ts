@@ -5,8 +5,10 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { UserEntityDtoRole } from './userEntityDtoRole';
 
-export interface PortMapping {
-  instance_port?: number;
-  container_port?: number;
+export interface UserEntityDto {
+  uuid?: string;
+  username?: string;
+  role?: UserEntityDtoRole;
 }

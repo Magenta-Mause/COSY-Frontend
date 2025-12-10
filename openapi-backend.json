@@ -25,6 +25,224 @@
     }
   ],
   "paths": {
+    "/user-invites": {
+      "get": {
+        "tags": [
+          "user-invite-controller"
+        ],
+        "operationId": "getAllUserInvites",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInviteDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user-invite-controller"
+        ],
+        "operationId": "createInvite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInviteCreationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInviteDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-invites/use/{secretKey}": {
+      "post": {
+        "tags": [
+          "user-invite-controller"
+        ],
+        "operationId": "useInvite",
+        "parameters": [
+          {
+            "name": "secretKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntityDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "authorization-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user-invites/{secretKey}": {
+      "get": {
+        "tags": [
+          "user-invite-controller"
+        ],
+        "operationId": "getUserInvite",
+        "parameters": [
+          {
+            "name": "secretKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInviteDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-entity": {
+      "get": {
+        "tags": [
+          "user-entity-controller"
+        ],
+        "operationId": "getAllUserEntities",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserEntityDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-entity/{uuid}": {
+      "get": {
+        "tags": [
+          "user-entity-controller"
+        ],
+        "operationId": "getUserEntity",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntityDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-entity-controller"
+        ],
+        "operationId": "deleteUserEntity",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/game-server-configurations": {
       "get": {
         "tags": [
@@ -99,6 +317,36 @@
         }
       }
     },
+    "/auth/token": {
+      "get": {
+        "tags": [
+          "authorization-controller"
+        ],
+        "operationId": "fetchToken",
+        "parameters": [
+          {
+            "name": "refreshToken",
+            "in": "cookie",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/": {
       "get": {
         "tags": [
@@ -118,10 +366,122 @@
           }
         }
       }
+    },
+    "/user-invites/{uuid}": {
+      "delete": {
+        "tags": [
+          "user-invite-controller"
+        ],
+        "operationId": "revokeInvite",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "UserInviteCreationDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]*$"
+          }
+        }
+      },
+      "UserInviteDto": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "invited_by": {
+            "type": "string"
+          },
+          "invite_by_username": {
+            "type": "string"
+          },
+          "secret_key": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UserCreationDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]*$"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 2147483647,
+            "minLength": 8
+          }
+        },
+        "required": [
+          "password"
+        ]
+      },
+      "UserEntityDto": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "QUOTA_USER"
+            ]
+          }
+        }
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "password",
+          "username"
+        ]
+      },
       "EnvironmentVariableConfiguration": {
         "type": "object",
         "properties": {
@@ -191,11 +551,11 @@
       "PortMapping": {
         "type": "object",
         "properties": {
-          "instancePort": {
+          "instance_port": {
             "type": "integer",
             "format": "int32"
           },
-          "containerPort": {
+          "container_port": {
             "type": "integer",
             "format": "int32"
           }
