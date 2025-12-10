@@ -7,11 +7,6 @@ import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
 
-export enum InputType {
-  TEXT = "text",
-  NUMBER = "number",
-}
-
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationDto;
   validator: ZodType;
@@ -19,7 +14,6 @@ const GenericGameServerCreationInputField = (props: {
   errorLabel: string;
   label?: string;
   description?: string;
-  type?: InputType;
 }) => {
   const { setGameServerState, gameServerState } = useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid, attributesTouched, attributesValid } = useContext(
@@ -38,10 +32,8 @@ const GenericGameServerCreationInputField = (props: {
 
   const changeCallback = useCallback(
     (value: string) => {
-      const preProcessedValue = props.type === InputType.NUMBER ? Number(value) : value;
-
-      setGameServerState(props.attribute)(preProcessedValue);
-      setAttributeValid(props.attribute, props.validator.safeParse(preProcessedValue).success);
+      setGameServerState(props.attribute)(value);
+      setAttributeValid(props.attribute, props.validator.safeParse(value).success);
       setAttributeTouched(props.attribute, true);
     },
     [
@@ -50,7 +42,6 @@ const GenericGameServerCreationInputField = (props: {
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
-      props.type,
     ],
   );
 

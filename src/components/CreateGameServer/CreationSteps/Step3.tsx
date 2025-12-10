@@ -2,9 +2,7 @@ import KeyValueInput from "@components/CreateGameServer/KeyValueInput";
 import { DialogDescription, DialogTitle } from "@components/ui/dialog";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import GenericGameServerCreationInputField, {
-  InputType,
-} from "../GenericGameServerCreationInputField";
+import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage";
 
 export default function Step3() {
@@ -17,7 +15,7 @@ export default function Step3() {
 
       <div className="grid grid-cols-2 gap-4">
         <GenericGameServerCreationInputField
-          attribute="dockerImageName"
+          attribute="docker_image_name"
           validator={z.string().min(1)}
           placeholder="nginx"
           label={t("dockerImageSelection.title")}
@@ -35,14 +33,19 @@ export default function Step3() {
         />
       </div>
 
-      <GenericGameServerCreationInputField
+      <KeyValueInput
         attribute="port_mappings"
-        validator={z.number().min(1).max(65535)}
-        placeholder="4433"
-        label={t("portSelection.title")}
-        description={t("portSelection.description")}
+        fieldLabel={t("portSelection.title")}
+        fieldDescription={t("portSelection.description")}
         errorLabel={t("portSelection.errorLabel")}
-        type={InputType.NUMBER}
+        placeHolderKeyInput="4433"
+        placeHolderValueInput="4433"
+        keyValidator={z.number().min(1).max(65535)}
+        valueValidator={z.number().min(1).max(65535)}
+        required
+        inputType="number"
+        objectKey="instance_port"
+        objectValue="container_port"
       />
 
       <KeyValueInput
@@ -54,6 +57,9 @@ export default function Step3() {
         placeHolderValueInput="VALUE"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
+        inputType="text"
+        objectKey="key"
+        objectValue="value"
       />
 
       <GenericGameServerCreationInputField
@@ -74,6 +80,9 @@ export default function Step3() {
         placeHolderValueInput="Container Path"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
+        inputType="text"
+        objectKey="host_path"
+        objectValue="container_path"
       />
     </GenericGameServerCreationPage>
   );

@@ -10,6 +10,12 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { GameServerCreationContext } from "./CreateGameServerModal";
 import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
 
+// All keys must be a key of HTMLInputTypeAttribute
+interface InputType {
+  text: string;
+  number: string;
+}
+
 interface Props {
   attribute: keyof GameServerCreationDto;
   placeHolderKeyInput: string;
@@ -19,6 +25,10 @@ interface Props {
   keyValidator: ZodType;
   valueValidator: ZodType;
   errorLabel: string;
+  required?: boolean;
+  inputType: keyof InputType;
+  objectKey: string; // This is the property name for the key in the object
+  objectValue: string; // This is the property name for the value in the object
 }
 
 export default function KeyValueInput({
@@ -30,6 +40,10 @@ export default function KeyValueInput({
   keyValidator,
   valueValidator,
   errorLabel,
+  required,
+  inputType,
+  objectKey,
+  objectValue,
 }: Props) {
   const { setGameServerState } = useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid, attributesTouched } = useContext(
@@ -37,44 +51,71 @@ export default function KeyValueInput({
   );
   const { t } = useTranslationPrefix("components.CreateGameServer");
 
-  const [envVariables, setEnvVariables] = useState<
-    Array<{ uuid: string; valid: boolean; key?: string; value?: string }>
-  >([{ uuid: crypto.randomUUID(), valid: true }]);
+  const [keyValuePair, setKeyValuePair] = useState<
+    Array<{
+      uuid: string;
+      valid: boolean;
+      [objectKey]?: string | number;
+      [objectValue]?: string | number;
+    }>
+  >([{ uuid: crypto.randomUUID(), valid: !required }]);
+
+  const preProcessValue = useCallback(
+    (value: string): string | number => {
+      if (inputType === "number") {
+        return Number(value);
+      }
+      return value;
+    },
+    [inputType],
+  );
+
+  const preProcessKeyAndValue = useCallback(
+    (key: string, value: string): [string | number, string | number] => {
+      const preProcessedKey: string | number = preProcessValue(key);
+      const preProcessedValue: string | number = preProcessValue(value);
+
+      return [preProcessedKey, preProcessedValue];
+    },
+    [preProcessValue],
+  );
 
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
-      if (!key && !value) {
+      if (!key && !value && !required) {
         return true;
       } else if (!key || !value) {
         return false;
       }
 
-      const keyValid = (key: string) => keyValidator.safeParse(key).success;
-      const valueValid = (value: string) => valueValidator.safeParse(value).success;
+      const [preProcessedKey, preProcessedValue] = preProcessKeyAndValue(key, value);
 
-      return keyValid(key) && valueValid(value);
+      const keyValid = (key: string | number) => keyValidator.safeParse(key).success;
+      const valueValid = (value: string | number) => valueValidator.safeParse(value).success;
+
+      return keyValid(preProcessedKey) && valueValid(preProcessedValue);
     },
-    [keyValidator, valueValidator],
+    [keyValidator, valueValidator, required, preProcessKeyAndValue],
   );
 
   useEffect(() => {
     setAttributeValid(
       attribute,
-      envVariables.every((envVar) => envVar.valid),
+      keyValuePair.every((keyValuePair) => keyValuePair.valid),
     );
-  }, [attribute, envVariables, setAttributeValid]);
+  }, [attribute, keyValuePair, setAttributeValid]);
 
   const changeCallback = useCallback(
-    (key: "key" | "value", index: number) => (value: string) => {
-      setEnvVariables((prev) =>
+    (key: string, index: number) => (value: string) => {
+      setKeyValuePair((prev) =>
         prev.map((item, idx) =>
           idx === index
             ? {
                 ...item,
-                [key]: value,
+                [key]: preProcessValue(value),
                 valid: validateKeyValuePair(
-                  key === "key" ? value : item.key,
-                  key === "value" ? value : item.value,
+                  key === objectKey ? value : (item[objectKey] as string | undefined),
+                  key === objectValue ? value : (item[objectValue] as string | undefined),
                 ),
               }
             : item,
@@ -82,15 +123,26 @@ export default function KeyValueInput({
       );
       setAttributeTouched(attribute, true);
       setGameServerState(attribute)(
-        envVariables
-          .filter((envVar) => envVar.valid)
-          .map((envVar, idx) => (idx === index ? { ...envVar, [key]: value } : envVar)) as {
-          key: string;
-          value: string;
+        keyValuePair
+          .filter((keyValuePair) => keyValuePair.valid)
+          .map((keyValuePair, idx) =>
+            idx === index ? { ...keyValuePair, [key]: preProcessValue(value) } : keyValuePair,
+          ) as {
+          [objectKey]: string;
+          [objectValue]: string;
         }[],
       );
     },
-    [attribute, setAttributeTouched, setGameServerState, envVariables, validateKeyValuePair],
+    [
+      attribute,
+      setAttributeTouched,
+      setGameServerState,
+      keyValuePair,
+      validateKeyValuePair,
+      objectKey,
+      objectValue,
+      preProcessValue,
+    ],
   );
 
   return (
@@ -98,23 +150,25 @@ export default function KeyValueInput({
       <FieldLabel htmlFor="key-value-input">{fieldLabel}</FieldLabel>
 
       <div className="space-y-2 w-full">
-        {envVariables.map((envVar, index) => {
-          const rowError = attributesTouched[attribute] && !envVar.valid;
+        {keyValuePair.map((keyValuePair, index) => {
+          const rowError = attributesTouched[attribute] && !keyValuePair.valid;
           return (
-            <div key={envVar.uuid} className="flex items-center gap-2 w-full">
+            <div key={keyValuePair.uuid} className="flex items-center gap-2 w-full">
               <Input
                 className={rowError ? "border-red-500" : ""}
                 id={`key-value-input-key-${index}`}
                 placeholder={placeHolderKeyInput}
-                value={envVar.key || ""}
-                onChange={(e) => changeCallback("key", index)(e.target.value)}
+                value={(keyValuePair[objectKey] as string | undefined) || ""}
+                onChange={(e) => changeCallback(objectKey, index)(e.target.value)}
+                type={inputType}
               />
               <Input
                 className={rowError ? "border-red-500" : ""}
                 id={`key-value-input-value-${index}`}
                 placeholder={placeHolderValueInput}
-                value={envVar.value || ""}
-                onChange={(e) => changeCallback("value", index)(e.target.value)}
+                value={(keyValuePair[objectValue] as string | undefined) || ""}
+                onChange={(e) => changeCallback(objectValue, index)(e.target.value)}
+                type={inputType}
               />
               {rowError && (
                 <Tooltip>
@@ -131,7 +185,7 @@ export default function KeyValueInput({
       <Button
         className="ml-2"
         onClick={() =>
-          setEnvVariables((prev) => [...prev, { uuid: crypto.randomUUID(), valid: true }])
+          setKeyValuePair((prev) => [...prev, { uuid: crypto.randomUUID(), valid: true }])
         }
       >
         {t("keyValueInputAddButton")}
