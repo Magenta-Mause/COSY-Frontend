@@ -7,6 +7,7 @@ import { Button } from "../button";
 type ModalButton = {
   label: string;
   onClick: () => void;
+  icon?: ReactNode;
   variant?: "default" | "destructive" | "outline" | "secondary";
   className?: string;
   disable?: boolean;
@@ -14,13 +15,13 @@ type ModalButton = {
 
 const GenericModal = (props: {
   dialogTrigger?: {
-    label?: string; // optional label for trigger button
+    label?: string | ReactNode; // now supports ReactNode
     className?: string; // optional classes for trigger button
     onClick?: () => void; // optional click handler
   };
   header: string;
   subheader?: string;
-  open: boolean;
+  open?: boolean;
   onOpenChange: (open: boolean) => void;
   modalClassName?: string;
   modalContentClassName?: string;
@@ -81,6 +82,7 @@ const GenericModal = (props: {
                   className={cn(button.className, "h-full")}
                   disabled={button.disable}
                 >
+                  {button.icon}
                   {button.label}
                 </Button>
               ))}

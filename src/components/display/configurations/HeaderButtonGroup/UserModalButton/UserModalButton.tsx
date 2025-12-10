@@ -1,11 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@components/ui/dialog.tsx";
+import GenericModal from "@components/ui/GenericModal/GenericModal";
 import { UserPlus, Users } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -55,58 +48,53 @@ const UserModalButton = (props: { className?: string }) => {
   }, []);
 
   return (
-    <Dialog
+    <GenericModal
       onOpenChange={(open) => {
         if (open) {
           resetView();
         }
         return !open;
       }}
+      dialogTrigger={{
+        label: <Users className="!h-[1.5vw] p-0 !w-auto aspect-square" />,
+        className: cn("h-auto p-[.5vw] aspect-square", props.className),
+      }}
+      header={
+        view === "list"
+          ? t("userModal.title")
+          : view === "invite"
+            ? t("userModal.inviteUserTitle")
+            : view === "result"
+              ? t("userModal.inviteCreatedTitle")
+              : ""
+      }
+      footerButtons={
+        view === "list"
+          ? [
+              {
+                label: t("userModal.inviteBtn"),
+                icon: <UserPlus className="w-4 h-4 mr-2" />,
+                onClick: () => setView("invite"),
+              },
+            ]
+          : []
+      }
     >
-      <DialogTrigger asChild>
-        <Button
-          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
-          aria-label={t("userModal.title")}
-        >
-          <Users className="!h-[1.5vw] p-0 !w-auto aspect-square" />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className={"font-['VT323']"}>
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            {view === "list" && t("userModal.title")}
-            {view === "invite" && t("userModal.inviteUserTitle")}
-            {view === "result" && t("userModal.inviteCreatedTitle")}
-            {view === "list" && (
-              <Button size="sm" variant="outline" onClick={() => setView("invite")}>
-                <UserPlus className="w-4 h-4 mr-2" />
-                {t("userModal.inviteBtn")}
-              </Button>
-            )}
-          </DialogTitle>
-        </DialogHeader>
+      {view === "list" && <UserList onRevoke={revokeInvite} />}
+      {view === "invite" && (
+        <InviteForm
+          username={inviteUsername}
+          onUsernameChange={setInviteUsername}
+          onCancel={() => setView("list")}
+          onSubmit={handleCreateInvite}
+          isCreating={isCreating}
+        />
+      )}
 
-        {view === "list" && <UserList onRevoke={revokeInvite} />}
-
-        {view === "invite" && (
-          <InviteForm
-            username={inviteUsername}
-            onUsernameChange={setInviteUsername}
-            onCancel={() => setView("list")}
-            onSubmit={handleCreateInvite}
-            isCreating={isCreating}
-          />
-        )}
-
-        {view === "result" && (
-          <InviteResult
-            generatedKey={generatedKey}
-            onCopyLink={handleCopyLink}
-            onBack={resetView}
-          />
-        )}
-      </DialogContent>
-    </Dialog>
+      {view === "result" && (
+        <InviteResult generatedKey={generatedKey} onCopyLink={handleCopyLink} onBack={resetView} />
+      )}
+    </GenericModal>
   );
 };
 
