@@ -52,7 +52,7 @@ export default function KeyValueInput({
       const keyValid = (key: string) => keyValidator.safeParse(key).success;
       const valueValid = (value: string) => valueValidator.safeParse(value).success;
 
-      return (keyValid(key) && valueValid(value)) || (!keyValid(key) && !valueValid(value));
+      return keyValid(key) && valueValid(value);
     },
     [keyValidator, valueValidator],
   );
