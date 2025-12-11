@@ -66,7 +66,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   );
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className="sm:max-w-[600px] max-h-[80vh] p-0">
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
@@ -74,28 +74,31 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           setCurrentPageValid,
         }}
       >
-        {PAGES[currentPage]}
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-            disabled={currentPage === 0}
-          >
-            {t("backButton")}
-          </Button>
-          <Button
-            type="button"
-            onClick={handleNextPage}
-            className={
-              isLastPage
-                ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500"
-                : ""
-            }
-            disabled={!isPageValid[currentPage]}
-          >
-            {isLastPage ? t("createServerButton") : t("nextStepButton")}
-          </Button>
-        </DialogFooter>
+        <div className="flex flex-col max-h-[80vh] p-4">
+          <div className="overflow-auto p-6">{PAGES[currentPage]}</div>
+
+          <DialogFooter className="flex-shrink-0 pt-4">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+              disabled={currentPage === 0}
+            >
+              {t("backButton")}
+            </Button>
+            <Button
+              type="button"
+              onClick={handleNextPage}
+              className={
+                isLastPage
+                  ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500"
+                  : ""
+              }
+              disabled={!isPageValid[currentPage]}
+            >
+              {isLastPage ? t("createServerButton") : t("nextStepButton")}
+            </Button>
+          </DialogFooter>
+        </div>
       </GameServerCreationContext.Provider>
     </DialogContent>
   );
