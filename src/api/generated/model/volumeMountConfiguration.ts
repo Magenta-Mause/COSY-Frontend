@@ -6,9 +6,8 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface EnvironmentVariableConfiguration {
-  /** @minLength 1 */
-  key: string;
-  /** @minLength 1 */
-  value: string;
+export interface VolumeMountConfiguration {
+  uuid?: string;
+  hostPath?: string;
+  containerPath?: string;
 }

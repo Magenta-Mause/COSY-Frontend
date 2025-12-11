@@ -6,9 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface EnvironmentVariableConfiguration {
+export interface VolumeMountConfigurationCreationDto {
   /** @minLength 1 */
-  key: string;
+  host_path: string;
   /** @minLength 1 */
-  value: string;
+  container_path: string;
 }

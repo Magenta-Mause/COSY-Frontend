@@ -20,7 +20,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  GameServerConfigurationEntity,
+  GameServerCreationDto,
+  GameServerDto,
   LoginDto,
   UserCreationDto,
   UserEntityDto,
@@ -216,6 +217,128 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getUseInviteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getAllGameServers = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerDto[]>(
+      {url: `/game-server-configurations`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetAllGameServersQueryKey = () => {
+    return [
+    `/game-server-configurations`
+    ] as const;
+    }
+
+    
+export const getGetAllGameServersQueryOptions = <TData = Awaited<ReturnType<typeof getAllGameServers>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllGameServersQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllGameServers>>> = ({ signal }) => getAllGameServers(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAllGameServersQueryResult = NonNullable<Awaited<ReturnType<typeof getAllGameServers>>>
+export type GetAllGameServersQueryError = unknown
+
+
+
+export function useGetAllGameServers<TData = Awaited<ReturnType<typeof getAllGameServers>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAllGameServersQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const createGameServer = (
+    gameServerCreationDto: GameServerCreationDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerDto>(
+      {url: `/game-server-configurations`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: gameServerCreationDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getCreateGameServerMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServer>>, TError,{data: GameServerCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createGameServer>>, TError,{data: GameServerCreationDto}, TContext> => {
+
+const mutationKey = ['createGameServer'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServer>>, {data: GameServerCreationDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createGameServer(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateGameServerMutationResult = NonNullable<Awaited<ReturnType<typeof createGameServer>>>
+    export type CreateGameServerMutationBody = GameServerCreationDto
+    export type CreateGameServerMutationError = unknown
+
+    export const useCreateGameServer = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServer>>, TError,{data: GameServerCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createGameServer>>,
+        TError,
+        {data: GameServerCreationDto},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateGameServerMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -581,76 +704,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const getAllGameServers = (
-    
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<GameServerConfigurationEntity[]>(
-      {url: `/game-server-configurations`, method: 'GET', signal
-    },
-      options);
-    }
-  
-
-
-
-export const getGetAllGameServersQueryKey = () => {
-    return [
-    `/game-server-configurations`
-    ] as const;
-    }
-
-    
-export const getGetAllGameServersQueryOptions = <TData = Awaited<ReturnType<typeof getAllGameServers>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetAllGameServersQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllGameServers>>> = ({ signal }) => getAllGameServers(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetAllGameServersQueryResult = NonNullable<Awaited<ReturnType<typeof getAllGameServers>>>
-export type GetAllGameServersQueryError = unknown
-
-
-
-export function useGetAllGameServers<TData = Awaited<ReturnType<typeof getAllGameServers>>, TError = unknown>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getGetAllGameServersQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-
 export const getGameServerById = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<GameServerConfigurationEntity>(
+      return customInstance<GameServerDto>(
       {url: `/game-server-configurations/${uuid}`, method: 'GET', signal
     },
       options);

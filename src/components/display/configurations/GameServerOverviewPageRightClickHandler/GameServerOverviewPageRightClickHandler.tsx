@@ -1,7 +1,8 @@
+import CreateGameServer from "@components/CreateGameServer/CreateGameServer";
 import RightClickMenu, {
   type RightClickAction,
 } from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
@@ -9,6 +10,8 @@ import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode }) => {
   const { t } = useTranslation();
   const { loadGameServers } = useDataLoading();
+
+  const [openGameServerCreationModal, setOpenGameServerCreationModal] = useState(false);
 
   const actions: RightClickAction[] = [
     {
@@ -24,12 +27,22 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
     {
       label: t("rightClickMenu.createNewGameserver"),
       onClick: () => {
-        toast.info(t("toasts.notImplemented"));
+        setOpenGameServerCreationModal(true);
       },
     },
   ];
 
-  return <RightClickMenu actions={actions}>{props.children}</RightClickMenu>;
+  return (
+    <RightClickMenu actions={actions}>
+      <div>
+        <CreateGameServer
+          openModal={openGameServerCreationModal}
+          setOpenModal={setOpenGameServerCreationModal}
+        />
+        {props.children}
+      </div>
+    </RightClickMenu>
+  );
 };
 
 export default GameServerOverviewPageRightClickHandler;

@@ -5,8 +5,18 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { PortMappingProtocol } from './portMappingProtocol';
 
 export interface PortMapping {
+  /**
+   * @minimum 1
+   * @maximum 65535
+   */
   instance_port?: number;
+  /**
+   * @minimum 1
+   * @maximum 65535
+   */
   container_port?: number;
+  protocol?: PortMappingProtocol;
 }

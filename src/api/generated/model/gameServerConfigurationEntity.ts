@@ -8,6 +8,7 @@
 import type { GameServerConfigurationEntityStatus } from './gameServerConfigurationEntityStatus';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
+import type { VolumeMountConfiguration } from './volumeMountConfiguration';
 
 export interface GameServerConfigurationEntity {
   uuid?: string;
@@ -18,7 +19,9 @@ export interface GameServerConfigurationEntity {
   game_uuid?: string;
   docker_image_name?: string;
   docker_image_tag?: string;
+  template?: string;
   docker_execution_command?: string[];
   port_mappings?: PortMapping[];
   environment_variables?: EnvironmentVariableConfiguration[];
+  volume_mounts?: VolumeMountConfiguration[];
 }

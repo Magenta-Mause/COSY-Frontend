@@ -1,10 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import {
+  type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
   getGetAllUserInvitesQueryKey,
+  useCreateGameServer,
   useCreateInvite,
   useDeleteGameServerById,
   useRevokeInvite,
@@ -13,21 +14,22 @@ import type { UserInviteCreationDto } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
+import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useDataInteractions = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("toasts");
 
-  // Game Server Deletion
-  const { mutateAsync: mutateDeleteGameServer } = useDeleteGameServerById({
+  const { mutateAsync: deleteGameServerById } = useDeleteGameServerById({
     mutation: {
       onSuccess: (_data, variables) => {
         dispatch(gameServerSliceActions.removeGameServer(variables.uuid));
-        toast.success(t("toasts.deleteGameServerSuccess"));
+        toast.success(t("deleteGameServerSuccess"));
       },
       onError: (err) => {
-        toast.error(t("toasts.deleteGameServerError"));
+        toast.error(t("deleteGameServerError"));
+        // rethrow error to allow for individual error handling
         throw err;
       },
       onSettled: () => {
@@ -37,9 +39,8 @@ const useDataInteractions = () => {
       },
     },
   });
-
   const deleteGameServer = async (uuid: string) => {
-    await mutateDeleteGameServer({ uuid });
+    await deleteGameServerById({ uuid });
   };
 
   // Invite Creation
@@ -47,7 +48,7 @@ const useDataInteractions = () => {
     mutation: {
       onSuccess: (data) => {
         dispatch(userInviteSliceActions.addInvite(data));
-        toast.success(t("toasts.inviteCreatedSuccess"));
+        toast.success(t("inviteCreatedSuccess"));
       },
       onError: (err) => {
         const typedError = err as InvalidRequestError;
@@ -59,7 +60,7 @@ const useDataInteractions = () => {
         } else if (errorData) {
           errorMessage = errorData;
         }
-        toast.error(t("toasts.inviteCreateError", { error: errorMessage }));
+        toast.error(t("inviteCreateError", { error: errorMessage }));
         throw err;
       },
       onSettled: () => {
@@ -93,6 +94,23 @@ const useDataInteractions = () => {
     },
   });
 
+  const { mutateAsync: createGameServerMutateAsync } = useCreateGameServer({
+    mutation: {
+      onSuccess: (data) => {
+        dispatch(gameServerSliceActions.addGameServer(data));
+        toast.success(t("createGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("createGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const createGameServer = async (data: CreateGameServerMutationBody) => {
+    return await createGameServerMutateAsync({ data });
+  };
+
   const revokeInvite = async (uuid: string) => {
     await mutateRevokeInvite({ uuid });
   };
@@ -101,6 +119,7 @@ const useDataInteractions = () => {
     deleteGameServer,
     createInvite,
     revokeInvite,
+    createGameServer,
   };
 };
 
