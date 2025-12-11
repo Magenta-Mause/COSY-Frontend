@@ -1,5 +1,8 @@
-import GameServerConfigurationHouse from "@components/display/GameServerConfiguration/GameServerConfigurationHouse/GameServerConfigurationHouse.tsx";
-import calculateCoordinate from "@components/display/GameServerConfiguration/GameServerConfigurationHouseAligner/calculateCoordinate.ts";
+// import GameServerConfigurationHouse from "@components/display/GameServerConfiguration/GameServerConfigurationHouse/GameServerConfigurationHouse.tsx";
+// import calculateCoordinate from "@components/display/GameServerConfiguration/GameServerConfigurationHouseAligner/calculateCoordinate.ts";
+
+import GameServerHouse from "@components/display/GameServer/GameServerHouse/GameServerHouse";
+import calculateCoordinate from "@components/display/GameServer/GameServerHouseAligner/calculateCoordinate";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
 
 const GameServerConfigurationHouseAligner = (props: {
@@ -18,11 +21,7 @@ const GameServerConfigurationHouseAligner = (props: {
   return (
     <div className="w-full h-full relative">
       {props.gameServers.map((gameServer, index) => (
-        <GameServerConfigurationHouse
-          key={gameServer.uuid}
-          gameServer={gameServer}
-          style={getStyle(index)}
-        />
+        <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
     </div>
   );
