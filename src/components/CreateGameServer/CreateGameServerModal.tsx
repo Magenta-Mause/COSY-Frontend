@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button.tsx";
 import { DialogContent, DialogFooter } from "@components/ui/dialog.tsx";
-import { createContext, useCallback, useState } from "react";
+import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
@@ -25,7 +25,11 @@ export const GameServerCreationContext = createContext<GameServerCreationContext
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
 
-const CreateGameServerModal = () => {
+interface Props {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const CreateGameServerModal = ({ setOpen }: Props) => {
   const { createGameServer } = useDataInteractions();
   const [gameServerState, setGameServerInternalState] = useState<Partial<GameServerCreationDto>>(
     {},
@@ -41,6 +45,7 @@ const CreateGameServerModal = () => {
         ...gameServerState,
         execution_command: parseCommand(gameServerState.execution_command as unknown as string),
       } as GameServerCreationDto);
+      setOpen(false);
       return;
     }
 
