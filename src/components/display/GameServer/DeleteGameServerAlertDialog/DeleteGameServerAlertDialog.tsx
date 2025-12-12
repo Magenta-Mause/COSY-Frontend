@@ -1,19 +1,9 @@
-import { buttonVariants } from "@components/ui/button.tsx";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@components/ui/dialog.tsx";
+import GenericModal from "@components/ui/GenericModal/GenericModal";
 import { Input } from "@components/ui/input.tsx";
 import { Label } from "@radix-ui/react-label";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/utils.ts";
 
 interface DeleteGameServerAlertDialogProps {
   serverName: string;
@@ -66,47 +56,36 @@ export function DeleteGameServerAlertDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className={"font-mono"}>
-        <DialogHeader>
-          <DialogTitle>{t("deleteGameServerDialog.title", { serverName })}</DialogTitle>
-          <DialogDescription>{t("deleteGameServerDialog.description")}</DialogDescription>
-          <div className="grid gap-4 py-4">
-            <div className="flex flex-col items-start gap-4">
-              <div>
-                <Label htmlFor="serverName">{t("deleteGameServerDialog.inputLabel")}</Label>
-                <br />
-                <span className={"text-sm text-muted-foreground"}>
-                  (<span className={"select-all"}>{serverName}</span>)
-                </span>
-              </div>
-              <Input
-                id="serverName"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={serverName}
-                disabled={loading}
-              />
-            </div>
+    <GenericModal
+      open={open}
+      onOpenChange={handleOpenChange}
+      header={t("deleteGameServerDialog.title", { serverName })}
+      subheader={t("deleteGameServerDialog.subheader")}
+      footerButtons={[
+        {
+          label: t("deleteGameServerDialog.confirm"),
+          onClick: handleConfirm,
+          disable: isConfirmButtonDisabled,
+        },
+      ]}
+      closeButton={{}}
+    >
+      <div>
+        <div className="flex flex-col items-start gap-4">
+          {t("deleteGameServerDialog.description")}
+          <div>
+            <Label htmlFor="serverName">{t("deleteGameServerDialog.inputLabel")}</Label>
           </div>
-        </DialogHeader>
-        <DialogFooter className={"flex gap-8 justify-end items-center"}>
-          <DialogClose asChild>
-            <button type={"button"} className={cn(buttonVariants(), "h-[50px]")} disabled={loading}>
-              {t("deleteGameServerDialog.cancel")}
-            </button>
-          </DialogClose>
-          <button
-            type="button"
-            onClick={handleConfirm}
-            className={cn(buttonVariants(), "h-[50px]")}
-            disabled={isConfirmButtonDisabled}
-          >
-            {t("deleteGameServerDialog.confirm")}
-          </button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <Input
+            id="serverName"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={serverName}
+            disabled={loading}
+          />
+        </div>
+      </div>
+    </GenericModal>
   );
 }

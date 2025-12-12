@@ -69,8 +69,9 @@ const translation: i18nLanguage = {
   },
   deleteGameServerDialog: {
     title: "Möchten Sie {{serverName}} wirklich löschen?",
+    subheader: "Diese Aktion kann nicht rückgängig gemacht werden.",
     description:
-      "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
     inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
     cancel: "Abbrechen",
     confirm: "Löschen",
@@ -91,6 +92,9 @@ const translation: i18nLanguage = {
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
     loading: "Lädt...",
     logout: "Abmelden",
+  },
+  genericModal: {
+    cancel: "Abbrechen",
   },
 };
 

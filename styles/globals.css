@@ -42,15 +42,15 @@
 
     /* RADIUS: Stardew is pixel art, so we want small, blocky corners.
        4px is basically "2 game pixels" */
-    --radius-sm: calc(var(--radius) - 2px);
-    --radius-md: calc(var(--radius) - 1px);
+    --radius-sm: calc(var(--radius) * 0.5);
+    --radius-md: calc(var(--radius) * 0.75);
     --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 2px);
+    --radius-xl: calc(var(--radius) * 1.25);
 }
 
 :root {
     /* Stardew uses small pixel corners, not large rounded ones */
-    --radius: 0.25rem;
+    --radius: 0.5rem;
 
     /* --- LIGHT MODE: DIALOGUE BOX THEME --- */
 

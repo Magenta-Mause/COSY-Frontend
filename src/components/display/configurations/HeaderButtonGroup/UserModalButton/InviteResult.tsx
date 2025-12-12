@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
-import { ArrowLeft, Copy } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface InviteResultProps {
@@ -9,7 +9,7 @@ interface InviteResultProps {
   onBack: () => void;
 }
 
-export const InviteResult = ({ generatedKey, onCopyLink, onBack }: InviteResultProps) => {
+export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) => {
   const { t } = useTranslation();
 
   return (
@@ -46,10 +46,6 @@ export const InviteResult = ({ generatedKey, onCopyLink, onBack }: InviteResultP
         <Button variant="default" size="sm" className="w-full" onClick={onCopyLink}>
           <Copy className="w-4 h-4 mr-2" />
           {t("userModal.copyLink")}
-        </Button>
-        <Button variant="ghost" size="sm" className="w-full" onClick={onBack}>
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {t("userModal.backToUsers")}
         </Button>
       </div>
     </div>
