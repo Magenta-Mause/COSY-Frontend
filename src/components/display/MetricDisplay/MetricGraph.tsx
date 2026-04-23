@@ -188,7 +188,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   return (
     <Card
-      className={`flex flex-col col-span-1 min-[1300px]:col-span-3 text-lg py-3 bg-button-secondary-default ${isDesktop ? "h-[20vw]" : "h-75"} overflow-hidden border-2 relative ${className}`}
+      className={`flex flex-col col-span-1 min-[1300px]:col-span-3 text-lg py-3 bg-button-secondary-default ${isDesktop ? "h-[18vw]" : "h-56"} overflow-hidden border-2 relative ${className}`}
     >
       <CardHeader className="py-2 pt-1 grow-0 gap-0.5">
         <CardTitle>{displayName}</CardTitle>

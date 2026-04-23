@@ -191,6 +191,8 @@ export type i18nLanguage = {
     desc: string;
     username: string;
     password: string;
+    showPassword: string;
+    hidePassword: string;
     question: string;
     incorrectCredentials: string;
     loading: string;
@@ -677,6 +679,7 @@ export type i18nLanguage = {
       warning: string;
       confirm: string;
       cancel: string;
+      saving: string;
     };
     GameServerSettings: {
       tabs: {

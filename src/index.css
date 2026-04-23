@@ -97,6 +97,13 @@ select,
     not-allowed;
 }
 
+[data-disabled="true"],
+[data-disabled="true"] * {
+  cursor:
+    url("./assets/cursor/cursor-not-allowed.png") 0 0,
+    not-allowed;
+}
+
 [data-loading="true"],
 [data-loading="true"] * {
   cursor:
@@ -136,6 +143,11 @@ button:focus-visible,
 input:focus-visible,
 a:focus-visible {
   outline: none;
+}
+
+button:focus-visible:not(.absolute),
+input:focus-visible:not(.absolute),
+a:focus-visible:not(.absolute) {
   position: relative;
 }
 

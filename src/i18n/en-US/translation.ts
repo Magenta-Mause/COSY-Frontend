@@ -184,6 +184,8 @@ const translation: i18nLanguage = {
     desc: "COSY - Cost Optimized Server Yard",
     username: "Username",
     password: "Password",
+    showPassword: "Show",
+    hidePassword: "Hide",
     question: "You are not signed in",
     incorrectCredentials: "Incorrect username or password.",
     loading: "Loading...",
@@ -408,6 +410,7 @@ const translation: i18nLanguage = {
       revert: "Revert",
       warning: "Warning",
       confirm: "Confirm",
+      saving: "Saving...",
       cancel: "Cancel",
     },
 
@@ -736,7 +739,7 @@ const translation: i18nLanguage = {
         },
       },
       publicDashboard: {
-        label: "Make Public Dashboard Visable",
+        label: "Make Public Dashboard Visible",
         sensitiveWarning: {
           title: "Sensitive Data Warning",
           description:

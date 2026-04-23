@@ -1,5 +1,6 @@
 import { Button } from "@components/ui/button";
-import { useState } from "react";
+import { useSearch } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
@@ -29,6 +30,37 @@ const MetricDisplay = (
   const dispatch = useDispatch();
   const { metrics, gameServer } = props;
 
+  const search = useSearch({ strict: false }) as { timeRangeType?: string };
+  const hasUrlTimeRange = search.timeRangeType === "preset" || search.timeRangeType === "custom";
+
+  // When a URL-restored time range is present, the initial onChange from
+  // TimeRangeDropDown races against loadAdditionalGameServerData's default
+  // metrics load. If the background load wins (higher request counter), the
+  // URL-restored selection gets overwritten. We detect this by watching for
+  // a loading→idle transition we didn't initiate and re-fire with the saved range.
+  const savedTimeRangeRef = useRef<{ start: Date; end?: Date } | null>(null);
+  const needsRefire = useRef(hasUrlTimeRange);
+  const metricsReduxState = useTypedSelector(
+    (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.state,
+  );
+  const prevMetricsReduxStateRef = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    const prev = prevMetricsReduxStateRef.current;
+    prevMetricsReduxStateRef.current = metricsReduxState;
+
+    if (
+      prev === "loading" &&
+      metricsReduxState === "idle" &&
+      needsRefire.current &&
+      savedTimeRangeRef.current
+    ) {
+      needsRefire.current = false;
+      const { start, end } = savedTimeRangeRef.current;
+      loadGameServerMetrics(gameServer.uuid, start, end);
+    }
+  }, [metricsReduxState, gameServer.uuid, loadGameServerMetrics]);
+
   const liveEnabled = useTypedSelector(
     (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
   );
@@ -44,6 +76,7 @@ const MetricDisplay = (
 
   const handleTimeChange = async (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
+    savedTimeRangeRef.current = { start: startTime, end: endTime };
     const isToday = !endTime || endTime.getDate() === new Date().getDate();
     setIsCustomTime(!isToday);
     handleLiveMetrics(isToday);

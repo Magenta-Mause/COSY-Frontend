@@ -21,7 +21,7 @@ export default function NumberInput({
       <Input
         id={placeholder}
         type="number"
-        placeholder={variable.placeholder}
+        placeholder={variable.example ?? variable.name}
         value={String(value ?? "")}
         onChange={(e) => onValueChange(variable, e.target.value)}
         onKeyDown={(e) => {
@@ -31,11 +31,6 @@ export default function NumberInput({
         }}
         error={showError ? (errorMessage ? t(errorMessage) : t("validationError")) : undefined}
       />
-      {variable.example && (
-        <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-          {t("example")}: {variable.example}
-        </FieldLabel>
-      )}
     </div>
   );
 }

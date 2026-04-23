@@ -1,5 +1,4 @@
 import { Button } from "@components/ui/button.tsx";
-import { FieldLabel } from "@components/ui/field";
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
@@ -23,7 +22,7 @@ export default function TextInput({
         id={placeholder}
         header={variable.name}
         type="text"
-        placeholder={variable.placeholder}
+        placeholder={variable.example ?? variable.name}
         value={String(value ?? "")}
         onChange={(e) => onValueChange(variable, e.target.value)}
         onKeyDown={(e) => {
@@ -37,20 +36,15 @@ export default function TextInput({
             <TooltipWrapper
               tooltip={`${t("pattern")}: ${variable.regex}`}
               side="top"
-              asChild={false}
+              asChild={true}
             >
-              <Button variant={"ghost"} tabIndex={0} className={"p-0! m-0!"}>
+              <Button variant={"ghost"} className={"p-0.25! m-0! h-fit focus-visible:ring-0"}>
                 <Icon src={infoIcon} className="size-4" variant="foreground" />
               </Button>
             </TooltipWrapper>
           ) : undefined
         }
       />
-      {variable.example && (
-        <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-          {t("example")}: {variable.example}
-        </FieldLabel>
-      )}
     </div>
   );
 }

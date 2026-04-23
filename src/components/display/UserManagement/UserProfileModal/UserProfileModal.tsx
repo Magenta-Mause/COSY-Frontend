@@ -13,7 +13,7 @@ import {
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import pencilWrite from "@/assets/icons/pencilWrite.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -31,6 +31,7 @@ export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) 
   const { username, role, memoryLimit, cpuLimit, uuid } = useContext(AuthContext);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const { cpuUsage, memoryUsage } = useUserResourceUsage(uuid);
+  const dialogContentRef = useRef<HTMLDivElement>(null);
 
   const handleChangePasswordClick = () => {
     setShowPasswordModal(true);
@@ -39,7 +40,13 @@ export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) 
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent>
+        <DialogContent
+          ref={dialogContentRef}
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            dialogContentRef.current?.focus();
+          }}
+        >
           <DialogHeader>
             <DialogTitle>{t("title")}</DialogTitle>
           </DialogHeader>
@@ -71,7 +78,6 @@ export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) 
                     size="icon"
                     className="h-9 w-9"
                     aria-label={t("changePasswordButton")}
-                    tabIndex={-1}
                   >
                     <Icon src={pencilWrite} className="size-5" />
                   </Button>

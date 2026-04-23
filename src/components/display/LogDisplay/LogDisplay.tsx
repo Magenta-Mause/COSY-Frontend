@@ -196,7 +196,9 @@ const LogDisplay = (
             disabled={!isServerRunning}
             className="bg-gray-900 border-gray-700 text-gray-100 font-mono text-[15px] placeholder:text-gray-500 grow w-auto h-10"
             wrapperClassName={"w-auto grow"}
-            startDecorator={<Icon src={arrowRightIcon} className="size-4" variant="foreground" />}
+            startDecorator={
+              <Icon src={arrowRightIcon} className="size-4 opacity-50" variant="primary" />
+            }
           />
           <Button
             onClick={handleSendCommand}

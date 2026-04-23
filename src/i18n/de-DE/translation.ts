@@ -186,6 +186,8 @@ const translation: i18nLanguage = {
     desc: "COSY - Cost Optimized Server Yard",
     username: "Benutzername",
     password: "Passwort",
+    showPassword: "Zeigen",
+    hidePassword: "Verstecken",
     question: "Du bist nicht angemeldet",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
     loading: "Lädt...",
@@ -410,6 +412,7 @@ const translation: i18nLanguage = {
       revert: "Zurücksetzen",
       warning: "Warnung",
       confirm: "Bestätigen",
+      saving: "Speichern...",
       cancel: "Abbrechen",
     },
 

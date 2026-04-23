@@ -1,5 +1,5 @@
 import type {MouseEventHandler, ReactNode} from "react";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@components/ui/tooltip.tsx";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@components/ui/tooltip.tsx";
 
 interface TooltipWrapperProps {
   children?: ReactNode;
@@ -11,7 +11,8 @@ interface TooltipWrapperProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   triggerProps?: React.ComponentProps<typeof TooltipTrigger>;
-  onClick?: MouseEventHandler<HTMLDivElement>
+  onClick?: MouseEventHandler<HTMLDivElement>;
+  delayDuration?: number;
 }
 
 const TooltipWrapper = ({
@@ -25,6 +26,7 @@ const TooltipWrapper = ({
   onOpenChange,
   triggerProps = {},
   onClick,
+  delayDuration,
 }: TooltipWrapperProps) => {
   // If tooltip is falsy, just return children without tooltip wrapper
   if (!tooltip) {
@@ -32,14 +34,16 @@ const TooltipWrapper = ({
   }
 
   return (
-    <Tooltip open={open} onOpenChange={onOpenChange}>
-      <TooltipTrigger asChild={asChild} {...triggerProps}>
-        {children}
-      </TooltipTrigger>
-      <TooltipContent side={side} align={align} className={contentClassName} onClick={onClick}>
-        {typeof tooltip === "string" ? <p className="whitespace-pre-line">{tooltip}</p> : tooltip}
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={delayDuration}>
+      <Tooltip open={open} onOpenChange={onOpenChange}>
+        <TooltipTrigger asChild={asChild} {...triggerProps}>
+          {children}
+        </TooltipTrigger>
+        <TooltipContent side={side} align={align} className={contentClassName} onClick={onClick}>
+          {typeof tooltip === "string" ? <p className="whitespace-pre-line">{tooltip}</p> : tooltip}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

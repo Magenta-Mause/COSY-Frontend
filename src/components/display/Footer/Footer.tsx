@@ -78,7 +78,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           <img
             src={duck1.src}
             alt={duck1.alt}
-            className="w-full h-auto scale-x-[-1]"
+            className="w-full h-auto scale-x-[-1] hover:-translate-y-0.5 transition-transform transition-duration-150"
             style={{ imageRendering: "pixelated" }}
           />
         </a>
@@ -98,7 +98,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           <img
             src={duck2.src}
             alt={duck2.alt}
-            className="w-full h-auto"
+            className="w-full h-auto hover:-translate-y-0.5 transition-transform transition-duration-150"
             style={{ imageRendering: "pixelated" }}
           />
         </a>

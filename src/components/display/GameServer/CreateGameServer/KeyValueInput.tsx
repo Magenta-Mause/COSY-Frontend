@@ -138,6 +138,7 @@ function KeyValueInput({
                 tooltip={t("components.CreateGameServer.keyValueInput.escapeSequencesTooltip")}
                 side="top"
                 asChild={false}
+                triggerProps={{ className: "flex" }}
               >
                 <Icon src={infoIcon} className="size-5" variant="foreground" />
               </TooltipWrapper>

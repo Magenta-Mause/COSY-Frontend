@@ -278,7 +278,11 @@ const EditGameServerPage = (props: {
         )}
       </div>
 
-      <fieldset disabled={isServerActive}>
+      <fieldset
+        disabled={isServerActive || loading}
+        data-disabled={isServerActive || undefined}
+        data-loading={loading || undefined}
+      >
         <InputFieldEditGameServer
           label={t("serverNameSelection.title")}
           value={gameServerState.server_name}
@@ -497,6 +501,7 @@ const EditGameServerPage = (props: {
         onConfirm={handleConfirm}
         revertDisabled={loading || !isChanged}
         confirmDisabled={isConfirmButtonDisabled || isServerActive}
+        loading={loading}
         confirmTooltip={isServerActive && t("serverNeedsToBeStopped")}
       />
       <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />

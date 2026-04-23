@@ -18,6 +18,50 @@ interface VariableState {
   errorMessage?: string;
 }
 
+function validateValue(
+  variable: TemplateVariable,
+  value: string | number | boolean,
+): { isValid: boolean; errorMessage?: string } {
+  const stringValue = String(value);
+
+  // All variables must have a non-empty value
+  if (stringValue === "") {
+    return { isValid: false, errorMessage: "validationErrorRequired" };
+  }
+
+  // Validate based on type
+  switch (variable.type) {
+    case "number":
+      if (Number.isNaN(Number(stringValue))) {
+        return { isValid: false, errorMessage: "validationErrorNumber" };
+      }
+      return { isValid: true };
+    case "boolean":
+      if (stringValue !== "true" && stringValue !== "false") {
+        return { isValid: false, errorMessage: "validationErrorBoolean" };
+      }
+      return { isValid: true };
+    case "select":
+      if (!(variable.options?.includes(stringValue) ?? false)) {
+        return { isValid: false, errorMessage: "validationErrorSelect" };
+      }
+      return { isValid: true };
+    default:
+      // Validate regex if provided (full match)
+      if (variable.regex) {
+        try {
+          const regex = new RegExp(`^(?:${variable.regex})$`);
+          if (!regex.test(stringValue)) {
+            return { isValid: false, errorMessage: "validationErrorPattern" };
+          }
+        } catch {
+          return { isValid: true }; // Invalid regex, skip validation
+        }
+      }
+      return { isValid: true };
+  }
+}
+
 export default function TemplateVariableForm({
   template,
   onValueChange,
@@ -26,67 +70,22 @@ export default function TemplateVariableForm({
   const { t } = useTranslationPrefix("components.TemplateVariableForm");
   const { triggerNextPage } = useContext(GameServerCreationContext);
 
-  // Initialize state for all variables
+  // Initialize state for all variables, running validation on initial values
   const [variableStates, setVariableStates] = useState<Record<string, VariableState>>(() => {
     const states: Record<string, VariableState> = {};
     template?.variables?.forEach((variable) => {
       const placeholder = variable.placeholder ?? "";
       const initialValue = initialValues[placeholder] ?? variable.default_value ?? "";
+      const validation = validateValue(variable, initialValue);
       states[placeholder] = {
         value: initialValue,
-        isValid: true,
+        isValid: validation.isValid,
         touched: false,
+        errorMessage: validation.errorMessage,
       };
     });
     return states;
   });
-
-  const validateValue = useCallback(
-    (
-      variable: TemplateVariable,
-      value: string | number | boolean,
-    ): { isValid: boolean; errorMessage?: string } => {
-      const stringValue = String(value);
-
-      // Check if empty (and not optional based on default value)
-      if (stringValue === "" && variable.default_value === undefined) {
-        return { isValid: false, errorMessage: "validationErrorRequired" };
-      }
-
-      // Validate based on type
-      switch (variable.type) {
-        case "number":
-          if (Number.isNaN(Number(stringValue))) {
-            return { isValid: false, errorMessage: "validationErrorNumber" };
-          }
-          return { isValid: true };
-        case "boolean":
-          if (stringValue !== "true" && stringValue !== "false") {
-            return { isValid: false, errorMessage: "validationErrorBoolean" };
-          }
-          return { isValid: true };
-        case "select":
-          if (!(variable.options?.includes(stringValue) ?? false)) {
-            return { isValid: false, errorMessage: "validationErrorSelect" };
-          }
-          return { isValid: true };
-        default:
-          // Validate regex if provided (full match)
-          if (variable.regex) {
-            try {
-              const regex = new RegExp(`^(?:${variable.regex})$`);
-              if (!regex.test(stringValue)) {
-                return { isValid: false, errorMessage: "validationErrorPattern" };
-              }
-            } catch {
-              return { isValid: true }; // Invalid regex, skip validation
-            }
-          }
-          return { isValid: true };
-      }
-    },
-    [],
-  );
 
   const handleValueChange = useCallback(
     (variable: TemplateVariable, newValue: string | number | boolean) => {
@@ -105,14 +104,14 @@ export default function TemplateVariableForm({
 
       // Always call onValueChange so parent can validate with current value
       let typedValue: string | number | boolean = newValue;
-      if (variable.type === "number" && !Number.isNaN(Number(newValue))) {
+      if (variable.type === "number" && String(newValue) !== "" && !Number.isNaN(Number(newValue))) {
         typedValue = Number(newValue);
       } else if (variable.type === "boolean") {
         typedValue = String(newValue) === "true";
       }
       onValueChange(placeholder, typedValue);
     },
-    [validateValue, onValueChange],
+    [onValueChange],
   );
 
   const renderVariableInput = (variable: TemplateVariable) => {

@@ -60,7 +60,7 @@ export default function DashboardRenderer({
             return (
               <div
                 key={dashboard.uuid}
-                className={`${isDesktop ? "h-[20vw]" : "h-150"} ${sizeClass}`}
+                className={`${isDesktop ? "h-[18vw]" : "h-80"} ${sizeClass}`}
               >
                 <LogDisplay
                   logMessages={logs}

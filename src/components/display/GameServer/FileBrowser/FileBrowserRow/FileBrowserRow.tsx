@@ -70,7 +70,7 @@ export const FileBrowserRow = ({
         {dir ? (
           <Icon src={folderIcon} variant="foreground" className="size-4" />
         ) : (
-          <Icon src={fileIcon} className="size-4" />
+          <Icon src={fileIcon} variant="foreground" className="size-4" />
         )}
 
         <span className="truncate text-sm ml-2 grow">{obj.name}</span>
