@@ -105,6 +105,7 @@ const translation: i18nLanguage = {
       confirmAction: "Revoke",
     },
     canCreateGameServers: "Allow game server creation",
+    canCreateGameServersAdminHint: "Admins always have this permission",
     closeConfirm: {
       title: "Discard Changes?",
       message: "You have unsaved changes. Are you sure you want to close?",

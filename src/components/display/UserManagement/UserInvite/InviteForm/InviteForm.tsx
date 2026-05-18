@@ -103,6 +103,11 @@ export const InviteForm = ({
               className="text-sm font-medium cursor-pointer"
             >
               {t("userModal.canCreateGameServers")}
+              {userRole !== UserEntityDtoRole.QUOTA_USER && (
+                <span className="text-muted-foreground font-normal ml-1">
+                  ({t("userModal.canCreateGameServersAdminHint")})
+                </span>
+              )}
             </Label>
           </div>
         )}

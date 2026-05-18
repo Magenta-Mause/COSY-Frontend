@@ -99,6 +99,7 @@ export type i18nLanguage = {
       confirmAction: string;
     };
     canCreateGameServers: string;
+    canCreateGameServersAdminHint: string;
     closeConfirm: {
       title: string;
       message: string;

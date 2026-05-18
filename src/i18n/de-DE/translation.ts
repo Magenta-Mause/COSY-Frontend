@@ -102,6 +102,7 @@ const translation: i18nLanguage = {
       confirmAction: "Einladung widerrufen",
     },
     canCreateGameServers: "Spielserver-Erstellung erlauben",
+    canCreateGameServersAdminHint: "Admins haben diese Berechtigung immer",
     closeConfirm: {
       title: "Änderungen verwerfen?",
       message: "Du hast ungespeicherte Änderungen. Möchtest du wirklich schließen?",
