@@ -90,11 +90,12 @@ export const InviteForm = ({
             </Select>
           </div>
         </div>
-        {userRole === UserEntityDtoRole.QUOTA_USER && (
+        {userRole !== UserEntityDtoRole.OWNER && (
           <div className="flex items-center gap-3 pt-1">
             <Checkbox
               id="invite-can-create-game-servers"
-              checked={canCreateGameServers}
+              checked={userRole !== UserEntityDtoRole.QUOTA_USER || canCreateGameServers}
+              disabled={userRole !== UserEntityDtoRole.QUOTA_USER}
               onCheckedChange={(checked) => onCanCreateGameServersChange(checked === true)}
             />
             <Label
