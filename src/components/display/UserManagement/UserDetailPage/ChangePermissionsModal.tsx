@@ -39,7 +39,7 @@ const ChangePermissionsModal = (props: {
   const [memory, setMemory] = useState(
     props.user.docker_hardware_limits?.docker_memory_limit ?? "",
   );
-  const [canCreate, setCanCreate] = useState(props.user.can_create_game_servers ?? true);
+  const [canCreate, setCanCreate] = useState(props.user.can_create_game_servers ?? false);
   const [cpuError, setCpuError] = useState<string | undefined>(undefined);
   const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -49,7 +49,7 @@ const ChangePermissionsModal = (props: {
     if (props.open) {
       setCpu(props.user.docker_hardware_limits?.docker_max_cpu_cores?.toString() ?? "");
       setMemory(props.user.docker_hardware_limits?.docker_memory_limit ?? "");
-      setCanCreate(props.user.can_create_game_servers ?? true);
+      setCanCreate(props.user.can_create_game_servers ?? false);
       setCpuError(undefined);
       setMemoryError(undefined);
       setSubmitError(null);

@@ -12,7 +12,7 @@ import { notificationModal } from "@/lib/notificationModal";
 const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode }) => {
   const { t } = useTranslation();
   const { loadGameServers } = useDataLoading();
-  const { authorized } = useContext(AuthContext);
+  const { authorized, canCreateGameServers } = useContext(AuthContext);
   const { selectedTheme, setTheme } = useContext(ThemeContext);
 
   const [openIsGameServerCreationModalOpen, setIsOpenGameServerCreationModalOpen] = useState(false);
@@ -55,7 +55,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
         },
       ],
     },
-    ...(authorized
+    ...(authorized && canCreateGameServers
       ? [
           {
             label: t("rightClickMenu.createNewGameServer"),
@@ -70,7 +70,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
   return (
     <RightClickMenu actions={actions}>
       <div>
-        {authorized && (
+        {authorized && canCreateGameServers && (
           <CreateGameServer
             isModalOpen={openIsGameServerCreationModalOpen}
             setIsModalOpen={setIsOpenGameServerCreationModalOpen}
