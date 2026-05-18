@@ -1,6 +1,7 @@
 import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -40,6 +41,8 @@ function Index() {
       }),
     [gameServers],
   );
+  const { authorized, canCreateGameServers } = useContext(AuthContext);
+  const showConstructionPlace = authorized && canCreateGameServers;
   const { inviteToken, deleted } = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -66,7 +69,7 @@ function Index() {
   }, []);
 
   return (
-    <GameServerBackground houseCount={sortedGameServers.length + 1} scrollRef={scrollRef}>
+    <GameServerBackground houseCount={sortedGameServers.length + (showConstructionPlace ? 1 : 0)} scrollRef={scrollRef}>
       <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
         <GameServerDisplay gameServerConfigurations={sortedGameServers} />
       </div>

@@ -98,6 +98,13 @@ export type i18nLanguage = {
       confirmDescription: string;
       confirmAction: string;
     };
+    canCreateGameServers: string;
+    closeConfirm: {
+      title: string;
+      message: string;
+      discard: string;
+      stay: string;
+    };
   };
 
   userRoles: {
@@ -565,6 +572,14 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        canCreateGameServersDialog: {
+          title: string;
+          description: string;
+          label: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
       };
       backButton: string;
       userDetailButton: {
@@ -581,6 +596,7 @@ export type i18nLanguage = {
           editPassword: string;
           editDockerLimits: string;
           editRole: string;
+          editCanCreateGameServers: string;
           deleteUser: string;
         };
         resources: {

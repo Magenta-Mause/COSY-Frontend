@@ -19,6 +19,7 @@ import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
+import CanCreateGameServersModal from "./CanCreateGameServersModal";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import ChangeRoleModal from "./ChangeRoleModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
@@ -37,6 +38,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
   const [dockerLimitsDialogOpen, setDockerLimitsDialogOpen] = useState(false);
   const [changeRoleDialogOpen, setChangeRoleDialogOpen] = useState(false);
+  const [canCreateGameServersDialogOpen, setCanCreateGameServersDialogOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
   const isCurrentUser = uuid === props.user.uuid;
@@ -48,6 +50,9 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
 
   const canChangeRole =
     role === UserEntityDtoRole.OWNER && props.userRole !== UserEntityDtoRole.OWNER;
+
+  const canToggleCreateGameServers =
+    role === UserEntityDtoRole.OWNER && props.userRole === UserEntityDtoRole.QUOTA_USER;
 
   const userActions: UserAction[] = [
     {
@@ -63,6 +68,11 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       label: t("actions.editRole"),
       onClick: () => setChangeRoleDialogOpen(true),
       hidden: !canChangeRole,
+    },
+    {
+      label: t("actions.editCanCreateGameServers"),
+      onClick: () => setCanCreateGameServersDialogOpen(true),
+      hidden: !canToggleCreateGameServers,
     },
     {
       label: t("actions.deleteUser"),
@@ -164,6 +174,12 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         user={props.user}
         open={changeRoleDialogOpen}
         onClose={() => setChangeRoleDialogOpen(false)}
+      />
+
+      <CanCreateGameServersModal
+        user={props.user}
+        open={canCreateGameServersDialogOpen}
+        onClose={() => setCanCreateGameServersDialogOpen(false)}
       />
 
       <UserProfileModal open={userModalOpen} onOpenChange={setUserModalOpen} />

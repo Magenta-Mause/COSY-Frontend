@@ -101,6 +101,13 @@ const translation: i18nLanguage = {
         "Bist du sicher, dass du diese Einladung widerrufen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
       confirmAction: "Einladung widerrufen",
     },
+    canCreateGameServers: "Spielserver-Erstellung erlauben",
+    closeConfirm: {
+      title: "Änderungen verwerfen?",
+      message: "Du hast ungespeicherte Änderungen. Möchtest du wirklich schließen?",
+      discard: "Verwerfen",
+      stay: "Bleiben",
+    },
   },
   userRoles: {
     QUOTA_USER: "Nutzer",
@@ -848,6 +855,14 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Ändern der Rolle",
         },
+        canCreateGameServersDialog: {
+          title: "Spielserver-Erstellung",
+          description: "Lege fest, ob dieser Benutzer neue Spielserver erstellen darf.",
+          label: "Spielserver-Erstellung erlauben",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Berechtigung",
+        },
       },
       backButton: "Zurück",
       userDetailButton: {
@@ -864,6 +879,7 @@ const translation: i18nLanguage = {
           editPassword: "Passwort ändern",
           editDockerLimits: "Ressourcenlimits bearbeiten",
           editRole: "Rolle ändern",
+          editCanCreateGameServers: "Spielserver-Erstellung",
           deleteUser: "Benutzer löschen",
         },
         resources: {

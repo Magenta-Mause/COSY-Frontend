@@ -93,9 +93,9 @@ const translation: i18nLanguage = {
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
     memoryLimit: "RAM (Optional)",
-    memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
+    memoryDescription: "Leave empty to allow the user to have unlimited RAM.",
     cpuLimit: "CPU Cores (Optional)",
-    cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
+    cpuDescription: "Leave empty to allow the user to have unlimited CPU cores.",
     placeholder: "Unlimited",
     revoke: {
       tooltip: "Revoke invite",
@@ -103,6 +103,13 @@ const translation: i18nLanguage = {
       confirmDescription:
         "Are you sure you want to revoke this invite? This action cannot be undone.",
       confirmAction: "Revoke",
+    },
+    canCreateGameServers: "Allow game server creation",
+    closeConfirm: {
+      title: "Discard Changes?",
+      message: "You have unsaved changes. Are you sure you want to close?",
+      discard: "Discard",
+      stay: "Stay",
     },
   },
   inviteRedemption: {
@@ -584,6 +591,14 @@ const translation: i18nLanguage = {
           confirmButton: "Save",
           submitError: "Failed to change role",
         },
+        canCreateGameServersDialog: {
+          title: "Game Server Creation",
+          description: "Control whether this user can create new game servers.",
+          label: "Allow game server creation",
+          cancelButton: "Cancel",
+          confirmButton: "Save",
+          submitError: "Failed to update permission",
+        },
       },
       backButton: "Back",
       userDetailButton: {
@@ -600,6 +615,7 @@ const translation: i18nLanguage = {
           editPassword: "Edit Password",
           editDockerLimits: "Edit Resource Limits",
           editRole: "Change Role",
+          editCanCreateGameServers: "Game Server Creation",
           deleteUser: "Delete User",
         },
         resources: {

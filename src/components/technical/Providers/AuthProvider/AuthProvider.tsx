@@ -23,6 +23,7 @@ interface AuthContextType {
   role: UserEntityDtoRole | null;
   memoryLimit: string | null;
   cpuLimit: number | null;
+  canCreateGameServers: boolean;
   refreshIdentityToken: () => void;
   setToken: (token: string) => void;
   handleLogout: () => Promise<void>;
@@ -38,6 +39,7 @@ interface DecodedToken {
   role: UserEntityDtoRole;
   memory_limit?: string;
   cpu_cores_limit?: number;
+  can_create_game_servers?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -49,6 +51,7 @@ const AuthContext = createContext<AuthContextType>({
   role: null,
   memoryLimit: null,
   cpuLimit: null,
+  canCreateGameServers: true,
   refreshIdentityToken() {
     console.warn("Called refresh identity token before auth context ready");
   },
@@ -72,6 +75,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
   const [role, setRole] = useState<UserEntityDtoRole | null>(null);
   const [memoryLimit, setMemoryLimit] = useState<string | null>(null);
   const [cpuLimit, setCpuLimit] = useState<number | null>(null);
+  const [canCreateGameServers, setCanCreateGameServers] = useState<boolean>(true);
   const [identityToken, setIdentityToken] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState<number | null>(null);
@@ -99,6 +103,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         role: null,
         memoryLimit: null,
         cpuLimit: null,
+        canCreateGameServers: true,
         tokenExpirationDate: null,
       };
       if (!token) {
@@ -123,6 +128,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         role: decoded.role,
         memoryLimit: decoded.memory_limit ?? null,
         cpuLimit: decoded.cpu_cores_limit ?? null,
+        canCreateGameServers: decoded.can_create_game_servers ?? true,
         tokenExpirationDate: expirationMs,
       };
     },
@@ -138,6 +144,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
       setRole(response.role);
       setMemoryLimit(response.memoryLimit);
       setCpuLimit(response.cpuLimit);
+      setCanCreateGameServers(response.canCreateGameServers);
       setTokenExpirationDate(response.tokenExpirationDate);
     },
     [analyseToken],
@@ -241,6 +248,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         role,
         memoryLimit,
         cpuLimit,
+        canCreateGameServers,
         refreshIdentityToken,
         setToken,
         handleLogout,

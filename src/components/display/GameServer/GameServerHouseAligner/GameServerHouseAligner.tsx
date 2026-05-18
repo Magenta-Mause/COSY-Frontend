@@ -6,7 +6,7 @@ import { useContext } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 
 const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
-  const { authorized } = useContext(AuthContext);
+  const { authorized, canCreateGameServers } = useContext(AuthContext);
 
   const getStyle = (index: number): React.CSSProperties => {
     const { x, y } = calculateCoordinate(index);
@@ -24,7 +24,7 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
       {props.gameServers.map((gameServer, index) => (
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
-      {authorized && <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />}
+      {authorized && canCreateGameServers && <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />}
     </div>
   );
 };

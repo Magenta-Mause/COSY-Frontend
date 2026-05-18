@@ -1,5 +1,6 @@
 import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
+import { Checkbox } from "@components/ui/checkbox.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
   Select,
@@ -17,10 +18,12 @@ interface InviteFormProps {
   memory: string | null;
   cpu: number | null;
   userRole: UserEntityDtoRole;
+  canCreateGameServers: boolean;
   onUsernameChange: (value: string) => void;
   onUserRoleChange: (value: UserEntityDtoRole) => void;
   onMemoryChange: (value: string | null) => void;
   onCpuChange: (value: number | null) => void;
+  onCanCreateGameServersChange: (value: boolean) => void;
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
@@ -34,11 +37,13 @@ export const InviteForm = ({
   userRole,
   memory,
   cpu,
+  canCreateGameServers,
   onUsernameChange,
   onMemoryChange,
   onCpuChange,
   onSubmit,
   onUserRoleChange,
+  onCanCreateGameServersChange,
   usernameError,
   cpuError,
   memoryError,
@@ -85,6 +90,21 @@ export const InviteForm = ({
             </Select>
           </div>
         </div>
+        {userRole === UserEntityDtoRole.QUOTA_USER && (
+          <div className="flex items-center gap-3 pt-1">
+            <Checkbox
+              id="invite-can-create-game-servers"
+              checked={canCreateGameServers}
+              onCheckedChange={(checked) => onCanCreateGameServersChange(checked === true)}
+            />
+            <Label
+              htmlFor="invite-can-create-game-servers"
+              className="text-sm font-medium cursor-pointer"
+            >
+              {t("userModal.canCreateGameServers")}
+            </Label>
+          </div>
+        )}
         <div className="flex justify-between gap-5">
           <div className="w-[45%]">
             <CpuLimitInput

@@ -20,6 +20,8 @@ import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
 import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
+const DEFAULT_ROLE: UserEntityDtoRole = "QUOTA_USER";
+
 type ViewState = "invite" | "result";
 const MIN_USERNAME_LENGTH = 3;
 const MAX_USERNAME_LENGTH = 50;
@@ -30,7 +32,7 @@ const UserInviteButton = (props: { className?: string }) => {
 
   const [view, setView] = useState<ViewState>("invite");
   const [inviteUsername, setInviteUsername] = useState("");
-  const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
+  const [userRole, setUserRole] = useState<UserEntityDtoRole>(DEFAULT_ROLE);
   const [memoryLimit, setMemoryLimit] = useState<string | null>(null);
   const [cpuLimit, setCpuLimit] = useState<number | null>(null);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
@@ -38,7 +40,25 @@ const UserInviteButton = (props: { className?: string }) => {
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [cpuError, setCpuError] = useState<string | null>(null);
   const [memoryError, setMemoryError] = useState<string | null>(null);
+  const [canCreateGameServers, setCanCreateGameServers] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showCloseConfirm, setShowCloseConfirm] = useState(false);
+
+  const hasChanges =
+    view === "invite" &&
+    (inviteUsername !== "" ||
+      userRole !== DEFAULT_ROLE ||
+      memoryLimit !== null ||
+      cpuLimit !== null ||
+      !canCreateGameServers);
+
+  const requestClose = () => {
+    if (hasChanges) {
+      setShowCloseConfirm(true);
+    } else {
+      setIsDialogOpen(false);
+    }
+  };
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
@@ -98,6 +118,7 @@ const UserInviteButton = (props: { className?: string }) => {
           docker_memory_limit: memoryLimit || undefined,
           docker_max_cpu_cores: cpuLimit || undefined,
         },
+        can_create_game_servers: canCreateGameServers,
       });
       setGeneratedKey(data.secret_key || "");
       setView("result");
@@ -121,18 +142,31 @@ const UserInviteButton = (props: { className?: string }) => {
   const resetView = useCallback(() => {
     setView("invite");
     setInviteUsername("");
+    setUserRole(DEFAULT_ROLE);
+    setMemoryLimit(null);
+    setCpuLimit(null);
+    setCanCreateGameServers(true);
     setGeneratedKey(null);
     setUsernameError(null);
     setCpuError(null);
     setMemoryError(null);
   }, []);
 
+  const handleConfirmClose = () => {
+    setShowCloseConfirm(false);
+    setIsDialogOpen(false);
+    resetView();
+  };
+
   return (
+    <>
     <Dialog
       open={isDialogOpen}
       onOpenChange={(open) => {
-        setIsDialogOpen(open);
-        if (open) {
+        if (!open) {
+          requestClose();
+        } else {
+          setIsDialogOpen(true);
           resetView();
         }
       }}
@@ -157,10 +191,12 @@ const UserInviteButton = (props: { className?: string }) => {
               userRole={userRole}
               memory={memoryLimit}
               cpu={cpuLimit}
+              canCreateGameServers={canCreateGameServers}
               onUsernameChange={handleUsernameChange}
               onMemoryChange={handleMemoryChange}
               onCpuChange={handleCpuChange}
-              onCancel={() => setIsDialogOpen(false)}
+              onCanCreateGameServersChange={setCanCreateGameServers}
+              onCancel={requestClose}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
               isCreating={isCreating}
@@ -181,7 +217,7 @@ const UserInviteButton = (props: { className?: string }) => {
         <DialogFooter>
           {view === "invite" && (
             <>
-              <Button onClick={() => setIsDialogOpen(false)} variant="secondary">
+              <Button onClick={requestClose} variant="secondary">
                 {t("userModal.cancel")}
               </Button>
               <Button onClick={handleCreateInvite} disabled={isCreating || !isFormValid}>
@@ -197,6 +233,26 @@ const UserInviteButton = (props: { className?: string }) => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+
+    <Dialog open={showCloseConfirm} onOpenChange={(open) => { if (!open) setShowCloseConfirm(false); }}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("userModal.closeConfirm.title")}</DialogTitle>
+        </DialogHeader>
+        <DialogMain className="text-base">
+          {t("userModal.closeConfirm.message")}
+        </DialogMain>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => setShowCloseConfirm(false)}>
+            {t("userModal.closeConfirm.stay")}
+          </Button>
+          <Button variant="destructive" onClick={handleConfirmClose}>
+            {t("userModal.closeConfirm.discard")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
 

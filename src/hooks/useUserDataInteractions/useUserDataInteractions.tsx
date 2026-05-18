@@ -6,6 +6,7 @@ import {
   useChangeRole,
   useCreateInvite,
   useRevokeInvite,
+  useSetCanCreateGameServers,
   useUpdateDockerLimits,
 } from "@/api/generated/backend-api.ts";
 import type {
@@ -118,12 +119,25 @@ const useUserDataInteractions = () => {
     await mutateChangePasswordByAdmin({ uuid, data: { new_password: newPassword } });
   };
 
+  const { mutateAsync: mutateSetCanCreateGameServers } = useSetCanCreateGameServers({
+    mutation: {
+      onSuccess: (updatedUser) => {
+        dispatch(userSliceActions.updateUser(updatedUser));
+      },
+    },
+  });
+
+  const setCanCreateGameServers = async (uuid: string, canCreate: boolean) => {
+    await mutateSetCanCreateGameServers({ uuid, data: { can_create_game_servers: canCreate } });
+  };
+
   return {
     createInvite,
     revokeInvite,
     changeRole,
     updateDockerLimits,
     changePasswordByAdmin,
+    setCanCreateGameServers,
   };
 };
 
