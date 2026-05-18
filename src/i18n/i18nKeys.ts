@@ -580,6 +580,19 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        changePermissionsDialog: {
+          title: string;
+          description: string;
+          cpuLabel: string;
+          cpuDescription: string;
+          memoryLabel: string;
+          memoryDescription: string;
+          placeholder: string;
+          canCreateGameServersLabel: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
       };
       backButton: string;
       userDetailButton: {
@@ -594,9 +607,8 @@ export type i18nLanguage = {
         yourProfile: string;
         actions: {
           editPassword: string;
-          editDockerLimits: string;
+          changePermissions: string;
           editRole: string;
-          editCanCreateGameServers: string;
           deleteUser: string;
         };
         resources: {

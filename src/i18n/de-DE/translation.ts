@@ -863,6 +863,19 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Aktualisieren der Berechtigung",
         },
+        changePermissionsDialog: {
+          title: "Berechtigungen ändern",
+          description: "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",
+          cpuLabel: "CPU-Limit",
+          cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
+          memoryLabel: "Speicher-Limit",
+          memoryDescription: "Maximaler Speicher, den der Benutzer verwenden darf.",
+          placeholder: "Unbegrenzt",
+          canCreateGameServersLabel: "Spielserver-Erstellung erlauben",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Berechtigungen",
+        },
       },
       backButton: "Zurück",
       userDetailButton: {
@@ -877,9 +890,8 @@ const translation: i18nLanguage = {
         yourProfile: "Du",
         actions: {
           editPassword: "Passwort ändern",
-          editDockerLimits: "Ressourcenlimits bearbeiten",
+          changePermissions: "Berechtigungen ändern",
           editRole: "Rolle ändern",
-          editCanCreateGameServers: "Spielserver-Erstellung",
           deleteUser: "Benutzer löschen",
         },
         resources: {

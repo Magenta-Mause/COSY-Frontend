@@ -19,11 +19,10 @@ import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
-import CanCreateGameServersModal from "./CanCreateGameServersModal";
+import ChangePermissionsModal from "./ChangePermissionsModal";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import ChangeRoleModal from "./ChangeRoleModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
-import UpdateDockerLimitsModal from "./UpdateDockerLimitsModal";
 
 type UserAction = {
   label: string;
@@ -36,9 +35,8 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const { t } = useTranslationPrefix("components.userManagement.userRow");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
-  const [dockerLimitsDialogOpen, setDockerLimitsDialogOpen] = useState(false);
+  const [changePermissionsDialogOpen, setChangePermissionsDialogOpen] = useState(false);
   const [changeRoleDialogOpen, setChangeRoleDialogOpen] = useState(false);
-  const [canCreateGameServersDialogOpen, setCanCreateGameServersDialogOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
   const isCurrentUser = uuid === props.user.uuid;
@@ -60,19 +58,14 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       onClick: () => setPasswordChangeDialogOpen(true),
     },
     {
-      label: t("actions.editDockerLimits"),
-      onClick: () => setDockerLimitsDialogOpen(true),
+      label: t("actions.changePermissions"),
+      onClick: () => setChangePermissionsDialogOpen(true),
       hidden: !canUpdateDockerLimits,
     },
     {
       label: t("actions.editRole"),
       onClick: () => setChangeRoleDialogOpen(true),
       hidden: !canChangeRole,
-    },
-    {
-      label: t("actions.editCanCreateGameServers"),
-      onClick: () => setCanCreateGameServersDialogOpen(true),
-      hidden: !canToggleCreateGameServers,
     },
     {
       label: t("actions.deleteUser"),
@@ -164,22 +157,17 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         onClose={() => setPasswordChangeDialogOpen(false)}
       />
 
-      <UpdateDockerLimitsModal
+      <ChangePermissionsModal
         user={props.user}
-        open={dockerLimitsDialogOpen}
-        onClose={() => setDockerLimitsDialogOpen(false)}
+        open={changePermissionsDialogOpen}
+        onClose={() => setChangePermissionsDialogOpen(false)}
+        showCanCreateGameServers={canToggleCreateGameServers}
       />
 
       <ChangeRoleModal
         user={props.user}
         open={changeRoleDialogOpen}
         onClose={() => setChangeRoleDialogOpen(false)}
-      />
-
-      <CanCreateGameServersModal
-        user={props.user}
-        open={canCreateGameServersDialogOpen}
-        onClose={() => setCanCreateGameServersDialogOpen(false)}
       />
 
       <UserProfileModal open={userModalOpen} onOpenChange={setUserModalOpen} />

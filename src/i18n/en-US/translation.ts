@@ -599,6 +599,19 @@ const translation: i18nLanguage = {
           confirmButton: "Save",
           submitError: "Failed to update permission",
         },
+        changePermissionsDialog: {
+          title: "Change Permissions",
+          description: "Edit resource limits and game server creation permission for this user.",
+          cpuLabel: "CPU Limit",
+          cpuDescription: "Maximum CPU cores the user can allocate.",
+          memoryLabel: "Memory Limit",
+          memoryDescription: "Maximum memory the user can allocate.",
+          placeholder: "Unlimited",
+          canCreateGameServersLabel: "Allow game server creation",
+          cancelButton: "Cancel",
+          confirmButton: "Save",
+          submitError: "Failed to update permissions",
+        },
       },
       backButton: "Back",
       userDetailButton: {
@@ -613,9 +626,8 @@ const translation: i18nLanguage = {
         yourProfile: "You",
         actions: {
           editPassword: "Edit Password",
-          editDockerLimits: "Edit Resource Limits",
+          changePermissions: "Change Permissions",
           editRole: "Change Role",
-          editCanCreateGameServers: "Game Server Creation",
           deleteUser: "Delete User",
         },
         resources: {
