@@ -855,14 +855,6 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Ändern der Rolle",
         },
-        canCreateGameServersDialog: {
-          title: "Spielserver-Erstellung",
-          description: "Lege fest, ob dieser Benutzer neue Spielserver erstellen darf.",
-          label: "Spielserver-Erstellung erlauben",
-          cancelButton: "Abbrechen",
-          confirmButton: "Speichern",
-          submitError: "Fehler beim Aktualisieren der Berechtigung",
-        },
         changePermissionsDialog: {
           title: "Berechtigungen ändern",
           description: "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",

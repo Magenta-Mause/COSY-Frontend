@@ -44,13 +44,15 @@ const UserInviteButton = (props: { className?: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showCloseConfirm, setShowCloseConfirm] = useState(false);
 
+  const isQuotaUser = userRole === "QUOTA_USER";
+
   const hasChanges =
     view === "invite" &&
     (inviteUsername !== "" ||
       userRole !== DEFAULT_ROLE ||
       memoryLimit !== null ||
       cpuLimit !== null ||
-      !canCreateGameServers);
+      (isQuotaUser && !canCreateGameServers));
 
   const requestClose = () => {
     if (hasChanges) {
@@ -118,7 +120,7 @@ const UserInviteButton = (props: { className?: string }) => {
           docker_memory_limit: memoryLimit || undefined,
           docker_max_cpu_cores: cpuLimit || undefined,
         },
-        can_create_game_servers: canCreateGameServers,
+        can_create_game_servers: isQuotaUser ? canCreateGameServers : undefined,
       });
       setGeneratedKey(data.secret_key || "");
       setView("result");

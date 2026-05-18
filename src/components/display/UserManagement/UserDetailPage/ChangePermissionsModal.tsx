@@ -86,17 +86,15 @@ const ChangePermissionsModal = (props: {
     setSubmitError(null);
     setIsPending(true);
     try {
-      await Promise.all([
-        updateDockerLimits(props.user.uuid, {
-          docker_hardware_limits: {
-            docker_max_cpu_cores: cpuValue,
-            docker_memory_limit: memory !== "" ? memory : undefined,
-          },
-        }),
-        props.showCanCreateGameServers
-          ? setCanCreateGameServers(props.user.uuid, canCreate)
-          : Promise.resolve(),
-      ]);
+      await updateDockerLimits(props.user.uuid, {
+        docker_hardware_limits: {
+          docker_max_cpu_cores: cpuValue,
+          docker_memory_limit: memory !== "" ? memory : undefined,
+        },
+      });
+      if (props.showCanCreateGameServers) {
+        await setCanCreateGameServers(props.user.uuid, canCreate);
+      }
       handleClose();
     } catch {
       setSubmitError(t("submitError"));

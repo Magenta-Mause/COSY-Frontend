@@ -591,14 +591,6 @@ const translation: i18nLanguage = {
           confirmButton: "Save",
           submitError: "Failed to change role",
         },
-        canCreateGameServersDialog: {
-          title: "Game Server Creation",
-          description: "Control whether this user can create new game servers.",
-          label: "Allow game server creation",
-          cancelButton: "Cancel",
-          confirmButton: "Save",
-          submitError: "Failed to update permission",
-        },
         changePermissionsDialog: {
           title: "Change Permissions",
           description: "Edit resource limits and game server creation permission for this user.",

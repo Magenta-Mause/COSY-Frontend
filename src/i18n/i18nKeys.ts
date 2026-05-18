@@ -572,14 +572,6 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
-        canCreateGameServersDialog: {
-          title: string;
-          description: string;
-          label: string;
-          cancelButton: string;
-          confirmButton: string;
-          submitError: string;
-        };
         changePermissionsDialog: {
           title: string;
           description: string;
