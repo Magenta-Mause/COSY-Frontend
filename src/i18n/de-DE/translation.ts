@@ -15,6 +15,7 @@ const translation: i18nLanguage = {
     stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameServer: "Neuen Gameserver erstellen",
+    createNewGameServerNoPermission: "Du hast keine Berechtigung, Gameserver zu erstellen",
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
     failed: "Starten fehlgeschlagen",

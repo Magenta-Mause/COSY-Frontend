@@ -14,6 +14,7 @@ export type i18nLanguage = {
     stopServer: string;
     refresh: string;
     createNewGameServer: string;
+    createNewGameServerNoPermission: string;
     viewLogs: string;
     loading: string;
     failed: string;

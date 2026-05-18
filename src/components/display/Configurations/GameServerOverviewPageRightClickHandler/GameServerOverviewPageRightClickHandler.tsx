@@ -55,13 +55,17 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
         },
       ],
     },
-    ...(authorized && canCreateGameServers
+    ...(authorized
       ? [
           {
             label: t("rightClickMenu.createNewGameServer"),
-            onClick: () => {
-              setIsOpenGameServerCreationModalOpen(true);
-            },
+            onClick: canCreateGameServers
+              ? () => setIsOpenGameServerCreationModalOpen(true)
+              : undefined,
+            disabled: !canCreateGameServers,
+            tooltip: canCreateGameServers
+              ? undefined
+              : t("rightClickMenu.createNewGameServerNoPermission"),
           },
         ]
       : []),

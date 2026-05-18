@@ -50,7 +50,8 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
     role === UserEntityDtoRole.OWNER && props.userRole !== UserEntityDtoRole.OWNER;
 
   const canToggleCreateGameServers =
-    role === UserEntityDtoRole.OWNER && props.userRole === UserEntityDtoRole.QUOTA_USER;
+    (role === UserEntityDtoRole.OWNER || role === UserEntityDtoRole.ADMIN) &&
+    props.userRole === UserEntityDtoRole.QUOTA_USER;
 
   const userActions: UserAction[] = [
     {
