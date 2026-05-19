@@ -12,4 +12,5 @@ export interface UserInviteCreationDto {
   username?: string;
   role?: UserInviteCreationDtoRole;
   docker_hardware_limits?: DockerHardwareLimits;
+  can_create_game_servers?: boolean;
 }

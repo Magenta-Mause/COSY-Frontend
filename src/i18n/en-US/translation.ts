@@ -20,6 +20,7 @@ const translation: i18nLanguage = {
     stopServer: "Stop",
     refresh: "Refresh",
     createNewGameServer: "Create new Gameserver",
+    createNewGameServerNoPermission: "You don't have permission to create game servers",
     viewLogs: "View Logs",
     loading: "Loading...",
     failed: "Failed to start",
@@ -93,9 +94,9 @@ const translation: i18nLanguage = {
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
     memoryLimit: "RAM (Optional)",
-    memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
+    memoryDescription: "Leave empty to allow the user to have unlimited RAM.",
     cpuLimit: "CPU Cores (Optional)",
-    cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
+    cpuDescription: "Leave empty to allow the user to have unlimited CPU cores.",
     placeholder: "Unlimited",
     revoke: {
       tooltip: "Revoke invite",
@@ -103,6 +104,14 @@ const translation: i18nLanguage = {
       confirmDescription:
         "Are you sure you want to revoke this invite? This action cannot be undone.",
       confirmAction: "Revoke",
+    },
+    canCreateGameServers: "Allow game server creation",
+    canCreateGameServersAdminHint: "Admins always have this permission",
+    closeConfirm: {
+      title: "Discard Changes?",
+      message: "You have unsaved changes. Are you sure you want to close?",
+      discard: "Discard",
+      stay: "Stay",
     },
   },
   inviteRedemption: {
@@ -584,6 +593,19 @@ const translation: i18nLanguage = {
           confirmButton: "Save",
           submitError: "Failed to change role",
         },
+        changePermissionsDialog: {
+          title: "Change Permissions",
+          description: "Edit resource limits and game server creation permission for this user.",
+          cpuLabel: "CPU Limit",
+          cpuDescription: "Maximum CPU cores the user can allocate.",
+          memoryLabel: "Memory Limit",
+          memoryDescription: "Maximum memory the user can allocate.",
+          placeholder: "Unlimited",
+          canCreateGameServersLabel: "Allow game server creation",
+          cancelButton: "Cancel",
+          confirmButton: "Save",
+          submitError: "Failed to update permissions",
+        },
       },
       backButton: "Back",
       userDetailButton: {
@@ -598,7 +620,7 @@ const translation: i18nLanguage = {
         yourProfile: "You",
         actions: {
           editPassword: "Edit Password",
-          editDockerLimits: "Edit Resource Limits",
+          changePermissions: "Change Permissions",
           editRole: "Change Role",
           deleteUser: "Delete User",
         },

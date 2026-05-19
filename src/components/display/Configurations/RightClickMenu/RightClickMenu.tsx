@@ -25,6 +25,7 @@ export interface RightClickAction {
   render?: ReactNode;
   closeOnClick?: boolean;
   disabled?: boolean;
+  tooltip?: string;
   destructive?: boolean;
   children?: RightClickChildren[];
   value?: string;
@@ -46,23 +47,25 @@ const RightClickMenu = (props: RightClickMenuProps) => {
           action.render ? (
             <div key={action.label || index}>{action.render}</div>
           ) : !action.children ? (
-            <ContextMenuItem
-              key={action.label}
-              onSelect={async (e) => {
-                if (action.closeOnClick === false) {
-                  e.preventDefault();
-                }
-                if (action.onClick) {
-                  setLoading(true);
-                  await action.onClick();
-                  setLoading(false);
-                }
-              }}
-              disabled={loading || action.disabled}
-              variant={action.destructive ? "destructive" : "default"}
-            >
-              {action.label}
-            </ContextMenuItem>
+            <TooltipWrapper key={action.label} tooltip={action.tooltip} side="right">
+              <ContextMenuItem
+                onSelect={async (e) => {
+                  if (action.closeOnClick === false) {
+                    e.preventDefault();
+                  }
+                  if (action.onClick) {
+                    setLoading(true);
+                    await action.onClick();
+                    setLoading(false);
+                  }
+                }}
+                disabled={loading || action.disabled}
+                variant={action.destructive ? "destructive" : "default"}
+                className="[&[data-disabled]]:pointer-events-auto"
+              >
+                {action.label}
+              </ContextMenuItem>
+            </TooltipWrapper>
           ) : (
             <ContextMenuSub key={action.label}>
               <ContextMenuSubTrigger>{action.label}</ContextMenuSubTrigger>

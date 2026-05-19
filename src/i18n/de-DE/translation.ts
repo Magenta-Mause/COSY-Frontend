@@ -15,6 +15,7 @@ const translation: i18nLanguage = {
     stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameServer: "Neuen Gameserver erstellen",
+    createNewGameServerNoPermission: "Du hast keine Berechtigung, Gameserver zu erstellen",
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
     failed: "Starten fehlgeschlagen",
@@ -100,6 +101,14 @@ const translation: i18nLanguage = {
       confirmDescription:
         "Bist du sicher, dass du diese Einladung widerrufen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
       confirmAction: "Einladung widerrufen",
+    },
+    canCreateGameServers: "Spielserver-Erstellung erlauben",
+    canCreateGameServersAdminHint: "Admins haben diese Berechtigung immer",
+    closeConfirm: {
+      title: "Änderungen verwerfen?",
+      message: "Du hast ungespeicherte Änderungen. Möchtest du wirklich schließen?",
+      discard: "Verwerfen",
+      stay: "Bleiben",
     },
   },
   userRoles: {
@@ -848,6 +857,19 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Ändern der Rolle",
         },
+        changePermissionsDialog: {
+          title: "Berechtigungen ändern",
+          description: "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",
+          cpuLabel: "CPU-Limit",
+          cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
+          memoryLabel: "Speicher-Limit",
+          memoryDescription: "Maximaler Speicher, den der Benutzer verwenden darf.",
+          placeholder: "Unbegrenzt",
+          canCreateGameServersLabel: "Spielserver-Erstellung erlauben",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Berechtigungen",
+        },
       },
       backButton: "Zurück",
       userDetailButton: {
@@ -862,7 +884,7 @@ const translation: i18nLanguage = {
         yourProfile: "Du",
         actions: {
           editPassword: "Passwort ändern",
-          editDockerLimits: "Ressourcenlimits bearbeiten",
+          changePermissions: "Berechtigungen ändern",
           editRole: "Rolle ändern",
           deleteUser: "Benutzer löschen",
         },

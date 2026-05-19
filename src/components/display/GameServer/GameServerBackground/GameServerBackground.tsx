@@ -34,6 +34,10 @@ const IMAGES = (theme: ThemeOptions) => ({
 });
 
 function calculatePathSegments(houseCount: number, images: ReturnType<typeof IMAGES>) {
+  if (houseCount === 0) {
+    return [];
+  }
+
   if (houseCount === 1) {
     return [{ id: "path-base-1", src: images.path[1] }];
   }

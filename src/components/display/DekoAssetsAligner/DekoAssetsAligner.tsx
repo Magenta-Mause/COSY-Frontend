@@ -28,7 +28,7 @@ type DekoAsset = {
 };
 
 const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
-  const { authorized } = useContext(AuthContext);
+  const { authorized, canCreateGameServers } = useContext(AuthContext);
   const getStyle = (index: number): React.CSSProperties => {
     const { x, y } = dekoCalculateCoordinate(index);
 
@@ -69,9 +69,9 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
   const DEKO_BASE_CLASS = "pointer-events-none select-none";
 
   const extraSeeds = useMemo(() => {
-    if (!authorized) return [];
+    if (!authorized || !canCreateGameServers) return [];
     return Array.from({ length: EXTRA_DEKO_COUNT }, () => Math.random().toString(36).slice(2));
-  }, [authorized]);
+  }, [authorized, canCreateGameServers]);
 
   const getDekoAsset = (seed: string): DekoAsset => {
     const hash = [...seed].reduce((acc, char) => acc + char.charCodeAt(0), 0);

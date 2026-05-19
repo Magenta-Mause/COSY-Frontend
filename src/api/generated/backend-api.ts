@@ -42,6 +42,8 @@ import type {
   GetServiceInfo200,
   GetUserPermissions200Item,
   LoginDto,
+  LoginParams,
+  LoginResponseDto,
   MetricLayout,
   MetricPointDto,
   PasswordUpdateByAdminDto,
@@ -58,6 +60,7 @@ import type {
   UpdateCustomMetric200,
   UpdateCustomMetricBody,
   UploadFileToVolumeParams,
+  UserCanCreateGameServersDto,
   UserCreationDto,
   UserDockerLimitsUpdateDto,
   UserEntityDto,
@@ -1579,14 +1582,16 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     
 export const login = (
     loginDto: LoginDto,
+    params?: LoginParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<void>(
+      return customInstance<LoginResponseDto>(
       {url: `/auth/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: loginDto, signal
+      data: loginDto,
+        params, signal
     },
       options);
     }
@@ -1594,8 +1599,8 @@ export const login = (
 
 
 export const getLoginMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto;params?: LoginParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto;params?: LoginParams}, TContext> => {
 
 const mutationKey = ['login'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1607,10 +1612,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof login>>, {data: LoginDto}> = (props) => {
-          const {data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof login>>, {data: LoginDto;params?: LoginParams}> = (props) => {
+          const {data,params} = props ?? {};
 
-          return  login(data,requestOptions)
+          return  login(data,params,requestOptions)
         }
 
         
@@ -1623,11 +1628,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type LoginMutationError = unknown
 
     export const useLogin = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginDto;params?: LoginParams}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof login>>,
         TError,
-        {data: LoginDto},
+        {data: LoginDto;params?: LoginParams},
         TContext
       > => {
 
@@ -1868,6 +1873,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getChangePasswordByAdminMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const setCanCreateGameServers = (
+    uuid: string,
+    userCanCreateGameServersDto: UserCanCreateGameServersDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/can-create-game-servers`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userCanCreateGameServersDto
+    },
+      options);
+    }
+  
+
+
+export const getSetCanCreateGameServersMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setCanCreateGameServers>>, TError,{uuid: string;data: UserCanCreateGameServersDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof setCanCreateGameServers>>, TError,{uuid: string;data: UserCanCreateGameServersDto}, TContext> => {
+
+const mutationKey = ['setCanCreateGameServers'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setCanCreateGameServers>>, {uuid: string;data: UserCanCreateGameServersDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  setCanCreateGameServers(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SetCanCreateGameServersMutationResult = NonNullable<Awaited<ReturnType<typeof setCanCreateGameServers>>>
+    export type SetCanCreateGameServersMutationBody = UserCanCreateGameServersDto
+    export type SetCanCreateGameServersMutationError = unknown
+
+    export const useSetCanCreateGameServers = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setCanCreateGameServers>>, TError,{uuid: string;data: UserCanCreateGameServersDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof setCanCreateGameServers>>,
+        TError,
+        {uuid: string;data: UserCanCreateGameServersDto},
+        TContext
+      > => {
+
+      const mutationOptions = getSetCanCreateGameServersMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

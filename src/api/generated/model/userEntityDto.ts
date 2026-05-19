@@ -13,4 +13,5 @@ export interface UserEntityDto {
   username?: string;
   role?: UserEntityDtoRole;
   docker_hardware_limits?: DockerHardwareLimits;
+  can_create_game_servers?: boolean;
 }

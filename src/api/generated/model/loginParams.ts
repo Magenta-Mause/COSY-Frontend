@@ -5,11 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { LoginTokenMode } from './loginTokenMode';
 
-export interface RCONConfiguration {
-  enabled?: boolean;
-  port?: number;
-  password?: string;
-  password_valid?: boolean;
-  port_valid?: boolean;
-}
+export type LoginParams = {
+tokenMode?: LoginTokenMode;
+};

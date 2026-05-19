@@ -14,6 +14,7 @@ export type i18nLanguage = {
     stopServer: string;
     refresh: string;
     createNewGameServer: string;
+    createNewGameServerNoPermission: string;
     viewLogs: string;
     loading: string;
     failed: string;
@@ -97,6 +98,14 @@ export type i18nLanguage = {
       confirmTitle: string;
       confirmDescription: string;
       confirmAction: string;
+    };
+    canCreateGameServers: string;
+    canCreateGameServersAdminHint: string;
+    closeConfirm: {
+      title: string;
+      message: string;
+      discard: string;
+      stay: string;
     };
   };
 
@@ -565,6 +574,19 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        changePermissionsDialog: {
+          title: string;
+          description: string;
+          cpuLabel: string;
+          cpuDescription: string;
+          memoryLabel: string;
+          memoryDescription: string;
+          placeholder: string;
+          canCreateGameServersLabel: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
       };
       backButton: string;
       userDetailButton: {
@@ -579,7 +601,7 @@ export type i18nLanguage = {
         yourProfile: string;
         actions: {
           editPassword: string;
-          editDockerLimits: string;
+          changePermissions: string;
           editRole: string;
           deleteUser: string;
         };
