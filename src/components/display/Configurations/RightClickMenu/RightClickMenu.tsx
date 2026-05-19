@@ -61,6 +61,7 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                 }}
                 disabled={loading || action.disabled}
                 variant={action.destructive ? "destructive" : "default"}
+                className="[&[data-disabled]]:pointer-events-auto"
               >
                 {action.label}
               </ContextMenuItem>
