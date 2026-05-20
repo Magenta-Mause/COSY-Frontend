@@ -19,6 +19,15 @@ export default function Step3() {
 
   return (
     <GenericGameServerCreationPage>
+      <GenericGameServerCreationInputField
+        attribute="server_name"
+        validator={z.string().min(1)}
+        placeholder={t("serverNameSelection.placeholder")}
+        label={t("serverNameSelection.title")}
+        description={t("serverNameSelection.description")}
+        errorLabel={t("serverNameSelection.errorLabel")}
+      />
+
       <div className="grid grid-cols-2 gap-4">
         <GenericGameServerCreationInputField
           attribute="docker_image_name"

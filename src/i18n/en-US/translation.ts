@@ -268,23 +268,22 @@ const translation: i18nLanguage = {
         escapeSequencesTooltip:
           "Supports escape sequences: \\n (newline), \\t (tab), \\r (carriage return), \\\\ (backslash)",
       },
+      unsavedChangesDialog: {
+        title: "Unsaved Changes",
+        description: "You have unsaved changes that will be lost if you close this dialog.",
+        discard: "Discard",
+        keepEditing: "Keep Editing",
+      },
       steps: {
         step1: {
-          title: "Choose name and Game",
-          serverNameSelection: {
-            title: "Server Name",
-            placeholder: "Australiania",
-            description: "Name your server",
-            errorLabel: "Please enter a valid server name.",
-          },
-          gameSelection: {
-            title: "Choose a game for your server",
-            description: "Select a game to host on your server.",
-            errorLabel: "Please select a valid game.",
-            placeholder: "Search a game...",
-            noGamesFound:
-              "No games found. Querying games might have failed. Select this for default game. (no specific game)",
-            noResultsLabel: "Generic Game",
+          title: "Choose a Game & Template",
+          genericServer: "Generic Server",
+          templateCount_one: "{{count}} template",
+          templateCount_other: "{{count}} templates",
+          noTemplatesAvailable: "No templates available for this game.",
+          selectTemplateHint: "Select a template to configure it, or proceed without one.",
+          tags: {
+            filterLabel: "Filter by tag",
           },
         },
         step2: {
@@ -305,6 +304,12 @@ const translation: i18nLanguage = {
         step3: {
           title: "Configure your Server",
           description: "Here you can configure your server.",
+          serverNameSelection: {
+            title: "Server Name",
+            placeholder: "Australiania",
+            description: "Name your server",
+            errorLabel: "Please enter a valid server name.",
+          },
           dockerImageSelection: {
             title: "Docker image",
             description: "Docker image for your server",

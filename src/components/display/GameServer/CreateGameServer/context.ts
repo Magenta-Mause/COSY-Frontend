@@ -3,6 +3,15 @@ import type { GameDto, GameServerCreationDto, TemplateEntity } from "@/api/gener
 
 export const GENERIC_GAME_PLACEHOLDER_VALUE = -1;
 
+export const GENERIC_SERVER_TEMPLATE: TemplateEntity = {
+  uuid: "__generic-server-template__",
+  name: "Generic Server",
+  description: "Start with a blank configuration — no values are pre-filled.",
+  game_id: GENERIC_GAME_PLACEHOLDER_VALUE,
+  variables: [],
+  tags: [],
+};
+
 export type AutoCompleteSelections = {
   [key: string]: {
     label: string;
@@ -40,6 +49,7 @@ export interface GameServerCreationContext {
   ) => (value: GameServerCreationFormState[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
   triggerNextPage: () => void;
+  handleTemplateSelected: (template: TemplateEntity) => void;
   setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;
   isLastPage: boolean;
   isPageValid: { [key: number]: boolean };
@@ -51,6 +61,7 @@ export const GameServerCreationContext = createContext<GameServerCreationContext
   setGameServerState: () => () => {},
   setCurrentPageValid: () => {},
   triggerNextPage: () => {},
+  handleTemplateSelected: () => {},
   setUtilState: () => () => {},
   isLastPage: false,
   isPageValid: {},

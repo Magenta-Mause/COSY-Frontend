@@ -48,7 +48,7 @@ const TemplateList = ({
 
   return (
     <div
-      className="flex flex-row gap-2 overflow-x-auto pb-1"
+      className="grid grid-cols-[repeat(auto-fill,minmax(10rem,13rem))] gap-3 content-start"
       tabIndex={-1}
       role="listbox"
       aria-label={t("templateSelection.title")}
@@ -67,23 +67,35 @@ const TemplateList = ({
               tabIndex={index === focusedIndex ? 0 : -1}
               role="option"
               aria-selected={isSelected}
-              className={`relative shrink-0 cursor-pointer transition-colors select-none px-3 py-2 gap-0.5 max-w-50 outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 focus-visible:bg-primary/10 ${
-                isSelected ? "border-primary bg-primary/5" : ""
+              className={`relative cursor-pointer transition-all select-none p-4 gap-1.5 min-h-28 flex flex-col outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 focus-visible:bg-primary/10 ${
+                isSelected ? "border-primary bg-primary/8 shadow-sm" : "hover:border-border/80 hover:bg-foreground/[0.02]"
               }`}
               onClick={() => handleCardClick(template)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onFocus={() => setFocusedIndex(index)}
             >
-              <div className="flex items-center gap-2 pr-5">
-                <span className="text-sm font-semibold leading-none">{template.name}</span>
+              <div className="flex items-start justify-between gap-2">
+                <span className="text-sm font-semibold leading-snug">{template.name}</span>
                 {isSelected && (
-                  <Icon src={checkIcon} className="absolute top-2 right-2 size-4 text-primary" />
+                  <Icon src={checkIcon} className="size-4 shrink-0 text-primary mt-0.5" />
                 )}
               </div>
               {template.description && (
-                <p className="text-xs text-muted-foreground wrap-anywhere">
+                <p className="text-xs text-muted-foreground line-clamp-3 leading-snug">
                   {template.description}
                 </p>
+              )}
+              {template.tags && template.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-auto pt-1.5">
+                  {template.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[10px] px-1.5 py-0.5 rounded-full bg-foreground/[0.06] text-muted-foreground leading-none"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               )}
             </Card>
           );

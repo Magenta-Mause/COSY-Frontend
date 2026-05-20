@@ -1,88 +1,301 @@
-import AutoCompleteInputField, {
-  type AutoCompleteItem,
-} from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
-import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
-import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { useCallback, useContext } from "react";
-import { z } from "zod";
+import TemplateList from "@components/display/GameServer/CreateGameServer/TemplateList/TemplateList.tsx";
+import Icon from "@components/ui/Icon.tsx";
+import { Input } from "@components/ui/input.tsx";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { queryGames } from "@/api/generated/backend-api.ts";
-import type { GameDto } from "@/api/generated/model";
+import type { GameDto, TemplateEntity } from "@/api/generated/model";
+import searchIcon from "@/assets/icons/search.webp";
+import closeIcon from "@/assets/icons/close.webp";
+import serverIcon from "@/assets/icons/console.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { distinctBy } from "@/lib/arrayUtils.ts";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import {
   GameServerCreationContext,
   GENERIC_GAME_PLACEHOLDER_VALUE,
+  GENERIC_SERVER_TEMPLATE,
 } from "../CreateGameServerModal";
 
 const Step1 = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
-  const { setUtilState } = useContext(GameServerCreationContext);
+  const {
+    creationState,
+    setUtilState,
+    setGameServerState,
+    setCurrentPageValid,
+    handleTemplateSelected,
+  } = useContext(GameServerCreationContext);
+
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
 
-  const mapGamesDtoToAutoCompleteItems = useCallback(
-    (games: GameDto[]) =>
-      distinctBy(games, (game) => game.external_game_id).map(
-        (game): AutoCompleteItem<GameDto, number> => {
-          const templateCount = templates.filter(
-            (template) => template.game_id === game.external_game_id,
-          ).length;
-          return {
-            data: game,
-            value: game.external_game_id ?? 0,
-            label: game.name,
-            additionalInformation:
-              templateCount > 0
-                ? `${templateCount} template${templateCount > 1 ? "s" : ""}`
-                : undefined,
-          };
-        },
-      ),
-    [templates],
+  const [selectedGameId, setSelectedGameId] = useState<number>(GENERIC_GAME_PLACEHOLDER_VALUE);
+  const [sidebarGames, setSidebarGames] = useState<GameDto[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [gameSearchQuery, setGameSearchQuery] = useState("");
+  const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
+
+  // Templates are optional — page is always valid
+  useEffect(() => {
+    setCurrentPageValid(true);
+  }, [setCurrentPageValid]);
+
+  // Ensure external_game_id defaults to generic on mount
+  useEffect(() => {
+    setGameServerState("external_game_id")(GENERIC_GAME_PLACEHOLDER_VALUE as number);
+  }, [setGameServerState]);
+
+  // Collect unique game IDs that have templates (excluding generic)
+  const templateGameIds = useMemo(() => {
+    const ids = new Set<number>();
+    for (const tmpl of templates) {
+      if (tmpl.game_id !== undefined && tmpl.game_id !== GENERIC_GAME_PLACEHOLDER_VALUE) {
+        ids.add(tmpl.game_id);
+      }
+    }
+    return ids;
+  }, [templates]);
+
+  // Load game names for sidebar from API
+  useEffect(() => {
+    if (templateGameIds.size === 0) return;
+    queryGames({ query: "" }).then((games) => {
+      const matching = games.filter(
+        (g) => g.external_game_id !== undefined && templateGameIds.has(g.external_game_id),
+      );
+      setSidebarGames(matching);
+    });
+  }, [templateGameIds]);
+
+  const templatesForSelected = useMemo(() => {
+    const backendTemplates = templates.filter((tmpl) => tmpl.game_id === selectedGameId);
+    if (selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE) {
+      return [GENERIC_SERVER_TEMPLATE, ...backendTemplates];
+    }
+    return backendTemplates;
+  }, [templates, selectedGameId]);
+
+  const sortedTags = useMemo(() => {
+    const freq = new Map<string, number>();
+    for (const tmpl of templatesForSelected) {
+      for (const tag of tmpl.tags ?? []) {
+        freq.set(tag, (freq.get(tag) ?? 0) + 1);
+      }
+    }
+    return [...freq.entries()].sort((a, b) => b[1] - a[1]).map(([tag]) => tag);
+  }, [templatesForSelected]);
+
+  const filteredTemplates = useMemo(() => {
+    let result =
+      searchQuery === ""
+        ? templatesForSelected
+        : templatesForSelected.filter(
+            (tmpl) =>
+              tmpl.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              tmpl.description?.toLowerCase().includes(searchQuery.toLowerCase()),
+          );
+    if (activeTags.size > 0) {
+      result = result.filter((tmpl) =>
+        [...activeTags].every((tag) => tmpl.tags?.includes(tag)),
+      );
+    }
+    return result;
+  }, [templatesForSelected, searchQuery, activeTags]);
+
+  const selectedTemplate = creationState.utilState.selectedTemplate ?? null;
+
+  const handleGameSelect = useCallback(
+    (gameId: number) => {
+      if (gameId === selectedGameId) return;
+      setSelectedGameId(gameId);
+      setSearchQuery("");
+      setGameServerState("external_game_id")(gameId);
+      setUtilState("selectedTemplate")(null);
+      setUtilState("templateVariables")({});
+      setUtilState("templateApplied")(false);
+      setUtilState("gameEntity")(undefined);
+      setActiveTags(new Set());
+    },
+    [selectedGameId, setGameServerState, setUtilState],
+  );
+
+  const handleCardClick = useCallback(
+    (template: TemplateEntity) => {
+      handleTemplateSelected(template);
+    },
+    [handleTemplateSelected],
+  );
+
+  // +1 for the injected GENERIC_SERVER_TEMPLATE
+  const genericTemplateCount =
+    templates.filter((tmpl) => tmpl.game_id === GENERIC_GAME_PLACEHOLDER_VALUE).length + 1;
+
+  const genericServerLabel = t("genericServer");
+  const showGenericServer =
+    gameSearchQuery === "" ||
+    genericServerLabel.toLowerCase().includes(gameSearchQuery.toLowerCase());
+
+  const filteredSidebarGames = useMemo(
+    () =>
+      gameSearchQuery === ""
+        ? sidebarGames
+        : sidebarGames.filter((g) =>
+            g.name.toLowerCase().includes(gameSearchQuery.toLowerCase()),
+          ),
+    [sidebarGames, gameSearchQuery],
   );
 
   return (
-    <GenericGameServerCreationPage>
-      <div className="flex flex-col gap-4">
-        <GenericGameServerCreationInputField
-          attribute="server_name"
-          validator={z.string().min(1)}
-          placeholder={t("serverNameSelection.placeholder")}
-          label={t("serverNameSelection.title")}
-          description={t("serverNameSelection.description")}
-          errorLabel={t("serverNameSelection.errorLabel")}
-        />
-        <AutoCompleteInputField
-          attribute="external_game_id"
-          validator={() => true}
-          label={t("gameSelection.title")}
-          placeholder={t("gameSelection.placeholder")}
-          onItemSelect={(selectedItem: AutoCompleteItem<GameDto, number>, updatedSelections) => {
-            // update game entity
-            setUtilState("gameEntity")(selectedItem.data ?? undefined);
-
-            // reset dependent state
-            setUtilState("templateVariables")({});
-            setUtilState("selectedTemplate")(undefined);
-
-            // clear template from autoCompleteSelections (using fresh updatedSelections)
-            const { template: _template, ...rest } = updatedSelections;
-            setUtilState("autoCompleteSelections")(rest);
-          }}
-          noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
-          defaultOpen
-          fallbackValue={GENERIC_GAME_PLACEHOLDER_VALUE as number}
-          searchId="games-search"
-          searchCallback={(gameNameQuery) =>
-            queryGames({ query: gameNameQuery }).then((games) =>
-              mapGamesDtoToAutoCompleteItems(games),
+    <div className="flex h-full min-h-0 gap-5">
+      {/* Left sidebar — game list */}
+      <nav className="flex flex-col gap-2 w-56 shrink-0 bg-foreground/[0.04] rounded-xl px-3 py-3">
+        <Input
+          startDecorator={<Icon src={searchIcon} variant="foreground" className="size-3.5" />}
+          endDecorator={
+            gameSearchQuery && (
+              <button
+                type="button"
+                onClick={() => setGameSearchQuery("")}
+                className="pointer-events-auto flex items-center cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+              >
+                <Icon src={closeIcon} variant="foreground" className="size-3.5" />
+              </button>
             )
           }
-          alwaysIncludeFallback
+          placeholder="Search games..."
+          value={gameSearchQuery}
+          onChange={(e) => setGameSearchQuery(e.target.value)}
+          className="shrink-0 text-sm"
         />
+        <div className="flex flex-col gap-0.5 overflow-y-auto flex-1 min-h-0 px-1.5 -mx-1.5">
+          {showGenericServer && (
+            <SidebarItem
+              label={genericServerLabel}
+              logoUrl={undefined}
+              isSelected={selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE}
+              onClick={() => handleGameSelect(GENERIC_GAME_PLACEHOLDER_VALUE)}
+              countLabel={t("templateCount_other", { count: genericTemplateCount })}
+            />
+          )}
+          {filteredSidebarGames.map((game) => {
+            const count = templates.filter(
+              (tmpl) => tmpl.game_id === game.external_game_id,
+            ).length;
+            return (
+              <SidebarItem
+                key={game.game_uuid}
+                label={game.name}
+                logoUrl={game.logo_url}
+                isSelected={selectedGameId === game.external_game_id}
+                onClick={() =>
+                  game.external_game_id !== undefined && handleGameSelect(game.external_game_id)
+                }
+                countLabel={count > 0 ? t("templateCount_other", { count }) : undefined}
+              />
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Right panel — search pinned, list scrolls independently */}
+      <div className="flex flex-col gap-3 flex-1 min-w-0 min-h-0">
+        <Input
+          startDecorator={<Icon src={searchIcon} variant="foreground" className="size-3.5" />}
+          endDecorator={
+            searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="pointer-events-auto flex items-center cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+              >
+                <Icon src={closeIcon} variant="foreground" className="size-3.5" />
+              </button>
+            )
+          }
+          placeholder="Search templates..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="shrink-0 text-sm"
+        />
+        {sortedTags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 shrink-0">
+            {sortedTags.map((tag) => {
+              const isActive = activeTags.has(tag);
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() =>
+                    setActiveTags((prev) => {
+                      const next = new Set(prev);
+                      isActive ? next.delete(tag) : next.add(tag);
+                      return next;
+                    })
+                  }
+                  className={`text-xs px-2 py-0.5 rounded-full border transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-primary/20 border-primary text-primary font-medium"
+                      : "bg-foreground/[0.04] border-border/50 text-muted-foreground hover:border-border hover:text-foreground"
+                  }`}
+                >
+                  {tag}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <div className="overflow-y-auto flex-1 min-h-0">
+          {templatesForSelected.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("noTemplatesAvailable")}</p>
+          ) : (
+            <TemplateList
+              templates={filteredTemplates}
+              selectedTemplate={selectedTemplate}
+              handleCardClick={handleCardClick}
+            />
+          )}
+        </div>
       </div>
-    </GenericGameServerCreationPage>
+    </div>
   );
 };
+
+const SidebarItem = ({
+  label,
+  logoUrl,
+  isSelected,
+  onClick,
+  countLabel,
+}: {
+  label: string;
+  logoUrl?: string;
+  isSelected: boolean;
+  onClick: () => void;
+  countLabel?: string;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`w-full flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-all cursor-pointer ${
+      isSelected
+        ? "bg-primary/20 text-primary font-medium shadow-sm"
+        : "hover:bg-foreground/[0.06] text-foreground"
+    }`}
+  >
+    <span className="size-9 shrink-0 rounded-lg overflow-hidden flex items-center justify-center">
+      {logoUrl ? (
+        <img src={logoUrl} alt="" className="size-full object-cover" />
+      ) : (
+        <span className="size-full flex items-center justify-center bg-primary/10">
+          <Icon src={serverIcon} variant="foreground" className="size-5" />
+        </span>
+      )}
+    </span>
+    <span className="flex flex-col min-w-0 text-left">
+      <span className="truncate leading-snug text-sm">{label}</span>
+      {countLabel && (
+        <span className="text-xs text-muted-foreground leading-snug">{countLabel}</span>
+      )}
+    </span>
+  </button>
+);
 
 export default Step1;

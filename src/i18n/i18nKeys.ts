@@ -324,23 +324,23 @@ export type i18nLanguage = {
       listInput: {
         addButton: string;
       };
+      unsavedChangesDialog: {
+        title: string;
+        description: string;
+        discard: string;
+        keepEditing: string;
+      };
       steps: {
         title: string;
         step1: {
           title: string;
-          serverNameSelection: {
-            title: string;
-            placeholder: string;
-            description: string;
-            errorLabel: string;
-          };
-          gameSelection: {
-            title: string;
-            description: string;
-            errorLabel: string;
-            placeholder: string;
-            noGamesFound: string;
-            noResultsLabel: string;
+          genericServer: string;
+          templateCount_one: string;
+          templateCount_other: string;
+          noTemplatesAvailable: string;
+          selectTemplateHint: string;
+          tags: {
+            filterLabel: string;
           };
         };
         step2: {
@@ -361,6 +361,12 @@ export type i18nLanguage = {
         step3: {
           title: string;
           description: string;
+          serverNameSelection: {
+            title: string;
+            placeholder: string;
+            description: string;
+            errorLabel: string;
+          };
           dockerImageSelection: {
             title: string;
             description: string;

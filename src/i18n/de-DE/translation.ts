@@ -269,24 +269,23 @@ const translation: i18nLanguage = {
         escapeSequencesTooltip:
           "Unterstützt Escape-Sequenzen: \\n (Zeilenumbruch), \\t (Tabulator), \\r (Wagenrücklauf), \\\\ (Backslash)",
       },
+      unsavedChangesDialog: {
+        title: "Ungespeicherte Änderungen",
+        description: "Du hast ungespeicherte Änderungen, die verloren gehen, wenn du diesen Dialog schließt.",
+        discard: "Verwerfen",
+        keepEditing: "Weiter bearbeiten",
+      },
       steps: {
         title: "Server erstellen",
         step1: {
-          title: "Namen und Spiel auswählen",
-          serverNameSelection: {
-            title: "Servername",
-            placeholder: "Australianien",
-            description: "Benenne deinen Server",
-            errorLabel: "Bitte gib einen gültigen Servernamen ein.",
-          },
-          gameSelection: {
-            title: "Spiel auswählen",
-            description: "Wähle ein Spiel für deinen Server aus.",
-            errorLabel: "Bitte wähle ein gültiges Spiel aus.",
-            placeholder: "Spiel suchen...",
-            noGamesFound:
-              "Fehler beim Abrufen der Spiele. Wähle dies für das Standardspiel. (kein spezifisches Spiel)",
-            noResultsLabel: "Generisches Spiel",
+          title: "Spiel & Template auswählen",
+          genericServer: "Generischer Server",
+          templateCount_one: "{{count}} Template",
+          templateCount_other: "{{count}} Templates",
+          noTemplatesAvailable: "Für dieses Spiel sind keine Templates verfügbar.",
+          selectTemplateHint: "Wähle ein Template aus oder fahre ohne fort.",
+          tags: {
+            filterLabel: "Nach Tag filtern",
           },
         },
         step2: {
@@ -308,6 +307,12 @@ const translation: i18nLanguage = {
         step3: {
           title: "Konfiguriere deinen Server",
           description: "Hier kannst du deinen Server konfigurieren.",
+          serverNameSelection: {
+            title: "Servername",
+            placeholder: "Australianien",
+            description: "Benenne deinen Server",
+            errorLabel: "Bitte gib einen gültigen Servernamen ein.",
+          },
           dockerImageSelection: {
             title: "Docker-Image",
             description: "Docker-Image für deinen Server",

@@ -7,10 +7,10 @@ const GameServerCreationButton = () => {
   const { triggerNextPage, isPageValid, currentPage, creationState } =
     useContext(GameServerCreationContext);
   const { t } = useTranslation();
+  if (currentPage === 0) return null;
+
   const buttonLabel = (() => {
     switch (currentPage) {
-      case 0:
-        return "components.CreateGameServer.nextStepButton";
       case 1:
         return creationState.utilState.selectedTemplate
           ? "components.CreateGameServer.useTemplate"
