@@ -1,3 +1,4 @@
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
 import {
   GameServerCreationContext,
@@ -115,7 +116,7 @@ const CpuLimitInputField = ({
     <div>
       <CpuLimitInput
         id={attribute}
-        header={label}
+        header={optional ? label : <>{label} <RequiredMark /></>}
         error={isError ? errorMessage : undefined}
         placeholder={placeholder}
         value={creationState.gameServerState[attribute] as string | number | undefined}

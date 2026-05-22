@@ -1,3 +1,4 @@
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import type { VariableInputProps } from "./types";
@@ -16,7 +17,7 @@ export default function NumberInput({
   return (
     <div key={placeholder} className="space-y-2">
       <FieldLabel htmlFor={placeholder} className="text-lg">
-        {variable.name}
+        {variable.name} <RequiredMark />
       </FieldLabel>
       <Input
         id={placeholder}

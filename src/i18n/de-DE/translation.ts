@@ -4,6 +4,9 @@ const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
     loading: "Lädt...",
+    required: "Pflichtfeld",
+    optional: "Optional",
+    removeEntry: "Eintrag entfernen",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -240,6 +243,10 @@ const translation: i18nLanguage = {
       useTemplate: "Template verwenden",
       useNoTemplate: "Ohne Template fortfahren",
       createServerButton: "Server erstellen",
+      disabledTooltip: {
+        step2: "Bitte fülle alle erforderlichen Template-Variablen aus, um fortzufahren.",
+        step3: "Bitte fülle alle erforderlichen Felder aus, um den Server zu erstellen.",
+      },
       reapplyDialog: {
         title: "Template erneut anwenden?",
         description:
@@ -284,6 +291,8 @@ const translation: i18nLanguage = {
           templateCount_other: "{{count}} Templates",
           noTemplatesAvailable: "Für dieses Spiel sind keine Templates verfügbar.",
           selectTemplateHint: "Wähle ein Template aus oder fahre ohne fort.",
+          searchGamesPlaceholder: "Spiele suchen...",
+          searchTemplatesPlaceholder: "Templates suchen...",
           tags: {
             filterLabel: "Nach Tag filtern",
           },
@@ -294,6 +303,9 @@ const translation: i18nLanguage = {
           noTemplatesAvailable:
             "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
           searchPlaceholder: "Templates suchen...",
+          selectedTemplateLabel: "Ausgewähltes Template",
+          noVariablesHintPrefix: "Dieses Template erfordert keine Konfiguration. Klicke auf",
+          noVariablesHintSuffix: "um fortzufahren.",
           requestTemplateText: "Du kannst ein Template für dieses Spiel anfragen, indem du",
           requestTemplateLinkLabel: "dieses Formular ausfüllst",
           templateSelection: {
@@ -315,11 +327,13 @@ const translation: i18nLanguage = {
           },
           dockerImageSelection: {
             title: "Docker-Image",
+            placeholder: "nginx",
             description: "Docker-Image für deinen Server",
             errorLabel: "Bitte gib ein gültiges Docker-Image ein.",
           },
           imageTagSelection: {
             title: "Image-Tag",
+            placeholder: "latest",
             description: "Tag für das Docker-Image",
             errorLabel: "Bitte gib ein gültiges Image-Tag ein.",
           },
@@ -327,6 +341,7 @@ const translation: i18nLanguage = {
             title: "Port",
             description: "Port, der zu deinem Server weitergeleitet wird.",
             errorLabel: "Bitte gib einen gültigen Port ein.",
+            protocolPlaceholder: "Protokoll",
           },
           environmentVariablesSelection: {
             title: "Umgebungsvariable",
@@ -336,21 +351,25 @@ const translation: i18nLanguage = {
           },
           executionCommandSelection: {
             title: "Ausführungsbefehl",
+            placeholder: "./start.sh",
             description: "Befehl zum Starten deines Servers",
             errorLabel: "Bitte gib ein gültiges Ausführungsbefehl ein.",
           },
           hostPathSelection: {
             title: "Volume-Mount",
+            placeholder: "/data",
             description: "Volume-Mounts für deinen Server",
             errorLabel: "Pfad muss mit '/' beginnen und darf nicht genau '/' sein.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
+            placeholder: "512",
             description: "Maximaler RAM, der diesem Server zugewiesen wird",
             errorLabel: "Bitte gib ein gültiges Speicherlimit ein.",
           },
           cpuLimitSelection: {
             title: "CPU Kern Limit",
+            placeholder: "0.5",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },

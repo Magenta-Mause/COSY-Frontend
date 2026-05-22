@@ -144,9 +144,9 @@ export default function TemplateVariableForm({
   const hasVariables = template?.variables && template.variables.length > 0;
 
   return (
-    <Card className={"py-5"}>
+    <Card className={"pt-3 pb-6"}>
       <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
+        <CardTitle className="text-base">{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         {!template ? (

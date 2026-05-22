@@ -32,7 +32,7 @@ export default function Step3() {
         <GenericGameServerCreationInputField
           attribute="docker_image_name"
           validator={z.string().min(1)}
-          placeholder="nginx"
+          placeholder={t("dockerImageSelection.placeholder")}
           label={t("dockerImageSelection.title")}
           description={t("dockerImageSelection.description")}
           errorLabel={t("dockerImageSelection.errorLabel")}
@@ -41,7 +41,7 @@ export default function Step3() {
         <GenericGameServerCreationInputField
           attribute="docker_image_tag"
           validator={z.string().min(1)}
-          placeholder="latest"
+          placeholder={t("imageTagSelection.placeholder")}
           label={t("imageTagSelection.title")}
           description={t("imageTagSelection.description")}
           errorLabel={t("imageTagSelection.errorLabel")}
@@ -79,7 +79,7 @@ export default function Step3() {
       <GenericGameServerCreationInputField
         attribute="execution_command"
         validator={z.string().min(1)}
-        placeholder="./start.sh"
+        placeholder={t("executionCommandSelection.placeholder")}
         optional
         label={t("executionCommandSelection.title")}
         description={t("executionCommandSelection.description")}
@@ -91,14 +91,14 @@ export default function Step3() {
         label={t("hostPathSelection.title")}
         description={t("hostPathSelection.description")}
         errorLabel={t("hostPathSelection.errorLabel")}
-        placeholder="/data"
+        placeholder={t("hostPathSelection.placeholder")}
       />
 
       <div className="grid grid-cols-2 gap-4">
         <CpuLimitInputField
-          placeholder="0.5"
+          placeholder={t("cpuLimitSelection.placeholder")}
           optional={cpuLimit === null}
-          label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+          label={cpuLimit === null ? `${t("cpuLimitSelection.title")} (${t_root("common.optional")})` : t("cpuLimitSelection.title")}
           description={
             cpuLimit !== null
               ? `${t("cpuLimitSelection.description")} (${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
@@ -108,9 +108,9 @@ export default function Step3() {
         />
 
         <MemoryLimitInputFieldCreation
-          placeholder="512"
+          placeholder={t("memoryLimitSelection.placeholder")}
           optional={memoryLimit === null}
-          label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
+          label={memoryLimit === null ? `${t("memoryLimitSelection.title")} (${t_root("common.optional")})` : t("memoryLimitSelection.title")}
           description={
             memoryLimit !== null
               ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`

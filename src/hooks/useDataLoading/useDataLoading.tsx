@@ -11,6 +11,7 @@ import {
   getMetrics,
   getPublicEvaluableMetrics,
   getUserPermissions,
+  queryGames,
 } from "@/api/generated/backend-api.ts";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
@@ -19,6 +20,7 @@ import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerPermissionsSliceActions } from "@/stores/slices/gameServerPermissionsSlice.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
+import { gameSliceActions } from "@/stores/slices/gameSlice.ts";
 import { templateSliceActions } from "@/stores/slices/templateSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
@@ -33,6 +35,20 @@ const useDataLoading = () => {
   const dispatch = useDispatch();
 
   // --- Leaf functions (depend only on dispatch) ---
+
+  const loadGames = useCallback(async () => {
+    dispatch(gameSliceActions.setState("loading"));
+    try {
+      const games = await queryGames({ query: "" });
+      dispatch(gameSliceActions.setGames(games));
+      dispatch(gameSliceActions.setState("idle"));
+      return true;
+    } catch (e) {
+      console.error("Unexpected error while loading games", e);
+      dispatch(gameSliceActions.setState("failed"));
+      return false;
+    }
+  }, [dispatch]);
 
   const loadTemplates = useCallback(async () => {
     dispatch(templateSliceActions.setState("loading"));
@@ -393,8 +409,8 @@ const useDataLoading = () => {
 
   const loadAllData = useCallback(
     async (isAdmin: boolean = false) => {
-      const tasks = [loadGameServers(), loadTemplates()];
-      const taskNames = ["gameServers", "templates"];
+      const tasks = [loadGameServers(), loadTemplates(), loadGames()];
+      const taskNames = ["gameServers", "templates", "games"];
 
       // Only load users and invites for admin users
       if (isAdmin) {
@@ -407,13 +423,14 @@ const useDataLoading = () => {
       const summary = {
         gameServers: results[0].status === "fulfilled" && results[0].value === true,
         templates: results[1].status === "fulfilled" && results[1].value === true,
+        games: results[2].status === "fulfilled" && results[2].value === true,
         users:
-          isAdmin && results[2]
-            ? results[2].status === "fulfilled" && results[2].value === true
-            : undefined,
-        invites:
           isAdmin && results[3]
             ? results[3].status === "fulfilled" && results[3].value === true
+            : undefined,
+        invites:
+          isAdmin && results[4]
+            ? results[4].status === "fulfilled" && results[4].value === true
             : undefined,
       };
 
@@ -425,11 +442,12 @@ const useDataLoading = () => {
 
       return summary;
     },
-    [loadGameServers, loadTemplates, loadUsers, loadInvites],
+    [loadGameServers, loadTemplates, loadGames, loadUsers, loadInvites],
   );
 
   return {
     loadGameServers,
+    loadGames,
     loadUsers,
     loadInvites,
     loadAllData,

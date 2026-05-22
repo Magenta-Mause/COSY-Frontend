@@ -2,11 +2,11 @@ import TemplateList from "@components/display/GameServer/CreateGameServer/Templa
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { queryGames } from "@/api/generated/backend-api.ts";
-import type { GameDto, TemplateEntity } from "@/api/generated/model";
+import type { TemplateEntity } from "@/api/generated/model";
 import searchIcon from "@/assets/icons/search.webp";
 import closeIcon from "@/assets/icons/close.webp";
 import serverIcon from "@/assets/icons/console.webp";
+import useTemplateGames from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import {
@@ -27,8 +27,8 @@ const Step1 = () => {
 
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
 
-  const [selectedGameId, setSelectedGameId] = useState<number>(GENERIC_GAME_PLACEHOLDER_VALUE);
-  const [sidebarGames, setSidebarGames] = useState<GameDto[]>([]);
+  const selectedGameId = creationState.utilState.selectedGameId ?? GENERIC_GAME_PLACEHOLDER_VALUE;
+  const sidebarGames = useTemplateGames();
   const [searchQuery, setSearchQuery] = useState("");
   const [gameSearchQuery, setGameSearchQuery] = useState("");
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
@@ -38,33 +38,6 @@ const Step1 = () => {
     setCurrentPageValid(true);
   }, [setCurrentPageValid]);
 
-  // Ensure external_game_id defaults to generic on mount
-  useEffect(() => {
-    setGameServerState("external_game_id")(GENERIC_GAME_PLACEHOLDER_VALUE as number);
-  }, [setGameServerState]);
-
-  // Collect unique game IDs that have templates (excluding generic)
-  const templateGameIds = useMemo(() => {
-    const ids = new Set<number>();
-    for (const tmpl of templates) {
-      if (tmpl.game_id !== undefined && tmpl.game_id !== GENERIC_GAME_PLACEHOLDER_VALUE) {
-        ids.add(tmpl.game_id);
-      }
-    }
-    return ids;
-  }, [templates]);
-
-  // Load game names for sidebar from API
-  useEffect(() => {
-    if (templateGameIds.size === 0) return;
-    queryGames({ query: "" }).then((games) => {
-      const matching = games.filter(
-        (g) => g.external_game_id !== undefined && templateGameIds.has(g.external_game_id),
-      );
-      setSidebarGames(matching);
-    });
-  }, [templateGameIds]);
-
   const templatesForSelected = useMemo(() => {
     const backendTemplates = templates.filter((tmpl) => tmpl.game_id === selectedGameId);
     if (selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE) {
@@ -72,16 +45,6 @@ const Step1 = () => {
     }
     return backendTemplates;
   }, [templates, selectedGameId]);
-
-  const sortedTags = useMemo(() => {
-    const freq = new Map<string, number>();
-    for (const tmpl of templatesForSelected) {
-      for (const tag of tmpl.tags ?? []) {
-        freq.set(tag, (freq.get(tag) ?? 0) + 1);
-      }
-    }
-    return [...freq.entries()].sort((a, b) => b[1] - a[1]).map(([tag]) => tag);
-  }, [templatesForSelected]);
 
   const filteredTemplates = useMemo(() => {
     let result =
@@ -100,14 +63,28 @@ const Step1 = () => {
     return result;
   }, [templatesForSelected, searchQuery, activeTags]);
 
+  const sortedTags = useMemo(() => {
+    const freq = new Map<string, number>();
+    for (const tmpl of filteredTemplates) {
+      for (const tag of tmpl.tags ?? []) {
+        freq.set(tag, (freq.get(tag) ?? 0) + 1);
+      }
+    }
+    // Always include active tags so they remain visible for deselection
+    for (const tag of activeTags) {
+      if (!freq.has(tag)) freq.set(tag, 0);
+    }
+    return [...freq.entries()].sort((a, b) => b[1] - a[1]).map(([tag, count]) => ({ tag, count }));
+  }, [filteredTemplates, activeTags]);
+
   const selectedTemplate = creationState.utilState.selectedTemplate ?? null;
 
   const handleGameSelect = useCallback(
     (gameId: number) => {
       if (gameId === selectedGameId) return;
-      setSelectedGameId(gameId);
       setSearchQuery("");
       setGameServerState("external_game_id")(gameId);
+      setUtilState("selectedGameId")(gameId);
       setUtilState("selectedTemplate")(null);
       setUtilState("templateVariables")({});
       setUtilState("templateApplied")(false);
@@ -160,7 +137,7 @@ const Step1 = () => {
               </button>
             )
           }
-          placeholder="Search games..."
+          placeholder={t("searchGamesPlaceholder")}
           value={gameSearchQuery}
           onChange={(e) => setGameSearchQuery(e.target.value)}
           className="shrink-0 text-sm"
@@ -210,14 +187,14 @@ const Step1 = () => {
               </button>
             )
           }
-          placeholder="Search templates..."
+          placeholder={t("searchTemplatesPlaceholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="shrink-0 text-sm"
         />
         {sortedTags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 shrink-0">
-            {sortedTags.map((tag) => {
+            {sortedTags.map(({ tag, count }) => {
               const isActive = activeTags.has(tag);
               return (
                 <button
@@ -230,13 +207,13 @@ const Step1 = () => {
                       return next;
                     })
                   }
-                  className={`text-xs px-2 py-0.5 rounded-full border transition-all cursor-pointer ${
+                  className={`text-xs px-2 py-0.5 rounded-lg border transition-all cursor-pointer ${
                     isActive
                       ? "bg-primary/20 border-primary text-primary font-medium"
                       : "bg-foreground/[0.04] border-border/50 text-muted-foreground hover:border-border hover:text-foreground"
                   }`}
                 >
-                  {tag}
+                  {tag} <span className="opacity-60 ml-1">({count})</span>
                 </button>
               );
             })}

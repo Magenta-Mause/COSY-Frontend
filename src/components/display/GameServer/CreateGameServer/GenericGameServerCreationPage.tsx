@@ -63,7 +63,7 @@ const GenericGameServerCreationPage = (props: { children: ReactNode }) => {
         setAttributeTouched,
       }}
     >
-      <div className="flex flex-col gap-6">{props.children}</div>
+      <div className="flex flex-col gap-6 pb-4">{props.children}</div>
     </GameServerCreationPageContext.Provider>
   );
 };

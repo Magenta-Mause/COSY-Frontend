@@ -195,6 +195,17 @@ const useGameServerCreation = ({
   }, []);
 
   const handleBack = useCallback(() => {
+    if (currentPage === 1) {
+      setCreationState((prev) => ({
+        ...prev,
+        utilState: {
+          ...prev.utilState,
+          selectedTemplate: null,
+          templateVariables: {},
+          templateApplied: false,
+        },
+      }));
+    }
     if (currentPage === 2 && skippedStep2) {
       setCurrentPage(0);
     } else {
@@ -220,34 +231,17 @@ const useGameServerCreation = ({
       }
     });
 
-    const hasVariables = (template.variables?.length ?? 0) > 0;
-
-    if (hasVariables) {
-      setCreationState((prev) => ({
-        ...prev,
-        utilState: {
-          ...prev.utilState,
-          selectedTemplate: template,
-          templateVariables: defaults,
-          templateApplied: false,
-        },
-      }));
-      setSkippedStep2(false);
-      setCurrentPage(1);
-    } else {
-      setCreationState((prev) => ({
-        ...prev,
-        gameServerState: applyTemplate(template, {}, prev.gameServerState),
-        utilState: {
-          ...prev.utilState,
-          selectedTemplate: template,
-          templateVariables: defaults,
-          templateApplied: true,
-        },
-      }));
-      setSkippedStep2(true);
-      setCurrentPage(2);
-    }
+    setCreationState((prev) => ({
+      ...prev,
+      utilState: {
+        ...prev.utilState,
+        selectedTemplate: template,
+        templateVariables: defaults,
+        templateApplied: false,
+      },
+    }));
+    setSkippedStep2(false);
+    setCurrentPage(1);
   }, []);
 
   const handleNextPage = useCallback(async () => {
@@ -256,21 +250,10 @@ const useGameServerCreation = ({
       return;
     }
 
-    // Moving from Step 1 — decide whether to show variable form (Step 2) or jump to Step 3
+    // Moving from Step 1 — always go to Step 2 for template info / variables
     if (currentPage === 0) {
-      const { selectedTemplate } = creationState.utilState;
-      const hasVariables = (selectedTemplate?.variables?.length ?? 0) > 0;
-
-      if (selectedTemplate && hasVariables) {
-        setSkippedStep2(false);
-        setCurrentPage(1);
-      } else {
-        if (selectedTemplate) {
-          applyTemplateToState();
-        }
-        setSkippedStep2(true);
-        setCurrentPage(2);
-      }
+      setSkippedStep2(false);
+      setCurrentPage(1);
       return;
     }
 
@@ -279,11 +262,9 @@ const useGameServerCreation = ({
       const { selectedTemplate, templateApplied } = creationState.utilState;
 
       if (selectedTemplate) {
-        if (
-          templateApplied &&
-          selectedTemplate.variables &&
-          selectedTemplate.variables.length > 0
-        ) {
+        const hasVariables = (selectedTemplate.variables?.length ?? 0) > 0;
+
+        if (templateApplied && hasVariables) {
           setShowReapplyDialog(true);
           setPendingPageChange(currentPage + 1);
           return;

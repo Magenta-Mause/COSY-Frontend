@@ -48,7 +48,7 @@ const TemplateList = ({
 
   return (
     <div
-      className="grid grid-cols-[repeat(auto-fill,minmax(10rem,13rem))] gap-3 content-start"
+      className="grid grid-cols-[repeat(auto-fill,minmax(13rem,15rem))] gap-3 content-start"
       tabIndex={-1}
       role="listbox"
       aria-label={t("templateSelection.title")}
@@ -67,8 +67,10 @@ const TemplateList = ({
               tabIndex={index === focusedIndex ? 0 : -1}
               role="option"
               aria-selected={isSelected}
-              className={`relative cursor-pointer transition-all select-none p-4 gap-1.5 min-h-28 flex flex-col outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 focus-visible:bg-primary/10 ${
-                isSelected ? "border-primary bg-primary/8 shadow-sm" : "hover:border-border/80 hover:bg-foreground/[0.02]"
+              className={`relative transition-all duration-150 select-none p-4 gap-1.5 h-40 flex flex-col overflow-hidden outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 focus-visible:bg-primary/10 ${
+                isSelected
+                  ? "border-primary bg-primary/8 shadow-sm"
+                  : "hover:border-border hover:bg-foreground/[0.05] hover:shadow-md"
               }`}
               onClick={() => handleCardClick(template)}
               onKeyDown={(e) => handleKeyDown(e, index)}
@@ -90,7 +92,7 @@ const TemplateList = ({
                   {template.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10px] px-1.5 py-0.5 rounded-full bg-foreground/[0.06] text-muted-foreground leading-none"
+                      className="text-xs px-1.5 py-0.5 rounded-lg bg-foreground/[0.06] text-muted-foreground leading-none"
                     >
                       {tag}
                     </span>

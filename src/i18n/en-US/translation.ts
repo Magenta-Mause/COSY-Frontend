@@ -4,6 +4,9 @@ const translation: i18nLanguage = {
   common: {
     yourLimit: "Your limit",
     loading: "Loading...",
+    required: "Required",
+    optional: "Optional",
+    removeEntry: "Remove entry",
   },
   userRoles: {
     QUOTA_USER: "User",
@@ -239,6 +242,10 @@ const translation: i18nLanguage = {
       useTemplate: "Apply Template",
       useNoTemplate: "Continue without Template",
       createServerButton: "Create Server",
+      disabledTooltip: {
+        step2: "Please fill in all required template variables to continue.",
+        step3: "Please fill in all required fields to create the server.",
+      },
       reapplyDialog: {
         title: "Reapply Template?",
         description:
@@ -282,6 +289,8 @@ const translation: i18nLanguage = {
           templateCount_other: "{{count}} templates",
           noTemplatesAvailable: "No templates available for this game.",
           selectTemplateHint: "Select a template to configure it, or proceed without one.",
+          searchGamesPlaceholder: "Search games...",
+          searchTemplatesPlaceholder: "Search templates...",
           tags: {
             filterLabel: "Filter by tag",
           },
@@ -291,6 +300,9 @@ const translation: i18nLanguage = {
           description: "Choose a template for your server.",
           noTemplatesAvailable: "No templates are available for this game. You can proceed.",
           searchPlaceholder: "Search templates...",
+          selectedTemplateLabel: "Selected Template",
+          noVariablesHintPrefix: "This template requires no configuration. Click",
+          noVariablesHintSuffix: "to continue.",
           requestTemplateText: "You can request a template for this game by",
           requestTemplateLinkLabel: "submitting this form",
           templateSelection: {
@@ -312,11 +324,13 @@ const translation: i18nLanguage = {
           },
           dockerImageSelection: {
             title: "Docker image",
+            placeholder: "nginx",
             description: "Docker image for your server",
             errorLabel: "Please enter a valid Docker image.",
           },
           imageTagSelection: {
             title: "Image tag",
+            placeholder: "latest",
             description: "Tag for the Docker image",
             errorLabel: "Please enter a valid image tag.",
           },
@@ -324,6 +338,7 @@ const translation: i18nLanguage = {
             title: "Port",
             description: "Port your Server will run on",
             errorLabel: "Please enter a valid port.",
+            protocolPlaceholder: "Protocol",
           },
           environmentVariablesSelection: {
             title: "Environment Variable",
@@ -332,21 +347,25 @@ const translation: i18nLanguage = {
           },
           executionCommandSelection: {
             title: "Execution Command",
+            placeholder: "./start.sh",
             description: "Command to start your server",
             errorLabel: "Please enter a valid execution command.",
           },
           hostPathSelection: {
             title: "Volume Mount",
+            placeholder: "/data",
             description: "Volume mounts for your server",
             errorLabel: "Path must start with '/' and cannot be exactly '/'.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
+            placeholder: "512",
             description: "Limit the memory usage of the server",
             errorLabel: "Please enter a valid memory limit.",
           },
           cpuLimitSelection: {
             title: "CPU Cores",
+            placeholder: "0.5",
             description: "Limit the CPU usage of the server",
             errorLabel: "Please enter a valid CPU limit.",
           },

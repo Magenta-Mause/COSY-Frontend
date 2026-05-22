@@ -77,6 +77,7 @@ h6 {
 button,
 a,
 [role="button"],
+[role="option"],
 input[type="submit"],
 input[type="reset"],
 input[type="button"],

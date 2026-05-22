@@ -23,6 +23,7 @@ export type AutoCompleteSelections = {
 
 export type UtilState = {
   gameEntity?: GameDto;
+  selectedGameId?: number;
   selectedTemplate?: TemplateEntity | null;
   templateVariables?: Record<string, string | number | boolean>;
   templateApplied?: boolean;

@@ -1,3 +1,4 @@
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { Button } from "@components/ui/button.tsx";
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
@@ -20,7 +21,7 @@ export default function TextInput({
     <div key={placeholder} className="space-y-2">
       <Input
         id={placeholder}
-        header={variable.name}
+        header={<>{variable.name} <RequiredMark /></>}
         type="text"
         placeholder={variable.example ?? variable.name}
         value={String(value ?? "")}

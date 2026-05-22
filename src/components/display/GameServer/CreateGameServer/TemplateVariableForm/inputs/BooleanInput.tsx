@@ -1,3 +1,4 @@
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { FieldError, FieldLabel } from "@components/ui/field";
 import {
   Select,
@@ -21,7 +22,7 @@ export default function BooleanInput({
   return (
     <div key={placeholder} className="space-y-2">
       <FieldLabel htmlFor={placeholder} className="text-lg">
-        {variable.name}
+        {variable.name} <RequiredMark />
       </FieldLabel>
       <Select
         value={String(value ?? "false")}

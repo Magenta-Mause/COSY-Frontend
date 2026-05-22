@@ -1,3 +1,4 @@
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
@@ -121,7 +122,7 @@ const MemoryLimitInputFieldCreation = ({
     <div>
       <MemoryLimitInput
         id={attribute}
-        header={label}
+        header={optional ? label : <>{label} <RequiredMark /></>}
         error={isError ? errorMessage : undefined}
         placeholder={placeholder}
         value={creationState.gameServerState[attribute] as string | number | undefined}
