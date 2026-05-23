@@ -288,6 +288,7 @@ const translation: i18nLanguage = {
           templateCount_one: "{{count}} template",
           templateCount_other: "{{count}} templates",
           noTemplatesAvailable: "No templates available for this game.",
+          noTemplatesMatchFilter: "No templates match your search or filters.",
           selectTemplateHint: "Select a template to configure it, or proceed without one.",
           searchGamesPlaceholder: "Search games...",
           searchTemplatesPlaceholder: "Search templates...",

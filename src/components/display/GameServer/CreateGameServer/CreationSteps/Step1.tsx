@@ -222,6 +222,8 @@ const Step1 = () => {
         <div className="overflow-y-auto flex-1 min-h-0">
           {templatesForSelected.length === 0 ? (
             <p className="text-sm text-muted-foreground">{t("noTemplatesAvailable")}</p>
+          ) : filteredTemplates.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("noTemplatesMatchFilter")}</p>
           ) : (
             <TemplateList
               templates={filteredTemplates}

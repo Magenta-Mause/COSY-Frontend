@@ -231,17 +231,37 @@ const useGameServerCreation = ({
       }
     });
 
-    setCreationState((prev) => ({
-      ...prev,
-      utilState: {
-        ...prev.utilState,
-        selectedTemplate: template,
-        templateVariables: defaults,
-        templateApplied: false,
-      },
-    }));
-    setSkippedStep2(false);
-    setCurrentPage(1);
+    const hasVariables = (template.variables?.length ?? 0) > 0;
+
+    if (!hasVariables) {
+      setCreationState((prev) => {
+        const updatedGameState = applyTemplate(template, defaults, prev.gameServerState);
+        return {
+          ...prev,
+          gameServerState: updatedGameState,
+          utilState: {
+            ...prev.utilState,
+            selectedTemplate: template,
+            templateVariables: defaults,
+            templateApplied: true,
+          },
+        };
+      });
+      setSkippedStep2(true);
+      setCurrentPage(2);
+    } else {
+      setCreationState((prev) => ({
+        ...prev,
+        utilState: {
+          ...prev.utilState,
+          selectedTemplate: template,
+          templateVariables: defaults,
+          templateApplied: false,
+        },
+      }));
+      setSkippedStep2(false);
+      setCurrentPage(1);
+    }
   }, []);
 
   const handleNextPage = useCallback(async () => {
