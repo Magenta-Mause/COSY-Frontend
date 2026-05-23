@@ -160,7 +160,10 @@ const useGameServerCreation = ({
     const hasFormData = Object.values(rest).some(
       (v) => v != null && v !== "" && !(Array.isArray(v) && v.length === 0),
     );
-    return hasFormData || creationState.utilState.selectedTemplate != null;
+    const hasGameSelected =
+      creationState.utilState.selectedGameId != null &&
+      creationState.utilState.selectedGameId !== GENERIC_GAME_PLACEHOLDER_VALUE;
+    return hasFormData || creationState.utilState.selectedTemplate != null || hasGameSelected;
   }, [creationState]);
 
   const handleCancelConfirm = useCallback(() => {

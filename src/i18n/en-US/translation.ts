@@ -285,6 +285,8 @@ const translation: i18nLanguage = {
         step1: {
           title: "Choose a Game & Template",
           genericServer: "Generic Server",
+          genericTemplateName: "Generic Server",
+          genericTemplateDescription: "Start with a blank configuration — no values are pre-filled.",
           templateCount_one: "{{count}} template",
           templateCount_other: "{{count}} templates",
           noTemplatesAvailable: "No templates available for this game.",

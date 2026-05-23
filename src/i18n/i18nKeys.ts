@@ -342,6 +342,8 @@ export type i18nLanguage = {
         step1: {
           title: string;
           genericServer: string;
+          genericTemplateName: string;
+          genericTemplateDescription: string;
           templateCount_one: string;
           templateCount_other: string;
           noTemplatesAvailable: string;

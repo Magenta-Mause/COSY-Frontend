@@ -41,10 +41,15 @@ const Step1 = () => {
   const templatesForSelected = useMemo(() => {
     const backendTemplates = templates.filter((tmpl) => tmpl.game_id === selectedGameId);
     if (selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE) {
-      return [GENERIC_SERVER_TEMPLATE, ...backendTemplates];
+      const localizedGenericTemplate = {
+        ...GENERIC_SERVER_TEMPLATE,
+        name: t("genericTemplateName"),
+        description: t("genericTemplateDescription"),
+      };
+      return [localizedGenericTemplate, ...backendTemplates];
     }
     return backendTemplates;
-  }, [templates, selectedGameId]);
+  }, [templates, selectedGameId, t]);
 
   const filteredTemplates = useMemo(() => {
     let result =
@@ -145,7 +150,7 @@ const Step1 = () => {
               logoUrl={undefined}
               isSelected={selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE}
               onClick={() => handleGameSelect(GENERIC_GAME_PLACEHOLDER_VALUE)}
-              countLabel={t("templateCount_other", { count: genericTemplateCount })}
+              countLabel={t("templateCount", { count: genericTemplateCount })}
             />
           )}
           {filteredSidebarGames.map((game) => {
