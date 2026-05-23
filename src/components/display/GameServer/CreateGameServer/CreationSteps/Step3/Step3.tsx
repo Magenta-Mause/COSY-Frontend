@@ -2,9 +2,9 @@ import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyVa
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
-import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
-import VolumeMountInput from "../VolumeMountInput.tsx";
+import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
+import VolumeMountInput from "../../VolumeMountInput.tsx";
 import DockerImageSection from "./DockerImageSection.tsx";
 import HardwareLimitsSection from "./HardwareLimitsSection.tsx";
 

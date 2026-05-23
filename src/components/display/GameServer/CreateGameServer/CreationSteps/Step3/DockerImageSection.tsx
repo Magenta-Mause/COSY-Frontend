@@ -1,6 +1,6 @@
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 
 const DockerImageSection = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");

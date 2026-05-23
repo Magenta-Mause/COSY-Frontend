@@ -6,7 +6,7 @@ import closeIcon from "@/assets/icons/close.webp";
 import serverIcon from "@/assets/icons/console.webp";
 import searchIcon from "@/assets/icons/search.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GENERIC_GAME_PLACEHOLDER_VALUE } from "../CreateGameServerModal";
+import { GENERIC_GAME_PLACEHOLDER_VALUE } from "../../CreateGameServerModal";
 
 interface GameSidebarProps {
   selectedGameId: number;

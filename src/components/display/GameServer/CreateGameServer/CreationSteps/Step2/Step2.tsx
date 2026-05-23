@@ -4,7 +4,7 @@ import { validateTemplateVariables } from "@components/display/GameServer/Create
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
 import TemplateHeader from "./TemplateHeader.tsx";
 
 export default function Step2() {

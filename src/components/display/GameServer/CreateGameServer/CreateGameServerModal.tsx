@@ -13,9 +13,9 @@ import {
 import type { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import ConfirmCreateDialog from "./ConfirmCreateDialog.tsx";
-import Step1 from "./CreationSteps/Step1.tsx";
-import Step2 from "./CreationSteps/Step2.tsx";
-import Step3 from "./CreationSteps/Step3.tsx";
+import Step1 from "./CreationSteps/Step1/Step1.tsx";
+import Step2 from "./CreationSteps/Step2/Step2.tsx";
+import Step3 from "./CreationSteps/Step3/Step3.tsx";
 import { GameServerCreationContext } from "./context.ts";
 import ReapplyDialog from "./ReapplyDialog.tsx";
 import SuccessDialog from "./SuccessDialog.tsx";

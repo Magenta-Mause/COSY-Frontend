@@ -7,7 +7,7 @@ import {
   GameServerCreationContext,
   GENERIC_GAME_PLACEHOLDER_VALUE,
   GENERIC_SERVER_TEMPLATE,
-} from "../CreateGameServerModal";
+} from "../../CreateGameServerModal";
 import GameSidebar from "./GameSidebar.tsx";
 import TemplateBrowser from "./TemplateBrowser.tsx";
 
