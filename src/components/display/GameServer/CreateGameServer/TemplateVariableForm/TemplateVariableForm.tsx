@@ -131,6 +131,7 @@ export default function TemplateVariableForm({
       onValueChange: handleValueChange,
       onEnterKey: triggerNextPage,
       t,
+      isRequired: true,
     };
 
     switch (variable.type) {

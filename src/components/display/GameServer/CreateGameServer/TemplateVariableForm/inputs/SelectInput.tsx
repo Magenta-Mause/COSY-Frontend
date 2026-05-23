@@ -17,13 +17,14 @@ export default function SelectInput({
   errorMessage,
   onValueChange,
   t,
+  isRequired,
 }: VariableInputProps) {
   const placeholder = variable.placeholder ?? "";
 
   return (
     <div key={placeholder} className="space-y-2">
       <FieldLabel htmlFor={placeholder} className="text-lg">
-        {variable.name} <RequiredMark />
+        {variable.name} {isRequired && <RequiredMark />}
       </FieldLabel>
       <Select value={String(value ?? "")} onValueChange={(val) => onValueChange(variable, val)}>
         <SelectTrigger id={placeholder} className={cn(showError ? "border-red-500" : "")}>

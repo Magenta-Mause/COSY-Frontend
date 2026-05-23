@@ -14,6 +14,7 @@ export default function TextInput({
   onValueChange,
   onEnterKey,
   t,
+  isRequired,
 }: VariableInputProps) {
   const placeholder = variable.placeholder ?? "";
 
@@ -23,7 +24,7 @@ export default function TextInput({
         id={placeholder}
         header={
           <>
-            {variable.name} <RequiredMark />
+            {variable.name} {isRequired && <RequiredMark />}
           </>
         }
         type="text"

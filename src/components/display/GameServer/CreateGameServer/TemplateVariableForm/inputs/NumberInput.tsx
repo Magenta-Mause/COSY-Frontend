@@ -11,13 +11,14 @@ export default function NumberInput({
   onValueChange,
   onEnterKey,
   t,
+  isRequired,
 }: VariableInputProps) {
   const placeholder = variable.placeholder ?? "";
 
   return (
     <div key={placeholder} className="space-y-2">
       <FieldLabel htmlFor={placeholder} className="text-lg">
-        {variable.name} <RequiredMark />
+        {variable.name} {isRequired && <RequiredMark />}
       </FieldLabel>
       <Input
         id={placeholder}
