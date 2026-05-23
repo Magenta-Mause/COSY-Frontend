@@ -39,7 +39,6 @@ export default function Step2() {
 
   return (
     <GenericGameServerCreationPage>
-      {/* Template info header — not a card, lives at page level */}
       <div className="flex flex-col gap-2 px-1">
         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           {t("selectedTemplateLabel")}
