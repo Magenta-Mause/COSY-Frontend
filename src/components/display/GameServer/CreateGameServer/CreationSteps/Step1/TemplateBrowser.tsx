@@ -2,10 +2,12 @@ import TemplateList from "@components/display/GameServer/CreateGameServer/Templa
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useMemo, useState } from "react";
+
 import type { TemplateEntity } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import searchIcon from "@/assets/icons/search.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import TagFilter from "./TagFilter.tsx";
 
 interface TemplateBrowserProps {
   templatesForSelected: TemplateEntity[];
@@ -37,19 +39,6 @@ const TemplateBrowser = ({
     return result;
   }, [templatesForSelected, searchQuery, activeTags]);
 
-  const sortedTags = useMemo(() => {
-    const freq = new Map<string, number>();
-    for (const tmpl of filteredTemplates) {
-      for (const tag of tmpl.tags ?? []) {
-        freq.set(tag, (freq.get(tag) ?? 0) + 1);
-      }
-    }
-    for (const tag of activeTags) {
-      if (!freq.has(tag)) freq.set(tag, 0);
-    }
-    return [...freq.entries()].sort((a, b) => b[1] - a[1]).map(([tag, count]) => ({ tag, count }));
-  }, [filteredTemplates, activeTags]);
-
   const toggleTag = useCallback((tag: string) => {
     setActiveTags((prev) => {
       const next = new Set(prev);
@@ -78,27 +67,7 @@ const TemplateBrowser = ({
         onChange={(e) => setSearchQuery(e.target.value)}
         className="shrink-0 text-sm"
       />
-      {sortedTags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 shrink-0">
-          {sortedTags.map(({ tag, count }) => {
-            const isActive = activeTags.has(tag);
-            return (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => toggleTag(tag)}
-                className={`text-xs px-2 py-0.5 rounded-lg border transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-primary/20 border-primary text-primary font-medium"
-                    : "bg-foreground/[0.04] border-border/50 text-muted-foreground hover:border-border hover:text-foreground"
-                }`}
-              >
-                {tag} <span className="opacity-60 ml-1">({count})</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
+      <TagFilter templates={filteredTemplates} activeTags={activeTags} onToggle={toggleTag} />
       <div className="overflow-y-auto flex-1 min-h-0">
         {templatesForSelected.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("noTemplatesAvailable")}</p>
