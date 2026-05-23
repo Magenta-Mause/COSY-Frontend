@@ -5,6 +5,7 @@ import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import TemplateHeader from "./TemplateHeader.tsx";
 
 export default function Step2() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step2");
@@ -16,15 +17,11 @@ export default function Step2() {
   const templateVariables = creationState.utilState.templateVariables ?? {};
 
   const handleTemplateVariableChange = (placeholder: string, value: string | number | boolean) => {
-    setUtilState("templateVariables")({
-      ...templateVariables,
-      [placeholder]: value,
-    });
+    setUtilState("templateVariables")({ ...templateVariables, [placeholder]: value });
   };
 
   useEffect(() => {
-    const isValid = validateTemplateVariables(selectedTemplate, templateVariables);
-    setCurrentPageValid(isValid);
+    setCurrentPageValid(validateTemplateVariables(selectedTemplate, templateVariables));
   }, [selectedTemplate, templateVariables, setCurrentPageValid]);
 
   if (!selectedTemplate) {
@@ -39,32 +36,7 @@ export default function Step2() {
 
   return (
     <GenericGameServerCreationPage>
-      <div className="flex flex-col gap-2 px-1">
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          {t("selectedTemplateLabel")}
-        </p>
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="text-xl font-bold leading-tight">{selectedTemplate.name}</h3>
-          {selectedTemplate.tags && selectedTemplate.tags.length > 0 && (
-            <div className="flex flex-wrap justify-end gap-1.5 shrink-0 pt-0.5">
-              {selectedTemplate.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-1.5 py-0.5 rounded-lg bg-foreground/[0.06] text-muted-foreground leading-none"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-        {selectedTemplate.description && (
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {selectedTemplate.description}
-          </p>
-        )}
-      </div>
-
+      <TemplateHeader template={selectedTemplate} />
       {hasVariables ? (
         <TemplateVariableForm
           key={selectedTemplate.uuid}
