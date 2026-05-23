@@ -98,7 +98,11 @@ export default function Step3() {
         <CpuLimitInputField
           placeholder={t("cpuLimitSelection.placeholder")}
           optional={cpuLimit === null}
-          label={cpuLimit === null ? `${t("cpuLimitSelection.title")} (${t_root("common.optional")})` : t("cpuLimitSelection.title")}
+          label={
+            cpuLimit === null
+              ? `${t("cpuLimitSelection.title")} (${t_root("common.optional")})`
+              : t("cpuLimitSelection.title")
+          }
           description={
             cpuLimit !== null
               ? `${t("cpuLimitSelection.description")} (${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
@@ -110,7 +114,11 @@ export default function Step3() {
         <MemoryLimitInputFieldCreation
           placeholder={t("memoryLimitSelection.placeholder")}
           optional={memoryLimit === null}
-          label={memoryLimit === null ? `${t("memoryLimitSelection.title")} (${t_root("common.optional")})` : t("memoryLimitSelection.title")}
+          label={
+            memoryLimit === null
+              ? `${t("memoryLimitSelection.title")} (${t_root("common.optional")})`
+              : t("memoryLimitSelection.title")
+          }
           description={
             memoryLimit !== null
               ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`

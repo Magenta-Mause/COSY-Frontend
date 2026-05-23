@@ -1,5 +1,5 @@
-import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { FieldError, FieldLabel } from "@components/ui/field";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import {
   Select,
   SelectContent,

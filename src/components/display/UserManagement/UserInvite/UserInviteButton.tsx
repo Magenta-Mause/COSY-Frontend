@@ -162,98 +162,101 @@ const UserInviteButton = (props: { className?: string }) => {
 
   return (
     <>
-    <Dialog
-      open={isDialogOpen}
-      onOpenChange={(open) => {
-        if (!open) {
-          requestClose();
-        } else {
-          setIsDialogOpen(true);
-          resetView();
-        }
-      }}
-    >
-      <DialogTrigger asChild>
-        <Button className={props.className} aria-label={t("userModal.title")}>
-          <Icon src={addUserIcon} className="size-5" bold={true} />
-          {t("userModal.inviteUserTitle")}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="w-[40%]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            {view === "invite" && t("userModal.inviteUserTitle")}
-            {view === "result" && t("userModal.inviteCreatedTitle")}
-          </DialogTitle>
-        </DialogHeader>
-        <DialogMain>
-          {view === "invite" && (
-            <InviteForm
-              username={inviteUsername}
-              userRole={userRole}
-              memory={memoryLimit}
-              cpu={cpuLimit}
-              canCreateGameServers={canCreateGameServers}
-              onUsernameChange={handleUsernameChange}
-              onMemoryChange={handleMemoryChange}
-              onCpuChange={handleCpuChange}
-              onCanCreateGameServersChange={setCanCreateGameServers}
-              onCancel={requestClose}
-              onSubmit={handleCreateInvite}
-              onUserRoleChange={setUserRole}
-              isCreating={isCreating}
-              usernameError={usernameError}
-              cpuError={cpuError}
-              memoryError={memoryError}
-            />
-          )}
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            requestClose();
+          } else {
+            setIsDialogOpen(true);
+            resetView();
+          }
+        }}
+      >
+        <DialogTrigger asChild>
+          <Button className={props.className} aria-label={t("userModal.title")}>
+            <Icon src={addUserIcon} className="size-5" bold={true} />
+            {t("userModal.inviteUserTitle")}
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="w-[40%]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              {view === "invite" && t("userModal.inviteUserTitle")}
+              {view === "result" && t("userModal.inviteCreatedTitle")}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogMain>
+            {view === "invite" && (
+              <InviteForm
+                username={inviteUsername}
+                userRole={userRole}
+                memory={memoryLimit}
+                cpu={cpuLimit}
+                canCreateGameServers={canCreateGameServers}
+                onUsernameChange={handleUsernameChange}
+                onMemoryChange={handleMemoryChange}
+                onCpuChange={handleCpuChange}
+                onCanCreateGameServersChange={setCanCreateGameServers}
+                onCancel={requestClose}
+                onSubmit={handleCreateInvite}
+                onUserRoleChange={setUserRole}
+                isCreating={isCreating}
+                usernameError={usernameError}
+                cpuError={cpuError}
+                memoryError={memoryError}
+              />
+            )}
 
-          {view === "result" && (
-            <InviteResult
-              generatedKey={generatedKey}
-              onCopyLink={handleCopyLink}
-              onBack={resetView}
-            />
-          )}
-        </DialogMain>
-        <DialogFooter>
-          {view === "invite" && (
-            <>
-              <Button onClick={requestClose} variant="secondary">
-                {t("userModal.cancel")}
+            {view === "result" && (
+              <InviteResult
+                generatedKey={generatedKey}
+                onCopyLink={handleCopyLink}
+                onBack={resetView}
+              />
+            )}
+          </DialogMain>
+          <DialogFooter>
+            {view === "invite" && (
+              <>
+                <Button onClick={requestClose} variant="secondary">
+                  {t("userModal.cancel")}
+                </Button>
+                <Button onClick={handleCreateInvite} disabled={isCreating || !isFormValid}>
+                  {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
+                </Button>
+              </>
+            )}
+            {view === "result" && (
+              <Button onClick={resetView} variant="secondary">
+                {t("userModal.backToUsers")}
               </Button>
-              <Button onClick={handleCreateInvite} disabled={isCreating || !isFormValid}>
-                {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
-              </Button>
-            </>
-          )}
-          {view === "result" && (
-            <Button onClick={resetView} variant="secondary">
-              {t("userModal.backToUsers")}
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={showCloseConfirm}
+        onOpenChange={(open) => {
+          if (!open) setShowCloseConfirm(false);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("userModal.closeConfirm.title")}</DialogTitle>
+          </DialogHeader>
+          <DialogMain className="text-base">{t("userModal.closeConfirm.message")}</DialogMain>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setShowCloseConfirm(false)}>
+              {t("userModal.closeConfirm.stay")}
             </Button>
-          )}
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-
-    <Dialog open={showCloseConfirm} onOpenChange={(open) => { if (!open) setShowCloseConfirm(false); }}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("userModal.closeConfirm.title")}</DialogTitle>
-        </DialogHeader>
-        <DialogMain className="text-base">
-          {t("userModal.closeConfirm.message")}
-        </DialogMain>
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => setShowCloseConfirm(false)}>
-            {t("userModal.closeConfirm.stay")}
-          </Button>
-          <Button variant="destructive" onClick={handleConfirmClose}>
-            {t("userModal.closeConfirm.discard")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            <Button variant="destructive" onClick={handleConfirmClose}>
+              {t("userModal.closeConfirm.discard")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

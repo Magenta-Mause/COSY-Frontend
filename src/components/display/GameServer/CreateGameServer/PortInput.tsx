@@ -142,7 +142,11 @@ function PortInput({
             }
           >
             <SelectTrigger className={"w-20"}>
-              <SelectValue placeholder={t("components.CreateGameServer.steps.step3.portSelection.protocolPlaceholder")} />
+              <SelectValue
+                placeholder={t(
+                  "components.CreateGameServer.steps.step3.portSelection.protocolPlaceholder",
+                )}
+              />
             </SelectTrigger>
             <SelectContent>
               {Object.values(PortMappingProtocol).map((protocol) => (

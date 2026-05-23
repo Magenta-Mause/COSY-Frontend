@@ -104,7 +104,11 @@ export default function TemplateVariableForm({
 
       // Always call onValueChange so parent can validate with current value
       let typedValue: string | number | boolean = newValue;
-      if (variable.type === "number" && String(newValue) !== "" && !Number.isNaN(Number(newValue))) {
+      if (
+        variable.type === "number" &&
+        String(newValue) !== "" &&
+        !Number.isNaN(Number(newValue))
+      ) {
         typedValue = Number(newValue);
       } else if (variable.type === "boolean") {
         typedValue = String(newValue) === "true";

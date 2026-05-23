@@ -3,9 +3,9 @@ import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { TemplateEntity } from "@/api/generated/model";
-import searchIcon from "@/assets/icons/search.webp";
 import closeIcon from "@/assets/icons/close.webp";
 import serverIcon from "@/assets/icons/console.webp";
+import searchIcon from "@/assets/icons/search.webp";
 import useTemplateGames from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
@@ -56,9 +56,7 @@ const Step1 = () => {
               tmpl.description?.toLowerCase().includes(searchQuery.toLowerCase()),
           );
     if (activeTags.size > 0) {
-      result = result.filter((tmpl) =>
-        [...activeTags].every((tag) => tmpl.tags?.includes(tag)),
-      );
+      result = result.filter((tmpl) => [...activeTags].every((tag) => tmpl.tags?.includes(tag)));
     }
     return result;
   }, [templatesForSelected, searchQuery, activeTags]);
@@ -114,9 +112,7 @@ const Step1 = () => {
     () =>
       gameSearchQuery === ""
         ? sidebarGames
-        : sidebarGames.filter((g) =>
-            g.name.toLowerCase().includes(gameSearchQuery.toLowerCase()),
-          ),
+        : sidebarGames.filter((g) => g.name.toLowerCase().includes(gameSearchQuery.toLowerCase())),
     [sidebarGames, gameSearchQuery],
   );
 
@@ -153,9 +149,7 @@ const Step1 = () => {
             />
           )}
           {filteredSidebarGames.map((game) => {
-            const count = templates.filter(
-              (tmpl) => tmpl.game_id === game.external_game_id,
-            ).length;
+            const count = templates.filter((tmpl) => tmpl.game_id === game.external_game_id).length;
             return (
               <SidebarItem
                 key={game.game_uuid}

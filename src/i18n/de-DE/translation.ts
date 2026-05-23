@@ -278,7 +278,8 @@ const translation: i18nLanguage = {
       },
       unsavedChangesDialog: {
         title: "Ungespeicherte Änderungen",
-        description: "Du hast ungespeicherte Änderungen, die verloren gehen, wenn du diesen Dialog schließt.",
+        description:
+          "Du hast ungespeicherte Änderungen, die verloren gehen, wenn du diesen Dialog schließt.",
         discard: "Verwerfen",
         keepEditing: "Weiter bearbeiten",
       },
@@ -884,7 +885,8 @@ const translation: i18nLanguage = {
         },
         changePermissionsDialog: {
           title: "Berechtigungen ändern",
-          description: "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",
+          description:
+            "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",
           cpuLabel: "CPU-Limit",
           cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
           memoryLabel: "Speicher-Limit",

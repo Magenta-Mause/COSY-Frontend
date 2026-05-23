@@ -76,7 +76,9 @@ export default function Step2() {
       ) : (
         <p className="text-sm text-muted-foreground px-1">
           {t("noVariablesHintPrefix")}{" "}
-          <span className="text-foreground font-medium">{t_root("components.CreateGameServer.useTemplate")}</span>{" "}
+          <span className="text-foreground font-medium">
+            {t_root("components.CreateGameServer.useTemplate")}
+          </span>{" "}
           {t("noVariablesHintSuffix")}
         </p>
       )}

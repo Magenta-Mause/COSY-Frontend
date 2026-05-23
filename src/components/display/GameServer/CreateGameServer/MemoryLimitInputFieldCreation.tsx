@@ -1,10 +1,10 @@
-import RequiredMark from "@components/ui/RequiredMark.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
 } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
   MEMORY_LIMIT_MIN_ERROR,
@@ -122,7 +122,15 @@ const MemoryLimitInputFieldCreation = ({
     <div>
       <MemoryLimitInput
         id={attribute}
-        header={optional ? label : <>{label} <RequiredMark /></>}
+        header={
+          optional ? (
+            label
+          ) : (
+            <>
+              {label} <RequiredMark />
+            </>
+          )
+        }
         error={isError ? errorMessage : undefined}
         placeholder={placeholder}
         value={creationState.gameServerState[attribute] as string | number | undefined}

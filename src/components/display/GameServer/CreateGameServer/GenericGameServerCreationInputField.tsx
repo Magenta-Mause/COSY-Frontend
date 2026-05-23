@@ -1,10 +1,10 @@
-import RequiredMark from "@components/ui/RequiredMark.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
 } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { Input } from "@components/ui/input.tsx";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
 
@@ -100,11 +100,15 @@ const GenericGameServerCreationInputField = (props: {
         error={isError ? props.errorLabel : undefined}
         description={props.description}
         header={
-          props.label
-            ? props.optional
-              ? props.label
-              : <>{props.label} <RequiredMark /></>
-            : undefined
+          props.label ? (
+            props.optional ? (
+              props.label
+            ) : (
+              <>
+                {props.label} <RequiredMark />
+              </>
+            )
+          ) : undefined
         }
         placeholder={props.placeholder}
         type={props.inputType}

@@ -1,6 +1,6 @@
-import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import type { VariableInputProps } from "./types";
 
 export default function NumberInput({

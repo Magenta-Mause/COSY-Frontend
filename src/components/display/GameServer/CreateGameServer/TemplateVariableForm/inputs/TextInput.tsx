@@ -1,7 +1,7 @@
-import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { Button } from "@components/ui/button.tsx";
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import infoIcon from "@/assets/icons/info.webp";
 import type { VariableInputProps } from "./types";
@@ -21,7 +21,11 @@ export default function TextInput({
     <div key={placeholder} className="space-y-2">
       <Input
         id={placeholder}
-        header={<>{variable.name} <RequiredMark /></>}
+        header={
+          <>
+            {variable.name} <RequiredMark />
+          </>
+        }
         type="text"
         placeholder={variable.example ?? variable.name}
         value={String(value ?? "")}

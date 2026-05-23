@@ -1,10 +1,10 @@
-import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
 } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 
@@ -116,7 +116,15 @@ const CpuLimitInputField = ({
     <div>
       <CpuLimitInput
         id={attribute}
-        header={optional ? label : <>{label} <RequiredMark /></>}
+        header={
+          optional ? (
+            label
+          ) : (
+            <>
+              {label} <RequiredMark />
+            </>
+          )
+        }
         error={isError ? errorMessage : undefined}
         placeholder={placeholder}
         value={creationState.gameServerState[attribute] as string | number | undefined}

@@ -128,7 +128,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         role: decoded.role,
         memoryLimit: decoded.memory_limit ?? null,
         cpuLimit: decoded.cpu_cores_limit ?? null,
-        canCreateGameServers: decoded.can_create_game_servers ?? (decoded.role !== "QUOTA_USER"),
+        canCreateGameServers: decoded.can_create_game_servers ?? decoded.role !== "QUOTA_USER",
         tokenExpirationDate: expirationMs,
       };
     },

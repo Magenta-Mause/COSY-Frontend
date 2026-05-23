@@ -24,7 +24,9 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
       {props.gameServers.map((gameServer, index) => (
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
-      {authorized && canCreateGameServers && <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />}
+      {authorized && canCreateGameServers && (
+        <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />
+      )}
     </div>
   );
 };
