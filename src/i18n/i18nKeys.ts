@@ -2,6 +2,9 @@ export type i18nLanguage = {
   common: {
     yourLimit: string;
     loading: string;
+    required: string;
+    optional: string;
+    removeEntry: string;
   };
   overviewPage: {
     createNewServer: string;
@@ -298,6 +301,10 @@ export type i18nLanguage = {
       useTemplate: string;
       useNoTemplate: string;
       createServerButton: string;
+      disabledTooltip: {
+        step2: string;
+        step3: string;
+      };
       reapplyDialog: {
         title: string;
         description: string;
@@ -338,7 +345,10 @@ export type i18nLanguage = {
           templateCount_one: string;
           templateCount_other: string;
           noTemplatesAvailable: string;
+          noTemplatesMatchFilter: string;
           selectTemplateHint: string;
+          searchGamesPlaceholder: string;
+          searchTemplatesPlaceholder: string;
           tags: {
             filterLabel: string;
           };
@@ -348,6 +358,9 @@ export type i18nLanguage = {
           description: string;
           noTemplatesAvailable: string;
           searchPlaceholder: string;
+          selectedTemplateLabel: string;
+          noVariablesHintPrefix: string;
+          noVariablesHintSuffix: string;
           requestTemplateText: string;
           requestTemplateLinkLabel: string;
           templateSelection: {
@@ -369,11 +382,13 @@ export type i18nLanguage = {
           };
           dockerImageSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           imageTagSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
@@ -381,6 +396,7 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
+            protocolPlaceholder: string;
           };
           environmentVariablesSelection: {
             title: string;
@@ -389,21 +405,25 @@ export type i18nLanguage = {
           };
           executionCommandSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           hostPathSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           memoryLimitSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           cpuLimitSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };

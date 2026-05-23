@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 
 interface MemoryLimitInputProps {
   id?: string;
-  header?: string;
+  header?: React.ReactNode;
   description?: string;
   value?: number | string | null;
   onChange: (value: string) => void; // Emits string (e.g. "100MiB" or "1GiB")

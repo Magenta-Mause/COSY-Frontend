@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 interface CpuLimitInputProps {
   id?: string;
-  header?: string;
+  header?: React.ReactNode;
   description?: string;
   value?: number | string | null;
   onChange: (value: string) => void; // Emits numeric string (e.g. "0.5" or "2")
