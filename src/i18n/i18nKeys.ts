@@ -285,6 +285,7 @@ export type i18nLanguage = {
       noVariables: string;
       selectPlaceholder: string;
       example: string;
+      examplePrefix: string;
       pattern: string;
       validationError: string;
       validationErrorRequired: string;

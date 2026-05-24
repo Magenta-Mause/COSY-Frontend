@@ -24,7 +24,7 @@ export default function NumberInput({
       <Input
         id={placeholder}
         type="number"
-        placeholder={variable.example ?? variable.name}
+        placeholder={variable.example ? `${t("examplePrefix")} ${variable.example}` : variable.name}
         value={String(value ?? "")}
         onChange={(e) => onValueChange(variable, e.target.value)}
         onKeyDown={(e) => {

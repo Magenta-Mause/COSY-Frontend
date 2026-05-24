@@ -227,6 +227,7 @@ const translation: i18nLanguage = {
       noVariables: "Dieses Template hat keine anpassbaren Variablen",
       selectPlaceholder: "Wähle eine Option",
       example: "Beispiel",
+      examplePrefix: "z.B.",
       pattern: "Muster",
       validationError: "Bitte gib einen gültigen Wert ein",
       validationErrorRequired: "Dieses Feld ist erforderlich",
