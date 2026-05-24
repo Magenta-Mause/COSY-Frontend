@@ -1,3 +1,4 @@
+import LinkedText from "@components/ui/LinkedText";
 import type { TemplateEntity } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
@@ -29,7 +30,9 @@ const TemplateHeader = ({ template }: TemplateHeaderProps) => {
         )}
       </div>
       {template.description && (
-        <p className="text-sm text-muted-foreground leading-relaxed">{template.description}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          <LinkedText text={template.description} />
+        </p>
       )}
     </div>
   );
