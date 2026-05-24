@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
+import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 
 export default function BooleanInput({
@@ -37,6 +38,7 @@ export default function BooleanInput({
           <SelectItem value="false">{t("booleanFalse")}</SelectItem>
         </SelectContent>
       </Select>
+      <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
       {variable.example && (
         <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
           {t("example")}: {variable.example}

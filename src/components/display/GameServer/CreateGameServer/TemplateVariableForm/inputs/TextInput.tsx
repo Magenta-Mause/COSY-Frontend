@@ -4,6 +4,7 @@ import { Input } from "@components/ui/input";
 import RequiredMark from "@components/ui/RequiredMark.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import infoIcon from "@/assets/icons/info.webp";
+import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 
 export default function TextInput({
@@ -51,6 +52,7 @@ export default function TextInput({
           ) : undefined
         }
       />
+      <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
     </div>
   );
 }

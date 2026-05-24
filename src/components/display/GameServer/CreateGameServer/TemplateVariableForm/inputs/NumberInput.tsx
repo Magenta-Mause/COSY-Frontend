@@ -1,6 +1,7 @@
 import { FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import RequiredMark from "@components/ui/RequiredMark.tsx";
+import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 
 export default function NumberInput({
@@ -33,6 +34,7 @@ export default function NumberInput({
         }}
         error={showError ? (errorMessage ? t(errorMessage) : t("validationError")) : undefined}
       />
+      <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
     </div>
   );
 }
