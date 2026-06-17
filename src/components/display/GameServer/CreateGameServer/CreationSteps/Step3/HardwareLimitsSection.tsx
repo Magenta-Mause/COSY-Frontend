@@ -8,7 +8,7 @@ import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 
 const HardwareLimitsSection = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
-  const { t: t_root } = useTranslation();
+  const { t: tRoot } = useTranslation();
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
 
   return (
@@ -18,12 +18,12 @@ const HardwareLimitsSection = () => {
         optional={cpuLimit === null}
         label={
           cpuLimit === null
-            ? `${t("cpuLimitSelection.title")} (${t_root("common.optional")})`
+            ? `${t("cpuLimitSelection.title")} (${tRoot("common.optional")})`
             : t("cpuLimitSelection.title")
         }
         description={
           cpuLimit !== null
-            ? `${t("cpuLimitSelection.description")} (${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
+            ? `${t("cpuLimitSelection.description")} (${tRoot("common.yourLimit")}: ${cpuLimit} Cores)`
             : t("cpuLimitSelection.description")
         }
         errorLabel={t("cpuLimitSelection.errorLabel")}
@@ -33,12 +33,12 @@ const HardwareLimitsSection = () => {
         optional={memoryLimit === null}
         label={
           memoryLimit === null
-            ? `${t("memoryLimitSelection.title")} (${t_root("common.optional")})`
+            ? `${t("memoryLimitSelection.title")} (${tRoot("common.optional")})`
             : t("memoryLimitSelection.title")
         }
         description={
           memoryLimit !== null
-            ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
+            ? `${t("memoryLimitSelection.description")} (${tRoot("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
             : t("memoryLimitSelection.description")
         }
         errorLabel={t("memoryLimitSelection.errorLabel")}

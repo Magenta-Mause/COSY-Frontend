@@ -21,7 +21,7 @@ const TemplateHeader = ({ template }: TemplateHeaderProps) => {
             {template.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-1.5 py-0.5 rounded-lg bg-foreground/[0.06] text-muted-foreground leading-none"
+                className="text-xs px-1.5 py-0.5 rounded-lg bg-foreground/10 text-foreground/80 leading-none"
               >
                 {tag}
               </span>

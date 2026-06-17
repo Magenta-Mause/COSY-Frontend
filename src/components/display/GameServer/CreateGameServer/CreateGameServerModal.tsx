@@ -17,6 +17,7 @@ import Step1 from "./CreationSteps/Step1/Step1.tsx";
 import Step2 from "./CreationSteps/Step2/Step2.tsx";
 import Step3 from "./CreationSteps/Step3/Step3.tsx";
 import { GameServerCreationContext } from "./context.ts";
+import HouseBuildingProcess from "./HouseBuildingProcess.tsx";
 import ReapplyDialog from "./ReapplyDialog.tsx";
 import SuccessDialog from "./SuccessDialog.tsx";
 import UnsavedChangesDialog from "./UnsavedChangesDialog.tsx";
@@ -77,9 +78,16 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
           <DialogPortal>
             <DialogOverlay />
 
-            <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="fixed inset-0 z-50 flex items-center justify-center gap-10">
+              <aside className="hidden lg:block animate-in fade-in-0 slide-in-from-left-8 duration-300">
+                <HouseBuildingProcess
+                  houseType={creationState.gameServerState.design ?? "HOUSE"}
+                  currentStep={currentPage}
+                  serverName={creationState.gameServerState.server_name}
+                />
+              </aside>
               <DialogContent
-                className="static translate-x-0 translate-y-0 flex w-[80vw] h-[80vh]"
+                className="static translate-x-0 translate-y-0 flex w-[55vw] h-[80vh]"
                 asChild
               >
                 <DialogHeader>

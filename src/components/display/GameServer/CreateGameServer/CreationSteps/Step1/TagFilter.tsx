@@ -34,11 +34,11 @@ const TagFilter = ({ templates, activeTags, onToggle }: TagFilterProps) => {
             onClick={() => onToggle(tag)}
             className={`text-xs px-2 py-0.5 rounded-lg border transition-all cursor-pointer ${
               isActive
-                ? "bg-primary/20 border-primary text-primary font-medium"
-                : "bg-foreground/[0.04] border-border/50 text-muted-foreground hover:border-border hover:text-foreground"
+                ? "bg-primary/20 border-primary text-foreground font-medium"
+                : "bg-foreground/10 border-border text-foreground hover:border-primary/60 hover:bg-foreground/[0.15]"
             }`}
           >
-            {tag} <span className="opacity-60 ml-1">({count})</span>
+            {tag} <span className="ml-1 opacity-70">({count})</span>
           </button>
         );
       })}

@@ -287,7 +287,8 @@ const translation: i18nLanguage = {
           title: "Choose a Game & Template",
           genericServer: "Generic Server",
           genericTemplateName: "Generic Server",
-          genericTemplateDescription: "Start with a blank configuration — no values are pre-filled.",
+          genericTemplateDescription:
+            "Start with a blank configuration — no values are pre-filled.",
           templateCount_one: "{{count}} template",
           templateCount_other: "{{count}} templates",
           noTemplatesAvailable: "No templates available for this game.",
@@ -302,11 +303,17 @@ const translation: i18nLanguage = {
         step2: {
           title: "Choose Template",
           description: "Choose a template for your server.",
+          serverNameSelection: {
+            title: "Server Name",
+            placeholder: "Australiania",
+            description: "Name your server",
+            errorLabel: "Please enter a valid server name.",
+          },
           noTemplatesAvailable: "No templates are available for this game. You can proceed.",
           searchPlaceholder: "Search templates...",
           selectedTemplateLabel: "Selected Template",
-          noVariablesHintPrefix: "This template requires no configuration. Click",
-          noVariablesHintSuffix: "to continue.",
+          noVariablesHint:
+            "This template requires no configuration. Click <action>{{action}}</action> to continue.",
           requestTemplateText: "You can request a template for this game by",
           requestTemplateLinkLabel: "submitting this form",
           templateSelection: {
@@ -320,12 +327,6 @@ const translation: i18nLanguage = {
         step3: {
           title: "Configure your Server",
           description: "Here you can configure your server.",
-          serverNameSelection: {
-            title: "Server Name",
-            placeholder: "Australiania",
-            description: "Name your server",
-            errorLabel: "Please enter a valid server name.",
-          },
           dockerImageSelection: {
             title: "Docker image",
             placeholder: "nginx",

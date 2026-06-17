@@ -13,7 +13,10 @@ export default function TemplateInputDescription({
   if (!description) return null;
 
   return (
-    <FieldLabel htmlFor={htmlFor} className="text-muted-foreground text-sm">
+    <FieldLabel
+      htmlFor={htmlFor}
+      className="text-muted-foreground text-sm block w-full break-words"
+    >
       <LinkedText text={description} />
     </FieldLabel>
   );

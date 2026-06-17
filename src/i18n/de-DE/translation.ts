@@ -290,7 +290,8 @@ const translation: i18nLanguage = {
           title: "Spiel & Template auswählen",
           genericServer: "Generischer Server",
           genericTemplateName: "Generischer Server",
-          genericTemplateDescription: "Starte mit einer leeren Konfiguration — keine Werte sind vorausgefüllt.",
+          genericTemplateDescription:
+            "Starte mit einer leeren Konfiguration — keine Werte sind vorausgefüllt.",
           templateCount_one: "{{count}} Template",
           templateCount_other: "{{count}} Templates",
           noTemplatesAvailable: "Für dieses Spiel sind keine Templates verfügbar.",
@@ -305,12 +306,18 @@ const translation: i18nLanguage = {
         step2: {
           title: " Template auswählen",
           description: "Wähle ein Template für deinen Server aus.",
+          serverNameSelection: {
+            title: "Servername",
+            placeholder: "Australianien",
+            description: "Benenne deinen Server",
+            errorLabel: "Bitte gib einen gültigen Servernamen ein.",
+          },
           noTemplatesAvailable:
             "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
           searchPlaceholder: "Templates suchen...",
           selectedTemplateLabel: "Ausgewähltes Template",
-          noVariablesHintPrefix: "Dieses Template erfordert keine Konfiguration. Klicke auf",
-          noVariablesHintSuffix: "um fortzufahren.",
+          noVariablesHint:
+            "Dieses Template erfordert keine Konfiguration. Klicke auf <action>{{action}}</action>, um fortzufahren.",
           requestTemplateText: "Du kannst ein Template für dieses Spiel anfragen, indem du",
           requestTemplateLinkLabel: "dieses Formular ausfüllst",
           templateSelection: {
@@ -324,12 +331,6 @@ const translation: i18nLanguage = {
         step3: {
           title: "Konfiguriere deinen Server",
           description: "Hier kannst du deinen Server konfigurieren.",
-          serverNameSelection: {
-            title: "Servername",
-            placeholder: "Australianien",
-            description: "Benenne deinen Server",
-            errorLabel: "Bitte gib einen gültigen Servernamen ein.",
-          },
           dockerImageSelection: {
             title: "Docker-Image",
             placeholder: "nginx",

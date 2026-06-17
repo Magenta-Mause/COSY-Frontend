@@ -359,11 +359,16 @@ export type i18nLanguage = {
         step2: {
           title: string;
           description: string;
+          serverNameSelection: {
+            title: string;
+            placeholder: string;
+            description: string;
+            errorLabel: string;
+          };
           noTemplatesAvailable: string;
           searchPlaceholder: string;
           selectedTemplateLabel: string;
-          noVariablesHintPrefix: string;
-          noVariablesHintSuffix: string;
+          noVariablesHint: string;
           requestTemplateText: string;
           requestTemplateLinkLabel: string;
           templateSelection: {
@@ -377,12 +382,6 @@ export type i18nLanguage = {
         step3: {
           title: string;
           description: string;
-          serverNameSelection: {
-            title: string;
-            placeholder: string;
-            description: string;
-            errorLabel: string;
-          };
           dockerImageSelection: {
             title: string;
             placeholder: string;
