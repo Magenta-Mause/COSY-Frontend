@@ -1,15 +1,12 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
-import type { GameServerCreationDto, GameServerDto } from "@/api/generated/model";
+import type { GameServerCreationDto, GameServerDto, TemplateEntity } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import {
-  type CreationState,
-  type GameServerCreationContext,
-  GENERIC_GAME_PLACEHOLDER_VALUE,
-} from "./context.ts";
+import type { GameServerCreationContext } from "./context.ts";
 import { processEscapeSequences } from "./util";
-import { applyTemplate } from "./utils/templateSubstitution.ts";
+import useCreationFormState from "./useCreationFormState.ts";
+import { GENERIC_GAME_PLACEHOLDER_VALUE } from "./context.ts";
 
 const TOTAL_PAGES = 3;
 
@@ -19,12 +16,13 @@ interface UseGameServerCreationProps {
 }
 
 interface UseGameServerCreationReturn {
-  creationState: CreationState;
+  creationState: ReturnType<typeof useCreationFormState>["creationState"];
   isPageValid: { [key: number]: boolean };
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   showReapplyDialog: boolean;
   showConfirmDialog: boolean;
+  showUnsavedChangesDialog: boolean;
   isCreating: boolean;
   showSuccessDialog: boolean;
   setShowSuccessDialog: Dispatch<SetStateAction<boolean>>;
@@ -34,6 +32,11 @@ interface UseGameServerCreationReturn {
   setUtilState: GameServerCreationContext["setUtilState"];
   setCurrentPageValid: GameServerCreationContext["setCurrentPageValid"];
   triggerNextPage: GameServerCreationContext["triggerNextPage"];
+  handleTemplateSelected: GameServerCreationContext["handleTemplateSelected"];
+  handleBack: () => void;
+  handleCloseAttempt: (open: boolean) => void;
+  handleDiscardChanges: () => void;
+  handleCancelClose: () => void;
   handleConfirmReapply: () => void;
   handleCancelReapply: () => void;
   handleConfirmCreate: () => Promise<void>;
@@ -45,54 +48,131 @@ const useGameServerCreation = ({
   isOpen,
 }: UseGameServerCreationProps): UseGameServerCreationReturn => {
   const { createGameServer } = useDataInteractions();
-  const [creationState, setCreationState] = useState<CreationState>(() => ({
-    gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
-    utilState: {},
-  }));
+
+  const {
+    creationState,
+    hasUnsavedChanges,
+    setGameServerState,
+    setUtilState,
+    resetCreationState,
+    applyTemplateToState,
+    selectTemplate,
+    clearTemplate,
+  } = useCreationFormState(isOpen);
+
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
-  const [showReapplyDialog, setShowReapplyDialog] = useState(false);
+  const [skippedStep2, setSkippedStep2] = useState(false);
   const [pendingPageChange, setPendingPageChange] = useState<number | null>(null);
+  const [showReapplyDialog, setShowReapplyDialog] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showUnsavedChangesDialog, setShowUnsavedChangesDialog] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-  const [successInfo, setSuccessInfo] = useState<{
-    server: GameServerDto;
-  } | null>(null);
+  const [successInfo, setSuccessInfo] = useState<{ server: GameServerDto } | null>(null);
 
   const isLastPage = currentPage === TOTAL_PAGES - 1;
 
-  useEffect(() => {
-    if (!isOpen) return;
-    setCreationState((prev) => ({
-      ...prev,
-      gameServerState: {
-        ...prev.gameServerState,
-        design: Math.random() < 0.5 ? "HOUSE" : "CASTLE",
-      },
-    }));
-  }, [isOpen]);
+  const setCurrentPageValid = useCallback(
+    (isValid: boolean) => {
+      setPageValid((prev) => ({ ...prev, [currentPage]: isValid }));
+    },
+    [currentPage],
+  );
 
-  const applyTemplateToState = useCallback(() => {
-    const { selectedTemplate, templateVariables } = creationState.utilState;
+  const handleTemplateSelected = useCallback(
+    (template: TemplateEntity) => {
+      const defaults: Record<string, string | number | boolean> = {};
+      template.variables?.forEach((variable) => {
+        if (!variable.placeholder) return;
+        if (variable.default_value != null) {
+          const raw = variable.default_value;
+          if (variable.type === "number" && !Number.isNaN(Number(raw))) {
+            defaults[variable.placeholder] = Number(raw);
+          } else if (variable.type === "boolean") {
+            defaults[variable.placeholder] = String(raw) === "true";
+          } else {
+            defaults[variable.placeholder] = String(raw);
+          }
+        } else {
+          defaults[variable.placeholder] = "";
+        }
+      });
 
-    if (selectedTemplate && templateVariables) {
-      const updatedState = applyTemplate(
-        selectedTemplate,
-        templateVariables,
-        creationState.gameServerState,
-      );
+      const hasVariables = (template.variables?.length ?? 0) > 0;
+      selectTemplate(template, defaults, !hasVariables);
+      setSkippedStep2(!hasVariables);
+      setCurrentPage(hasVariables ? 1 : 2);
+    },
+    [selectTemplate],
+  );
 
-      setCreationState((prev) => ({
-        ...prev,
-        gameServerState: updatedState,
-        utilState: {
-          ...prev.utilState,
-          templateApplied: true,
-        },
-      }));
+  const handleNextPage = useCallback(async () => {
+    if (isLastPage) {
+      setShowConfirmDialog(true);
+      return;
     }
-  }, [creationState.utilState, creationState.gameServerState]);
+
+    if (currentPage === 0) {
+      setSkippedStep2(false);
+      setCurrentPage(1);
+      return;
+    }
+
+    if (currentPage === 1) {
+      const { selectedTemplate, templateApplied } = creationState.utilState;
+
+      if (selectedTemplate) {
+        const hasVariables = (selectedTemplate.variables?.length ?? 0) > 0;
+
+        if (templateApplied && hasVariables) {
+          setShowReapplyDialog(true);
+          setPendingPageChange(currentPage + 1);
+          return;
+        }
+
+        if (!templateApplied) {
+          applyTemplateToState();
+        }
+      }
+    }
+
+    setCurrentPage((p) => p + 1);
+  }, [currentPage, applyTemplateToState, creationState.utilState, isLastPage]);
+
+  const triggerNextPage = useCallback(() => {
+    if (isPageValid[currentPage]) {
+      handleNextPage();
+    }
+  }, [handleNextPage, isPageValid, currentPage]);
+
+  const handleBack = useCallback(() => {
+    if (currentPage === 1) {
+      clearTemplate();
+    }
+    if (currentPage === 2 && skippedStep2) {
+      setCurrentPage(0);
+    } else {
+      setCurrentPage((p) => p - 1);
+    }
+  }, [currentPage, skippedStep2, clearTemplate]);
+
+  const handleConfirmReapply = useCallback(() => {
+    applyTemplateToState();
+    setShowReapplyDialog(false);
+    if (pendingPageChange !== null) {
+      setCurrentPage(pendingPageChange);
+      setPendingPageChange(null);
+    }
+  }, [applyTemplateToState, pendingPageChange]);
+
+  const handleCancelReapply = useCallback(() => {
+    setShowReapplyDialog(false);
+    if (pendingPageChange !== null) {
+      setCurrentPage(pendingPageChange);
+      setPendingPageChange(null);
+    }
+  }, [pendingPageChange]);
 
   const handleConfirmCreate = useCallback(async () => {
     const formState = creationState.gameServerState;
@@ -131,102 +211,45 @@ const useGameServerCreation = ({
       const createdGameServer = await createGameServer(gameServerCreationObject);
       setShowConfirmDialog(false);
       setIsCreating(false);
-      setCreationState({
-        gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
-        utilState: {},
-      });
+      resetCreationState();
       setPageValid({});
       setCurrentPage(0);
+      setSkippedStep2(false);
       setOpen(false);
       setSuccessInfo({ server: createdGameServer });
       setShowSuccessDialog(true);
     } catch {
-      // error already toasted by the hook; keep dialog open for retry
       setIsCreating(false);
     }
-  }, [createGameServer, setOpen, creationState.gameServerState]);
+  }, [createGameServer, setOpen, creationState.gameServerState, resetCreationState]);
 
   const handleCancelConfirm = useCallback(() => {
     setShowConfirmDialog(false);
   }, []);
 
-  const handleNextPage = useCallback(async () => {
-    if (isLastPage) {
-      setShowConfirmDialog(true);
-      return;
-    }
-
-    // Moving from Step 2 to Step 3 - apply template if needed
-    if (currentPage === 1) {
-      const { selectedTemplate, templateApplied } = creationState.utilState;
-
-      if (selectedTemplate) {
-        if (
-          templateApplied &&
-          selectedTemplate.variables &&
-          selectedTemplate.variables.length > 0
-        ) {
-          setShowReapplyDialog(true);
-          setPendingPageChange(currentPage + 1);
-          return;
-        }
-
-        if (!templateApplied) {
-          applyTemplateToState();
-        }
+  const handleCloseAttempt = useCallback(
+    (open: boolean) => {
+      if (!open && hasUnsavedChanges) {
+        setShowUnsavedChangesDialog(true);
+      } else if (!open) {
+        setOpen(false);
       }
-    }
-
-    setCurrentPage((currentPage) => currentPage + 1);
-  }, [currentPage, applyTemplateToState, creationState.utilState, isLastPage]);
-
-  const triggerNextPage = useCallback(() => {
-    if (isPageValid[currentPage]) {
-      handleNextPage();
-    }
-  }, [handleNextPage, isPageValid, currentPage]);
-
-  const setCurrentPageValid = useCallback(
-    (isValid: boolean) => {
-      setPageValid((prev) => ({ ...prev, [currentPage]: isValid }));
     },
-    [currentPage],
+    [hasUnsavedChanges, setOpen],
   );
 
-  const setGameServerState: GameServerCreationContext["setGameServerState"] = useCallback(
-    (gameStateKey) => (value) =>
-      setCreationState((prev) => ({
-        ...prev,
-        gameServerState: { ...prev.gameServerState, [gameStateKey]: value },
-      })),
-    [],
-  );
+  const handleDiscardChanges = useCallback(() => {
+    setShowUnsavedChangesDialog(false);
+    resetCreationState();
+    setPageValid({});
+    setCurrentPage(0);
+    setSkippedStep2(false);
+    setOpen(false);
+  }, [setOpen, resetCreationState]);
 
-  const setUtilState: GameServerCreationContext["setUtilState"] = useCallback(
-    (utilStateKey) => (value) =>
-      setCreationState((prev) => ({
-        ...prev,
-        utilState: { ...prev.utilState, [utilStateKey]: value },
-      })),
-    [],
-  );
-
-  const handleConfirmReapply = useCallback(() => {
-    applyTemplateToState();
-    setShowReapplyDialog(false);
-    if (pendingPageChange !== null) {
-      setCurrentPage(pendingPageChange);
-      setPendingPageChange(null);
-    }
-  }, [applyTemplateToState, pendingPageChange]);
-
-  const handleCancelReapply = useCallback(() => {
-    setShowReapplyDialog(false);
-    if (pendingPageChange !== null) {
-      setCurrentPage(pendingPageChange);
-      setPendingPageChange(null);
-    }
-  }, [pendingPageChange]);
+  const handleCancelClose = useCallback(() => {
+    setShowUnsavedChangesDialog(false);
+  }, []);
 
   return {
     creationState,
@@ -235,6 +258,7 @@ const useGameServerCreation = ({
     setCurrentPage,
     showReapplyDialog,
     showConfirmDialog,
+    showUnsavedChangesDialog,
     isCreating,
     showSuccessDialog,
     setShowSuccessDialog,
@@ -244,6 +268,11 @@ const useGameServerCreation = ({
     setUtilState,
     setCurrentPageValid,
     triggerNextPage,
+    handleTemplateSelected,
+    handleBack,
+    handleCloseAttempt,
+    handleDiscardChanges,
+    handleCancelClose,
     handleConfirmReapply,
     handleCancelReapply,
     handleConfirmCreate,

@@ -22,7 +22,8 @@ export interface GameServerCreationPageContextType {
   setAttributeTouched: (attribute: keyof GameServerCreationFormState, touched: boolean) => void;
 }
 
-const GenericGameServerCreationPage = (props: { children: ReactNode }) => {
+const GenericGameServerCreationPage = (props: { children: ReactNode; extraValid?: boolean }) => {
+  const { extraValid = true } = props;
   const { setCurrentPageValid } = useContext(GameServerCreationContext);
   const [attributesValid, setAttributesValid] = useState<
     Partial<{
@@ -51,8 +52,8 @@ const GenericGameServerCreationPage = (props: { children: ReactNode }) => {
   useEffect(() => {
     const allValid = Object.values(attributesValid).every((isValid) => isValid);
     const allTouched = Object.values(attributesTouched).every((isTouched) => isTouched);
-    setCurrentPageValid(allValid && allTouched);
-  }, [attributesValid, attributesTouched, setCurrentPageValid]);
+    setCurrentPageValid(allValid && allTouched && extraValid);
+  }, [attributesValid, attributesTouched, setCurrentPageValid, extraValid]);
 
   return (
     <GameServerCreationPageContext.Provider
@@ -63,7 +64,7 @@ const GenericGameServerCreationPage = (props: { children: ReactNode }) => {
         setAttributeTouched,
       }}
     >
-      <div className="flex flex-col gap-6">{props.children}</div>
+      <div className="flex flex-col gap-6 pb-4">{props.children}</div>
     </GameServerCreationPageContext.Provider>
   );
 };

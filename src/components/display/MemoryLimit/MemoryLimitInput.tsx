@@ -1,4 +1,5 @@
 import { Input } from "@components/ui/input.tsx";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import {
   Select,
   SelectContent,
@@ -10,7 +11,8 @@ import { useCallback, useEffect, useState } from "react";
 
 interface MemoryLimitInputProps {
   id?: string;
-  header?: string;
+  header?: React.ReactNode;
+  isRequired?: boolean;
   description?: string;
   value?: number | string | null;
   onChange: (value: string) => void; // Emits string (e.g. "100MiB" or "1GiB")
@@ -23,6 +25,7 @@ interface MemoryLimitInputProps {
 export const MemoryLimitInput = ({
   id,
   header,
+  isRequired,
   description,
   value,
   onChange,
@@ -111,7 +114,7 @@ export const MemoryLimitInput = ({
 
   return (
     <Input
-      header={header}
+      header={isRequired ? <>{header} <RequiredMark /></> : header}
       description={description}
       className={`pr-16 ${className ?? ""}`}
       error={error}

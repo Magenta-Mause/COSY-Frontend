@@ -1,8 +1,10 @@
 import { Button } from "@components/ui/button.tsx";
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import infoIcon from "@/assets/icons/info.webp";
+import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 
 export default function TextInput({
@@ -13,6 +15,7 @@ export default function TextInput({
   onValueChange,
   onEnterKey,
   t,
+  isRequired,
 }: VariableInputProps) {
   const placeholder = variable.placeholder ?? "";
 
@@ -20,9 +23,13 @@ export default function TextInput({
     <div key={placeholder} className="space-y-2">
       <Input
         id={placeholder}
-        header={variable.name}
+        header={
+          <>
+            {variable.name} {isRequired && <RequiredMark />}
+          </>
+        }
         type="text"
-        placeholder={variable.example ?? variable.name}
+        placeholder={variable.example ? `${t("examplePrefix")} ${variable.example}` : variable.name}
         value={String(value ?? "")}
         onChange={(e) => onValueChange(variable, e.target.value)}
         onKeyDown={(e) => {
@@ -45,6 +52,7 @@ export default function TextInput({
           ) : undefined
         }
       />
+      <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
     </div>
   );
 }

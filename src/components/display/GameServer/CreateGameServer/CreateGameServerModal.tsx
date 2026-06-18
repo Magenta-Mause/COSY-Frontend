@@ -1,5 +1,4 @@
 import GameServerCreationNextPageButton from "@components/display/GameServer/CreateGameServer/GameServerCreationButton.tsx";
-import HouseBuildingProcess from "@components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -14,12 +13,14 @@ import {
 import type { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import ConfirmCreateDialog from "./ConfirmCreateDialog.tsx";
-import Step1 from "./CreationSteps/Step1.tsx";
-import Step2 from "./CreationSteps/Step2.tsx";
-import Step3 from "./CreationSteps/Step3.tsx";
+import Step1 from "./CreationSteps/Step1/Step1.tsx";
+import Step2 from "./CreationSteps/Step2/Step2.tsx";
+import Step3 from "./CreationSteps/Step3/Step3.tsx";
 import { GameServerCreationContext } from "./context.ts";
+import HouseBuildingProcess from "./HouseBuildingProcess.tsx";
 import ReapplyDialog from "./ReapplyDialog.tsx";
 import SuccessDialog from "./SuccessDialog.tsx";
+import UnsavedChangesDialog from "./UnsavedChangesDialog.tsx";
 import useGameServerCreation from "./useGameServerCreation.ts";
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -35,9 +36,9 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
     creationState,
     isPageValid,
     currentPage,
-    setCurrentPage,
     showReapplyDialog,
     showConfirmDialog,
+    showUnsavedChangesDialog,
     isCreating,
     showSuccessDialog,
     setShowSuccessDialog,
@@ -47,6 +48,11 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
     setUtilState,
     setCurrentPageValid,
     triggerNextPage,
+    handleTemplateSelected,
+    handleBack,
+    handleCloseAttempt,
+    handleDiscardChanges,
+    handleCancelClose,
     handleConfirmReapply,
     handleCancelReapply,
     handleConfirmCreate,
@@ -55,13 +61,14 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={setOpen}>
+      <Dialog open={isOpen} onOpenChange={handleCloseAttempt}>
         <GameServerCreationContext.Provider
           value={{
             setGameServerState,
             creationState,
             setCurrentPageValid,
             triggerNextPage,
+            handleTemplateSelected,
             setUtilState,
             isLastPage,
             isPageValid,
@@ -71,20 +78,16 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
           <DialogPortal>
             <DialogOverlay />
 
-            {/* Full-screen layout container living in the same portal */}
-            <div className="fixed inset-0 z-50 items-center justify-center gap-5 flex pr-[7vw]">
-              {/* Left side (outside the main dialog box) */}
-              <aside className="animate-in fade-in-0 slide-in-from-left-8 duration-300">
+            <div className="fixed inset-0 z-50 flex items-center justify-center gap-10">
+              <aside className="hidden lg:block animate-in fade-in-0 slide-in-from-left-8 duration-300">
                 <HouseBuildingProcess
                   houseType={creationState.gameServerState.design ?? "HOUSE"}
                   currentStep={currentPage}
                   serverName={creationState.gameServerState.server_name}
                 />
               </aside>
-
-              {/* The actual dialog */}
               <DialogContent
-                className="static translate-x-0 translate-y-0 flex min-w-[30vw] max-w-[50vw]"
+                className="static translate-x-0 translate-y-0 flex w-[55vw] h-[80vh]"
                 asChild
               >
                 <DialogHeader>
@@ -93,16 +96,12 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
                   </DialogTitle>
                 </DialogHeader>
 
-                <DialogMain className="scroller p-6">
-                  <div>{PAGES[currentPage]}</div>
+                <DialogMain className="scroller p-6 flex-1 min-h-0">
+                  <div className="h-full">{PAGES[currentPage]}</div>
                 </DialogMain>
-                <DialogFooter className="shrink-0 pt-4">
+                <DialogFooter className="shrink-0">
                   {currentPage > 0 && (
-                    <Button
-                      variant="secondary"
-                      onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-                      disabled={currentPage === 0}
-                    >
+                    <Button variant="secondary" onClick={handleBack}>
                       {t("components.CreateGameServer.backButton")}
                     </Button>
                   )}
@@ -124,6 +123,11 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
           onConfirm={handleConfirmCreate}
           onCancel={handleCancelConfirm}
         />
+        <UnsavedChangesDialog
+          open={showUnsavedChangesDialog}
+          onDiscard={handleDiscardChanges}
+          onCancel={handleCancelClose}
+        />
       </Dialog>
 
       <SuccessDialog
@@ -137,4 +141,8 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
 
 export default CreateGameServerModal;
 export type { AutoCompleteSelections, GameServerCreationFormState } from "./context.ts";
-export { GameServerCreationContext, GENERIC_GAME_PLACEHOLDER_VALUE } from "./context.ts";
+export {
+  GameServerCreationContext,
+  GENERIC_GAME_PLACEHOLDER_VALUE,
+  GENERIC_SERVER_TEMPLATE,
+} from "./context.ts";

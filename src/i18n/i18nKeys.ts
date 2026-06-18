@@ -2,6 +2,9 @@ export type i18nLanguage = {
   common: {
     yourLimit: string;
     loading: string;
+    required: string;
+    optional: string;
+    removeEntry: string;
   };
   overviewPage: {
     createNewServer: string;
@@ -282,6 +285,7 @@ export type i18nLanguage = {
       noVariables: string;
       selectPlaceholder: string;
       example: string;
+      examplePrefix: string;
       pattern: string;
       validationError: string;
       validationErrorRequired: string;
@@ -298,6 +302,10 @@ export type i18nLanguage = {
       useTemplate: string;
       useNoTemplate: string;
       createServerButton: string;
+      disabledTooltip: {
+        step2: string;
+        step3: string;
+      };
       reapplyDialog: {
         title: string;
         description: string;
@@ -324,30 +332,43 @@ export type i18nLanguage = {
       listInput: {
         addButton: string;
       };
+      unsavedChangesDialog: {
+        title: string;
+        description: string;
+        discard: string;
+        keepEditing: string;
+      };
       steps: {
         title: string;
         step1: {
           title: string;
+          genericServer: string;
+          genericTemplateName: string;
+          genericTemplateDescription: string;
+          templateCount_one: string;
+          templateCount_other: string;
+          noTemplatesAvailable: string;
+          noTemplatesMatchFilter: string;
+          selectTemplateHint: string;
+          searchGamesPlaceholder: string;
+          searchTemplatesPlaceholder: string;
+          tags: {
+            filterLabel: string;
+          };
+        };
+        step2: {
+          title: string;
+          description: string;
           serverNameSelection: {
             title: string;
             placeholder: string;
             description: string;
             errorLabel: string;
           };
-          gameSelection: {
-            title: string;
-            description: string;
-            errorLabel: string;
-            placeholder: string;
-            noGamesFound: string;
-            noResultsLabel: string;
-          };
-        };
-        step2: {
-          title: string;
-          description: string;
           noTemplatesAvailable: string;
           searchPlaceholder: string;
+          selectedTemplateLabel: string;
+          noVariablesHint: string;
           requestTemplateText: string;
           requestTemplateLinkLabel: string;
           templateSelection: {
@@ -363,11 +384,13 @@ export type i18nLanguage = {
           description: string;
           dockerImageSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           imageTagSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
@@ -375,6 +398,7 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
+            protocolPlaceholder: string;
           };
           environmentVariablesSelection: {
             title: string;
@@ -383,21 +407,25 @@ export type i18nLanguage = {
           };
           executionCommandSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           hostPathSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           memoryLimitSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
           cpuLimitSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };

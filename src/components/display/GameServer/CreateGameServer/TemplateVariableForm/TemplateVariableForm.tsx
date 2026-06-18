@@ -104,7 +104,11 @@ export default function TemplateVariableForm({
 
       // Always call onValueChange so parent can validate with current value
       let typedValue: string | number | boolean = newValue;
-      if (variable.type === "number" && String(newValue) !== "" && !Number.isNaN(Number(newValue))) {
+      if (
+        variable.type === "number" &&
+        String(newValue) !== "" &&
+        !Number.isNaN(Number(newValue))
+      ) {
         typedValue = Number(newValue);
       } else if (variable.type === "boolean") {
         typedValue = String(newValue) === "true";
@@ -127,6 +131,7 @@ export default function TemplateVariableForm({
       onValueChange: handleValueChange,
       onEnterKey: triggerNextPage,
       t,
+      isRequired: true,
     };
 
     switch (variable.type) {
@@ -144,9 +149,9 @@ export default function TemplateVariableForm({
   const hasVariables = template?.variables && template.variables.length > 0;
 
   return (
-    <Card className={"py-5"}>
+    <Card className={"pt-3 pb-6"}>
       <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
+        <CardTitle className="text-base">{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         {!template ? (

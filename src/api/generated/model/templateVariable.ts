@@ -14,4 +14,5 @@ export interface TemplateVariable {
   default_value?: unknown;
   options?: string[];
   example?: string;
+  description?: string;
 }

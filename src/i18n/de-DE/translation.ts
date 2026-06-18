@@ -4,6 +4,9 @@ const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
     loading: "Lädt...",
+    required: "Pflichtfeld",
+    optional: "Optional",
+    removeEntry: "Eintrag entfernen",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -224,6 +227,7 @@ const translation: i18nLanguage = {
       noVariables: "Dieses Template hat keine anpassbaren Variablen",
       selectPlaceholder: "Wähle eine Option",
       example: "Beispiel",
+      examplePrefix: "z.B.",
       pattern: "Muster",
       validationError: "Bitte gib einen gültigen Wert ein",
       validationErrorRequired: "Dieses Feld ist erforderlich",
@@ -240,6 +244,10 @@ const translation: i18nLanguage = {
       useTemplate: "Template verwenden",
       useNoTemplate: "Ohne Template fortfahren",
       createServerButton: "Server erstellen",
+      disabledTooltip: {
+        step2: "Bitte fülle alle erforderlichen Template-Variablen aus, um fortzufahren.",
+        step3: "Bitte fülle alle erforderlichen Felder aus, um den Server zu erstellen.",
+      },
       reapplyDialog: {
         title: "Template erneut anwenden?",
         description:
@@ -269,32 +277,47 @@ const translation: i18nLanguage = {
         escapeSequencesTooltip:
           "Unterstützt Escape-Sequenzen: \\n (Zeilenumbruch), \\t (Tabulator), \\r (Wagenrücklauf), \\\\ (Backslash)",
       },
+      unsavedChangesDialog: {
+        title: "Ungespeicherte Änderungen",
+        description:
+          "Du hast ungespeicherte Änderungen, die verloren gehen, wenn du diesen Dialog schließt.",
+        discard: "Verwerfen",
+        keepEditing: "Weiter bearbeiten",
+      },
       steps: {
         title: "Server erstellen",
         step1: {
-          title: "Namen und Spiel auswählen",
+          title: "Spiel & Template auswählen",
+          genericServer: "Generischer Server",
+          genericTemplateName: "Generischer Server",
+          genericTemplateDescription:
+            "Starte mit einer leeren Konfiguration — keine Werte sind vorausgefüllt.",
+          templateCount_one: "{{count}} Template",
+          templateCount_other: "{{count}} Templates",
+          noTemplatesAvailable: "Für dieses Spiel sind keine Templates verfügbar.",
+          noTemplatesMatchFilter: "Keine Templates entsprechen deiner Suche oder den Filtern.",
+          selectTemplateHint: "Wähle ein Template aus oder fahre ohne fort.",
+          searchGamesPlaceholder: "Spiele suchen...",
+          searchTemplatesPlaceholder: "Templates suchen...",
+          tags: {
+            filterLabel: "Nach Tag filtern",
+          },
+        },
+        step2: {
+          title: " Template auswählen",
+          description: "Wähle ein Template für deinen Server aus.",
           serverNameSelection: {
             title: "Servername",
             placeholder: "Australianien",
             description: "Benenne deinen Server",
             errorLabel: "Bitte gib einen gültigen Servernamen ein.",
           },
-          gameSelection: {
-            title: "Spiel auswählen",
-            description: "Wähle ein Spiel für deinen Server aus.",
-            errorLabel: "Bitte wähle ein gültiges Spiel aus.",
-            placeholder: "Spiel suchen...",
-            noGamesFound:
-              "Fehler beim Abrufen der Spiele. Wähle dies für das Standardspiel. (kein spezifisches Spiel)",
-            noResultsLabel: "Generisches Spiel",
-          },
-        },
-        step2: {
-          title: " Template auswählen",
-          description: "Wähle ein Template für deinen Server aus.",
           noTemplatesAvailable:
             "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
           searchPlaceholder: "Templates suchen...",
+          selectedTemplateLabel: "Ausgewähltes Template",
+          noVariablesHint:
+            "Dieses Template erfordert keine Konfiguration. Klicke auf <action>{{action}}</action>, um fortzufahren.",
           requestTemplateText: "Du kannst ein Template für dieses Spiel anfragen, indem du",
           requestTemplateLinkLabel: "dieses Formular ausfüllst",
           templateSelection: {
@@ -310,11 +333,13 @@ const translation: i18nLanguage = {
           description: "Hier kannst du deinen Server konfigurieren.",
           dockerImageSelection: {
             title: "Docker-Image",
+            placeholder: "nginx",
             description: "Docker-Image für deinen Server",
             errorLabel: "Bitte gib ein gültiges Docker-Image ein.",
           },
           imageTagSelection: {
             title: "Image-Tag",
+            placeholder: "latest",
             description: "Tag für das Docker-Image",
             errorLabel: "Bitte gib ein gültiges Image-Tag ein.",
           },
@@ -322,6 +347,7 @@ const translation: i18nLanguage = {
             title: "Port",
             description: "Port, der zu deinem Server weitergeleitet wird.",
             errorLabel: "Bitte gib einen gültigen Port ein.",
+            protocolPlaceholder: "Protokoll",
           },
           environmentVariablesSelection: {
             title: "Umgebungsvariable",
@@ -331,21 +357,25 @@ const translation: i18nLanguage = {
           },
           executionCommandSelection: {
             title: "Ausführungsbefehl",
+            placeholder: "./start.sh",
             description: "Befehl zum Starten deines Servers",
             errorLabel: "Bitte gib ein gültiges Ausführungsbefehl ein.",
           },
           hostPathSelection: {
             title: "Volume-Mount",
+            placeholder: "/data",
             description: "Volume-Mounts für deinen Server",
             errorLabel: "Pfad muss mit '/' beginnen und darf nicht genau '/' sein.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
+            placeholder: "512",
             description: "Maximaler RAM, der diesem Server zugewiesen wird",
             errorLabel: "Bitte gib ein gültiges Speicherlimit ein.",
           },
           cpuLimitSelection: {
             title: "CPU Kern Limit",
+            placeholder: "0.5",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },
@@ -859,7 +889,8 @@ const translation: i18nLanguage = {
         },
         changePermissionsDialog: {
           title: "Berechtigungen ändern",
-          description: "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",
+          description:
+            "Ressourcenlimits und Spielserver-Erstellungsrecht für diesen Benutzer bearbeiten.",
           cpuLabel: "CPU-Limit",
           cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
           memoryLabel: "Speicher-Limit",

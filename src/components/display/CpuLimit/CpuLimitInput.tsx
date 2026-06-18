@@ -1,9 +1,11 @@
 import { Input } from "@components/ui/input.tsx";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import { useCallback, useEffect, useState } from "react";
 
 interface CpuLimitInputProps {
   id?: string;
-  header?: string;
+  header?: React.ReactNode;
+  isRequired?: boolean;
   description?: string;
   value?: number | string | null;
   onChange: (value: string) => void; // Emits numeric string (e.g. "0.5" or "2")
@@ -16,6 +18,7 @@ interface CpuLimitInputProps {
 export const CpuLimitInput = ({
   id,
   header,
+  isRequired,
   description,
   value,
   onChange,
@@ -73,7 +76,7 @@ export const CpuLimitInput = ({
 
   return (
     <Input
-      header={header}
+      header={isRequired ? <>{header} <RequiredMark /></> : header}
       description={description}
       className={className}
       error={error}

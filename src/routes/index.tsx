@@ -69,7 +69,10 @@ function Index() {
   }, []);
 
   return (
-    <GameServerBackground houseCount={sortedGameServers.length + (showConstructionPlace ? 1 : 0)} scrollRef={scrollRef}>
+    <GameServerBackground
+      houseCount={sortedGameServers.length + (showConstructionPlace ? 1 : 0)}
+      scrollRef={scrollRef}
+    >
       <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
         <GameServerDisplay gameServerConfigurations={sortedGameServers} />
       </div>

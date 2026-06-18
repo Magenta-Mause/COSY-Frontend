@@ -1,4 +1,5 @@
 import { FieldError, FieldLabel } from "@components/ui/field";
+import RequiredMark from "@components/ui/RequiredMark.tsx";
 import {
   Select,
   SelectContent,
@@ -7,6 +8,7 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import { cn } from "@/lib/utils.ts";
+import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 
 export default function SelectInput({
@@ -16,13 +18,14 @@ export default function SelectInput({
   errorMessage,
   onValueChange,
   t,
+  isRequired,
 }: VariableInputProps) {
   const placeholder = variable.placeholder ?? "";
 
   return (
     <div key={placeholder} className="space-y-2">
       <FieldLabel htmlFor={placeholder} className="text-lg">
-        {variable.name}
+        {variable.name} {isRequired && <RequiredMark />}
       </FieldLabel>
       <Select value={String(value ?? "")} onValueChange={(val) => onValueChange(variable, val)}>
         <SelectTrigger id={placeholder} className={cn(showError ? "border-red-500" : "")}>
@@ -36,6 +39,7 @@ export default function SelectInput({
           ))}
         </SelectContent>
       </Select>
+      <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
       {variable.example && (
         <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
           {t("example")}: {variable.example}

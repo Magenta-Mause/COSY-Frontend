@@ -24,4 +24,5 @@ export interface TemplateEntity {
   file_mounts?: string[];
   variables?: TemplateVariable[];
   resource_limit?: ResourceLimit;
+  tags?: string[];
 }

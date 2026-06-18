@@ -28,9 +28,7 @@ const ChangePermissionsModal = (props: {
   onClose: () => void;
   showCanCreateGameServers: boolean;
 }) => {
-  const { t } = useTranslationPrefix(
-    "components.userManagement.admin.changePermissionsDialog",
-  );
+  const { t } = useTranslationPrefix("components.userManagement.admin.changePermissionsDialog");
   const { updateDockerLimits, setCanCreateGameServers } = useDataInteractions();
 
   const [cpu, setCpu] = useState(
@@ -58,14 +56,22 @@ const ChangePermissionsModal = (props: {
 
   const handleCpuChange = (val: string) => {
     setCpu(val);
-    if (val === "") { setCpuError(undefined); return; }
+    if (val === "") {
+      setCpuError(undefined);
+      return;
+    }
     setCpuError(cpuLimitValidator.safeParse(val).success ? undefined : CPU_LIMIT_POSITIVE_ERROR);
   };
 
   const handleMemoryChange = (val: string) => {
     setMemory(val);
-    if (val === "") { setMemoryError(undefined); return; }
-    setMemoryError(memoryLimitValidator.safeParse(val).success ? undefined : MEMORY_LIMIT_MIN_ERROR);
+    if (val === "") {
+      setMemoryError(undefined);
+      return;
+    }
+    setMemoryError(
+      memoryLimitValidator.safeParse(val).success ? undefined : MEMORY_LIMIT_MIN_ERROR,
+    );
   };
 
   const handleClose = () => {

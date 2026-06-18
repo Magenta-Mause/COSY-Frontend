@@ -19,8 +19,8 @@ import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
-import ChangePermissionsModal from "./ChangePermissionsModal";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
+import ChangePermissionsModal from "./ChangePermissionsModal";
 import ChangeRoleModal from "./ChangeRoleModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
 

@@ -8,4 +8,5 @@ export interface VariableInputProps {
   onValueChange: (variable: TemplateVariable, value: string | number | boolean) => void;
   onEnterKey: () => void;
   t: (key: string) => string;
+  isRequired?: boolean;
 }

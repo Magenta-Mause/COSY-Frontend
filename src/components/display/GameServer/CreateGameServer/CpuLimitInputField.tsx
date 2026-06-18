@@ -116,6 +116,7 @@ const CpuLimitInputField = ({
       <CpuLimitInput
         id={attribute}
         header={label}
+        isRequired={!optional}
         error={isError ? errorMessage : undefined}
         placeholder={placeholder}
         value={creationState.gameServerState[attribute] as string | number | undefined}
