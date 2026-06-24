@@ -7,6 +7,6 @@
  */
 
 export interface VolumeMountConfiguration {
-  uuid?: string;
   container_path?: string;
+  uuid?: string;
 }

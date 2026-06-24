@@ -40,9 +40,9 @@ export default function SelectInput({
         </SelectContent>
       </Select>
       <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
-      {variable.example && (
+      {variable.example != null && variable.example !== "" && (
         <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-          {t("example")}: {variable.example}
+          {t("example")}: {String(variable.example)}
         </FieldLabel>
       )}
       {showError && (

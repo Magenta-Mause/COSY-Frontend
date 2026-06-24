@@ -6,7 +6,10 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface VolumeMountConfigurationDto {
+export interface HostVolumeMountConfigurationDto {
+  read_only?: boolean;
+  /** @minLength 1 */
+  host_path: string;
   /**
    * @minLength 1
    * @pattern ^/.+

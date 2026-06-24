@@ -8,13 +8,13 @@
 import type { MetricValuesCustomMetricHolder } from './metricValuesCustomMetricHolder';
 
 export interface MetricValues {
-  cpu_percent?: number;
-  memory_percent?: number;
-  memory_usage?: number;
   memory_limit?: number;
-  network_input?: number;
-  network_output?: number;
-  block_read?: number;
+  memory_usage?: number;
+  cpu_percent?: number;
   block_write?: number;
+  network_output?: number;
+  memory_percent?: number;
   custom_metric_holder?: MetricValuesCustomMetricHolder;
+  block_read?: number;
+  network_input?: number;
 }

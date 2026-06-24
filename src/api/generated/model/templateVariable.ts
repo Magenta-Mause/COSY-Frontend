@@ -7,12 +7,13 @@
  */
 
 export interface TemplateVariable {
-  name?: string;
-  type?: string;
-  placeholder?: string;
   regex?: string;
-  default_value?: unknown;
+  name?: string;
+  default?: unknown;
+  type?: string;
+  required?: boolean;
+  example?: unknown;
+  placeholder?: string;
   options?: string[];
-  example?: string;
   description?: string;
 }

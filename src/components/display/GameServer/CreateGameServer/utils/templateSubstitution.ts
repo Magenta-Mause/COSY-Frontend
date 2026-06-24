@@ -1,5 +1,6 @@
 import {
   type EnvironmentVariableConfiguration,
+  type HostVolumeMountConfigurationDto,
   type PortMapping,
   PortMappingProtocol,
   type TemplateEntity,
@@ -23,6 +24,41 @@ export function substituteVariables(
   }
 
   return result;
+}
+
+/** True when the (already-substituted) string still carries an unresolved `{{var}}` or is empty. */
+function hasUnresolvedOrEmpty(value: string): boolean {
+  const trimmed = value.trim();
+  return trimmed === "" || trimmed.includes("{{");
+}
+
+/**
+ * Substitutes variables into a string and coerces it to an integer.
+ * Returns undefined when the value is empty, still contains an unresolved `{{var}}`, or is not a
+ * finite integer (the field is then omitted to keep a valid creation DTO).
+ */
+function substituteToInt(
+  template: string,
+  variables: Record<string, string | number | boolean>,
+): number | undefined {
+  const substituted = substituteVariables(template, variables);
+  if (hasUnresolvedOrEmpty(substituted)) return undefined;
+  const parsed = Number.parseInt(substituted.trim(), 10);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+/**
+ * Substitutes variables into a string and coerces it to a (float) number.
+ * Returns undefined when the value is empty, still contains an unresolved `{{var}}`, or is NaN.
+ */
+function substituteToNumber(
+  template: string,
+  variables: Record<string, string | number | boolean>,
+): number | undefined {
+  const substituted = substituteVariables(template, variables);
+  if (hasUnresolvedOrEmpty(substituted)) return undefined;
+  const parsed = Number.parseFloat(substituted.trim());
+  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 /**
@@ -58,19 +94,23 @@ export function applyTemplate(
     newState.environment_variables = envVars;
   }
 
-  // Substitute port mappings
+  // Substitute port mappings. Port values are now STRINGS that may contain {{var}}; substitute
+  // first, then coerce to int. Skip any mapping whose port stays unresolved/empty/non-numeric.
   if (template.port_mappings) {
     const portMappings: PortMapping[] = [];
     for (const [key, value] of Object.entries(template.port_mappings)) {
       // Parse the key which might be "25565" or "25565/tcp"
       const [portStr, protocol] = key.split("/");
 
+      const instancePort = substituteToInt(portStr, variables);
+      const containerPort = substituteToInt(String(value), variables);
+
+      // Both ports must resolve to a valid integer to form a usable mapping.
+      if (instancePort === undefined || containerPort === undefined) continue;
+
       portMappings.push({
-        instance_port: parseInt(substituteVariables(portStr, variables), 10),
-        container_port:
-          typeof value === "number"
-            ? value
-            : parseInt(substituteVariables(String(value), variables), 10),
+        instance_port: instancePort,
+        container_port: containerPort,
         protocol:
           protocol?.toUpperCase() === "UDP" ? PortMappingProtocol.UDP : PortMappingProtocol.TCP,
       });
@@ -92,16 +132,52 @@ export function applyTemplate(
     }));
   }
 
-  // Apply hardware limits - convert to form state format (strings) with variable substitution
+  // Apply hardware limits - resource_limit values are now STRINGS that may contain {{var}}.
+  // Substitute FIRST, then coerce: cpu is a (float) number, memory is parsed/validated and kept
+  // as the string the form input expects. Guard against unsubstituted/empty values.
   if (template.resource_limit?.cpu !== undefined) {
-    newState.docker_max_cpu = substituteVariables(String(template.resource_limit.cpu), variables);
+    const cpu = substituteToNumber(String(template.resource_limit.cpu), variables);
+    newState.docker_max_cpu = cpu !== undefined ? String(cpu) : undefined;
   }
 
   if (template.resource_limit?.memory !== undefined) {
-    newState.docker_max_memory = substituteVariables(
-      String(template.resource_limit.memory),
-      variables,
-    );
+    const memory = substituteVariables(String(template.resource_limit.memory), variables);
+    // Keep the substituted string (memory limits may be like "512" or "2Gi"); omit when unresolved.
+    newState.docker_max_memory = hasUnresolvedOrEmpty(memory) ? undefined : memory.trim();
+  }
+
+  // Substitute annotations (Docker labels) — both keys and values may contain {{var}}.
+  // Stored as key/value entries for the KeyValueInput editor; converted to a record at submit time.
+  if (template.annotations) {
+    const annotations: { key: string; value: string }[] = [];
+    for (const [key, value] of Object.entries(template.annotations)) {
+      const substitutedKey = substituteVariables(key, variables).trim();
+      const substitutedValue = substituteVariables(String(value), variables);
+      // Skip annotations whose key stays unresolved/empty so the DTO stays valid.
+      if (hasUnresolvedOrEmpty(substitutedKey)) continue;
+      annotations.push({ key: substitutedKey, value: substitutedValue });
+    }
+    newState.annotations = annotations;
+  }
+
+  // Substitute host mounts — host_path and container_path may contain {{var}}.
+  if (template.host_mounts) {
+    const hostMounts: HostVolumeMountConfigurationDto[] = [];
+    for (const mount of template.host_mounts) {
+      const hostPath = substituteVariables(String(mount.host_path ?? ""), variables).trim();
+      const containerPath = substituteVariables(
+        String(mount.container_path ?? ""),
+        variables,
+      ).trim();
+      // Require both paths to resolve to a usable value; container_path must be absolute.
+      if (hasUnresolvedOrEmpty(hostPath) || hasUnresolvedOrEmpty(containerPath)) continue;
+      hostMounts.push({
+        host_path: hostPath,
+        container_path: containerPath,
+        read_only: mount.read_only ?? true,
+      });
+    }
+    newState.host_volume_mounts = hostMounts;
   }
 
   return newState;

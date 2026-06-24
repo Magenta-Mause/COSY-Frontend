@@ -8,7 +8,7 @@
 import type { MetricLayoutSize } from './metricLayoutSize';
 
 export interface MetricLayout {
+  metric_type?: string;
   uuid?: string;
   size?: MetricLayoutSize;
-  metric_type?: string;
 }

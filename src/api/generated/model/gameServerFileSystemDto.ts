@@ -8,7 +8,7 @@
 import type { FileSystemObjectDto } from './fileSystemObjectDto';
 
 export interface GameServerFileSystemDto {
+  objects?: FileSystemObjectDto[];
   /** @minLength 1 */
   volume_uuid: string;
-  objects?: FileSystemObjectDto[];
 }

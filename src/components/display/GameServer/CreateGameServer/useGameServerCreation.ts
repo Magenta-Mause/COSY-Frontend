@@ -85,8 +85,8 @@ const useGameServerCreation = ({
       const defaults: Record<string, string | number | boolean> = {};
       template.variables?.forEach((variable) => {
         if (!variable.placeholder) return;
-        if (variable.default_value != null) {
-          const raw = variable.default_value;
+        if (variable.default != null) {
+          const raw = variable.default;
           if (variable.type === "number" && !Number.isNaN(Number(raw))) {
             defaults[variable.placeholder] = Number(raw);
           } else if (variable.type === "boolean") {
@@ -177,6 +177,15 @@ const useGameServerCreation = ({
   const handleConfirmCreate = useCallback(async () => {
     const formState = creationState.gameServerState;
 
+    const annotationsRecord = (formState.annotations ?? []).reduce<Record<string, string>>(
+      (acc, entry) => {
+        const key = entry.key?.trim();
+        if (key) acc[key] = processEscapeSequences(entry.value ?? "");
+        return acc;
+      },
+      {},
+    );
+
     const gameServerCreationObject: GameServerCreationDto = {
       server_name: formState.server_name ?? "",
       docker_image_name: formState.docker_image_name ?? "",
@@ -194,6 +203,10 @@ const useGameServerCreation = ({
         value: processEscapeSequences(env.value),
       })),
       volume_mounts: formState.volume_mounts,
+      host_volume_mounts: formState.host_volume_mounts?.filter(
+        (m) => m.host_path?.trim() && m.container_path?.trim(),
+      ),
+      annotations: Object.keys(annotationsRecord).length > 0 ? annotationsRecord : undefined,
       docker_hardware_limits:
         formState.docker_max_cpu || formState.docker_max_memory
           ? {

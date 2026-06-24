@@ -374,6 +374,24 @@ const translation: i18nLanguage = {
             description: "Limit the CPU usage of the server",
             errorLabel: "Please enter a valid CPU limit.",
           },
+          advancedSettings: {
+            title: "Advanced settings",
+            description: "Execution command, annotations and host mounts.",
+          },
+          annotationsSelection: {
+            title: "Annotations",
+            description: "Docker labels applied to the container when it starts.",
+            errorLabel: "Both key and value must be provided.",
+          },
+          hostVolumeMountSelection: {
+            title: "Host Mounts",
+            description:
+              "Bind a host path directly into the container. Only admins and owners can edit these.",
+            errorLabel: "Host path is required and container path must be absolute (start with '/').",
+            hostPathPlaceholder: "/var/run/docker.sock",
+            containerPathPlaceholder: "/var/run/docker.sock",
+            readOnlyLabel: "Read-only",
+          },
         },
         title: "Create Server",
       },
@@ -527,6 +545,27 @@ const translation: i18nLanguage = {
           keepIndicator: "Files will be kept",
           deleteIndicator: "Old files will be deleted",
         },
+      },
+
+      advancedSettings: {
+        title: "Advanced settings",
+        description: "Execution command, annotations and host mounts.",
+      },
+
+      annotationsSelection: {
+        title: "Annotations",
+        description: "Docker labels applied to the container when it starts.",
+        errorLabel: "Both key and value must be provided.",
+      },
+
+      hostVolumeMountSelection: {
+        title: "Host Mounts",
+        description:
+          "Bind a host path directly into the container. Only admins and owners can edit these.",
+        errorLabel: "Host path is required and container path must be absolute (start with '/').",
+        hostPathPlaceholder: "/var/run/docker.sock",
+        containerPathPlaceholder: "/var/run/docker.sock",
+        readOnlyLabel: "Read-only",
       },
 
       memoryLimitSelection: {

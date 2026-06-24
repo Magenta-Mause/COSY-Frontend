@@ -429,6 +429,23 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
           };
+          advancedSettings: {
+            title: string;
+            description: string;
+          };
+          annotationsSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
+          hostVolumeMountSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+            hostPathPlaceholder: string;
+            containerPathPlaceholder: string;
+            readOnlyLabel: string;
+          };
         };
       };
       autoCompleteInputField: {
@@ -511,6 +528,26 @@ export type i18nLanguage = {
           keepIndicator: string;
           deleteIndicator: string;
         };
+      };
+
+      advancedSettings: {
+        title: string;
+        description: string;
+      };
+
+      annotationsSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      hostVolumeMountSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+        hostPathPlaceholder: string;
+        containerPathPlaceholder: string;
+        readOnlyLabel: string;
       };
 
       memoryLimitSelection: {

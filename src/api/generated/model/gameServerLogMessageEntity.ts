@@ -8,8 +8,8 @@
 import type { GameServerLogMessageEntityLevel } from './gameServerLogMessageEntityLevel';
 
 export interface GameServerLogMessageEntity {
+  timestamp?: string;
   game_server_uuid?: string;
   message?: string;
   level?: GameServerLogMessageEntityLevel;
-  timestamp?: string;
 }

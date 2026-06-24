@@ -379,6 +379,25 @@ const translation: i18nLanguage = {
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },
+          advancedSettings: {
+            title: "Erweiterte Einstellungen",
+            description: "Startbefehl, Annotationen und Host-Mounts.",
+          },
+          annotationsSelection: {
+            title: "Annotationen",
+            description: "Docker-Labels, die beim Start auf den Container angewendet werden.",
+            errorLabel: "Schlüssel und Wert müssen angegeben werden.",
+          },
+          hostVolumeMountSelection: {
+            title: "Host-Mounts",
+            description:
+              "Bindet einen Host-Pfad direkt in den Container ein. Nur Admins und Eigentümer können diese bearbeiten.",
+            errorLabel:
+              "Host-Pfad ist erforderlich und Container-Pfad muss absolut sein (mit '/' beginnen).",
+            hostPathPlaceholder: "/var/run/docker.sock",
+            containerPathPlaceholder: "/var/run/docker.sock",
+            readOnlyLabel: "Schreibgeschützt",
+          },
         },
       },
       autoCompleteInputField: {
@@ -530,6 +549,28 @@ const translation: i18nLanguage = {
           keepIndicator: "Dateien werden beibehalten",
           deleteIndicator: "Alte Dateien werden gelöscht",
         },
+      },
+
+      advancedSettings: {
+        title: "Erweiterte Einstellungen",
+        description: "Startbefehl, Annotationen und Host-Mounts.",
+      },
+
+      annotationsSelection: {
+        title: "Annotationen",
+        description: "Docker-Labels, die beim Start auf den Container angewendet werden.",
+        errorLabel: "Schlüssel und Wert müssen angegeben werden.",
+      },
+
+      hostVolumeMountSelection: {
+        title: "Host-Mounts",
+        description:
+          "Bindet einen Host-Pfad direkt in den Container ein. Nur Admins und Eigentümer können diese bearbeiten.",
+        errorLabel:
+          "Host-Pfad ist erforderlich und Container-Pfad muss absolut sein (mit '/' beginnen).",
+        hostPathPlaceholder: "/var/run/docker.sock",
+        containerPathPlaceholder: "/var/run/docker.sock",
+        readOnlyLabel: "Schreibgeschützt",
       },
 
       memoryLimitSelection: {

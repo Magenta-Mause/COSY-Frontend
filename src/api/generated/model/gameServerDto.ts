@@ -5,46 +5,50 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { UserEntityDto } from './userEntityDto';
-import type { GameServerDtoStatus } from './gameServerDtoStatus';
-import type { GameServerDtoDesign } from './gameServerDtoDesign';
-import type { RCONConfiguration } from './rCONConfiguration';
-import type { DockerHardwareLimits } from './dockerHardwareLimits';
-import type { PortMapping } from './portMapping';
-import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfiguration } from './volumeMountConfiguration';
-import type { MetricLayout } from './metricLayout';
+import type { GameServerDtoDesign } from './gameServerDtoDesign';
+import type { UserEntityDto } from './userEntityDto';
+import type { RCONConfiguration } from './rCONConfiguration';
 import type { PrivateDashboardLayout } from './privateDashboardLayout';
-import type { GameServerAccessGroupDto } from './gameServerAccessGroupDto';
+import type { GameServerDtoStatus } from './gameServerDtoStatus';
+import type { MetricLayout } from './metricLayout';
 import type { WebhookDto } from './webhookDto';
 import type { PublicDashboard } from './publicDashboard';
+import type { DockerHardwareLimits } from './dockerHardwareLimits';
+import type { GameServerDtoAnnotations } from './gameServerDtoAnnotations';
+import type { GameServerAccessGroupDto } from './gameServerAccessGroupDto';
+import type { PortMapping } from './portMapping';
+import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
+import type { HostVolumeMountConfiguration } from './hostVolumeMountConfiguration';
 
 export interface GameServerDto {
+  volume_mounts: VolumeMountConfiguration[];
+  /** @minLength 1 */
+  docker_image_name: string;
+  created_on?: string;
+  design?: GameServerDtoDesign;
+  owner: UserEntityDto;
   /** @minLength 1 */
   uuid: string;
   /** @minLength 1 */
   server_name: string;
-  owner: UserEntityDto;
-  status: GameServerDtoStatus;
-  design?: GameServerDtoDesign;
-  created_on?: string;
-  timestamp_last_started: string;
   rcon_configuration?: RCONConfiguration;
-  /** @minLength 1 */
-  game_uuid: string;
-  external_game_id?: number;
-  /** @minLength 1 */
-  docker_image_name: string;
+  private_dashboard_layouts: PrivateDashboardLayout[];
+  status: GameServerDtoStatus;
   /** @minLength 1 */
   docker_image_tag: string;
+  metric_layout: MetricLayout[];
+  external_game_id?: number;
+  timestamp_last_started: string;
+  webhooks?: WebhookDto[];
+  /** @minLength 1 */
+  game_uuid: string;
+  public_dashboard: PublicDashboard;
   docker_hardware_limits?: DockerHardwareLimits;
-  execution_command?: string[];
+  annotations?: GameServerDtoAnnotations;
+  access_groups: GameServerAccessGroupDto[];
   port_mappings: PortMapping[];
   environment_variables: EnvironmentVariableConfiguration[];
-  volume_mounts: VolumeMountConfiguration[];
-  metric_layout: MetricLayout[];
-  private_dashboard_layouts: PrivateDashboardLayout[];
-  access_groups: GameServerAccessGroupDto[];
-  webhooks?: WebhookDto[];
-  public_dashboard: PublicDashboard;
+  execution_command?: string[];
+  host_volume_mounts?: HostVolumeMountConfiguration[];
 }

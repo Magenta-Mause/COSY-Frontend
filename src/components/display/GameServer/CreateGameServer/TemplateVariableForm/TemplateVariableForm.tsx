@@ -75,7 +75,16 @@ export default function TemplateVariableForm({
     const states: Record<string, VariableState> = {};
     template?.variables?.forEach((variable) => {
       const placeholder = variable.placeholder ?? "";
-      const initialValue = initialValues[placeholder] ?? variable.default_value ?? "";
+      // `variable.default` is typed `unknown` on the v3 wire contract — coerce to a primitive.
+      const variableDefault =
+        typeof variable.default === "string" ||
+        typeof variable.default === "number" ||
+        typeof variable.default === "boolean"
+          ? variable.default
+          : variable.default != null
+            ? String(variable.default)
+            : undefined;
+      const initialValue = initialValues[placeholder] ?? variableDefault ?? "";
       const validation = validateValue(variable, initialValue);
       states[placeholder] = {
         value: initialValue,

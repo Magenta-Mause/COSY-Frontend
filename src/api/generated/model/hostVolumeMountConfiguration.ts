@@ -6,4 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export type TemplateEntityPortMappings = {[key: string]: string};
+export interface HostVolumeMountConfiguration {
+  read_only?: boolean;
+  host_path?: string;
+  container_path?: string;
+  uuid?: string;
+}

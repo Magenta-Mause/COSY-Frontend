@@ -2,8 +2,9 @@ import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServe
 import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
 import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import Collapsible from "@components/ui/Collapsible.tsx";
 import UnsavedModal from "@components/ui/UnsavedModal";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
@@ -23,6 +24,7 @@ import {
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
 import { processEscapeSequences } from "../CreateGameServer/util";
+import EditHostVolumeMountConfigurationInput from "./EditHostVolumeMountConfigurationInput";
 import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
@@ -43,6 +45,15 @@ const EditGameServerPage = (props: {
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     quote(gameServerState.execution_command ?? []),
   );
+  // Annotations are a Record<string,string> on the DTO but edited as key/value entries.
+  const annotationsToEntries = useCallback(
+    (annotations?: Record<string, string>): { key: string; value: string }[] =>
+      Object.entries(annotations ?? {}).map(([key, value]) => ({ key, value })),
+    [],
+  );
+  const [annotationEntries, setAnnotationEntries] = useState<{ key: string; value: string }[]>(() =>
+    annotationsToEntries(gameServerState.annotations),
+  );
   const [_memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
   const [cpuError, setCpuError] = useState<string | undefined>(undefined);
   const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
@@ -51,7 +62,8 @@ const EditGameServerPage = (props: {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
     setGameServerState(updatedState);
     setExecutionCommandRaw(quote(updatedState.execution_command ?? []));
-  }, [props.gameServer]);
+    setAnnotationEntries(annotationsToEntries(updatedState.annotations));
+  }, [props.gameServer, annotationsToEntries]);
 
   const allFieldsValid = useMemo(() => {
     const serverNameValid = z.string().min(1).safeParse(gameServerState.server_name).success;
@@ -105,6 +117,17 @@ const EditGameServerPage = (props: {
         return true;
       });
 
+    const hostVolumeMountsValid =
+      !gameServerState.host_volume_mounts ||
+      gameServerState.host_volume_mounts.length === 0 ||
+      gameServerState.host_volume_mounts.every((m) => {
+        const host = m.host_path?.trim() ?? "";
+        const container = m.container_path?.trim() ?? "";
+        if (host.length === 0 && container.length === 0) return true;
+        if (host.length === 0) return false;
+        return /^\/.+/.test(container);
+      });
+
     const cpuLimitValid =
       cpuLimit === null
         ? // Optional: empty is valid, but provided values must be validated
@@ -134,6 +157,7 @@ const EditGameServerPage = (props: {
       portMappingsValid &&
       envVarsValid &&
       volumeMountsValid &&
+      hostVolumeMountsValid &&
       cpuLimitValid &&
       memoryLimitValid &&
       !cpuError &&
@@ -150,6 +174,7 @@ const EditGameServerPage = (props: {
     gameServerState.port_mappings,
     gameServerState.environment_variables,
     gameServerState.volume_mounts,
+    gameServerState.host_volume_mounts,
     gameServerState.docker_hardware_limits?.docker_max_cpu_cores,
     gameServerState.docker_hardware_limits?.docker_memory_limit,
   ]);
@@ -187,6 +212,32 @@ const EditGameServerPage = (props: {
         })) ?? [],
       );
 
+    const hostVolumesChanged =
+      JSON.stringify(
+        gameServerState.host_volume_mounts?.map((m) => ({
+          host_path: m.host_path ?? "",
+          container_path: m.container_path ?? "",
+          read_only: m.read_only ?? true,
+        })) ?? [],
+      ) !==
+      JSON.stringify(
+        props.gameServer.host_volume_mounts?.map((m) => ({
+          host_path: m.host_path ?? "",
+          container_path: m.container_path ?? "",
+          read_only: m.read_only ?? true,
+        })) ?? [],
+      );
+
+    const annotationsChanged =
+      JSON.stringify(
+        annotationEntries
+          .filter((e) => e.key?.trim())
+          .reduce<Record<string, string>>((acc, e) => {
+            acc[e.key.trim()] = e.value ?? "";
+            return acc;
+          }, {}),
+      ) !== JSON.stringify(props.gameServer.annotations ?? {});
+
     const normalizeLimitValue = (val: string | number | null | undefined) =>
       val === null || val === undefined || val === "" ? null : val;
 
@@ -202,6 +253,8 @@ const EditGameServerPage = (props: {
       portsChanged ||
       envChanged ||
       volumesChanged ||
+      hostVolumesChanged ||
+      annotationsChanged ||
       hardwareLimitsChanged
     );
   }, [
@@ -219,6 +272,10 @@ const EditGameServerPage = (props: {
     props.gameServer.environment_variables,
     gameServerState.volume_mounts,
     props.gameServer.volume_mounts,
+    gameServerState.host_volume_mounts,
+    props.gameServer.host_volume_mounts,
+    annotationEntries,
+    props.gameServer.annotations,
     gameServerState.docker_hardware_limits?.docker_max_cpu_cores,
     props.gameServer.docker_hardware_limits?.docker_max_cpu_cores,
     gameServerState.docker_hardware_limits?.docker_memory_limit,
@@ -226,14 +283,24 @@ const EditGameServerPage = (props: {
   ]);
 
   const handleRevert = () => {
-    setGameServerState(mapGameServerDtoToUpdate(props.gameServer));
+    const reverted = mapGameServerDtoToUpdate(props.gameServer);
+    setGameServerState(reverted);
     setExecutionCommandRaw(quote(props.gameServer.execution_command ?? []));
+    setAnnotationEntries(annotationsToEntries(reverted.annotations));
   };
 
   const handleConfirm = async () => {
     const parsedExecutionCommand = executionCommandRaw.trim()
       ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
       : [];
+
+    // Convert annotation entries back to the DTO's Record<string,string> (user key wins on dupes).
+    const annotationsRecord = annotationEntries.reduce<Record<string, string>>((acc, entry) => {
+      const key = entry.key?.trim();
+      if (key) acc[key] = processEscapeSequences(entry.value ?? "");
+      return acc;
+    }, {});
+
     const payload: GameServerUpdateDto = {
       ...gameServerState,
       execution_command: parsedExecutionCommand,
@@ -252,6 +319,15 @@ const EditGameServerPage = (props: {
           container_path: v.container_path,
           ...(v.uuid ? { uuid: v.uuid } : {}),
         })),
+      host_volume_mounts: gameServerState.host_volume_mounts
+        ?.filter((m) => m.host_path?.trim() && m.container_path?.trim())
+        .map((m) => ({
+          host_path: m.host_path,
+          container_path: m.container_path,
+          read_only: m.read_only ?? true,
+          ...(m.uuid ? { uuid: m.uuid } : {}),
+        })),
+      annotations: annotationsRecord,
     };
     setLoading(true);
     try {
@@ -409,17 +485,6 @@ const EditGameServerPage = (props: {
           processEscapeSequences={true}
         />
 
-        <InputFieldEditGameServer
-          validator={z.string()}
-          placeholder="./start.sh"
-          label={t("executionCommandSelection.title")}
-          description={t("executionCommandSelection.description")}
-          errorLabel={t("executionCommandSelection.errorLabel")}
-          value={executionCommandRaw}
-          onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
-          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
-        />
-
         <EditVolumeMountConfigurationInput<{ container_path: string; uuid?: string }>
           fieldLabel={t("volumeMountSelection.title")}
           fieldDescription={t("volumeMountSelection.description")}
@@ -444,6 +509,62 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="container_path"
         />
+
+        <Collapsible
+          title={t("advancedSettings.title")}
+          description={t("advancedSettings.description")}
+          className="my-2"
+        >
+          <InputFieldEditGameServer
+            validator={z.string()}
+            placeholder="./start.sh"
+            label={t("executionCommandSelection.title")}
+            description={t("executionCommandSelection.description")}
+            errorLabel={t("executionCommandSelection.errorLabel")}
+            value={executionCommandRaw}
+            onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
+            onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
+          />
+
+          <EditKeyValueInput<{ key: string; value: string }>
+            fieldLabel={t("annotationsSelection.title")}
+            fieldDescription={t("annotationsSelection.description")}
+            value={annotationEntries}
+            setValue={(vals) => setAnnotationEntries(vals)}
+            onChange={(vals) => setAnnotationEntries(vals)}
+            placeHolderKeyInput="com.example.label"
+            placeHolderValueInput="value"
+            keyValidator={z.string().min(1)}
+            valueValidator={z.string().min(1)}
+            errorLabel={t("annotationsSelection.errorLabel")}
+            required={false}
+            inputType="text"
+            objectKey="key"
+            objectValue="value"
+          />
+
+          <EditHostVolumeMountConfigurationInput
+            fieldLabel={t("hostVolumeMountSelection.title")}
+            fieldDescription={t("hostVolumeMountSelection.description")}
+            value={gameServerState.host_volume_mounts}
+            setValue={(vals) =>
+              setGameServerState((s) => ({
+                ...s,
+                host_volume_mounts: vals,
+              }))
+            }
+            onChange={(vals) =>
+              setGameServerState((s) => ({
+                ...s,
+                host_volume_mounts: vals,
+              }))
+            }
+            errorLabel={t("hostVolumeMountSelection.errorLabel")}
+            hostPathPlaceholder={t("hostVolumeMountSelection.hostPathPlaceholder")}
+            containerPathPlaceholder={t("hostVolumeMountSelection.containerPathPlaceholder")}
+            readOnlyLabel={t("hostVolumeMountSelection.readOnlyLabel")}
+          />
+        </Collapsible>
 
         <div className="grid grid-cols-2 gap-4">
           <CpuLimitInputFieldEdit

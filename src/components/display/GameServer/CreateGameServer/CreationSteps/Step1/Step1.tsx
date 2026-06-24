@@ -1,6 +1,8 @@
 import { useCallback, useContext, useEffect, useMemo } from "react";
 import type { TemplateEntity } from "@/api/generated/model";
-import useTemplateGames from "@/hooks/useTemplateGames/useTemplateGames.ts";
+import useTemplateGames, {
+  templateMatchesGame,
+} from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import {
@@ -32,17 +34,22 @@ const Step1 = () => {
   }, [setCurrentPageValid]);
 
   const templatesForSelected = useMemo(() => {
-    const backendTemplates = templates.filter((tmpl) => tmpl.game_id === selectedGameId);
     if (selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE) {
       const localizedGenericTemplate = {
         ...GENERIC_SERVER_TEMPLATE,
         name: t("genericTemplateName"),
         description: t("genericTemplateDescription"),
       };
-      return [localizedGenericTemplate, ...backendTemplates];
+      // Templates that don't resolve to any known game still surface under the generic server.
+      const orphanTemplates = templates.filter(
+        (tmpl) => !sidebarGames.some((game) => templateMatchesGame(tmpl, game)),
+      );
+      return [localizedGenericTemplate, ...orphanTemplates];
     }
-    return backendTemplates;
-  }, [templates, selectedGameId, t]);
+    const selectedGame = sidebarGames.find((game) => game.external_game_id === selectedGameId);
+    if (!selectedGame) return [];
+    return templates.filter((tmpl) => templateMatchesGame(tmpl, selectedGame));
+  }, [templates, sidebarGames, selectedGameId, t]);
 
   const handleGameSelect = useCallback(
     (gameId: number) => {

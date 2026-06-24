@@ -6,4 +6,4 @@
  * OpenAPI spec version: v1.0
  */
 
-export type TemplateEntityPortMappings = {[key: string]: string};
+export type TemplateEntityAnnotations = {[key: string]: string};
