@@ -23,6 +23,9 @@ const buttonVariants = cva(
 
     // Base colors
     "text-primary-modal-background",
+
+    // Disabled state: block all pointer interaction so active/hover styles never fire
+    "disabled:pointer-events-none",
   ].join(" "),
   {
     variants: {
@@ -128,7 +131,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }), `${props.disabled ? "active:shadow-md" : ""}`)}
+      className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
       {props.children}

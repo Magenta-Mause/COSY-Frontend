@@ -510,11 +510,14 @@ const EditGameServerPage = (props: {
           objectKey="container_path"
         />
 
-        <Collapsible
-          title={t("advancedSettings.title")}
-          description={t("advancedSettings.description")}
-          className="my-2"
-        >
+      </fieldset>
+
+      <Collapsible
+        title={t("advancedSettings.title")}
+        description={t("advancedSettings.description")}
+        className="my-2"
+      >
+        <fieldset disabled={isServerActive || loading}>
           <InputFieldEditGameServer
             validator={z.string()}
             placeholder="./start.sh"
@@ -564,8 +567,10 @@ const EditGameServerPage = (props: {
             containerPathPlaceholder={t("hostVolumeMountSelection.containerPathPlaceholder")}
             readOnlyLabel={t("hostVolumeMountSelection.readOnlyLabel")}
           />
-        </Collapsible>
+        </fieldset>
+      </Collapsible>
 
+      <fieldset disabled={isServerActive || loading}>
         <div className="grid grid-cols-2 gap-4">
           <CpuLimitInputFieldEdit
             placeholder="0.5"

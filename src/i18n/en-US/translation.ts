@@ -388,8 +388,8 @@ const translation: i18nLanguage = {
             description:
               "Bind a host path directly into the container. Only admins and owners can edit these.",
             errorLabel: "Host path is required and container path must be absolute (start with '/').",
-            hostPathPlaceholder: "/var/run/docker.sock",
-            containerPathPlaceholder: "/var/run/docker.sock",
+            hostPathPlaceholder: "/host/path",
+            containerPathPlaceholder: "/container/path",
             readOnlyLabel: "Read-only",
           },
         },
@@ -563,8 +563,8 @@ const translation: i18nLanguage = {
         description:
           "Bind a host path directly into the container. Only admins and owners can edit these.",
         errorLabel: "Host path is required and container path must be absolute (start with '/').",
-        hostPathPlaceholder: "/var/run/docker.sock",
-        containerPathPlaceholder: "/var/run/docker.sock",
+        hostPathPlaceholder: "/host/path",
+        containerPathPlaceholder: "/container/path",
         readOnlyLabel: "Read-only",
       },
 

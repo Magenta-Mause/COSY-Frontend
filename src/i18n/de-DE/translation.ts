@@ -394,8 +394,8 @@ const translation: i18nLanguage = {
               "Bindet einen Host-Pfad direkt in den Container ein. Nur Admins und Eigentümer können diese bearbeiten.",
             errorLabel:
               "Host-Pfad ist erforderlich und Container-Pfad muss absolut sein (mit '/' beginnen).",
-            hostPathPlaceholder: "/var/run/docker.sock",
-            containerPathPlaceholder: "/var/run/docker.sock",
+            hostPathPlaceholder: "/host/pfad",
+            containerPathPlaceholder: "/container/pfad",
             readOnlyLabel: "Schreibgeschützt",
           },
         },
@@ -568,8 +568,8 @@ const translation: i18nLanguage = {
           "Bindet einen Host-Pfad direkt in den Container ein. Nur Admins und Eigentümer können diese bearbeiten.",
         errorLabel:
           "Host-Pfad ist erforderlich und Container-Pfad muss absolut sein (mit '/' beginnen).",
-        hostPathPlaceholder: "/var/run/docker.sock",
-        containerPathPlaceholder: "/var/run/docker.sock",
+        hostPathPlaceholder: "/host/pfad",
+        containerPathPlaceholder: "/container/pfad",
         readOnlyLabel: "Schreibgeschützt",
       },
 
