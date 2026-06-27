@@ -75,6 +75,7 @@ export * from './readFileFromVolumeParams';
 export * from './renameInVolumeParams';
 export * from './resourceLimit';
 export * from './sendCommandDto';
+export * from './setPermissionsParams';
 export * from './templateEntity';
 export * from './templateEntityAnnotations';
 export * from './templateEntityEnvironmentVariables';

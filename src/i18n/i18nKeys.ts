@@ -740,6 +740,8 @@ export type i18nLanguage = {
         deleteInProgress: string;
         cantDeleteWhileDownloading: string;
         loading: string;
+        changePermissionsAction: string;
+        moreActions: string;
       };
       fileBrowserDialog: {
         closePreview: string;
@@ -793,6 +795,21 @@ export type i18nLanguage = {
       editFileModal: {
         title: ContainsVariable<"name">;
         loading: string;
+        save: string;
+        saving: string;
+        cancel: string;
+        saveError: string;
+      };
+      changePermissionsModal: {
+        title: ContainsVariable<"name">;
+        owner: string;
+        group: string;
+        other: string;
+        read: string;
+        write: string;
+        execute: string;
+        ownerLabel: string;
+        ownerNote: string;
         save: string;
         saving: string;
         cancel: string;

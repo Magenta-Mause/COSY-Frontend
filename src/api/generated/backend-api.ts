@@ -57,6 +57,7 @@ import type {
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
   SendCommandDto,
+  SetPermissionsParams,
   TemplateEntity,
   TransferOwnershipDto,
   UpdateCustomMetric200,
@@ -3780,6 +3781,71 @@ export const useUploadArchiveToVolume = <TError = unknown,
       > => {
 
       const mutationOptions = getUploadArchiveToVolumeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Set file or directory permissions (chmod) and optionally ownership (chown)
+ */
+export const setPermissions = (
+    uuid: string,
+    params: SetPermissionsParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/file-system/set-permissions`, method: 'POST',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getSetPermissionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setPermissions>>, TError,{uuid: string;params: SetPermissionsParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof setPermissions>>, TError,{uuid: string;params: SetPermissionsParams}, TContext> => {
+
+const mutationKey = ['setPermissions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setPermissions>>, {uuid: string;params: SetPermissionsParams}> = (props) => {
+          const {uuid,params} = props ?? {};
+
+          return  setPermissions(uuid,params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SetPermissionsMutationResult = NonNullable<Awaited<ReturnType<typeof setPermissions>>>
+    
+    export type SetPermissionsMutationError = unknown
+
+    /**
+ * @summary Set file or directory permissions (chmod) and optionally ownership (chown)
+ */
+export const useSetPermissions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setPermissions>>, TError,{uuid: string;params: SetPermissionsParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof setPermissions>>,
+        TError,
+        {uuid: string;params: SetPermissionsParams},
+        TContext
+      > => {
+
+      const mutationOptions = getSetPermissionsMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

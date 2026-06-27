@@ -16,6 +16,7 @@ type Props = {
   onDelete?: (obj: FileSystemObjectDto) => void;
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
   onEdit?: (obj: FileSystemObjectDto) => void;
+  onChangePermissions?: (obj: FileSystemObjectDto) => void;
 };
 
 export const FileBrowserBody = ({
@@ -29,6 +30,7 @@ export const FileBrowserBody = ({
   onDelete,
   onDownload,
   onEdit,
+  onChangePermissions,
 }: Props) => {
   const { currentPath, navigating } = useFileBrowser();
 
@@ -66,6 +68,7 @@ export const FileBrowserBody = ({
               onDelete={navigating ? undefined : onDelete}
               onDownload={navigating ? undefined : onDownload}
               onEdit={navigating ? undefined : onEdit}
+              onChangePermissions={navigating ? undefined : onChangePermissions}
             />
           </li>
         ))}

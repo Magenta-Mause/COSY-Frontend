@@ -23,6 +23,7 @@ export type FileBrowserActions = {
 
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
   onEditFile?: (obj: FileSystemObjectDto) => void;
+  onChangePermissions?: (obj: FileSystemObjectDto) => void;
 };
 
 export type FileBrowserState = {

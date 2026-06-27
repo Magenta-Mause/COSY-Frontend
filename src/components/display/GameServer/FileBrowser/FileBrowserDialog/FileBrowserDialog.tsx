@@ -5,6 +5,7 @@ import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   readFileFromVolume,
+  setPermissions,
   uploadArchiveToVolume,
   uploadFileToVolume,
   useCreateDirectoryInVolume,
@@ -24,6 +25,7 @@ import { downloadSingleFile, formatBytes, joinDir, joinRemotePath, normalizePath
 import { notificationModal } from "@/lib/notificationModal";
 import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
+import { ChangePermissionsModal } from "../ChangePermissionsModal/ChangePermissionsModal";
 import { DownloadOptionsModal } from "../DownloadOptionsModal/DownloadOptionsModal";
 import { EditFileModal } from "../EditFileModal/EditFileModal";
 import { UploadArchiveModal } from "../UploadArchiveModal/UploadArchiveModal";
@@ -88,6 +90,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     content: string | null;
     fetching: boolean;
   } | null>(null);
+
+  const [permissionsObj, setPermissionsObj] = useState<FileSystemObjectDto | null>(null);
 
   const renameMutation = useRenameInVolume();
   const mkdirMutation = useCreateDirectoryInVolume();
@@ -245,6 +249,17 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     await ensurePathFetched(currentPath, fetchDepth, true);
   };
 
+  const savePermissions = async (obj: FileSystemObjectDto, mode: number, uid: number | null) => {
+    const path = joinRemotePath(currentPath, obj.name);
+    const apiPath = path === "/" ? "" : path;
+    await setPermissions(props.serverUuid, {
+      path: apiPath,
+      mode,
+      ...(uid !== null ? { uid } : {}),
+    });
+    await ensurePathFetched(currentPath, fetchDepth, true);
+  };
+
   const readParams = selectedFilePath
     ? { path: selectedFilePath === "/" ? "" : selectedFilePath }
     : null;
@@ -387,6 +402,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       },
 
       onEditFile: (obj) => openEditModal(obj),
+      onChangePermissions: (obj) => setPermissionsObj(obj),
     }),
     [
       currentPath,
@@ -414,6 +430,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       downloading,
       downloadProgress,
       openEditModal,
+      setPermissionsObj,
     ],
   );
 
@@ -516,6 +533,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           onChange={onArchivePicked}
         />
       </div>
+
+      <ChangePermissionsModal
+        open={permissionsObj !== null}
+        obj={permissionsObj}
+        onClose={() => setPermissionsObj(null)}
+        onSave={(mode, uid) => savePermissions(permissionsObj!, mode, uid)}
+      />
 
       <EditFileModal
         open={editingFile !== null}

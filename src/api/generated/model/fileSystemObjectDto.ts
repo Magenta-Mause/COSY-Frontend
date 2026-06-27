@@ -15,4 +15,5 @@ export interface FileSystemObjectDto {
   type?: FileSystemObjectDtoType;
   children?: FileSystemObjectDto[];
   size?: number;
+  uid?: number;
 }

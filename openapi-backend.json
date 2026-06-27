@@ -2152,6 +2152,57 @@
           "game-server-file-controller"
         ]
       }
+    },
+    "/game-server/{uuid}/file-system/set-permissions": {
+      "post": {
+        "tags": [
+          "Game Server File System"
+        ],
+        "summary": "Set file or directory permissions (chmod) and optionally ownership (chown)",
+        "operationId": "setPermissions",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "uid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permissions updated"
+          }
+        }
+      }
     }
   },
   "servers": [
@@ -3241,6 +3292,10 @@
           "size": {
             "type": "integer",
             "format": "int64"
+          },
+          "uid": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
