@@ -15,7 +15,7 @@ import folderIcon from "@/assets/icons/folder.webp";
 import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
 import trashIcon from "@/assets/icons/trash.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { formatBytes, formatUnixPerms, isDirectory, joinRemotePath } from "@/lib/fileSystemUtils";
+import { formatBytes, formatUnixPerms, isDirectory, isTextEditable, joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -28,6 +28,7 @@ type Props = {
   onRename?: (obj: FileSystemObjectDto) => void;
   onDelete?: (obj: FileSystemObjectDto) => void;
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
+  onEdit?: (obj: FileSystemObjectDto) => void;
 };
 
 const actionButtonClass = cn(
@@ -43,11 +44,13 @@ export const FileBrowserRow = ({
   onRename,
   onDelete,
   onDownload,
+  onEdit,
 }: Props) => {
   const dir = isDirectory(obj);
+  const editable = isTextEditable(obj);
   const perms = formatUnixPerms(obj.permissions);
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
-  const { downloadingFiles, currentPath } = useFileBrowser();
+  const { downloadingFiles, downloadProgress, currentPath } = useFileBrowser();
   const filePath = joinRemotePath(currentPath, obj.name);
   const isBeingDownloaded = downloadingFiles.includes(filePath);
 
@@ -138,6 +141,27 @@ export const FileBrowserRow = ({
               </TooltipWrapper>
             ) : null}
 
+            {onEdit && editable ? (
+              <TooltipWrapper tooltip={t("editAction")}>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(obj);
+                  }}
+                  className={cn(
+                    "inline-flex items-center rounded-md p-2",
+                    "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                  )}
+                  disabled={loading}
+                  aria-label={`${t("editAction")} ${obj.name}`}
+                >
+                  <Icon src={pencilWriteIcon} variant="foreground" className="size-4 mr-1" />
+                  <span className="hidden sm:inline">{t("editAction")}</span>
+                </button>
+              </TooltipWrapper>
+            ) : null}
+
             {onDelete ? (
               <TooltipWrapper
                 tooltip={!isBeingDownloaded ? t("deleteAction") : t("cantDeleteWhileDownloading")}
@@ -199,7 +223,11 @@ export const FileBrowserRow = ({
               aria-label={`${t("exportAction")} ${obj.name}`}
             >
               <Icon src={downloadIcon} variant="foreground" className="size-4 mr-1" />
-              {!isBeingDownloaded ? t("exportAction") : t("loading")}
+              {!isBeingDownloaded
+                ? t("exportAction")
+                : downloadProgress
+                  ? `${formatBytes(downloadProgress.done)} / ${formatBytes(downloadProgress.total)}`
+                  : t("loading")}
             </button>
           </TooltipWrapper>
         )}
@@ -227,6 +255,11 @@ export const FileBrowserRow = ({
               {onRename ? (
                 <DropdownMenuItem onClick={() => onRename(obj)}>
                   {t("renameAction")}
+                </DropdownMenuItem>
+              ) : null}
+              {onEdit && editable ? (
+                <DropdownMenuItem onClick={() => onEdit(obj)}>
+                  {t("editAction")}
                 </DropdownMenuItem>
               ) : null}
               {onDownload && !dir ? (

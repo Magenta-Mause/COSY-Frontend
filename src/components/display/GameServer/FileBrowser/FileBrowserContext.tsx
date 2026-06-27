@@ -22,6 +22,7 @@ export type FileBrowserActions = {
   }) => Promise<unknown>;
 
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
+  onEditFile?: (obj: FileSystemObjectDto) => void;
 };
 
 export type FileBrowserState = {
@@ -42,6 +43,7 @@ export type FileBrowserState = {
   navigating?: boolean;
 
   downloadingFiles: string[];
+  downloadProgress?: { done: number; total: number } | null;
 };
 
 export type FileBrowserContextValue = FileBrowserState & FileBrowserActions;

@@ -24,6 +24,7 @@ import type {
   AccessGroupUpdateDto,
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
+  DirectorySizeDto,
   DownloadDirectoryAsZipParams,
   FooterDto,
   FooterUpdateDto,
@@ -35,6 +36,7 @@ import type {
   GameServerFileSystemDto,
   GameServerLogMessageEntity,
   GameServerUpdateDto,
+  GetDirectorySizeParams,
   GetFileSystemForVolumeParams,
   GetLogsParams,
   GetMetricsParams,
@@ -59,6 +61,7 @@ import type {
   TransferOwnershipDto,
   UpdateCustomMetric200,
   UpdateCustomMetricBody,
+  UploadArchiveToVolumeParams,
   UploadFileToVolumeParams,
   UserCanCreateGameServersDto,
   UserCreationDto,
@@ -3635,6 +3638,148 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getTransferOwnershipMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * @summary Get the total uncompressed size of a directory or file
+ */
+export const getDirectorySize = (
+    uuid: string,
+    params: GetDirectorySizeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<DirectorySizeDto>(
+      {url: `/game-server/${uuid}/file-system/directory-size`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetDirectorySizeQueryKey = (uuid?: string,
+    params?: GetDirectorySizeParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/directory-size`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetDirectorySizeQueryOptions = <TData = Awaited<ReturnType<typeof getDirectorySize>>, TError = unknown>(uuid: string,
+    params: GetDirectorySizeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getDirectorySize>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDirectorySizeQueryKey(uuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDirectorySize>>> = ({ signal }) => getDirectorySize(uuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDirectorySize>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetDirectorySizeQueryResult = NonNullable<Awaited<ReturnType<typeof getDirectorySize>>>
+export type GetDirectorySizeQueryError = unknown
+
+
+/**
+ * @summary Get the total uncompressed size of a directory or file
+ */
+
+export function useGetDirectorySize<TData = Awaited<ReturnType<typeof getDirectorySize>>, TError = unknown>(
+ uuid: string,
+    params: GetDirectorySizeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getDirectorySize>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetDirectorySizeQueryOptions(uuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Upload and extract a zip archive into a bind mount volume
+ */
+export const uploadArchiveToVolume = (
+    uuid: string,
+    uploadArchiveToVolumeBody: Blob,
+    params: UploadArchiveToVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/file-system/upload-archive`, method: 'POST',
+      headers: {'Content-Type': 'application/octet-stream', },
+      data: uploadArchiveToVolumeBody,
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getUploadArchiveToVolumeMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadArchiveToVolume>>, TError,{uuid: string;data: Blob;params: UploadArchiveToVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof uploadArchiveToVolume>>, TError,{uuid: string;data: Blob;params: UploadArchiveToVolumeParams}, TContext> => {
+
+const mutationKey = ['uploadArchiveToVolume'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadArchiveToVolume>>, {uuid: string;data: Blob;params: UploadArchiveToVolumeParams}> = (props) => {
+          const {uuid,data,params} = props ?? {};
+
+          return  uploadArchiveToVolume(uuid,data,params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UploadArchiveToVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof uploadArchiveToVolume>>>
+    export type UploadArchiveToVolumeMutationBody = Blob
+    export type UploadArchiveToVolumeMutationError = unknown
+
+    /**
+ * @summary Upload and extract a zip archive into a bind mount volume
+ */
+export const useUploadArchiveToVolume = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadArchiveToVolume>>, TError,{uuid: string;data: Blob;params: UploadArchiveToVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof uploadArchiveToVolume>>,
+        TError,
+        {uuid: string;data: Blob;params: UploadArchiveToVolumeParams},
+        TContext
+      > => {
+
+      const mutationOptions = getUploadArchiveToVolumeMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

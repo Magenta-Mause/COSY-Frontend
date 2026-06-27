@@ -720,6 +720,7 @@ export type i18nLanguage = {
         fileSizeTooltip: ContainsVariable<"size">;
         fileModeTooltip: ContainsVariable<"octal"> & ContainsVariable<"rwx">;
         renameAction: string;
+        editAction: string;
         deleteAction: string;
         downloadAction: string;
         exportAction: string;
@@ -755,6 +756,47 @@ export type i18nLanguage = {
         uploadInSyntheticDir: string;
         uploadNoPermission: string;
         errorWhileZipDownload: string;
+        uploadArchive: string;
+        editFileFetchError: string;
+        errorWhileDownload: string;
+      };
+      uploadArchiveModal: {
+        title: string;
+        selectedFile: string;
+        subdirectoryLabel: string;
+        subdirectoryPlaceholder: string;
+        subdirectoryNote: string;
+        extract: string;
+        extracting: string;
+        extractionFailed: string;
+        cancel: string;
+        clearExistingLabel: string;
+        clearExistingWarning: string;
+        clearConfirmTitle: string;
+        clearConfirmDescription: string;
+        clearConfirmCancel: string;
+        clearConfirmProceed: string;
+      };
+      downloadModal: {
+        title: string;
+        sizeLabel: string;
+        sizeNote: string;
+        calculatingSize: string;
+        uncompressedSize: ContainsVariable<"size">;
+        chunkSizeLabel: string;
+        firefoxWarning: string;
+        downloadSingle: string;
+        downloadSplit: string;
+        mbPerChunk: string;
+        splitNote: string;
+      };
+      editFileModal: {
+        title: ContainsVariable<"name">;
+        loading: string;
+        save: string;
+        saving: string;
+        cancel: string;
+        saveError: string;
       };
       fileBrowserHeader: {
         newFolder: string;

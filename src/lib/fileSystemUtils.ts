@@ -99,6 +99,24 @@ export function validateName(name: string) {
 export const IMAGE_EXTS = new Set(["png", "jpg", "jpeg", "gif", "webp", "bmp", "svg"]);
 export const VIDEO_EXTS = new Set(["mp4", "webm", "ogg", "mov", "m4v"]);
 
+export const TEXT_EDITABLE_EXTS = new Set([
+  // Config / properties
+  "properties", "cfg", "conf", "config", "ini", "toml", "env",
+  // Markup / data
+  "json", "yaml", "yml", "xml", "txt", "md", "csv",
+  // Scripts
+  "sh", "bash",
+  // Logs (usually append-only but still editable)
+  "log",
+]);
+export const TEXT_EDITABLE_MAX_BYTES = 512 * 1024; // 512 KB
+
+export function isTextEditable(obj: FileSystemObjectDto): boolean {
+  if (obj.type !== "FILE") return false;
+  if ((obj.size ?? 0) > TEXT_EDITABLE_MAX_BYTES) return false;
+  return TEXT_EDITABLE_EXTS.has(getExt(obj.name));
+}
+
 export function getExt(name: string) {
   const i = name.lastIndexOf(".");
   if (i === -1) return "";

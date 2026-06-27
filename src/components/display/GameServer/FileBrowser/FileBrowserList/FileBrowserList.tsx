@@ -36,6 +36,7 @@ export const FileBrowserList = () => {
     onRename,
     onDelete,
     onDownload,
+    onEditFile,
     readOnly,
   } = useFileBrowser();
 
@@ -195,6 +196,7 @@ export const FileBrowserList = () => {
             onRename={onRename && !isSynthetic ? openRename : undefined}
             onDelete={onDelete && !isSynthetic ? openDelete : undefined}
             onDownload={onDownload}
+            onEdit={onEditFile}
           />
         </div>
 
