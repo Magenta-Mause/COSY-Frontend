@@ -203,7 +203,10 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     [setCurrentPath],
   );
 
-  const openDownloadModal = (path: string) => setDownloadModalPath(path);
+  const openDownloadModal = useCallback(
+    (path: string) => setDownloadModalPath(path),
+    [],
+  );
 
   const startZipDownload = async (path: string, totalBytes: number) => {
     setDownloading((prev) => [...prev, path]);
@@ -223,19 +226,22 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     }
   };
 
-  const openEditModal = async (obj: FileSystemObjectDto) => {
-    const path = joinRemotePath(currentPath, obj.name);
-    const apiPath = path === "/" ? "" : path;
-    setEditingFile({ obj, content: null, fetching: true });
-    try {
-      const blob = await readFileFromVolume(props.serverUuid, { path: apiPath }) as unknown as Blob;
-      const text = await blob.text();
-      setEditingFile({ obj, content: text, fetching: false });
-    } catch {
-      notificationModal.error({ message: t("editFileFetchError") });
-      setEditingFile(null);
-    }
-  };
+  const openEditModal = useCallback(
+    async (obj: FileSystemObjectDto) => {
+      const path = joinRemotePath(currentPath, obj.name);
+      const apiPath = path === "/" ? "" : path;
+      setEditingFile({ obj, content: null, fetching: true });
+      try {
+        const blob = await readFileFromVolume(props.serverUuid, { path: apiPath }) as unknown as Blob;
+        const text = await blob.text();
+        setEditingFile({ obj, content: text, fetching: false });
+      } catch {
+        notificationModal.error({ message: t("editFileFetchError") });
+        setEditingFile(null);
+      }
+    },
+    [currentPath, props.serverUuid, t],
+  );
 
   const saveEditedFile = async (content: string) => {
     if (!editingFile?.obj) return;
@@ -430,7 +436,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       downloading,
       downloadProgress,
       openEditModal,
-      setPermissionsObj,
+      openDownloadModal,
     ],
   );
 
@@ -538,7 +544,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         open={permissionsObj !== null}
         obj={permissionsObj}
         onClose={() => setPermissionsObj(null)}
-        onSave={(mode, uid) => savePermissions(permissionsObj!, mode, uid)}
+        onSave={(mode, uid) => permissionsObj ? savePermissions(permissionsObj, mode, uid) : Promise.resolve()}
       />
 
       <EditFileModal

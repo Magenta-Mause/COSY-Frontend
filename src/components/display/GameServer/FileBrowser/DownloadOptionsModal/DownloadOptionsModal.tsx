@@ -99,9 +99,10 @@ export const DownloadOptionsModal = ({
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <div className="flex flex-col gap-1 flex-1">
-                <label className="text-sm font-medium">{t("chunkSizeLabel")}</label>
+                <label htmlFor="chunk-size" className="text-sm font-medium">{t("chunkSizeLabel")}</label>
                 <div className="flex items-center gap-2">
                   <Input
+                    id="chunk-size"
                     type="number"
                     value={chunkSizeMb}
                     onChange={(e) => setChunkSizeMb(e.target.value)}
@@ -116,7 +117,7 @@ export const DownloadOptionsModal = ({
             <Button
               onClick={() => {
                 onClose();
-                onDownloadSplit(Math.max(1, parseInt(chunkSizeMb) || 1024));
+                onDownloadSplit(Math.max(1, parseInt(chunkSizeMb, 10) || 1024));
               }}
               disabled={isDownloading || isLoading || totalBytes === null}
               variant="secondary"

@@ -86,8 +86,9 @@ export const UploadArchiveModal = ({ open, file, onClose, onExtract }: Props) =>
             )}
 
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium">{t("subdirectoryLabel")}</label>
+              <label htmlFor="archive-subdir" className="text-sm font-medium">{t("subdirectoryLabel")}</label>
               <Input
+                id="archive-subdir"
                 placeholder={t("subdirectoryPlaceholder")}
                 value={subdirectory}
                 onChange={(e) => setSubdirectory(e.target.value)}

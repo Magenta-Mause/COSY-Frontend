@@ -136,8 +136,9 @@ export const ChangePermissionsModal = ({ open, obj, onClose, onSave }: Props) =>
 
           {/* Owner UID */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium">{t("ownerLabel")}</label>
+            <label htmlFor="perm-uid" className="text-sm font-medium">{t("ownerLabel")}</label>
             <Input
+              id="perm-uid"
               type="number"
               min={0}
               value={uidStr}

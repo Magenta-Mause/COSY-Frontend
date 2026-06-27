@@ -22,7 +22,8 @@ async function streamToFilePicker(
   ).showSaveFilePicker({ suggestedName: filename });
 
   const writable = await fileHandle.createWritable();
-  const reader = response.body!.getReader();
+  if (!response.body) { await writable.close(); return; }
+  const reader = response.body.getReader();
   let done = 0;
 
   try {
@@ -45,7 +46,8 @@ async function streamToBlobFallback(
 ): Promise<void> {
   // Firefox fallback: accumulate chunks in memory then trigger <a> download.
   // Still OOMs for very large files — warn the user before calling this.
-  const reader = response.body!.getReader();
+  if (!response.body) return;
+  const reader = response.body.getReader();
   const chunks: Uint8Array<ArrayBuffer>[] = [];
   let done = 0;
 
