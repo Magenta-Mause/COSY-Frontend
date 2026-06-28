@@ -16,3 +16,5 @@
 *.woff2 binary
 *.eot   binary
 *.ico   binary
+
+openapi-backend.json linguist-generated=true
