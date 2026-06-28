@@ -2,9 +2,9 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import { Checkbox } from "@components/ui/checkbox.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { Fragment, useCallback, useContext, useMemo, useRef } from "react";
-import { v7 as generateUuid } from "uuid";
+import { Fragment, useCallback, useContext, useMemo } from "react";
 import type { HostVolumeMountConfigurationDto } from "@/api/generated/model";
+import { HOST_MOUNT_EDITABLE_ROLES } from "@/lib/authConstants.ts";
 import ListInputEdit from "./ListInputEditGameServer";
 
 interface HostMountRow {
@@ -28,9 +28,6 @@ interface Props {
   readOnlyLabel: string;
 }
 
-/** Roles allowed to add/edit/remove host mounts. Mirrors backend `user.isAdmin()` gating. */
-const EDITABLE_ROLES: readonly string[] = ["ADMIN", "OWNER"];
-
 /**
  * Host-mount editor for the edit flow. Editable only for ADMIN/OWNER; other roles see existing
  * mounts read-only (no add/edit/remove), and their saves preserve the mounts untouched.
@@ -47,7 +44,7 @@ function EditHostVolumeMountConfigurationInput({
   readOnlyLabel,
 }: Props) {
   const { role } = useContext(AuthContext);
-  const canEdit = role != null && EDITABLE_ROLES.includes(role);
+  const canEdit = role != null && HOST_MOUNT_EDITABLE_ROLES.includes(role);
 
   const validateRow = useCallback((row: HostMountRow) => {
     const host = row.host_path?.trim() ?? "";
@@ -57,25 +54,19 @@ function EditHostVolumeMountConfigurationInput({
     return /^\/.+/.test(container);
   }, []);
 
-  const uuidPerIndexRef = useRef<string[]>([]);
-
-  const rows = useMemo(() => {
-    const vals = value ?? [];
-    const uuids = uuidPerIndexRef.current;
-    if (uuids.length > vals.length) {
-      uuidPerIndexRef.current = uuids.slice(0, vals.length);
-    }
-    while (uuidPerIndexRef.current.length < vals.length) {
-      uuidPerIndexRef.current.push(generateUuid());
-    }
-    return vals.map((v, idx) => ({
-      host_path: String(v.host_path ?? ""),
-      container_path: String(v.container_path ?? ""),
-      read_only: v.read_only ?? true,
-      uuid: uuidPerIndexRef.current[idx],
-      originalUuid: v.uuid,
-    }));
-  }, [value]);
+  const rows = useMemo(
+    () =>
+      (value ?? []).map((v) => ({
+        host_path: String(v.host_path ?? ""),
+        container_path: String(v.container_path ?? ""),
+        read_only: v.read_only ?? true,
+        // Use the server-assigned uuid as the stable React key. propagateValues round-trips
+        // newly-added rows' display uuid through the DTO so it is always set here.
+        uuid: v.uuid ?? "",
+        originalUuid: v.uuid,
+      })),
+    [value],
+  );
 
   const propagateValues = useCallback(
     (rows: HostMountRow[]): HostVolumeMountConfigurationDto[] =>
@@ -83,7 +74,9 @@ function EditHostVolumeMountConfigurationInput({
         host_path: row.host_path,
         container_path: row.container_path,
         read_only: row.read_only,
-        ...(row.originalUuid ? { uuid: row.originalUuid } : {}),
+        // Always round-trip the uuid (server uuid for existing rows, display uuid for new rows)
+        // so the next render can use v.uuid as a stable key rather than positional tracking.
+        uuid: row.originalUuid ?? (row.uuid || undefined),
       })),
     [],
   );

@@ -2,6 +2,8 @@ import { createContext } from "react";
 import type { GameDto, GameServerCreationDto, TemplateEntity } from "@/api/generated/model";
 
 export const GENERIC_GAME_PLACEHOLDER_VALUE = -1;
+/** String sentinel used as the sidebar `selectedGameId` for the generic/blank server entry. */
+export const GENERIC_SIDEBAR_SELECTION = "__generic__";
 /** Sentinel `game_id` (string, since template game_id is now a slug-or-numeric string) for the generic blank template. */
 export const GENERIC_GAME_PLACEHOLDER_GAME_ID = String(GENERIC_GAME_PLACEHOLDER_VALUE);
 
@@ -25,7 +27,7 @@ export type AutoCompleteSelections = {
 
 export type UtilState = {
   gameEntity?: GameDto;
-  selectedGameId?: number;
+  selectedGameId?: string;
   selectedTemplate?: TemplateEntity | null;
   templateVariables?: Record<string, string | number | boolean>;
   templateApplied?: boolean;

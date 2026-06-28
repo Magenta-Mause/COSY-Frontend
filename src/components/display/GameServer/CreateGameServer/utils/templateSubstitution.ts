@@ -5,6 +5,7 @@ import {
   PortMappingProtocol,
   type TemplateEntity,
 } from "@/api/generated/model";
+import { quote } from "shell-quote";
 import type { GameServerCreationFormState } from "../CreateGameServerModal";
 
 /**
@@ -118,18 +119,25 @@ export function applyTemplate(
     newState.port_mappings = portMappings;
   }
 
-  // Substitute execution command and join to a single string for the form input
+  // Substitute execution command. Use shell-quote so tokens containing spaces survive the
+  // parseCommand round-trip in handleConfirmCreate without being split into extra tokens.
   if (template.docker_execution_command) {
-    newState.execution_command = template.docker_execution_command
-      .map((cmd) => substituteVariables(cmd, variables))
-      .join(" ") as unknown as string[];
+    const substituted = template.docker_execution_command.map((cmd) =>
+      substituteVariables(cmd, variables),
+    );
+    newState.execution_command = quote(substituted) as unknown as string[];
   }
 
-  // File mounts (volume mounts) - convert to VolumeMountConfigurationCreationDto format
+  // File mounts (volume mounts) - convert to VolumeMountConfigurationCreationDto format.
+  // Skip paths that remain unresolved after substitution to keep the DTO valid.
   if (template.file_mounts) {
-    newState.volume_mounts = template.file_mounts.map((path) => ({
-      container_path: substituteVariables(path, variables),
-    }));
+    const volumeMounts = [];
+    for (const path of template.file_mounts) {
+      const containerPath = substituteVariables(path, variables);
+      if (hasUnresolvedOrEmpty(containerPath)) continue;
+      volumeMounts.push({ container_path: containerPath });
+    }
+    newState.volume_mounts = volumeMounts;
   }
 
   // Apply hardware limits - resource_limit values are now STRINGS that may contain {{var}}.
@@ -153,8 +161,8 @@ export function applyTemplate(
     for (const [key, value] of Object.entries(template.annotations)) {
       const substitutedKey = substituteVariables(key, variables).trim();
       const substitutedValue = substituteVariables(String(value), variables);
-      // Skip annotations whose key stays unresolved/empty so the DTO stays valid.
-      if (hasUnresolvedOrEmpty(substitutedKey)) continue;
+      // Skip entries where key or value stays unresolved to keep the DTO valid.
+      if (hasUnresolvedOrEmpty(substitutedKey) || hasUnresolvedOrEmpty(substitutedValue)) continue;
       annotations.push({ key: substitutedKey, value: substitutedValue });
     }
     newState.annotations = annotations;

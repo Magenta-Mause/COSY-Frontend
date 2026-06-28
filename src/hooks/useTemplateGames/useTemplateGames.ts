@@ -29,11 +29,3 @@ export const templateMatchesGame = (template: TemplateEntity, game: GameDto): bo
   return false;
 };
 
-/**
- * Finds the game a template belongs to (slug-first, numeric fallback). Returns undefined for the
- * generic/blank template or when no game matches.
- */
-export const findGameForTemplate = (
-  template: TemplateEntity,
-  games: GameDto[],
-): GameDto | undefined => games.find((game) => templateMatchesGame(template, game));

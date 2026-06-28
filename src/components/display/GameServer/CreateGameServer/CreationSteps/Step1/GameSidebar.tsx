@@ -7,13 +7,15 @@ import serverIcon from "@/assets/icons/console.webp";
 import searchIcon from "@/assets/icons/search.webp";
 import { templateMatchesGame } from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GENERIC_GAME_PLACEHOLDER_VALUE } from "../../CreateGameServerModal";
+import {
+  GENERIC_SIDEBAR_SELECTION,
+} from "../../CreateGameServerModal";
 
 interface GameSidebarProps {
-  selectedGameId: number;
+  selectedGameId: string;
   templates: TemplateEntity[];
   sidebarGames: GameDto[];
-  onGameSelect: (gameId: number) => void;
+  onGameSelect: (gameUuid: string) => void;
 }
 
 const GameSidebar = ({ selectedGameId, templates, sidebarGames, onGameSelect }: GameSidebarProps) => {
@@ -62,8 +64,8 @@ const GameSidebar = ({ selectedGameId, templates, sidebarGames, onGameSelect }: 
           <SidebarItem
             label={genericServerLabel}
             logoUrl={undefined}
-            isSelected={selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE}
-            onClick={() => onGameSelect(GENERIC_GAME_PLACEHOLDER_VALUE)}
+            isSelected={selectedGameId === GENERIC_SIDEBAR_SELECTION}
+            onClick={() => onGameSelect(GENERIC_SIDEBAR_SELECTION)}
             countLabel={t("templateCount", { count: genericTemplateCount })}
           />
         )}
@@ -74,10 +76,8 @@ const GameSidebar = ({ selectedGameId, templates, sidebarGames, onGameSelect }: 
               key={game.game_uuid}
               label={game.name}
               logoUrl={game.logo_url}
-              isSelected={selectedGameId === game.external_game_id}
-              onClick={() =>
-                game.external_game_id !== undefined && onGameSelect(game.external_game_id)
-              }
+              isSelected={selectedGameId === game.game_uuid}
+              onClick={() => onGameSelect(game.game_uuid)}
               countLabel={count > 0 ? t("templateCount", { count }) : undefined}
             />
           );

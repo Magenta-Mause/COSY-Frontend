@@ -6,6 +6,7 @@ import { Input } from "@components/ui/input.tsx";
 import { useCallback, useContext } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { HostVolumeMountConfigurationDto } from "@/api/generated/model";
+import { HOST_MOUNT_EDITABLE_ROLES } from "@/lib/authConstants.ts";
 import { cn } from "@/lib/utils.ts";
 import { GameServerCreationContext, type GameServerCreationFormState } from "./context.ts";
 
@@ -26,9 +27,6 @@ interface Props {
   readOnlyLabel: string;
 }
 
-/** Roles allowed to add/edit/remove host mounts. Mirrors backend `user.isAdmin()` gating. */
-const EDITABLE_ROLES: readonly string[] = ["ADMIN", "OWNER"];
-
 function HostVolumeMountInput({
   attribute,
   label,
@@ -40,7 +38,7 @@ function HostVolumeMountInput({
 }: Props) {
   const { role } = useContext(AuthContext);
   const { creationState } = useContext(GameServerCreationContext);
-  const canEdit = role != null && EDITABLE_ROLES.includes(role);
+  const canEdit = role != null && HOST_MOUNT_EDITABLE_ROLES.includes(role);
 
   const validateItem = useCallback((item: HostMountItem) => {
     const host = item.host_path?.trim() ?? "";
@@ -99,7 +97,7 @@ function HostVolumeMountInput({
           ) : (
             mounts.map((m) => (
               <div
-                key={`${m.host_path}-${m.container_path}`}
+                key={m.uuid ?? `${m.host_path}-${m.container_path}`}
                 className="flex items-center gap-2 w-full"
               >
                 <Input

@@ -145,4 +145,5 @@ export {
   GameServerCreationContext,
   GENERIC_GAME_PLACEHOLDER_VALUE,
   GENERIC_SERVER_TEMPLATE,
+  GENERIC_SIDEBAR_SELECTION,
 } from "./context.ts";
