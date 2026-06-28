@@ -70,6 +70,77 @@ async function streamToBlobFallback(
   URL.revokeObjectURL(url);
 }
 
+async function downloadChunkAsBlob(
+  response: Response,
+  chunkIndex: number,
+  totalChunks: number,
+  startPath: string,
+): Promise<void> {
+  const cd = response.headers.get("Content-Disposition");
+  const match = cd?.match(/filename="([^"]+)"/);
+  const filename = match
+    ? match[1]
+    : `${baseNameFromPath(startPath)}-part-${chunkIndex + 1}-of-${totalChunks}.zip`;
+
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+export async function zipAndDownloadChunked(opts: {
+  serverUuid: string;
+  startPath: string;
+  chunkSizeMb: number;
+  onProgress?: (chunkDone: number, totalChunks: number) => void;
+}): Promise<void> {
+  const { serverUuid, startPath, chunkSizeMb, onProgress } = opts;
+  const token = getAuthToken();
+  const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+
+  const params0 = new URLSearchParams({
+    path: startPath,
+    chunkIndex: "0",
+    chunkSizeMb: String(chunkSizeMb),
+  });
+  const response0 = await fetch(
+    `/api/game-server/${serverUuid}/file-system/download-as-zip-chunk?${params0}`,
+    { headers },
+  );
+  if (!response0.ok) {
+    throw new Error(`Chunk download failed with status ${response0.status}`);
+  }
+
+  const totalChunksHeader = response0.headers.get("X-Total-Chunks");
+  const totalChunks = totalChunksHeader ? parseInt(totalChunksHeader, 10) : 1;
+
+  onProgress?.(0, totalChunks);
+  await downloadChunkAsBlob(response0, 0, totalChunks, startPath);
+  onProgress?.(1, totalChunks);
+
+  for (let i = 1; i < totalChunks; i++) {
+    const params = new URLSearchParams({
+      path: startPath,
+      chunkIndex: String(i),
+      chunkSizeMb: String(chunkSizeMb),
+    });
+    const response = await fetch(
+      `/api/game-server/${serverUuid}/file-system/download-as-zip-chunk?${params}`,
+      { headers },
+    );
+    if (!response.ok) {
+      throw new Error(`Chunk ${i} download failed with status ${response.status}`);
+    }
+    await downloadChunkAsBlob(response, i, totalChunks, startPath);
+    onProgress?.(i + 1, totalChunks);
+  }
+}
+
 export async function zipAndDownload(opts: {
   serverUuid: string;
   startPath: string;

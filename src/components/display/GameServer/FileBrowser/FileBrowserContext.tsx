@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from "react";
-import type { FileSystemObjectDto } from "@/api/generated/model";
+import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 
 export type FileBrowserActions = {
   onEntryClick?: (obj: FileSystemObjectDto) => void;
@@ -45,6 +45,8 @@ export type FileBrowserState = {
 
   downloadingFiles: string[];
   downloadProgress?: { done: number; total: number } | null;
+
+  volumes?: VolumeMountConfiguration[];
 };
 
 export type FileBrowserContextValue = FileBrowserState & FileBrowserActions;

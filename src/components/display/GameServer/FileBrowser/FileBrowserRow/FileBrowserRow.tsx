@@ -25,6 +25,7 @@ type Props = {
   loading?: boolean;
 
   canWrite: boolean;
+  volumeUuid?: string;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
   onRename?: (obj: FileSystemObjectDto) => void;
@@ -38,6 +39,7 @@ export const FileBrowserRow = ({
   obj,
   loading,
   canWrite,
+  volumeUuid,
   onEntryClick,
   onRename,
   onDelete,
@@ -57,13 +59,16 @@ export const FileBrowserRow = ({
     onDownload || (onEdit && editable) || onRename || onChangePermissions || onDelete;
 
   return (
-    <button
-      type="button"
-      onClick={() => onEntryClick?.(obj)}
-      disabled={!onEntryClick}
+    // biome-ignore lint/a11y/useSemanticElements: <button> cannot be used here — DropdownMenuTrigger is also a <button> and nested buttons are invalid HTML
+    <div
+      role="button"
+      tabIndex={onEntryClick ? 0 : -1}
+      aria-disabled={!onEntryClick || undefined}
+      onClick={onEntryClick ? () => onEntryClick(obj) : undefined}
+      onKeyDown={onEntryClick ? (e) => { if (e.key === "Enter" || e.key === " ") onEntryClick(obj); } : undefined}
       className={cn(
         "w-full flex items-center gap-3 rounded-md px-2 py-2",
-        onEntryClick && "hover:bg-black/5",
+        onEntryClick && "hover:bg-black/5 cursor-pointer",
       )}
     >
       {/* Icon + name + meta */}
@@ -74,7 +79,16 @@ export const FileBrowserRow = ({
           <Icon src={fileIcon} variant="foreground" className="size-4 shrink-0" />
         )}
 
-        <span className="truncate text-sm ml-2 grow">{obj.name}</span>
+        <div className="flex items-center gap-3 min-w-0 ml-2 grow">
+          <span className="truncate text-sm">{obj.name}</span>
+          {volumeUuid && (
+            <TooltipWrapper tooltip={t("volumeMountTooltip", { uuid: volumeUuid })}>
+              <span className="font-mono text-[11px] leading-5 shrink-0 px-1.5 rounded bg-foreground/10 text-foreground/55">
+                {volumeUuid.slice(0, 8)}
+              </span>
+            </TooltipWrapper>
+          )}
+        </div>
 
         {/* Size + perms — hidden on small screens */}
         <div className="ml-auto shrink-0 hidden md:inline-flex items-center gap-6 text-muted-foreground">
@@ -108,7 +122,9 @@ export const FileBrowserRow = ({
 
       {/* Single dots menu — all actions */}
       {hasMenu && (
-        <div className="self-center shrink-0">
+        // biome-ignore lint/a11y/noStaticElementInteractions: stop-propagation wrapper only — Radix portal events bubble through the React tree
+        // biome-ignore lint/a11y/useKeyWithClickEvents: stop-propagation wrapper only — Radix portal events bubble through the React tree
+        <div className="self-center shrink-0" onClick={(e) => e.stopPropagation()}>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <button
@@ -190,6 +206,6 @@ export const FileBrowserRow = ({
         </DropdownMenu>
         </div>
       )}
-    </button>
+    </div>
   );
 };

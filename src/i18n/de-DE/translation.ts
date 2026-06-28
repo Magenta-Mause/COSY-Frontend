@@ -451,6 +451,7 @@ const translation: i18nLanguage = {
         loading: "Lädt...",
         changePermissionsAction: "Berechtigungen ändern",
         moreActions: "Weitere Aktionen",
+        volumeMountTooltip: "Volume-Mount · {{uuid}}",
       },
       fileBrowserDialog: {
         closePreview: "Vorschau schließen",
@@ -474,6 +475,7 @@ const translation: i18nLanguage = {
       uploadArchiveModal: {
         title: "Archiv hochladen",
         selectedFile: "Ausgewählte Datei",
+        selectedFiles: "{{count}} Dateien ausgewählt · {{size}} gesamt",
         subdirectoryLabel: "In Unterordner entpacken",
         subdirectoryPlaceholder: "z. B. welt-backup (leer lassen zum Entpacken hier)",
         subdirectoryNote: "Leer lassen, um direkt in das aktuelle Verzeichnis zu entpacken.",

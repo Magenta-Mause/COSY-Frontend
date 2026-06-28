@@ -24,7 +24,7 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { downloadSingleFile, formatBytes, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { notificationModal } from "@/lib/notificationModal";
 import { cn } from "@/lib/utils";
-import { zipAndDownload } from "@/lib/zipDownload";
+import { zipAndDownload, zipAndDownloadChunked } from "@/lib/zipDownload";
 import { ChangePermissionsModal } from "../ChangePermissionsModal/ChangePermissionsModal";
 import { DownloadOptionsModal } from "../DownloadOptionsModal/DownloadOptionsModal";
 import { EditFileModal } from "../EditFileModal/EditFileModal";
@@ -47,7 +47,7 @@ type FileBrowserDialogProps = {
 export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const archiveInputRef = useRef<HTMLInputElement | null>(null);
-  const [pendingArchive, setPendingArchive] = useState<File | null>(null);
+  const [pendingArchives, setPendingArchives] = useState<File[] | null>(null);
 
   const {
     currentPath,
@@ -150,20 +150,23 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   };
 
   const onArchivePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPendingArchive(file);
+    const picked = Array.from(e.target.files ?? []);
+    if (picked.length === 0) return;
+    setPendingArchives(picked);
     e.target.value = "";
   };
 
   const extractArchive = async (subdirectory: string, clear: boolean) => {
-    if (!pendingArchive) return;
+    if (!pendingArchives?.length) return;
     const base = currentPath === "/" ? "" : currentPath;
     const targetPath = subdirectory ? `${base}/${subdirectory}` : base;
-    await uploadArchiveToVolume(props.serverUuid, pendingArchive as unknown as Blob, {
-      path: targetPath,
-      clear,
-    });
+    const sorted = [...pendingArchives].sort((a, b) => a.name.localeCompare(b.name));
+    for (let i = 0; i < sorted.length; i++) {
+      await uploadArchiveToVolume(props.serverUuid, sorted[i] as unknown as Blob, {
+        path: targetPath,
+        clear: i === 0 && clear,
+      });
+    }
     await ensurePathFetched(currentPath, fetchDepth, true);
   };
 
@@ -216,6 +219,27 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         serverUuid: props.serverUuid,
         startPath: path,
         onProgress: (done) => setDownloadProgress({ done, total: totalBytes }),
+      });
+    } catch (e) {
+      console.error(e);
+      notificationModal.error({ message: t("downloadZipFailure") });
+    } finally {
+      setDownloading((prev) => prev.filter((p) => p !== path));
+      setDownloadProgress(null);
+    }
+  };
+
+  const startZipChunkDownload = async (path: string, chunkSizeMb: number) => {
+    setDownloading((prev) => [...prev, path]);
+    const chunkSizeBytes = chunkSizeMb * 1024 * 1024;
+    setDownloadProgress(null);
+    try {
+      await zipAndDownloadChunked({
+        serverUuid: props.serverUuid,
+        startPath: path,
+        chunkSizeMb,
+        onProgress: (done, total) =>
+          setDownloadProgress({ done: done * chunkSizeBytes, total: total * chunkSizeBytes }),
       });
     } catch (e) {
       console.error(e);
@@ -332,6 +356,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       navigating,
       downloadingFiles: downloading,
       downloadProgress,
+      volumes: props.volumes,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -437,6 +462,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       downloadProgress,
       openEditModal,
       openDownloadModal,
+      props.volumes,
     ],
   );
 
@@ -499,7 +525,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         <Button
           onClick={() => openDownloadModal(currentPath)}
           data-loading={downloading.includes(currentPath) || loading}
-          disabled={downloading.includes(currentPath) || loading || !canReadFiles}
+          disabled={downloading.includes(currentPath) || loading || !canReadFiles || isSynthetic}
         >
           <Icon src={downloadIcon} className="size-5" />
           {downloading.includes(currentPath)
@@ -535,6 +561,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           ref={archiveInputRef}
           type="file"
           accept=".zip"
+          multiple
           className="hidden"
           onChange={onArchivePicked}
         />
@@ -557,9 +584,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       />
 
       <UploadArchiveModal
-        open={pendingArchive !== null}
-        file={pendingArchive}
-        onClose={() => setPendingArchive(null)}
+        open={pendingArchives !== null}
+        files={pendingArchives}
+        onClose={() => setPendingArchives(null)}
         onExtract={extractArchive}
       />
 
@@ -570,9 +597,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         path={downloadModalPath ?? currentPath}
         isDownloading={downloading.includes(downloadModalPath ?? "")}
         onDownloadSingle={(totalBytes) => startZipDownload(downloadModalPath ?? currentPath, totalBytes)}
-        onDownloadSplit={() => {
-          /* F5: not yet implemented */
-        }}
+        onDownloadSplit={(chunkSizeMb) => startZipChunkDownload(downloadModalPath ?? currentPath, chunkSizeMb)}
       />
 
       {!canReadFiles && (

@@ -446,6 +446,7 @@ const translation: i18nLanguage = {
         cantDeleteWhileDownloading: "Cant delete file while downloading",
         changePermissionsAction: "Change Permissions",
         moreActions: "More actions",
+        volumeMountTooltip: "Volume mount · {{uuid}}",
       },
       fileBrowserDialog: {
         closePreview: "Close preview",
@@ -469,6 +470,7 @@ const translation: i18nLanguage = {
       uploadArchiveModal: {
         title: "Upload Archive",
         selectedFile: "Selected file",
+        selectedFiles: "{{count}} files selected · {{size}} total",
         subdirectoryLabel: "Extract into subdirectory",
         subdirectoryPlaceholder: "e.g. world-backup (leave empty to extract here)",
         subdirectoryNote: "Leave empty to extract directly into the current directory.",

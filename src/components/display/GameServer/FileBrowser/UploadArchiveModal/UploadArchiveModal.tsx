@@ -24,12 +24,12 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   open: boolean;
-  file: File | null;
+  files: File[] | null;
   onClose: () => void;
   onExtract: (subdirectory: string, clear: boolean) => Promise<void>;
 };
 
-export const UploadArchiveModal = ({ open, file, onClose, onExtract }: Props) => {
+export const UploadArchiveModal = ({ open, files, onClose, onExtract }: Props) => {
   const [subdirectory, setSubdirectory] = useState("");
   const [clearExisting, setClearExisting] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -77,11 +77,33 @@ export const UploadArchiveModal = ({ open, file, onClose, onExtract }: Props) =>
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
-            {file && (
+            {files && files.length > 0 && (
               <div className="rounded-lg border bg-muted/40 px-4 py-3">
-                <p className="text-xs text-muted-foreground mb-1">{t("selectedFile")}</p>
-                <p className="text-sm font-medium truncate">{file.name}</p>
-                <p className="text-xs text-muted-foreground">{formatBytes(file.size)}</p>
+                {files.length === 1 ? (
+                  <>
+                    <p className="text-xs text-muted-foreground mb-1">{t("selectedFile")}</p>
+                    <p className="text-sm font-medium truncate">{files[0].name}</p>
+                    <p className="text-xs text-muted-foreground">{formatBytes(files[0].size)}</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("selectedFiles", {
+                        count: files.length,
+                        size: formatBytes(files.reduce((acc, f) => acc + f.size, 0)),
+                      })}
+                    </p>
+                    <ul className="mt-2 max-h-32 overflow-y-auto space-y-1">
+                      {[...files]
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((f) => (
+                          <li key={f.name} className="text-xs text-muted-foreground truncate">
+                            {f.name}
+                          </li>
+                        ))}
+                    </ul>
+                  </>
+                )}
               </div>
             )}
 
@@ -133,7 +155,7 @@ export const UploadArchiveModal = ({ open, file, onClose, onExtract }: Props) =>
               </Button>
               <Button
                 onClick={handleExtract}
-                disabled={extracting || !file}
+                disabled={extracting || !files?.length}
                 data-loading={extracting}
                 className="flex-1"
               >

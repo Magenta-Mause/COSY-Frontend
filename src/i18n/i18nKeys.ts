@@ -742,6 +742,7 @@ export type i18nLanguage = {
         loading: string;
         changePermissionsAction: string;
         moreActions: string;
+        volumeMountTooltip: string;
       };
       fileBrowserDialog: {
         closePreview: string;
@@ -765,6 +766,7 @@ export type i18nLanguage = {
       uploadArchiveModal: {
         title: string;
         selectedFile: string;
+        selectedFiles: string;
         subdirectoryLabel: string;
         subdirectoryPlaceholder: string;
         subdirectoryNote: string;
