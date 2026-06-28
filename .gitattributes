@@ -17,6 +17,6 @@
 *.eot   binary
 *.ico   binary
 
-openapi-backend.json linguist-generated=true
+openapi-backend.json linguist-generated=true -diff
 src/api/generated/** linguist-generated=true
 src/routeTree.gen.ts linguist-generated=true
