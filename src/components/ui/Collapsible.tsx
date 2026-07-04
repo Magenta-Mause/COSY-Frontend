@@ -1,6 +1,6 @@
 import Icon from "@components/ui/Icon.tsx";
 import { type ReactNode, useId, useState } from "react";
-import sortDownIcon from "@/assets/icons/sortDown.webp";
+import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { cn } from "@/lib/utils.ts";
 
 interface CollapsibleProps {
@@ -44,7 +44,7 @@ const Collapsible = ({
           )}
         </span>
         <Icon
-          src={sortDownIcon}
+          src={arrowDownIcon}
           variant="foreground"
           className={cn("size-5 transition-transform duration-200", open ? "rotate-180" : "")}
         />
