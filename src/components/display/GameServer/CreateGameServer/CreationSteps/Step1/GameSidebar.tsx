@@ -5,22 +5,27 @@ import type { GameDto, TemplateEntity } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import serverIcon from "@/assets/icons/console.webp";
 import searchIcon from "@/assets/icons/search.webp";
+import { templateMatchesGame } from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GENERIC_GAME_PLACEHOLDER_VALUE } from "../../CreateGameServerModal";
+import {
+  GENERIC_SIDEBAR_SELECTION,
+} from "../../CreateGameServerModal";
 
 interface GameSidebarProps {
-  selectedGameId: number;
+  selectedGameId: string;
   templates: TemplateEntity[];
   sidebarGames: GameDto[];
-  onGameSelect: (gameId: number) => void;
+  onGameSelect: (gameUuid: string) => void;
 }
 
 const GameSidebar = ({ selectedGameId, templates, sidebarGames, onGameSelect }: GameSidebarProps) => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
   const [gameSearchQuery, setGameSearchQuery] = useState("");
 
+  // Orphan templates (no resolvable game) appear under the generic server, plus the generic itself.
   const genericTemplateCount =
-    templates.filter((tmpl) => tmpl.game_id === GENERIC_GAME_PLACEHOLDER_VALUE).length + 1;
+    templates.filter((tmpl) => !sidebarGames.some((game) => templateMatchesGame(tmpl, game)))
+      .length + 1;
   const genericServerLabel = t("genericServer");
   const showGenericServer =
     gameSearchQuery === "" ||
@@ -59,22 +64,20 @@ const GameSidebar = ({ selectedGameId, templates, sidebarGames, onGameSelect }: 
           <SidebarItem
             label={genericServerLabel}
             logoUrl={undefined}
-            isSelected={selectedGameId === GENERIC_GAME_PLACEHOLDER_VALUE}
-            onClick={() => onGameSelect(GENERIC_GAME_PLACEHOLDER_VALUE)}
+            isSelected={selectedGameId === GENERIC_SIDEBAR_SELECTION}
+            onClick={() => onGameSelect(GENERIC_SIDEBAR_SELECTION)}
             countLabel={t("templateCount", { count: genericTemplateCount })}
           />
         )}
         {filteredSidebarGames.map((game) => {
-          const count = templates.filter((tmpl) => tmpl.game_id === game.external_game_id).length;
+          const count = templates.filter((tmpl) => templateMatchesGame(tmpl, game)).length;
           return (
             <SidebarItem
               key={game.game_uuid}
               label={game.name}
               logoUrl={game.logo_url}
-              isSelected={selectedGameId === game.external_game_id}
-              onClick={() =>
-                game.external_game_id !== undefined && onGameSelect(game.external_game_id)
-              }
+              isSelected={selectedGameId === game.game_uuid}
+              onClick={() => onGameSelect(game.game_uuid)}
               countLabel={count > 0 ? t("templateCount", { count }) : undefined}
             />
           );

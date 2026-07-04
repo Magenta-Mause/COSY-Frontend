@@ -5,24 +5,28 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { GameServerCreationDtoDesign } from './gameServerCreationDtoDesign';
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
-import type { PortMapping } from './portMapping';
-import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfigurationDto } from './volumeMountConfigurationDto';
+import type { GameServerCreationDtoDesign } from './gameServerCreationDtoDesign';
+import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
+import type { PortMapping } from './portMapping';
+import type { HostVolumeMountConfigurationDto } from './hostVolumeMountConfigurationDto';
+import type { GameServerCreationDtoAnnotations } from './gameServerCreationDtoAnnotations';
 
 export interface GameServerCreationDto {
-  external_game_id?: number;
-  design?: GameServerCreationDtoDesign;
+  docker_hardware_limits?: DockerHardwareLimits;
   /** @minLength 1 */
   server_name: string;
+  volume_mounts?: VolumeMountConfigurationDto[];
   /** @minLength 1 */
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
-  docker_hardware_limits?: DockerHardwareLimits;
-  port_mappings?: PortMapping[];
+  design?: GameServerCreationDtoDesign;
+  external_game_id?: number;
   execution_command?: string[];
   environment_variables?: EnvironmentVariableConfiguration[];
-  volume_mounts?: VolumeMountConfigurationDto[];
+  port_mappings?: PortMapping[];
+  host_volume_mounts?: HostVolumeMountConfigurationDto[];
+  annotations?: GameServerCreationDtoAnnotations;
 }

@@ -7,9 +7,9 @@
  */
 
 export interface RCONConfiguration {
+  port_valid?: boolean;
+  password_valid?: boolean;
+  password?: string;
   enabled?: boolean;
   port?: number;
-  password?: string;
-  password_valid?: boolean;
-  port_valid?: boolean;
 }

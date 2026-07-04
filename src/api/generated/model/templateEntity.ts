@@ -5,24 +5,28 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { TemplateEntityEnvironmentVariables } from './templateEntityEnvironmentVariables';
-import type { TemplateEntityPortMappings } from './templateEntityPortMappings';
+import type { TemplateHostMount } from './templateHostMount';
 import type { TemplateVariable } from './templateVariable';
+import type { TemplateEntityPortMappings } from './templateEntityPortMappings';
+import type { TemplateEntityEnvironmentVariables } from './templateEntityEnvironmentVariables';
+import type { TemplateEntityAnnotations } from './templateEntityAnnotations';
 import type { ResourceLimit } from './resourceLimit';
 
 export interface TemplateEntity {
-  uuid?: string;
-  name?: string;
-  path?: string;
+  docker_execution_command?: string[];
   description?: string;
-  game_id?: number;
+  tags?: string[];
+  host_mounts?: TemplateHostMount[];
+  variables?: TemplateVariable[];
+  file_mounts?: string[];
+  name?: string;
   docker_image_name?: string;
   docker_image_tag?: string;
-  environment_variables?: TemplateEntityEnvironmentVariables;
   port_mappings?: TemplateEntityPortMappings;
-  docker_execution_command?: string[];
-  file_mounts?: string[];
-  variables?: TemplateVariable[];
+  path?: string;
+  environment_variables?: TemplateEntityEnvironmentVariables;
+  game_id?: string;
+  annotations?: TemplateEntityAnnotations;
   resource_limit?: ResourceLimit;
-  tags?: string[];
+  uuid?: string;
 }

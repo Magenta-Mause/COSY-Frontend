@@ -13,6 +13,13 @@ export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdat
     container_path: v.container_path ?? "",
     uuid: v.uuid,
   })),
+  host_volume_mounts: server.host_volume_mounts?.map((m) => ({
+    host_path: m.host_path ?? "",
+    container_path: m.container_path ?? "",
+    read_only: m.read_only ?? true,
+    uuid: m.uuid,
+  })),
+  annotations: server.annotations,
   execution_command: server.execution_command,
   docker_hardware_limits: {
     docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,

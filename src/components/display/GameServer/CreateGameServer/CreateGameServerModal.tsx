@@ -87,7 +87,7 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
                 />
               </aside>
               <DialogContent
-                className="static translate-x-0 translate-y-0 flex w-[55vw] h-[80vh]"
+                className="static translate-x-0 translate-y-0 flex w-[60vw] h-[80vh]"
                 asChild
               >
                 <DialogHeader>
@@ -145,4 +145,5 @@ export {
   GameServerCreationContext,
   GENERIC_GAME_PLACEHOLDER_VALUE,
   GENERIC_SERVER_TEMPLATE,
+  GENERIC_SIDEBAR_SELECTION,
 } from "./context.ts";

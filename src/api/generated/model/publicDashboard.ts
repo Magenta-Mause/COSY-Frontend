@@ -8,7 +8,7 @@
 import type { PublicDashboardLayout } from './publicDashboardLayout';
 
 export interface PublicDashboard {
-  uuid?: string;
-  enabled?: boolean;
   layouts?: PublicDashboardLayout[];
+  enabled?: boolean;
+  uuid?: string;
 }

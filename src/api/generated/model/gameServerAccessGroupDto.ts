@@ -5,13 +5,13 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { GameServerAccessGroupDtoPermissionsItem } from './gameServerAccessGroupDtoPermissionsItem';
 import type { UserEntityDto } from './userEntityDto';
+import type { GameServerAccessGroupDtoPermissionsItem } from './gameServerAccessGroupDtoPermissionsItem';
 
 export interface GameServerAccessGroupDto {
-  uuid: string;
-  group_name: string;
-  permissions: GameServerAccessGroupDtoPermissionsItem[];
   users: UserEntityDto[];
+  permissions: GameServerAccessGroupDtoPermissionsItem[];
+  uuid: string;
   game_server_uuid: string;
+  group_name: string;
 }

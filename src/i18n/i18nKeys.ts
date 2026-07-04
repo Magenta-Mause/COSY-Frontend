@@ -429,6 +429,23 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
           };
+          advancedSettings: {
+            title: string;
+            description: string;
+          };
+          annotationsSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
+          hostVolumeMountSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+            hostPathPlaceholder: string;
+            containerPathPlaceholder: string;
+            readOnlyLabel: string;
+          };
         };
       };
       autoCompleteInputField: {
@@ -511,6 +528,26 @@ export type i18nLanguage = {
           keepIndicator: string;
           deleteIndicator: string;
         };
+      };
+
+      advancedSettings: {
+        title: string;
+        description: string;
+      };
+
+      annotationsSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      hostVolumeMountSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+        hostPathPlaceholder: string;
+        containerPathPlaceholder: string;
+        readOnlyLabel: string;
       };
 
       memoryLimitSelection: {
@@ -683,6 +720,7 @@ export type i18nLanguage = {
         fileSizeTooltip: ContainsVariable<"size">;
         fileModeTooltip: ContainsVariable<"octal"> & ContainsVariable<"rwx">;
         renameAction: string;
+        editAction: string;
         deleteAction: string;
         downloadAction: string;
         exportAction: string;
@@ -702,6 +740,9 @@ export type i18nLanguage = {
         deleteInProgress: string;
         cantDeleteWhileDownloading: string;
         loading: string;
+        changePermissionsAction: string;
+        moreActions: string;
+        volumeMountTooltip: string;
       };
       fileBrowserDialog: {
         closePreview: string;
@@ -718,6 +759,63 @@ export type i18nLanguage = {
         uploadInSyntheticDir: string;
         uploadNoPermission: string;
         errorWhileZipDownload: string;
+        uploadArchive: string;
+        editFileFetchError: string;
+        errorWhileDownload: string;
+      };
+      uploadArchiveModal: {
+        title: string;
+        selectedFile: string;
+        selectedFiles: string;
+        subdirectoryLabel: string;
+        subdirectoryPlaceholder: string;
+        subdirectoryNote: string;
+        extract: string;
+        extracting: string;
+        extractionFailed: string;
+        cancel: string;
+        clearExistingLabel: string;
+        clearExistingWarning: string;
+        clearConfirmTitle: string;
+        clearConfirmDescription: string;
+        clearConfirmCancel: string;
+        clearConfirmProceed: string;
+      };
+      downloadModal: {
+        title: string;
+        sizeLabel: string;
+        sizeNote: string;
+        calculatingSize: string;
+        uncompressedSize: ContainsVariable<"size">;
+        chunkSizeLabel: string;
+        firefoxWarning: string;
+        downloadSingle: string;
+        downloadSplit: string;
+        mbPerChunk: string;
+        splitNote: string;
+      };
+      editFileModal: {
+        title: ContainsVariable<"name">;
+        loading: string;
+        save: string;
+        saving: string;
+        cancel: string;
+        saveError: string;
+      };
+      changePermissionsModal: {
+        title: ContainsVariable<"name">;
+        owner: string;
+        group: string;
+        other: string;
+        read: string;
+        write: string;
+        execute: string;
+        ownerLabel: string;
+        ownerNote: string;
+        save: string;
+        saving: string;
+        cancel: string;
+        saveError: string;
       };
       fileBrowserHeader: {
         newFolder: string;

@@ -8,6 +8,6 @@
 import type { PublicDashboardLayout } from './publicDashboardLayout';
 
 export interface PublicDashboardUpdateDto {
-  enabled?: boolean;
   layouts?: PublicDashboardLayout[];
+  enabled?: boolean;
 }

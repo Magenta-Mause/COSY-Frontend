@@ -4,6 +4,9 @@ import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  readFileFromVolume,
+  setPermissions,
+  uploadArchiveToVolume,
   uploadFileToVolume,
   useCreateDirectoryInVolume,
   useDeleteInVolume,
@@ -18,10 +21,14 @@ import uploadIcon from "@/assets/icons/upload.webp";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { downloadSingleFile, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
+import { downloadSingleFile, formatBytes, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { notificationModal } from "@/lib/notificationModal";
 import { cn } from "@/lib/utils";
-import { zipAndDownload } from "@/lib/zipDownload";
+import { zipAndDownload, zipAndDownloadChunked } from "@/lib/zipDownload";
+import { ChangePermissionsModal } from "../ChangePermissionsModal/ChangePermissionsModal";
+import { DownloadOptionsModal } from "../DownloadOptionsModal/DownloadOptionsModal";
+import { EditFileModal } from "../EditFileModal/EditFileModal";
+import { UploadArchiveModal } from "../UploadArchiveModal/UploadArchiveModal";
 import { type FileBrowserContextValue, FileBrowserProvider } from "../FileBrowserContext";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
@@ -39,6 +46,8 @@ type FileBrowserDialogProps = {
 
 export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const archiveInputRef = useRef<HTMLInputElement | null>(null);
+  const [pendingArchives, setPendingArchives] = useState<File[] | null>(null);
 
   const {
     currentPath,
@@ -72,11 +81,17 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const [search, setSearch] = useState("");
   const [navigating, setNavigating] = useState(false);
 
-  const [downloadingAll, setDownloadingAll] = useState(false);
+  const [downloadModalPath, setDownloadModalPath] = useState<string | null>(null);
   const [downloading, setDownloading] = useState<string[]>([]);
-  const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(
-    null,
-  );
+  const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(null);
+
+  const [editingFile, setEditingFile] = useState<{
+    obj: FileSystemObjectDto | null;
+    content: string | null;
+    fetching: boolean;
+  } | null>(null);
+
+  const [permissionsObj, setPermissionsObj] = useState<FileSystemObjectDto | null>(null);
 
   const renameMutation = useRenameInVolume();
   const mkdirMutation = useCreateDirectoryInVolume();
@@ -134,6 +149,27 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     }
   };
 
+  const onArchivePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const picked = Array.from(e.target.files ?? []);
+    if (picked.length === 0) return;
+    setPendingArchives(picked);
+    e.target.value = "";
+  };
+
+  const extractArchive = async (subdirectory: string, clear: boolean) => {
+    if (!pendingArchives?.length) return;
+    const base = currentPath === "/" ? "" : currentPath;
+    const targetPath = subdirectory ? `${base}/${subdirectory}` : base;
+    const sorted = [...pendingArchives].sort((a, b) => a.name.localeCompare(b.name));
+    for (let i = 0; i < sorted.length; i++) {
+      await uploadArchiveToVolume(props.serverUuid, sorted[i] as unknown as Blob, {
+        path: targetPath,
+        clear: i === 0 && clear,
+      });
+    }
+    await ensurePathFetched(currentPath, fetchDepth, true);
+  };
+
   const onEntryClick = useCallback(
     async (obj: FileSystemObjectDto) => {
       if (obj.type === "DIRECTORY") {
@@ -170,25 +206,88 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     [setCurrentPath],
   );
 
-  const onDownloadAll = async () => {
-    setDownloadingAll(true);
-    setDownloadProgress(null);
-    setDownloading((downloading) => [...downloading, currentPath]);
+  const openDownloadModal = useCallback(
+    (path: string) => setDownloadModalPath(path),
+    [],
+  );
 
+  const startZipDownload = async (path: string, totalBytes: number) => {
+    setDownloading((prev) => [...prev, path]);
+    setDownloadProgress(null);
     try {
       await zipAndDownload({
         serverUuid: props.serverUuid,
-        startPath: currentPath,
-        onProgress: (done, total) => setDownloadProgress({ done, total }),
+        startPath: path,
+        onProgress: (done) => setDownloadProgress({ done, total: totalBytes }),
       });
     } catch (e) {
       console.error(e);
       notificationModal.error({ message: t("downloadZipFailure") });
     } finally {
-      setDownloadingAll(false);
+      setDownloading((prev) => prev.filter((p) => p !== path));
       setDownloadProgress(null);
-      setDownloading([]);
     }
+  };
+
+  const startZipChunkDownload = async (path: string, chunkSizeMb: number) => {
+    setDownloading((prev) => [...prev, path]);
+    const chunkSizeBytes = chunkSizeMb * 1024 * 1024;
+    setDownloadProgress(null);
+    try {
+      await zipAndDownloadChunked({
+        serverUuid: props.serverUuid,
+        startPath: path,
+        chunkSizeMb,
+        onProgress: (done, total) =>
+          setDownloadProgress({ done: done * chunkSizeBytes, total: total * chunkSizeBytes }),
+      });
+    } catch (e) {
+      console.error(e);
+      notificationModal.error({ message: t("downloadZipFailure") });
+    } finally {
+      setDownloading((prev) => prev.filter((p) => p !== path));
+      setDownloadProgress(null);
+    }
+  };
+
+  const openEditModal = useCallback(
+    async (obj: FileSystemObjectDto) => {
+      const path = joinRemotePath(currentPath, obj.name);
+      const apiPath = path === "/" ? "" : path;
+      setEditingFile({ obj, content: null, fetching: true });
+      try {
+        const blob = await readFileFromVolume(props.serverUuid, { path: apiPath }) as unknown as Blob;
+        const text = await blob.text();
+        setEditingFile({ obj, content: text, fetching: false });
+      } catch {
+        notificationModal.error({ message: t("editFileFetchError") });
+        setEditingFile(null);
+      }
+    },
+    [currentPath, props.serverUuid, t],
+  );
+
+  const saveEditedFile = async (content: string) => {
+    if (!editingFile?.obj) return;
+    const path = joinRemotePath(currentPath, editingFile.obj.name);
+    const apiPath = path === "/" ? "" : path;
+    await uploadFileToVolume(
+      props.serverUuid,
+      new Blob([content], { type: "text/plain" }),
+      { path: apiPath },
+    );
+    await ensurePathFetched(currentPath, fetchDepth, true);
+  };
+
+  const savePermissions = async (obj: FileSystemObjectDto, mode: number, uid: number | null) => {
+    const path = joinRemotePath(currentPath, obj.name);
+    const apiPath = path === "/" ? "" : path;
+    await setPermissions(props.serverUuid, {
+      path: apiPath,
+      mode,
+      ...(uid !== null ? { uid } : {}),
+    });
+    await ensurePathFetched(currentPath, fetchDepth, true);
   };
 
   const readParams = selectedFilePath
@@ -256,6 +355,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       readOnly: !canChangeFiles,
       navigating,
       downloadingFiles: downloading,
+      downloadProgress,
+      volumes: props.volumes,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -312,36 +413,27 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
       onDownload: async (obj) => {
         const fullPath = joinRemotePath(currentPath, obj.name);
-        setDownloading((downloading) => [...downloading, fullPath]);
 
         if (obj.type === "DIRECTORY") {
-          setDownloadProgress(null);
-          try {
-            await zipAndDownload({
-              serverUuid: props.serverUuid,
-              startPath: fullPath,
-              onProgress: (done, total) => setDownloadProgress({ done, total }),
-            });
-          } catch (_err) {
-            notificationModal.error({ message: t("errorWhileZipDownload") });
-          } finally {
-            setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
-            setDownloadProgress(null);
-          }
-        } else {
-          try {
-            await downloadSingleFile({
-              serverUuid: props.serverUuid,
-              parentPath: currentPath,
-              name: obj.name,
-            });
-          } catch (_err) {
-            notificationModal.error({ message: t("errorWhileDownload") });
-          } finally {
-            setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
-          }
+          openDownloadModal(fullPath);
+          return;
+        }
+        setDownloading((prev) => [...prev, fullPath]);
+        try {
+          await downloadSingleFile({
+            serverUuid: props.serverUuid,
+            parentPath: currentPath,
+            name: obj.name,
+          });
+        } catch (_err) {
+          notificationModal.error({ message: t("errorWhileDownload") });
+        } finally {
+          setDownloading((prev) => prev.filter((p) => p !== fullPath));
         }
       },
+
+      onEditFile: (obj) => openEditModal(obj),
+      onChangePermissions: (obj) => setPermissionsObj(obj),
     }),
     [
       currentPath,
@@ -367,6 +459,10 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       navigating,
       t,
       downloading,
+      downloadProgress,
+      openEditModal,
+      openDownloadModal,
+      props.volumes,
     ],
   );
 
@@ -427,20 +523,82 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         </TooltipWrapper>
 
         <Button
-          onClick={onDownloadAll}
-          data-loading={downloadingAll || loading}
-          disabled={downloadingAll || loading || !canReadFiles}
+          onClick={() => openDownloadModal(currentPath)}
+          data-loading={downloading.includes(currentPath) || loading}
+          disabled={downloading.includes(currentPath) || loading || !canReadFiles || isSynthetic}
         >
           <Icon src={downloadIcon} className="size-5" />
-          {downloadingAll
+          {downloading.includes(currentPath)
             ? downloadProgress
-              ? t("downloadingFile", { done: downloadProgress.done, total: downloadProgress.total })
+              ? t("downloadingFile", { done: formatBytes(downloadProgress.done), total: formatBytes(downloadProgress.total) })
               : t("preparing")
             : t("downloadAllAction")}
         </Button>
 
+        <TooltipWrapper
+          tooltip={
+            isSynthetic
+              ? t("uploadInSyntheticDir")
+              : !canChangeFiles
+                ? t("uploadNoPermission")
+                : null
+          }
+          side="top"
+          align="center"
+        >
+          <Button
+            onClick={() => archiveInputRef.current?.click()}
+            disabled={isSynthetic || !canChangeFiles}
+            variant="secondary"
+          >
+            <Icon src={uploadIcon} variant="foreground" className="size-5" />
+            {t("uploadArchive")}
+          </Button>
+        </TooltipWrapper>
+
         <input ref={fileInputRef} type="file" className="hidden" onChange={onFilePicked} />
+        <input
+          ref={archiveInputRef}
+          type="file"
+          accept=".zip"
+          multiple
+          className="hidden"
+          onChange={onArchivePicked}
+        />
       </div>
+
+      <ChangePermissionsModal
+        open={permissionsObj !== null}
+        obj={permissionsObj}
+        onClose={() => setPermissionsObj(null)}
+        onSave={(mode, uid) => permissionsObj ? savePermissions(permissionsObj, mode, uid) : Promise.resolve()}
+      />
+
+      <EditFileModal
+        open={editingFile !== null}
+        fileName={editingFile?.obj?.name ?? ""}
+        initialContent={editingFile?.content ?? null}
+        fetching={editingFile?.fetching ?? false}
+        onClose={() => setEditingFile(null)}
+        onSave={saveEditedFile}
+      />
+
+      <UploadArchiveModal
+        open={pendingArchives !== null}
+        files={pendingArchives}
+        onClose={() => setPendingArchives(null)}
+        onExtract={extractArchive}
+      />
+
+      <DownloadOptionsModal
+        open={downloadModalPath !== null}
+        onClose={() => setDownloadModalPath(null)}
+        serverUuid={props.serverUuid}
+        path={downloadModalPath ?? currentPath}
+        isDownloading={downloading.includes(downloadModalPath ?? "")}
+        onDownloadSingle={(totalBytes) => startZipDownload(downloadModalPath ?? currentPath, totalBytes)}
+        onDownloadSplit={(chunkSizeMb) => startZipChunkDownload(downloadModalPath ?? currentPath, chunkSizeMb)}
+      />
 
       {!canReadFiles && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">

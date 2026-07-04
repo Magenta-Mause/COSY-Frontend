@@ -7,10 +7,11 @@
  */
 
 export interface GameDto {
-  game_uuid: string;
   /** @minLength 1 */
   name: string;
+  game_uuid: string;
   external_game_id?: number;
   hero_url?: string;
   logo_url?: string;
+  slug?: string;
 }

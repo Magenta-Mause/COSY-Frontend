@@ -8,13 +8,13 @@
 
 export interface FooterUpdateDto {
   /** @minLength 1 */
-  full_name: string;
-  /** @minLength 1 */
-  email: string;
-  /** @minLength 1 */
   phone: string;
   /** @minLength 1 */
   street: string;
+  /** @minLength 1 */
+  email: string;
+  /** @minLength 1 */
+  full_name: string;
   /** @minLength 1 */
   city: string;
 }

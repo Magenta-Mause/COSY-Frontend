@@ -6,21 +6,25 @@
  * OpenAPI spec version: v1.0
  */
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
+import type { VolumeMountConfigurationDto } from './volumeMountConfigurationDto';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
-import type { VolumeMountConfigurationDto } from './volumeMountConfigurationDto';
+import type { HostVolumeMountConfigurationDto } from './hostVolumeMountConfigurationDto';
+import type { GameServerUpdateDtoAnnotations } from './gameServerUpdateDtoAnnotations';
 
 export interface GameServerUpdateDto {
-  external_game_id?: number;
+  docker_hardware_limits?: DockerHardwareLimits;
   /** @minLength 1 */
   server_name: string;
+  volume_mounts?: VolumeMountConfigurationDto[];
   /** @minLength 1 */
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
-  docker_hardware_limits?: DockerHardwareLimits;
   port_mappings?: PortMapping[];
-  execution_command?: string[];
+  external_game_id?: number;
   environment_variables?: EnvironmentVariableConfiguration[];
-  volume_mounts?: VolumeMountConfigurationDto[];
+  execution_command?: string[];
+  host_volume_mounts?: HostVolumeMountConfigurationDto[];
+  annotations?: GameServerUpdateDtoAnnotations;
 }

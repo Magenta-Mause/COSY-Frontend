@@ -3,6 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import Icon from "@components/ui/Icon.tsx";
@@ -13,9 +14,10 @@ import downloadIcon from "@/assets/icons/download.webp";
 import fileIcon from "@/assets/icons/file.webp";
 import folderIcon from "@/assets/icons/folder.webp";
 import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import settingsIcon from "@/assets/icons/settings.webp";
 import trashIcon from "@/assets/icons/trash.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { formatBytes, formatUnixPerms, isDirectory, joinRemotePath } from "@/lib/fileSystemUtils";
+import { formatBytes, formatUnixPerms, isDirectory, isTextEditable, joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -23,64 +25,73 @@ type Props = {
   loading?: boolean;
 
   canWrite: boolean;
+  volumeUuid?: string;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
   onRename?: (obj: FileSystemObjectDto) => void;
   onDelete?: (obj: FileSystemObjectDto) => void;
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
+  onEdit?: (obj: FileSystemObjectDto) => void;
+  onChangePermissions?: (obj: FileSystemObjectDto) => void;
 };
-
-const actionButtonClass = cn(
-  "inline-flex items-center rounded-md p-2 sm:w-22",
-  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 justify-center",
-);
 
 export const FileBrowserRow = ({
   obj,
   loading,
   canWrite,
+  volumeUuid,
   onEntryClick,
   onRename,
   onDelete,
   onDownload,
+  onEdit,
+  onChangePermissions,
 }: Props) => {
   const dir = isDirectory(obj);
+  const editable = isTextEditable(obj);
   const perms = formatUnixPerms(obj.permissions);
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
-  const { downloadingFiles, currentPath } = useFileBrowser();
+  const { downloadingFiles, downloadProgress, currentPath } = useFileBrowser();
   const filePath = joinRemotePath(currentPath, obj.name);
   const isBeingDownloaded = downloadingFiles.includes(filePath);
 
+  const hasMenu =
+    onDownload || (onEdit && editable) || onRename || onChangePermissions || onDelete;
+
   return (
-    <button
-      type={"button"}
-      onClick={() => onEntryClick?.(obj)}
-      disabled={!onEntryClick}
+    // biome-ignore lint/a11y/useSemanticElements: <button> cannot be used here — DropdownMenuTrigger is also a <button> and nested buttons are invalid HTML
+    <div
+      role="button"
+      tabIndex={onEntryClick ? 0 : -1}
+      aria-disabled={!onEntryClick || undefined}
+      onClick={onEntryClick ? () => onEntryClick(obj) : undefined}
+      onKeyDown={onEntryClick ? (e) => { if (e.key === "Enter" || e.key === " ") onEntryClick(obj); } : undefined}
       className={cn(
-        "@container w-full flex items-center gap-6 rounded-md px-2 py-2",
-        onEntryClick && "hover:bg-black/5",
+        "w-full flex items-center gap-3 rounded-md px-2 py-2",
+        onEntryClick && "hover:bg-black/5 cursor-pointer",
       )}
     >
-      <div
-        className={cn(
-          "flex min-w-0 flex-1 items-center gap-2 text-left rounded-md pl-1",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-        )}
-      >
+      {/* Icon + name + meta */}
+      <div className="flex min-w-0 flex-1 items-center gap-2 text-left pl-1">
         {dir ? (
-          <Icon src={folderIcon} variant="foreground" className="size-4" />
+          <Icon src={folderIcon} variant="foreground" className="size-4 shrink-0" />
         ) : (
-          <Icon src={fileIcon} variant="foreground" className="size-4" />
+          <Icon src={fileIcon} variant="foreground" className="size-4 shrink-0" />
         )}
 
-        <span className="truncate text-sm ml-2 grow">{obj.name}</span>
-
-        <div
-          className={cn(
-            "ml-auto shrink-0 text-s text-muted-foreground",
-            "hidden md:inline-flex items-center gap-6",
+        <div className="flex items-center gap-3 min-w-0 ml-2 grow">
+          <span className="truncate text-sm">{obj.name}</span>
+          {volumeUuid && (
+            <TooltipWrapper tooltip={t("volumeMountTooltip", { uuid: volumeUuid })}>
+              <span className="font-mono text-[11px] leading-5 shrink-0 px-1.5 rounded bg-foreground/10 text-foreground/55">
+                {volumeUuid.slice(0, 8)}
+              </span>
+            </TooltipWrapper>
           )}
-        >
+        </div>
+
+        {/* Size + perms — hidden on small screens */}
+        <div className="ml-auto shrink-0 hidden md:inline-flex items-center gap-6 text-muted-foreground">
           <TooltipWrapper
             tooltip={
               obj.type === "FILE"
@@ -88,23 +99,13 @@ export const FileBrowserRow = ({
                 : t("directoryType")
             }
           >
-            <span
-              className={cn(
-                "shrink-0 text-muted-foreground tabular-nums",
-                "hidden md:inline-flex justify-end",
-              )}
-            >
+            <span className="tabular-nums hidden md:inline-flex justify-end">
               {obj.type === "FILE" ? formatBytes(obj.size) : "—"}
             </span>
           </TooltipWrapper>
 
           <TooltipWrapper tooltip={t("fileModeTooltip", { octal: perms.octal, rwx: perms.rwx })}>
-            <span
-              className={cn(
-                "ml-auto shrink-0 text-muted-foreground",
-                "hidden md:inline-flex items-center gap-6",
-              )}
-            >
+            <span className="hidden md:inline-flex items-center gap-4">
               <span>{perms.rwx}</span>
               <span>{perms.octal}</span>
             </span>
@@ -112,145 +113,99 @@ export const FileBrowserRow = ({
         </div>
       </div>
 
-      <div className="hidden @[500px]:flex items-center gap-1 shrink-0">
-        {canWrite && (
-          <>
-            {/* Inline buttons – visible when container >= 500px */}
-            {onRename ? (
-              <TooltipWrapper tooltip={t("renameAction")}>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onRename(obj);
-                  }}
-                  className={cn(
-                    "inline-flex items-center rounded-md p-2",
-                    "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                  )}
-                  disabled={loading}
-                  data-loading={loading}
-                  aria-label={`${t("renameAction")} ${obj.name}`}
-                >
-                  <Icon src={pencilWriteIcon} variant="foreground" className="size-4 mr-1" />
-                  <span className="hidden sm:inline">{t("renameAction")}</span>
-                </button>
-              </TooltipWrapper>
-            ) : null}
+      {/* Download progress badge while exporting */}
+      {isBeingDownloaded && downloadProgress && (
+        <span className="text-xs text-muted-foreground shrink-0 tabular-nums">
+          {formatBytes(downloadProgress.done)} / {formatBytes(downloadProgress.total)}
+        </span>
+      )}
 
-            {onDelete ? (
-              <TooltipWrapper
-                tooltip={!isBeingDownloaded ? t("deleteAction") : t("cantDeleteWhileDownloading")}
-              >
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(obj);
-                  }}
-                  className={cn(
-                    "inline-flex items-center rounded-md p-2",
-                    "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                  )}
-                  disabled={loading || downloadingFiles.includes(filePath)}
-                  data-loading={loading}
-                  aria-label={`${t("deleteAction")} ${obj.name}`}
-                >
-                  <Icon src={trashIcon} variant="foreground" className="size-4 mr-1" />
-                  <span className="hidden sm:inline">{t("deleteAction")}</span>
-                </button>
-              </TooltipWrapper>
-            ) : null}
-          </>
-        )}
-
-        {onDownload && !dir && (
-          <TooltipWrapper tooltip={t("downloadAction")}>
+      {/* Single dots menu — all actions */}
+      {hasMenu && (
+        // biome-ignore lint/a11y/noStaticElementInteractions: stop-propagation wrapper only — Radix portal events bubble through the React tree
+        // biome-ignore lint/a11y/useKeyWithClickEvents: stop-propagation wrapper only — Radix portal events bubble through the React tree
+        <div className="self-center shrink-0" onClick={(e) => e.stopPropagation()}>
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDownload(obj);
-              }}
-              className={actionButtonClass}
-              disabled={loading || downloadingFiles.includes(filePath)}
-              data-loading={loading}
-              aria-label={`${t("downloadAction")} ${obj.name}`}
+              onClick={(e) => e.stopPropagation()}
+              className={cn(
+                "inline-flex items-center justify-center rounded-md p-1.5 shrink-0",
+                "border border-border/60 bg-background/60",
+                "hover:bg-muted hover:border-border",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                "transition-colors",
+              )}
+              disabled={loading}
+              aria-label={t("moreActions")}
             >
-              <Icon src={downloadIcon} variant="foreground" className="size-4 mr-1" />
-              <span className="hidden sm:inline">
-                {!isBeingDownloaded ? t("downloadAction") : t("loading")}
-              </span>
+              <Icon src={dotsIcon} variant="foreground" className="size-4" />
             </button>
-          </TooltipWrapper>
-        )}
+          </DropdownMenuTrigger>
 
-        {onDownload && dir && (
-          <TooltipWrapper tooltip={t("exportAction")}>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDownload(obj);
-              }}
-              className={actionButtonClass}
-              disabled={loading || downloadingFiles.includes(filePath)}
-              data-loading={loading}
-              aria-label={`${t("exportAction")} ${obj.name}`}
-            >
-              <Icon src={downloadIcon} variant="foreground" className="size-4 mr-1" />
-              {!isBeingDownloaded ? t("exportAction") : t("loading")}
-            </button>
-          </TooltipWrapper>
-        )}
-      </div>
-
-      {canWrite && (
-        <div className="@[500px]:hidden shrink-0">
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                onClick={(e) => e.stopPropagation()}
-                className={cn(
-                  "inline-flex items-center justify-center rounded-md p-2",
-                  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                )}
-                disabled={loading}
-                aria-label={t("renameAction")}
+          <DropdownMenuContent align="end">
+            {/* Read / edit actions */}
+            {onEdit && editable && (
+              <DropdownMenuItem onClick={() => onEdit(obj)}>
+                <Icon src={pencilWriteIcon} variant="foreground" className="size-4 mr-2" />
+                {t("editAction")}
+              </DropdownMenuItem>
+            )}
+            {onDownload && !dir && (
+              <DropdownMenuItem
+                onClick={() => onDownload(obj)}
+                disabled={isBeingDownloaded}
               >
-                <Icon src={dotsIcon} variant="foreground" className="size-4" />
-              </button>
-            </DropdownMenuTrigger>
+                <Icon src={downloadIcon} variant="foreground" className="size-4 mr-2" />
+                {isBeingDownloaded ? t("loading") : t("downloadAction")}
+              </DropdownMenuItem>
+            )}
+            {onDownload && dir && (
+              <DropdownMenuItem
+                onClick={() => onDownload(obj)}
+                disabled={isBeingDownloaded}
+              >
+                <Icon src={downloadIcon} variant="foreground" className="size-4 mr-2" />
+                {isBeingDownloaded ? t("loading") : t("exportAction")}
+              </DropdownMenuItem>
+            )}
 
-            <DropdownMenuContent align="end">
-              {onRename ? (
-                <DropdownMenuItem onClick={() => onRename(obj)}>
-                  {t("renameAction")}
-                </DropdownMenuItem>
-              ) : null}
-              {onDownload && !dir ? (
-                <DropdownMenuItem onClick={() => onDownload(obj)}>
-                  {t("downloadAction")}
-                </DropdownMenuItem>
-              ) : null}
-              {onDownload && dir ? (
-                <DropdownMenuItem onClick={() => onDownload(obj)}>
-                  {t("exportAction")}
-                </DropdownMenuItem>
-              ) : null}
-              {onDelete ? (
+            {/* Write actions */}
+            {canWrite && (onRename || onChangePermissions) && (
+              <DropdownMenuSeparator />
+            )}
+            {onRename && (
+              <DropdownMenuItem onClick={() => onRename(obj)}>
+                <Icon src={pencilWriteIcon} variant="foreground" className="size-4 mr-2" />
+                {t("renameAction")}
+              </DropdownMenuItem>
+            )}
+            {onChangePermissions && (
+              <DropdownMenuItem onClick={() => onChangePermissions(obj)}>
+                <Icon src={settingsIcon} variant="foreground" className="size-4 mr-2" />
+                {t("changePermissionsAction")}
+              </DropdownMenuItem>
+            )}
+
+            {/* Destructive */}
+            {onDelete && (
+              <>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => onDelete(obj)}
+                  disabled={isBeingDownloaded}
                   className="text-destructive focus:text-destructive"
                 >
+                  <Icon src={trashIcon} variant="foreground" className="size-4 mr-2" />
                   {t("deleteAction")}
                 </DropdownMenuItem>
-              ) : null}
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
         </div>
       )}
-    </button>
+    </div>
   );
 };

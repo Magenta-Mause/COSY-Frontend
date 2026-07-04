@@ -13,10 +13,10 @@ export interface PortMapping {
    * @maximum 65535
    */
   instance_port?: number;
+  protocol?: PortMappingProtocol;
   /**
    * @minimum 1
    * @maximum 65535
    */
   container_port?: number;
-  protocol?: PortMappingProtocol;
 }

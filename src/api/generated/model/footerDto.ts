@@ -7,10 +7,10 @@
  */
 
 export interface FooterDto {
-  id?: number;
-  full_name?: string;
+  city?: string;
   email?: string;
   phone?: string;
   street?: string;
-  city?: string;
+  full_name?: string;
+  id?: number;
 }

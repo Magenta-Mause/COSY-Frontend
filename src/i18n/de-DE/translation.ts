@@ -379,6 +379,25 @@ const translation: i18nLanguage = {
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },
+          advancedSettings: {
+            title: "Erweiterte Einstellungen",
+            description: "Startbefehl, Annotationen und Host-Mounts.",
+          },
+          annotationsSelection: {
+            title: "Annotationen",
+            description: "Docker-Labels, die beim Start auf den Container angewendet werden.",
+            errorLabel: "Schlüssel und Wert müssen angegeben werden.",
+          },
+          hostVolumeMountSelection: {
+            title: "Host-Mounts",
+            description:
+              "Bindet einen Host-Pfad direkt in den Container ein. Nur Admins und Eigentümer können diese bearbeiten.",
+            errorLabel:
+              "Host-Pfad ist erforderlich und Container-Pfad muss absolut sein (mit '/' beginnen).",
+            hostPathPlaceholder: "/host/pfad",
+            containerPathPlaceholder: "/container/pfad",
+            readOnlyLabel: "Schreibgeschützt",
+          },
         },
       },
       autoCompleteInputField: {
@@ -409,6 +428,7 @@ const translation: i18nLanguage = {
         fileSizeTooltip: "{{size}} Bytes",
         fileModeTooltip: "Modus: {{octal}} ({{rwx}})",
         renameAction: "Umbenennen",
+        editAction: "Bearbeiten",
         deleteAction: "Löschen",
         downloadAction: "Download",
         exportAction: "Exportieren",
@@ -429,6 +449,9 @@ const translation: i18nLanguage = {
         deleteInProgress: "Löschen...",
         cantDeleteWhileDownloading: "Während Download deaktiviert",
         loading: "Lädt...",
+        changePermissionsAction: "Berechtigungen ändern",
+        moreActions: "Weitere Aktionen",
+        volumeMountTooltip: "Volume-Mount · {{uuid}}",
       },
       fileBrowserDialog: {
         closePreview: "Vorschau schließen",
@@ -436,7 +459,7 @@ const translation: i18nLanguage = {
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
         fileUploadError: "Datei konnte nicht hochgeladen werden",
         preparing: "Vorbereiten...",
-        downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
+        downloadingFile: "Heruntergeladen: {{done}} / {{total}}",
         downloadAllAction: "Ordner Herunterladen",
         uploadFile: "Hochladen",
         renamePlaceholder: "z. Bsp. server.log",
@@ -445,6 +468,67 @@ const translation: i18nLanguage = {
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
         errorWhileZipDownload: "Fehler beim Herunterladen des Zip-Archivs",
+        uploadArchive: "Archiv hochladen",
+        editFileFetchError: "Datei konnte nicht zum Bearbeiten geladen werden.",
+        errorWhileDownload: "Datei konnte nicht heruntergeladen werden",
+      },
+      uploadArchiveModal: {
+        title: "Archiv hochladen",
+        selectedFile: "Ausgewählte Datei",
+        selectedFiles: "{{count}} Dateien ausgewählt · {{size}} gesamt",
+        subdirectoryLabel: "In Unterordner entpacken",
+        subdirectoryPlaceholder: "z. B. welt-backup (leer lassen zum Entpacken hier)",
+        subdirectoryNote: "Leer lassen, um direkt in das aktuelle Verzeichnis zu entpacken.",
+        extract: "Entpacken",
+        extracting: "Wird entpackt...",
+        extractionFailed: "Entpacken fehlgeschlagen. Stelle sicher, dass die Datei ein gültiges ZIP-Archiv ist.",
+        cancel: "Abbrechen",
+        clearExistingLabel: "Vorhandene Dateien löschen",
+        clearExistingWarning:
+          "Achtung — alle vorhandenen Dateien im Zielverzeichnis werden vor dem Entpacken dauerhaft gelöscht.",
+        clearConfirmTitle: "Vorhandene Dateien löschen?",
+        clearConfirmDescription:
+          "Alle Dateien im Zielverzeichnis werden vor dem Entpacken des Archivs dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+        clearConfirmCancel: "Abbrechen",
+        clearConfirmProceed: "Löschen & Entpacken",
+      },
+      downloadModal: {
+        title: "Verzeichnis herunterladen",
+        sizeLabel: "Unkomprimierte Größe",
+        sizeNote: "Das tatsächliche ZIP kann durch Komprimierung kleiner sein.",
+        calculatingSize: "Wird berechnet...",
+        uncompressedSize: "Unkomprimierte Größe: {{size}}",
+        chunkSizeLabel: "Chunk-Größe",
+        firefoxWarning:
+          "Dein Browser unterstützt kein Streaming-Download. Dateien über ~500 MB können fehlschlagen oder den Tab zum Absturz bringen. Nutze Chrome oder Edge für große Verzeichnisse oder wähle \"Aufgeteilte Chunks\" unten.",
+        downloadSingle: "Als einzelne Datei herunterladen",
+        downloadSplit: "Als aufgeteilte Chunks herunterladen",
+        mbPerChunk: "MB pro Chunk",
+        splitNote:
+          "Jeder Chunk ist ein eigenständiges ZIP. Einzelne Dateien größer als der Chunk werden nicht aufgeteilt.",
+      },
+      editFileModal: {
+        title: "{{name}} bearbeiten",
+        loading: "Datei wird geladen...",
+        save: "Speichern",
+        saving: "Speichert...",
+        cancel: "Abbrechen",
+        saveError: "Datei konnte nicht gespeichert werden. Bitte erneut versuchen.",
+      },
+      changePermissionsModal: {
+        title: "Berechtigungen — {{name}}",
+        owner: "Eigentümer",
+        group: "Gruppe",
+        other: "Andere",
+        read: "Lesen",
+        write: "Schreiben",
+        execute: "Ausführen",
+        ownerLabel: "Eigentümer (UID)",
+        ownerNote: "Ändert den Eigentümer der Datei. Erfordert erhöhte Rechte.",
+        save: "Speichern",
+        saving: "Speichert...",
+        cancel: "Abbrechen",
+        saveError: "Berechtigungen konnten nicht aktualisiert werden. Bitte erneut versuchen.",
       },
     },
     settingsActionButtons: {
@@ -530,6 +614,28 @@ const translation: i18nLanguage = {
           keepIndicator: "Dateien werden beibehalten",
           deleteIndicator: "Alte Dateien werden gelöscht",
         },
+      },
+
+      advancedSettings: {
+        title: "Erweiterte Einstellungen",
+        description: "Startbefehl, Annotationen und Host-Mounts.",
+      },
+
+      annotationsSelection: {
+        title: "Annotationen",
+        description: "Docker-Labels, die beim Start auf den Container angewendet werden.",
+        errorLabel: "Schlüssel und Wert müssen angegeben werden.",
+      },
+
+      hostVolumeMountSelection: {
+        title: "Host-Mounts",
+        description:
+          "Bindet einen Host-Pfad direkt in den Container ein. Nur Admins und Eigentümer können diese bearbeiten.",
+        errorLabel:
+          "Host-Pfad ist erforderlich und Container-Pfad muss absolut sein (mit '/' beginnen).",
+        hostPathPlaceholder: "/host/pfad",
+        containerPathPlaceholder: "/container/pfad",
+        readOnlyLabel: "Schreibgeschützt",
       },
 
       memoryLimitSelection: {

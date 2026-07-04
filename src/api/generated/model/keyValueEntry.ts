@@ -7,6 +7,6 @@
  */
 
 export interface KeyValueEntry {
-  value?: string;
   key?: string;
+  value?: string;
 }

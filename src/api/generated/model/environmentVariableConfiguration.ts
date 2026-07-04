@@ -8,7 +8,7 @@
 
 export interface EnvironmentVariableConfiguration {
   /** @minLength 1 */
-  key: string;
-  /** @minLength 1 */
   value: string;
+  /** @minLength 1 */
+  key: string;
 }

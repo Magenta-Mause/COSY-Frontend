@@ -5,16 +5,16 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { WebhookUpdateDtoWebhookType } from './webhookUpdateDtoWebhookType';
 import type { WebhookUpdateDtoSubscribedEventsItem } from './webhookUpdateDtoSubscribedEventsItem';
+import type { WebhookUpdateDtoWebhookType } from './webhookUpdateDtoWebhookType';
 
 export interface WebhookUpdateDto {
+  subscribed_events: WebhookUpdateDtoSubscribedEventsItem[];
   webhook_type: WebhookUpdateDtoWebhookType;
+  enabled: boolean;
   /**
    * @minLength 1
    * @pattern https?://.+
    */
   webhook_url: string;
-  enabled: boolean;
-  subscribed_events: WebhookUpdateDtoSubscribedEventsItem[];
 }

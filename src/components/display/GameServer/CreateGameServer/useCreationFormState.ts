@@ -3,7 +3,7 @@ import type { TemplateEntity } from "@/api/generated/model";
 import {
   type CreationState,
   type GameServerCreationContext,
-  GENERIC_GAME_PLACEHOLDER_VALUE,
+  GENERIC_SIDEBAR_SELECTION,
 } from "./context.ts";
 import { applyTemplate } from "./utils/templateSubstitution.ts";
 
@@ -47,7 +47,7 @@ const useCreationFormState = (isOpen: boolean): UseCreationFormStateReturn => {
     );
     const hasGameSelected =
       creationState.utilState.selectedGameId != null &&
-      creationState.utilState.selectedGameId !== GENERIC_GAME_PLACEHOLDER_VALUE;
+      creationState.utilState.selectedGameId !== GENERIC_SIDEBAR_SELECTION;
     return hasFormData || creationState.utilState.selectedTemplate != null || hasGameSelected;
   }, [creationState]);
 

@@ -8,11 +8,12 @@
 import type { FileSystemObjectDtoType } from './fileSystemObjectDtoType';
 
 export interface FileSystemObjectDto {
-  fetch_depth?: number;
   /** @minLength 1 */
   name: string;
-  type?: FileSystemObjectDtoType;
+  fetch_depth?: number;
   permissions?: number;
-  size?: number;
+  type?: FileSystemObjectDtoType;
   children?: FileSystemObjectDto[];
+  size?: number;
+  uid?: number;
 }

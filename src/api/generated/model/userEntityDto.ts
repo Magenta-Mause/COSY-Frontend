@@ -5,13 +5,13 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { UserEntityDtoRole } from './userEntityDtoRole';
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
+import type { UserEntityDtoRole } from './userEntityDtoRole';
 
 export interface UserEntityDto {
-  uuid?: string;
   username?: string;
-  role?: UserEntityDtoRole;
   docker_hardware_limits?: DockerHardwareLimits;
+  role?: UserEntityDtoRole;
+  uuid?: string;
   can_create_game_servers?: boolean;
 }

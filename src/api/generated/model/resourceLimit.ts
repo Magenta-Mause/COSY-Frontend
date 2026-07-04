@@ -7,6 +7,6 @@
  */
 
 export interface ResourceLimit {
+  cpu?: string;
   memory?: string;
-  cpu?: number;
 }

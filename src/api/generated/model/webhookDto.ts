@@ -9,9 +9,9 @@ import type { WebhookDtoWebhookType } from './webhookDtoWebhookType';
 import type { WebhookDtoSubscribedEventsItem } from './webhookDtoSubscribedEventsItem';
 
 export interface WebhookDto {
-  uuid?: string;
-  webhook_type?: WebhookDtoWebhookType;
   webhook_url?: string;
+  webhook_type?: WebhookDtoWebhookType;
   enabled?: boolean;
+  uuid?: string;
   subscribed_events?: WebhookDtoSubscribedEventsItem[];
 }

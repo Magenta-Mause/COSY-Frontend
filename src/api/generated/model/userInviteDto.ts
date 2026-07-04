@@ -5,16 +5,17 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { UserInviteDtoRole } from './userInviteDtoRole';
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
+import type { UserInviteDtoRole } from './userInviteDtoRole';
 
 export interface UserInviteDto {
-  uuid?: string;
   username?: string;
-  invited_by?: string;
-  invite_by_username?: string;
-  secret_key?: string;
-  created_at?: string;
-  role?: UserInviteDtoRole;
   docker_hardware_limits?: DockerHardwareLimits;
+  uuid?: string;
+  created_at?: string;
+  invited_by?: string;
+  role?: UserInviteDtoRole;
+  invite_by_username?: string;
+  can_create_game_servers?: boolean;
+  secret_key?: string;
 }
