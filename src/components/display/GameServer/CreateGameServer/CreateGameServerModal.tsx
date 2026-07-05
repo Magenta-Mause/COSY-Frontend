@@ -89,6 +89,15 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
               <DialogContent
                 className="static translate-x-0 translate-y-0 flex w-[60vw] h-[80vh]"
                 asChild
+                onInteractOutside={(e) => {
+                  // The confirm/reapply/unsaved AlertDialogs portal to the body, so
+                  // interacting with them registers as an "outside" interaction here.
+                  // Ignore those so closing a nested dialog doesn't trigger the
+                  // unsaved-changes prompt (or loop it).
+                  if (showConfirmDialog || showReapplyDialog || showUnsavedChangesDialog) {
+                    e.preventDefault();
+                  }
+                }}
               >
                 <DialogHeader>
                   <DialogTitle className={"mr-5"}>

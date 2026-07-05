@@ -62,7 +62,6 @@ const useGameServerCreation = ({
 
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
-  const [skippedStep2, setSkippedStep2] = useState(false);
   const [pendingPageChange, setPendingPageChange] = useState<number | null>(null);
   const [showReapplyDialog, setShowReapplyDialog] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -101,8 +100,7 @@ const useGameServerCreation = ({
 
       const hasVariables = (template.variables?.length ?? 0) > 0;
       selectTemplate(template, defaults, !hasVariables);
-      setSkippedStep2(!hasVariables);
-      setCurrentPage(hasVariables ? 1 : 2);
+      setCurrentPage(1);
     },
     [selectTemplate],
   );
@@ -114,7 +112,6 @@ const useGameServerCreation = ({
     }
 
     if (currentPage === 0) {
-      setSkippedStep2(false);
       setCurrentPage(1);
       return;
     }
@@ -150,12 +147,8 @@ const useGameServerCreation = ({
     if (currentPage === 1) {
       clearTemplate();
     }
-    if (currentPage === 2 && skippedStep2) {
-      setCurrentPage(0);
-    } else {
-      setCurrentPage((p) => p - 1);
-    }
-  }, [currentPage, skippedStep2, clearTemplate]);
+    setCurrentPage((p) => p - 1);
+  }, [currentPage, clearTemplate]);
 
   const handleConfirmReapply = useCallback(() => {
     applyTemplateToState();
@@ -227,7 +220,6 @@ const useGameServerCreation = ({
       resetCreationState();
       setPageValid({});
       setCurrentPage(0);
-      setSkippedStep2(false);
       setOpen(false);
       setSuccessInfo({ server: createdGameServer });
       setShowSuccessDialog(true);
@@ -256,7 +248,6 @@ const useGameServerCreation = ({
     resetCreationState();
     setPageValid({});
     setCurrentPage(0);
-    setSkippedStep2(false);
     setOpen(false);
   }, [setOpen, resetCreationState]);
 
