@@ -231,15 +231,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
   const startZipChunkDownload = async (path: string, chunkSizeMb: number) => {
     setDownloading((prev) => [...prev, path]);
-    const chunkSizeBytes = chunkSizeMb * 1024 * 1024;
     setDownloadProgress(null);
     try {
       await zipAndDownloadChunked({
         serverUuid: props.serverUuid,
         startPath: path,
         chunkSizeMb,
-        onProgress: (done, total) =>
-          setDownloadProgress({ done: done * chunkSizeBytes, total: total * chunkSizeBytes }),
+        onProgress: (done, total) => setDownloadProgress({ done, total }),
       });
     } catch (e) {
       console.error(e);

@@ -75,6 +75,7 @@ async function downloadChunkAsBlob(
   chunkIndex: number,
   totalChunks: number,
   startPath: string,
+  onChunkBytes?: (deltaBytes: number) => void,
 ): Promise<void> {
   const cd = response.headers.get("Content-Disposition");
   const match = cd?.match(/filename="([^"]+)"/);
@@ -82,7 +83,23 @@ async function downloadChunkAsBlob(
     ? match[1]
     : `${baseNameFromPath(startPath)}-part-${chunkIndex + 1}-of-${totalChunks}.zip`;
 
-  const blob = await response.blob();
+  let blob: Blob;
+  if (response.body && onChunkBytes) {
+    // Stream the part so byte-level progress is reported as data arrives, instead of blocking
+    // on response.blob() which emits nothing until the whole part is buffered.
+    const reader = response.body.getReader();
+    const parts: Uint8Array<ArrayBuffer>[] = [];
+    while (true) {
+      const { value, done: isDone } = await reader.read();
+      if (isDone) break;
+      parts.push(value as Uint8Array<ArrayBuffer>);
+      onChunkBytes(value.length);
+    }
+    blob = new Blob(parts, { type: "application/zip" });
+  } else {
+    blob = await response.blob();
+  }
+
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -97,36 +114,17 @@ export async function zipAndDownloadChunked(opts: {
   serverUuid: string;
   startPath: string;
   chunkSizeMb: number;
-  onProgress?: (chunkDone: number, totalChunks: number) => void;
+  onProgress?: (bytesDone: number, bytesTotal: number) => void;
 }): Promise<void> {
   const { serverUuid, startPath, chunkSizeMb, onProgress } = opts;
   const token = getAuthToken();
   const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+  const chunkSizeBytes = chunkSizeMb * 1024 * 1024;
 
-  const params0 = new URLSearchParams({
-    path: startPath,
-    chunkIndex: "0",
-    chunkSizeMb: String(chunkSizeMb),
-  });
-  const response0 = await fetch(
-    `/api/game-server/${serverUuid}/file-system/download-as-zip-chunk?${params0}`,
-    { headers },
-  );
-  if (!response0.ok) {
-    throw new Error(`Chunk download failed with status ${response0.status}`);
-  }
-
-  const totalChunksHeader = response0.headers.get("X-Total-Chunks");
-  const totalChunks = totalChunksHeader ? parseInt(totalChunksHeader, 10) : 1;
-
-  onProgress?.(0, totalChunks);
-  await downloadChunkAsBlob(response0, 0, totalChunks, startPath);
-  onProgress?.(1, totalChunks);
-
-  for (let i = 1; i < totalChunks; i++) {
+  const fetchChunk = async (index: number): Promise<Response> => {
     const params = new URLSearchParams({
       path: startPath,
-      chunkIndex: String(i),
+      chunkIndex: String(index),
       chunkSizeMb: String(chunkSizeMb),
     });
     const response = await fetch(
@@ -134,10 +132,47 @@ export async function zipAndDownloadChunked(opts: {
       { headers },
     );
     if (!response.ok) {
-      throw new Error(`Chunk ${i} download failed with status ${response.status}`);
+      throw new Error(`Chunk ${index} download failed with status ${response.status}`);
     }
-    await downloadChunkAsBlob(response, i, totalChunks, startPath);
-    onProgress?.(i + 1, totalChunks);
+    return response;
+  };
+
+  const response0 = await fetchChunk(0);
+  const totalChunksHeader = response0.headers.get("X-Total-Chunks");
+  const totalChunks = totalChunksHeader ? parseInt(totalChunksHeader, 10) : 1;
+
+  // Report real cumulative downloaded bytes. The total is refined per part from its
+  // Content-Length (exact where present); parts not yet started are estimated at the chunk size,
+  // so the total is exact by the final, longest-tail part and never undershoots what's downloaded.
+  let downloadedBytes = 0;
+  let accountedBytes = 0;
+  let chunksStarted = 0;
+
+  const expectedSize = (response: Response): number => {
+    const len = response.headers.get("Content-Length");
+    const n = len ? parseInt(len, 10) : Number.NaN;
+    return Number.isFinite(n) && n >= 0 ? n : chunkSizeBytes;
+  };
+
+  const report = () => {
+    const remaining = Math.max(0, totalChunks - chunksStarted);
+    onProgress?.(downloadedBytes, accountedBytes + remaining * chunkSizeBytes);
+  };
+
+  const handleChunk = async (response: Response, index: number) => {
+    accountedBytes += expectedSize(response);
+    chunksStarted += 1;
+    report();
+    await downloadChunkAsBlob(response, index, totalChunks, startPath, (delta) => {
+      downloadedBytes += delta;
+      report();
+    });
+  };
+
+  onProgress?.(0, totalChunks * chunkSizeBytes);
+  await handleChunk(response0, 0);
+  for (let i = 1; i < totalChunks; i++) {
+    await handleChunk(await fetchChunk(i), i);
   }
 }
 
