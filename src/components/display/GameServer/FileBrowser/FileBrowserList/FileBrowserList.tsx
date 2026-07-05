@@ -194,11 +194,13 @@ export const FileBrowserList = () => {
             objects={sorted}
             canWrite={canWrite && !isSynthetic}
             onEntryClick={onEntryClick}
-            onRename={onRename && !isSynthetic ? openRename : undefined}
-            onDelete={onDelete && !isSynthetic ? openDelete : undefined}
+            onRename={onRename && canWrite && !isSynthetic ? openRename : undefined}
+            onDelete={onDelete && canWrite && !isSynthetic ? openDelete : undefined}
             onDownload={onDownload}
-            onEdit={onEditFile}
-            onChangePermissions={onChangePermissions}
+            onEdit={onEditFile && canWrite && !isSynthetic ? onEditFile : undefined}
+            onChangePermissions={
+              onChangePermissions && canWrite && !isSynthetic ? onChangePermissions : undefined
+            }
           />
         </div>
 
