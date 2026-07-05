@@ -35,7 +35,11 @@ export function NotificationModal({ item }: NotificationModalProps) {
         if (!open) handleDismiss();
       }}
     >
-      <DialogContent showCloseButton={false} className={"max-w-[500px]"}>
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-[500px] z-[120]"
+        overlayClassName="z-[110]"
+      >
         {item && (
           <>
             <DialogHeader>
