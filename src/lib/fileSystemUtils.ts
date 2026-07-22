@@ -1,3 +1,4 @@
+import { FILE_TRANSFER_OPTIONS } from "@/api/axiosInstance";
 import { readFileFromVolume } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 
@@ -172,7 +173,7 @@ export async function downloadSingleFile(opts: {
   const fullPath = joinRemotePath(parentPath, name);
   const apiPath = fullPath === "/" ? "" : fullPath;
 
-  const blob = (await readFileFromVolume(serverUuid, { path: apiPath })) as Blob;
+  const blob = (await readFileFromVolume(serverUuid, { path: apiPath }, FILE_TRANSFER_OPTIONS)) as Blob;
 
   const a = document.createElement("a");
   const url = URL.createObjectURL(blob);

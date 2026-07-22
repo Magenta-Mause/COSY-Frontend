@@ -12,6 +12,9 @@ export const AXIOS_INSTANCE = axios.create({
   baseURL: "/api",
 });
 
+// Large file transfers must not be killed by the default 4 s request timeout.
+export const FILE_TRANSFER_OPTIONS: AxiosRequestConfig = { timeout: 0 };
+
 let authToken: string | null = null;
 
 export const setAuthToken = (token: string | null) => {
