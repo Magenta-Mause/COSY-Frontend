@@ -3,6 +3,7 @@ import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FILE_TRANSFER_OPTIONS } from "@/api/axiosInstance";
 import {
   readFileFromVolume,
   setPermissions,
@@ -132,7 +133,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     const path = joinRemotePath(currentPath, file.name);
     const apiPath = path === "/" ? "" : path;
 
-    await uploadFileToVolume(props.serverUuid, file, { path: apiPath });
+    await uploadFileToVolume(props.serverUuid, file, { path: apiPath }, FILE_TRANSFER_OPTIONS);
     await ensurePathFetched(currentPath, fetchDepth, true);
   };
 
@@ -162,10 +163,15 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     const targetPath = subdirectory ? `${base}/${subdirectory}` : base;
     const sorted = [...pendingArchives].sort((a, b) => a.name.localeCompare(b.name));
     for (let i = 0; i < sorted.length; i++) {
-      await uploadArchiveToVolume(props.serverUuid, sorted[i] as unknown as Blob, {
-        path: targetPath,
-        clear: i === 0 && clear,
-      });
+      await uploadArchiveToVolume(
+        props.serverUuid,
+        sorted[i] as unknown as Blob,
+        {
+          path: targetPath,
+          clear: i === 0 && clear,
+        },
+        FILE_TRANSFER_OPTIONS,
+      );
     }
     await ensurePathFetched(currentPath, fetchDepth, true);
   };
@@ -254,7 +260,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       const apiPath = path === "/" ? "" : path;
       setEditingFile({ obj, content: null, fetching: true });
       try {
-        const blob = await readFileFromVolume(props.serverUuid, { path: apiPath }) as unknown as Blob;
+        const blob = await readFileFromVolume(props.serverUuid, { path: apiPath }, FILE_TRANSFER_OPTIONS) as unknown as Blob;
         const text = await blob.text();
         setEditingFile({ obj, content: text, fetching: false });
       } catch {
@@ -273,6 +279,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       props.serverUuid,
       new Blob([content], { type: "text/plain" }),
       { path: apiPath },
+      FILE_TRANSFER_OPTIONS,
     );
     await ensurePathFetched(currentPath, fetchDepth, true);
   };
