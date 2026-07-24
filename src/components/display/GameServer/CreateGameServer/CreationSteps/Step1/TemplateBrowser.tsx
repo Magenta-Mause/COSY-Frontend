@@ -1,4 +1,4 @@
-import TemplateList from "@/components/display/GameServer/CreateGameServer/TemplateList/TemplateList.tsx";
+import TemplateList from "./TemplateList/TemplateList.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { useCallback, useMemo, useState } from "react";

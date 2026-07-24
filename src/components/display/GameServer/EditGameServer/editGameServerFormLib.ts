@@ -4,7 +4,7 @@ import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 import { memoryLimitValidator } from "@/lib/validators/memoryLimitValidator.ts";
 import { portValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import { processEscapeSequences } from "../CreateGameServer/util";
+import { processEscapeSequences } from "../CreateGameServer/utils/inputValue";
 
 export interface AnnotationEntry {
   readonly key: string;

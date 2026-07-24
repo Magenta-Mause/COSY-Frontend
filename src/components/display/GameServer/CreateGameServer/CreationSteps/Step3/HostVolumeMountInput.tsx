@@ -1,4 +1,4 @@
-import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import ListInput from "./ListInput.tsx";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
@@ -8,7 +8,7 @@ import { v7 as generateUuid } from "uuid";
 import type { HostVolumeMountConfigurationDto } from "@/api/generated/model";
 import { HOST_MOUNT_EDITABLE_ROLES } from "@/lib/authConstants.ts";
 import { cn } from "@/lib/utils.ts";
-import { GameServerCreationContext, type GameServerCreationFormState } from "./context.ts";
+import { GameServerCreationContext, type GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/context.ts";
 
 interface HostMountItem {
   host_path: string;

@@ -1,5 +1,5 @@
-import KeyValueInput from "@/components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
-import PortInput from "@/components/display/GameServer/CreateGameServer/PortInput.tsx";
+import KeyValueInput from "./KeyValueInput.tsx";
+import PortInput from "./PortInput.tsx";
 import Collapsible from "@/components/ui/Collapsible.tsx";
 import settingsIcon from "@/assets/icons/settings.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -8,8 +8,8 @@ import { requiredStringValidator } from "@/lib/validators/requiredStringValidato
 import Icon from "@/components/ui/Icon.tsx";
 import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
-import HostVolumeMountInput from "../../HostVolumeMountInput.tsx";
-import VolumeMountInput from "../../VolumeMountInput.tsx";
+import HostVolumeMountInput from "./HostVolumeMountInput.tsx";
+import VolumeMountInput from "./VolumeMountInput.tsx";
 import DockerImageSection from "./DockerImageSection.tsx";
 import HardwareLimitsSection from "./HardwareLimitsSection.tsx";
 

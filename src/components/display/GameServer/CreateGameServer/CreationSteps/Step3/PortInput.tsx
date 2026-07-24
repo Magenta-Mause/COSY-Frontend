@@ -1,5 +1,5 @@
-import type { InputType } from "@/components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
-import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import type { InputType } from "./KeyValueInput.tsx";
+import ListInput from "./ListInput.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
@@ -14,7 +14,7 @@ import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
-import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
+import type { GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 
 interface PortItem {
   key: string;

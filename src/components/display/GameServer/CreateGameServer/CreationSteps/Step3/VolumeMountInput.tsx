@@ -1,10 +1,10 @@
-import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import ListInput from "./ListInput.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { VolumeMountConfigurationCreationDto } from "@/api/generated/model/volumeMountConfigurationCreationDto.ts";
 import { cn } from "@/lib/utils.ts";
-import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
+import type { GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 
 interface VolumeMountItem {
   container_path: string;

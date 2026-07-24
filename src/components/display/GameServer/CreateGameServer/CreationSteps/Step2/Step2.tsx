@@ -1,5 +1,5 @@
 import { GameServerCreationContext } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import TemplateVariableForm from "@/components/display/GameServer/CreateGameServer/TemplateVariableForm";
+import TemplateVariableForm from "./TemplateVariableForm";
 import { validateTemplateVariables } from "@/components/display/GameServer/CreateGameServer/utils/templateSubstitution";
 import { useContext } from "react";
 import { Trans, useTranslation } from "react-i18next";

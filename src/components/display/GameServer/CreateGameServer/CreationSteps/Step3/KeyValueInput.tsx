@@ -1,4 +1,4 @@
-import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import ListInput from "./ListInput.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
@@ -7,8 +7,8 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import infoIcon from "@/assets/icons/info.webp";
-import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
-import { type InputType, preProcessInputValue } from "./util";
+import type { GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { type InputType, preProcessInputValue } from "@/components/display/GameServer/CreateGameServer/utils/inputValue";
 
 interface KeyValueItem {
   key: string;

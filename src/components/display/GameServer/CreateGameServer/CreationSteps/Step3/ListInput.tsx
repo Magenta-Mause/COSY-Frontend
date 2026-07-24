@@ -11,8 +11,8 @@ import trashIcon from "@/assets/icons/trash.webp";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
-} from "./CreateGameServerModal.tsx";
-import { GameServerCreationPageContext } from "./GenericGameServerCreationPage.tsx";
+} from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "@/components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 
 interface Props<T extends { uuid: string }> {
   attribute: keyof GameServerCreationFormState;

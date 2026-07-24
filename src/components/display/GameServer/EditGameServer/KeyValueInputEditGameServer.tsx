@@ -6,7 +6,7 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import infoIcon from "@/assets/icons/info.webp";
-import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
+import { type InputType, preProcessInputValue } from "../CreateGameServer/utils/inputValue";
 import ListInputEdit from "./ListInputEditGameServer";
 
 interface KeyValueItem {
