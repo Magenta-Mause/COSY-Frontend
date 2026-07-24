@@ -2,17 +2,9 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
-import { v7 as generateUuid } from "uuid";
-import type {
-  GameServerAccessGroupDtoPermissionsItem,
-  GameServerDto,
-  GameServerLogMessageEntity,
-  MetricPointDto,
-} from "@/api/generated/model";
+import type { GameServerAccessGroupDtoPermissionsItem, GameServerDto } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
-import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
-import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 interface DockerPullProgressDtoResponse {
@@ -30,7 +22,6 @@ interface GameServerDockerProgressUpdateDto {
 
 const WebSocketCollection = () => {
   const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const gameServerMetrics = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
   const { uuid: userUuid, authorized } = useContext(AuthContext);
   const { loadGameServer } = useDataLoading();
   const dispatch = useDispatch();
@@ -66,38 +57,6 @@ const WebSocketCollection = () => {
           }),
         );
       }
-    },
-  );
-
-  useSubscription(
-    gameServer ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/logs`) : [],
-    (message) => {
-      const messageBody = JSON.parse(message.body) as GameServerLogMessageEntity;
-      dispatch(
-        gameServerLogSliceActions.addLog({
-          ...messageBody,
-          uuid: generateUuid(),
-        }),
-      );
-    },
-  );
-
-  useSubscription(
-    gameServer ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/metrics`) : [],
-    (message) => {
-      const messageBody = JSON.parse(message.body) as MetricPointDto;
-      const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""];
-
-      if (!serverMetricState || !serverMetricState.enableMetricsLiveUpdates) {
-        return;
-      }
-
-      dispatch(
-        gameServerMetricsSliceActions.addMetrics({
-          ...messageBody,
-          uuid: generateUuid(),
-        }),
-      );
     },
   );
 

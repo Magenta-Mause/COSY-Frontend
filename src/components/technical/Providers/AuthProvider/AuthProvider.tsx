@@ -1,3 +1,4 @@
+import LatestServerMetricsProvider from "@components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider.tsx";
 import PublicWebSocketCollection from "@components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
 import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
 import config from "@config";
@@ -267,7 +268,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
           }}
         >
           <WebSocketCollection />
-          {props.children}
+          <LatestServerMetricsProvider>{props.children}</LatestServerMetricsProvider>
         </StompSessionProvider>
       ) : authorized === false ? (
         <StompSessionProvider
@@ -280,7 +281,11 @@ const AuthProvider = (props: { children: ReactNode }) => {
           {props.children}
         </StompSessionProvider>
       ) : (
-        props.children
+        // Auth is still being resolved: provide an inactive stomp session so that
+        // components subscribing to live data can mount without a connection.
+        <StompSessionProvider url={config.backendBrokerUrl} enabled={false}>
+          {props.children}
+        </StompSessionProvider>
       )}
     </AuthContext.Provider>
   );

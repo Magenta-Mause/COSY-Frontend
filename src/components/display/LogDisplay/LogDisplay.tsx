@@ -9,7 +9,7 @@ import { useSendCommand } from "@/api/generated/backend-api";
 import arrowRightIcon from "@/assets/icons/arrowRight.webp";
 import sendIcon from "@/assets/icons/send.webp";
 import { cn } from "@/lib/utils.ts";
-import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
+import type { GameServerLogWithUuid } from "@/types/logTypes";
 
 const LogDisplay = (
   props: {
