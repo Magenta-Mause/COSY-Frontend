@@ -529,8 +529,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
         <Button
           onClick={() => openDownloadModal(currentPath)}
-          data-loading={downloading.includes(currentPath) || loading}
-          disabled={downloading.includes(currentPath) || loading || !canReadFiles || isSynthetic}
+          loading={downloading.includes(currentPath) || loading}
+          disabled={!canReadFiles || isSynthetic}
         >
           <Icon src={downloadIcon} className="size-5" />
           {downloading.includes(currentPath)

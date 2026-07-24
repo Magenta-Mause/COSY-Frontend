@@ -55,7 +55,7 @@ const LoginDisplay = () => {
                 type="submit"
                 form="login-form"
                 data-testid="login-submit-btn"
-                disabled={isLoggingIn}
+                loading={isLoggingIn}
                 className="w-full"
               >
                 {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}

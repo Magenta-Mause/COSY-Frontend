@@ -156,7 +156,7 @@ export const ChangePermissionsModal = ({ open, obj, onClose, onSave }: Props) =>
             <Button variant="secondary" onClick={onClose} disabled={saving} className="flex-1">
               {t("cancel")}
             </Button>
-            <Button onClick={handleSave} disabled={saving} data-loading={saving} className="flex-1">
+            <Button onClick={handleSave} loading={saving} className="flex-1">
               {saving ? t("saving") : t("save")}
             </Button>
           </div>

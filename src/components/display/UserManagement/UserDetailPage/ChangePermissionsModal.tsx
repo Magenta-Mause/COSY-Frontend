@@ -164,7 +164,7 @@ const ChangePermissionsModal = (props: {
           <Button variant="secondary" onClick={handleClose}>
             {t("cancelButton")}
           </Button>
-          <Button onClick={handleSubmit} disabled={isPending}>
+          <Button onClick={handleSubmit} loading={isPending}>
             {t("confirmButton")}
           </Button>
         </DialogFooter>

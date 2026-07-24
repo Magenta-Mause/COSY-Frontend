@@ -146,6 +146,7 @@ const RconSettings = (props: {
         onConfirm={handleConfirm}
         revertDisabled={loading || !isChanged}
         confirmDisabled={isConfirmButtonDisabled}
+        loading={loading}
       />
       <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />
     </div>

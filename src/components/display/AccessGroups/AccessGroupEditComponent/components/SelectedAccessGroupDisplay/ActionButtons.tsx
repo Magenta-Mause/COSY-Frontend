@@ -42,6 +42,7 @@ const ActionButtons = ({
       onConfirm={handleConfirm}
       revertDisabled={loading || !isChanged}
       confirmDisabled={isConfirmButtonDisabled}
+      loading={loading}
       className="mr-2 -mt-17.5 pb-3"
       positionChildren={"before"}
     >

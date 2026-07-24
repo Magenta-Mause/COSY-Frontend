@@ -60,6 +60,7 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                   }
                 }}
                 disabled={loading || action.disabled}
+                data-loading={loading || undefined}
                 variant={action.destructive ? "destructive" : "default"}
                 className="[&[data-disabled]]:pointer-events-auto"
               >

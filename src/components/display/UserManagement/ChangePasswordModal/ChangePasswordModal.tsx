@@ -144,7 +144,8 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
           <Button
             type="submit"
             form="change-password-form"
-            disabled={!isFormValid || isPending || hasPasswordError}
+            disabled={!isFormValid || hasPasswordError}
+            loading={isPending}
           >
             {t("changePassword")}
           </Button>

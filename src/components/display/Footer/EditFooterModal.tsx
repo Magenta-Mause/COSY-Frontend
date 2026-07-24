@@ -128,7 +128,7 @@ const EditFooterModal = ({ open, onOpenChange, footerData }: EditFooterModalProp
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isPending}>
             {t("cancel")}
           </Button>
-          <Button type="submit" form="edit-footer-form" disabled={!isFormValid || isPending}>
+          <Button type="submit" form="edit-footer-form" disabled={!isFormValid} loading={isPending}>
             {t("save")}
           </Button>
         </DialogFooter>

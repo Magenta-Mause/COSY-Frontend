@@ -88,7 +88,8 @@ const DesignSettingsSection = () => {
         onRevert={handleRevert}
         onConfirm={handleSave}
         revertDisabled={loading || !hasChanges}
-        confirmDisabled={loading || !hasChanges}
+        confirmDisabled={!hasChanges}
+        loading={loading}
       />
       <UnsavedModal isChanged={hasChanges} onSave={handleSave} />
     </div>

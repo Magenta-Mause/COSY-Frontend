@@ -106,7 +106,7 @@ export const EditFileModal = ({
           <Button
             onClick={handleSave}
             disabled={busy || fetching}
-            data-loading={saving}
+            loading={saving}
             data-testid="editfile-save-btn"
             className="flex-1"
           >

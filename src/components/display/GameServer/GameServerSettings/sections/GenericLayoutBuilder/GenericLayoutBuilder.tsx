@@ -368,7 +368,8 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
         onRevert={handleRevert}
         onConfirm={handleConfirm}
         revertDisabled={!isChanged || isSaving}
-        confirmDisabled={!isChanged || isSaving}
+        confirmDisabled={!isChanged}
+        loading={isSaving}
         errorMessage={cardErrors.size > 0 ? unfulfilledChanges : null}
         requireConfirmationLabel={props.warningMessage}
       />
