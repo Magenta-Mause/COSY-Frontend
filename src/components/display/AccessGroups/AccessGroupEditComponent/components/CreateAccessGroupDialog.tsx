@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/dialog.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { useState } from "react";
-import * as z from "zod";
 import type { GameServerAccessGroupDto } from "@/api/generated/model";
 import plusIcon from "@/assets/icons/plus.webp";
 import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import { cn } from "@/lib/utils";
 import { accessGroupToggleItemClassName } from "./accessGroupToggleStyles";
 
@@ -74,7 +74,7 @@ const CreateAccessGroupDialog = (props: {
             label={t("groupNameLabel")}
             value={groupName}
             onChange={(v) => setGroupName(v as string)}
-            validator={z.string().min(1)}
+            validator={requiredStringValidator}
             isError={doesGroupNameAlreadyExist}
             placeholder={t("groupNamePlaceholder")}
             errorLabel={

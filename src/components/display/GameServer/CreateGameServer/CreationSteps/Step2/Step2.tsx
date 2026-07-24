@@ -3,8 +3,8 @@ import TemplateVariableForm from "@/components/display/GameServer/CreateGameServ
 import { validateTemplateVariables } from "@/components/display/GameServer/CreateGameServer/utils/templateSubstitution";
 import { useContext } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
 import TemplateHeader from "./TemplateHeader.tsx";
@@ -28,7 +28,7 @@ export default function Step2() {
     >
       <GenericGameServerCreationInputField
         attribute="server_name"
-        validator={z.string().min(1)}
+        validator={requiredStringValidator}
         placeholder={t("serverNameSelection.placeholder")}
         label={t("serverNameSelection.title")}
         description={t("serverNameSelection.description")}

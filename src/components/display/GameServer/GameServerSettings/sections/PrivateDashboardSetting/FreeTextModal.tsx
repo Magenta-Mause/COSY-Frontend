@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 
 interface FreeTextModalProps {
@@ -72,8 +72,8 @@ const FreeTextModal = (props: FreeTextModalProps) => {
             }
             placeHolderKeyInput="KEY"
             placeHolderValueInput="VALUE"
-            keyValidator={z.string().min(1)}
-            valueValidator={z.string().min(1)}
+            keyValidator={requiredStringValidator}
+            valueValidator={requiredStringValidator}
             errorLabel={t("environmentVariablesSelection.errorLabel")}
             required={false}
             inputType="text"

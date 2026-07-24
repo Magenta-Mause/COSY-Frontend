@@ -1,15 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
-import { z } from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { webhookUrlValidator } from "@/lib/validators/webhookUrlValidator.ts";
 import type { WebhookEvent, WebhookFormValues } from "./webhook.types";
-
-const webhookUrlSchema = z
-  .string()
-  .min(1, "validation.webhookUrlRequired")
-  .refine(
-    (url) => url.trim().startsWith("http://") || url.trim().startsWith("https://"),
-    "validation.webhookUrlInvalid",
-  );
 
 type FormErrors = {
   webhook_url?: string;
@@ -30,7 +22,7 @@ export const useWebhookForm = ({ defaultValues, onSubmit }: UseWebhookFormOption
     const result: FormErrors = {};
 
     if (values.webhook_url.length > 0) {
-      const urlResult = webhookUrlSchema.safeParse(values.webhook_url);
+      const urlResult = webhookUrlValidator.safeParse(values.webhook_url);
       if (!urlResult.success) {
         result.webhook_url = t(urlResult.error.issues[0].message);
       }

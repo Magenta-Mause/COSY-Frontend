@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card.tsx";
 import UnsavedModal from "@/components/ui/UnsavedModal.tsx";
 import { useEffect, useMemo, useState } from "react";
-import * as z from "zod";
 import { getUUIDByUsername } from "@/api/generated/backend-api.ts";
 import type {
   GameServerAccessGroupDto,
@@ -11,6 +10,7 @@ import type {
 import { GameServerAccessGroupDtoPermissionsItem as PermissionEnum } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import ActionButtons from "./ActionButtons";
 import GroupNameSection from "./GroupNameSection";
 import PermissionsSection from "./PermissionsSection";
@@ -57,7 +57,7 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
 
   // Validate all fields
   const allFieldsValid = useMemo(() => {
-    return z.string().min(1).safeParse(localGroupName).success;
+    return requiredStringValidator.safeParse(localGroupName).success;
   }, [localGroupName]);
 
   // Detect changes

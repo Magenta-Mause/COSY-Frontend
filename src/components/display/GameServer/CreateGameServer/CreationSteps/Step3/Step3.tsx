@@ -1,9 +1,10 @@
 import KeyValueInput from "@/components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import PortInput from "@/components/display/GameServer/CreateGameServer/PortInput.tsx";
 import Collapsible from "@/components/ui/Collapsible.tsx";
-import * as z from "zod";
 import settingsIcon from "@/assets/icons/settings.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { portValidator } from "@/lib/validators/portValidator.ts";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import Icon from "@/components/ui/Icon.tsx";
 import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
@@ -26,8 +27,8 @@ export default function Step3() {
         errorLabel={t("portSelection.errorLabel")}
         placeHolderKeyInput="4433"
         placeHolderValueInput="4433"
-        keyValidator={z.number().min(1).max(65535)}
-        valueValidator={z.number().min(1).max(65535)}
+        keyValidator={portValidator}
+        valueValidator={portValidator}
       />
 
       <KeyValueInput
@@ -37,8 +38,8 @@ export default function Step3() {
         errorLabel={t("environmentVariablesSelection.errorLabel")}
         placeHolderKeyInput="KEY"
         placeHolderValueInput="VALUE"
-        keyValidator={z.string().min(1)}
-        valueValidator={z.string().min(1)}
+        keyValidator={requiredStringValidator}
+        valueValidator={requiredStringValidator}
         inputType="text"
         objectKey="key"
         objectValue="value"
@@ -62,7 +63,7 @@ export default function Step3() {
       >
         <GenericGameServerCreationInputField
           attribute="execution_command"
-          validator={z.string().min(1)}
+          validator={requiredStringValidator}
           placeholder={t("executionCommandSelection.placeholder")}
           optional
           label={t("executionCommandSelection.title")}
@@ -77,8 +78,8 @@ export default function Step3() {
           errorLabel={t("annotationsSelection.errorLabel")}
           placeHolderKeyInput="com.example.label"
           placeHolderValueInput="value"
-          keyValidator={z.string().min(1)}
-          valueValidator={z.string().min(1)}
+          keyValidator={requiredStringValidator}
+          valueValidator={requiredStringValidator}
           inputType="text"
           objectKey="key"
           objectValue="value"

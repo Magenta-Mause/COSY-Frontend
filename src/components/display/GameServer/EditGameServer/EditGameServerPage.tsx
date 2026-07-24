@@ -23,6 +23,8 @@ import {
   getMemoryLimitError,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
+import { portValidator } from "@/lib/validators/portValidator.ts";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import { processEscapeSequences } from "../CreateGameServer/util";
 import EditHostVolumeMountConfigurationInput from "./EditHostVolumeMountConfigurationInput";
 import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
@@ -66,32 +68,22 @@ const EditGameServerPage = (props: {
   }, [props.gameServer, annotationsToEntries]);
 
   const allFieldsValid = useMemo(() => {
-    const serverNameValid = z.string().min(1).safeParse(gameServerState.server_name).success;
+    const serverNameValid = requiredStringValidator.safeParse(gameServerState.server_name).success;
     const gameUuidValid = true;
-    const dockerImageNameValid = z
-      .string()
-      .min(1)
-      .safeParse(gameServerState.docker_image_name).success;
-    const dockerImageTagValid = z
-      .string()
-      .min(1)
-      .safeParse(gameServerState.docker_image_tag).success;
+    const dockerImageNameValid = requiredStringValidator.safeParse(
+      gameServerState.docker_image_name,
+    ).success;
+    const dockerImageTagValid = requiredStringValidator.safeParse(
+      gameServerState.docker_image_tag,
+    ).success;
 
     const portMappingsValid =
       !gameServerState.port_mappings ||
       gameServerState.port_mappings.length === 0 ||
       gameServerState.port_mappings.every((mapping) => {
         if (!mapping.container_port && !mapping.instance_port && mapping.protocol) return true;
-        const keyValid = z
-          .number()
-          .min(1)
-          .max(65535)
-          .safeParse(Number(mapping.instance_port)).success;
-        const valueValid = z
-          .number()
-          .min(1)
-          .max(65535)
-          .safeParse(Number(mapping.container_port)).success;
+        const keyValid = portValidator.safeParse(Number(mapping.instance_port)).success;
+        const valueValid = portValidator.safeParse(Number(mapping.container_port)).success;
         const protocolValid = !!mapping.protocol;
         return keyValid && valueValid && protocolValid;
       });
@@ -101,8 +93,8 @@ const EditGameServerPage = (props: {
       gameServerState.environment_variables.length === 0 ||
       gameServerState.environment_variables.every((env) => {
         if (!env.key && !env.value) return true;
-        const keyValid = z.string().min(1).safeParse(env.key).success;
-        const valueValid = z.string().min(1).safeParse(env.value).success;
+        const keyValid = requiredStringValidator.safeParse(env.key).success;
+        const valueValid = requiredStringValidator.safeParse(env.value).success;
         return keyValid && valueValid;
       });
 
@@ -363,7 +355,7 @@ const EditGameServerPage = (props: {
           label={t("serverNameSelection.title")}
           value={gameServerState.server_name}
           onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v as string }))}
-          validator={z.string().min(1)}
+          validator={requiredStringValidator}
           placeholder="My Game Server"
           description={t("serverNameSelection.description")}
           errorLabel={t("serverNameSelection.errorLabel")}
@@ -403,7 +395,7 @@ const EditGameServerPage = (props: {
 
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
-            validator={z.string().min(1)}
+            validator={requiredStringValidator}
             placeholder="nginx"
             label={t("dockerImageSelection.title")}
             description={t("dockerImageSelection.description")}
@@ -414,7 +406,7 @@ const EditGameServerPage = (props: {
           />
 
           <InputFieldEditGameServer
-            validator={z.string().min(1)}
+            validator={requiredStringValidator}
             placeholder="latest"
             label={t("imageTagSelection.title")}
             description={t("imageTagSelection.description")}
@@ -448,8 +440,8 @@ const EditGameServerPage = (props: {
               }),
             }))
           }
-          keyValidator={z.number().min(1).max(65535)}
-          valueValidator={z.number().min(1).max(65535)}
+          keyValidator={portValidator}
+          valueValidator={portValidator}
           errorLabel={t("portSelection.errorLabel")}
           required={false}
         />
@@ -475,8 +467,8 @@ const EditGameServerPage = (props: {
           }
           placeHolderKeyInput="KEY"
           placeHolderValueInput="VALUE"
-          keyValidator={z.string().min(1)}
-          valueValidator={z.string().min(1)}
+          keyValidator={requiredStringValidator}
+          valueValidator={requiredStringValidator}
           errorLabel={t("environmentVariablesSelection.errorLabel")}
           required={false}
           inputType="text"
@@ -503,7 +495,7 @@ const EditGameServerPage = (props: {
             }))
           }
           placeholder="/data"
-          validator={z.string().min(1)}
+          validator={requiredStringValidator}
           errorLabel={t("hostPathSelection.errorLabel")}
           required={false}
           inputType="text"
@@ -537,8 +529,8 @@ const EditGameServerPage = (props: {
             onChange={(vals) => setAnnotationEntries(vals)}
             placeHolderKeyInput="com.example.label"
             placeHolderValueInput="value"
-            keyValidator={z.string().min(1)}
-            valueValidator={z.string().min(1)}
+            keyValidator={requiredStringValidator}
+            valueValidator={requiredStringValidator}
             errorLabel={t("annotationsSelection.errorLabel")}
             required={false}
             inputType="text"
