@@ -1,5 +1,4 @@
 import Icon from "@/components/ui/Icon.tsx";
-import { useMemo } from "react";
 import type { ParseKeys, TOptions } from "i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
@@ -13,14 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAppSelector } from "@/stores/hooks.ts";
 import {
   extractCustomMetricKey,
   formatMetricDisplayName,
   isCustomMetric,
   MetricsType,
 } from "@/types/metricsTyp";
-import { getAvailableCustomMetrics } from "@/utils/customMetrics";
 
 const DROPDOWN_OPTIONS: MetricsType[] = [
   MetricsType.CPU_PERCENT,
@@ -38,17 +35,12 @@ const MetricDropDown = (props: {
   disabled?: boolean;
   metricType?: MetricsType | string;
   setMetricType: (unit: string) => void;
-  gameServerUuid?: string;
+  /** Custom metric types the server reports, see `useCustomMetricKeys`. */
+  customMetrics?: string[];
 }) => {
   const { t } = useTranslationPrefix("metrics");
 
-  const metrics = useAppSelector((state) =>
-    props.gameServerUuid
-      ? state.gameServerMetricsSliceReducer.data[props.gameServerUuid]?.metrics
-      : undefined,
-  );
-
-  const customMetrics = useMemo(() => getAvailableCustomMetrics(metrics), [metrics]);
+  const customMetrics = props.customMetrics ?? [];
 
   const handleSelect = (type: string) => {
     props.setMetricType(type);

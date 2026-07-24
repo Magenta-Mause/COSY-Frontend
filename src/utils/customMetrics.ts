@@ -1,4 +1,4 @@
-import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
+import type { MetricPointDto } from "@/api/generated/model";
 import { createCustomMetricType } from "@/types/metricsTyp";
 
 /**
@@ -6,9 +6,7 @@ import { createCustomMetricType } from "@/types/metricsTyp";
  * @param metrics Array of metrics for a game server
  * @returns Array of custom metric types (with prefix)
  */
-export const getAvailableCustomMetrics = (
-  metrics: GameServerMetricsWithUuid[] | undefined,
-): string[] => {
+export const getAvailableCustomMetrics = (metrics: MetricPointDto[] | undefined): string[] => {
   if (!metrics || metrics.length === 0) {
     return [];
   }

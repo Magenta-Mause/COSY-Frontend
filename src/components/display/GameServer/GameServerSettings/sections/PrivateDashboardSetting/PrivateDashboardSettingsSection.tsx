@@ -10,6 +10,7 @@ import {
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
 import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import useCustomMetricKeys from "@/hooks/useCustomMetricKeys/useCustomMetricKeys";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
@@ -36,6 +37,13 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   );
   const [freeText, setFreeText] = useState<PrivateDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
+
+  const hasMetricWidget = useMemo(
+    () =>
+      privateDashboard.some((dashboard) => dashboard.layout_type === DashboardElementTypes.METRIC),
+    [privateDashboard],
+  );
+  const customMetrics = useCustomMetricKeys(gameServer.uuid, hasMetricWidget);
 
   const isChanged = useMemo(() => {
     if (privateDashboard.length !== gameServer.private_dashboard_layouts?.length) return true;
@@ -177,7 +185,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
                   className="flex-1"
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
-                  gameServerUuid={props.gameServer.uuid}
+                  customMetrics={customMetrics}
                 />
               )}
               {dashboard.layout_type === DashboardElementTypes.FREETEXT && (

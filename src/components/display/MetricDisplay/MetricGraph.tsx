@@ -12,10 +12,10 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { MetricValues } from "@/api/generated/model";
 import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
-import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import {
   extractCustomMetricKey,
   formatMetricDisplayName,
+  type GameServerMetricsWithUuid,
   isCustomMetric,
   MetricsType,
 } from "@/types/metricsTyp";
