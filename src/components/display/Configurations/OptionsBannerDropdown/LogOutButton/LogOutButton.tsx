@@ -22,6 +22,7 @@ const LogOutButton = forwardRef<HTMLButtonElement, LogOutButtonProps>(
           {...props}
           ref={ref}
           className={cn("h-auto aspect-square", props.className)}
+          data-testid="logout-btn"
           aria-label={t("optionsBanner.logout")}
           onClick={(event) => {
             onClick?.(event);

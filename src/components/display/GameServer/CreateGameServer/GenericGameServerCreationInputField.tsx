@@ -116,6 +116,7 @@ const GenericGameServerCreationInputField = (props: {
         step={props.step}
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}
+        data-testid={`create-field-${props.attribute}`}
         value={creationState.gameServerState[props.attribute] as string | number | undefined}
         onKeyDown={(e) => {
           if (e.key === "Enter") {

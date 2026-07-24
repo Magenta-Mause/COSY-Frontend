@@ -42,6 +42,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
               props.className,
             )}
             aria-label={t("aria.createNewGameServer")}
+            data-testid="create-server-plot"
             to={"/"}
             style={{
               ...props.style,

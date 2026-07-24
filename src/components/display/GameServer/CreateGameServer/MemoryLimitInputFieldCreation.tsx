@@ -121,6 +121,7 @@ const MemoryLimitInputFieldCreation = ({
     <div>
       <MemoryLimitInput
         id={attribute}
+        data-testid={`create-field-${attribute}`}
         header={label}
         isRequired={!optional}
         error={isError ? errorMessage : undefined}
