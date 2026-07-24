@@ -52,7 +52,7 @@ const TemplateList = ({
 
   return (
     <div
-      className="grid grid-cols-[repeat(auto-fill,minmax(13rem,15rem))] gap-3 content-start"
+      className="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-3 content-start"
       tabIndex={-1}
       role="listbox"
       aria-label={t("templateSelection.title")}
@@ -71,7 +71,7 @@ const TemplateList = ({
               tabIndex={index === focusedIndex ? 0 : -1}
               role="option"
               aria-selected={isSelected}
-              className={`relative transition-all duration-150 select-none p-4 gap-1.5 h-40 flex flex-col overflow-hidden outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 focus-visible:bg-primary/10 ${
+              className={`relative transition-all duration-150 select-none p-4 gap-1.5 min-h-40 flex flex-col overflow-hidden outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 focus-visible:bg-primary/10 ${
                 isSelected
                   ? "border-primary bg-primary/8 shadow-sm"
                   : "hover:border-border hover:bg-foreground/[0.05] hover:shadow-md"
@@ -81,7 +81,9 @@ const TemplateList = ({
               onFocus={() => setFocusedIndex(index)}
             >
               <div className="flex items-start justify-between gap-2">
-                <span className="text-sm font-semibold leading-snug">{template.name}</span>
+                <span className="text-sm font-semibold leading-snug break-words min-w-0">
+                  {template.name}
+                </span>
                 {isSelected && (
                   <Icon src={checkIcon} className="size-4 shrink-0 text-primary mt-0.5" />
                 )}
