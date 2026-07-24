@@ -1,6 +1,3 @@
-<!-- AUTO-SYNCED from agents KB: technologies/REACT.md @ 3ab4e0b.
-     Do NOT edit here — edit the source in ~/projects/agents and re-run scripts/sync-conventions.sh. -->
-
 # React Rules
 
 ## Component Structure
@@ -75,8 +72,8 @@
 State is split across two libraries by concern:
 
 - **Redux Toolkit** owns client/UI state and any cached shared data that many
-  views read (e.g. session/auth, cart, player, language, toast, and a `dataSlice`
-  cache read through a `useDataLoading` hook).
+  views read (e.g. session/auth, language, toast, and shared data slices read
+  through a data-loading hook).
 - **React Query** (`@tanstack/react-query`) owns *dynamic server interactions*:
   (a) **async mutations** (any create/update/delete/upload/sign-in API call),
   and (b) **dynamic reads that need their own loading indicator** (admin lists,
@@ -87,7 +84,7 @@ State is split across two libraries by concern:
   `src/store/hooks.ts` — never the raw react-redux versions.
 - Define Redux slices with `createSlice`; use `PayloadAction<T>` in reducers and
   union string literals `"idle" | "loading" | "failed"` for async status.
-- Route the shared cached data reads through `useDataLoading`.
+- Route the shared cached data reads through the shared data-loading hook.
 - For every async **mutation**, use `useMutation` inside the component's logic
   hook. Expose `mutation.isPending` (and `mutation.variables` for per-row
   actions) so buttons can show a pending state. On success, `invalidateQueries`
@@ -312,10 +309,8 @@ a `▸` selection caret in a rendered "terminal"), placeholder masks
 
 ## Internationalisation (i18n)
 
-Reference implementation: `cosy-domain-provider-frontend/src/i18n/` (`resources.ts`,
-`config.ts`, `i18next.d.ts`). Translations are plain TypeScript objects — **no JSON
-files** — so every key is compile-time checked and missing/mistyped keys fail the
-build.
+Translations are plain TypeScript objects — **no JSON files** — so every key is
+compile-time checked and missing/mistyped keys fail the build.
 
 **Structure — one `resources.ts` per app:**
 - Write the base language (`en`) as a single object literal ending in `as const`
@@ -388,13 +383,6 @@ build.
 
 **DO:**
 - Co-locate test files with the files they test, named `<filename>.test.ts(x)`.
-  **Exception (expo-router):** never place test files inside the route directory
-  (`app/`) — the typed-routes generator scans `app/` in Node *without* Metro's
-  blockList, and a co-located `_layout.test.tsx` is misread as a group layout,
-  silently collapsing that group's routes out of `.expo/types/router.d.ts`
-  (typecheck then fails on every `/(group)/...` path). Put route-screen tests in
-  `src/` next to the feature they exercise (e.g. `src/features/hosts/
-  HostsScreen.test.tsx` importing the screen from `app/` relatively).
 - Use `renderHook()` from `@testing-library/react` for testing logic hooks.
 - Wrap Redux-connected hooks with a store provider utility (e.g. `makeWrapper(preloadedState)`).
 - Use `vi.mock(...)` for module mocking and `vi.fn()` / `vi.mocked()` for mock functions.
@@ -413,13 +401,13 @@ build.
 
 Orval reads an OpenAPI spec from the running backend and generates a fully-typed TypeScript client into `src/api/generated/`. The generated output includes one function per endpoint and a matching set of request/response types in `src/api/generated/model/`.
 
-A shared `customInstance` function (defined in `src/api/axios-instance.ts`) is injected into every generated call, so authentication headers, base URL, and error handling are configured once and applied automatically.
+A shared `customInstance` function is injected into every generated call, so authentication headers, base URL, and error handling are configured once and applied automatically.
 
 **DO:**
 - Run `bun gen:api` (with the backend running) to fetch the latest OpenAPI spec and regenerate the client.
 - Treat `src/api/generated/` as a build artefact — commit the output so the build never depends on a running backend in CI.
-- Use the generated functions through the data layer — `useDataLoading` for the shared cache, or a `useQuery`/`useMutation` inside a logic hook — never call them directly from JSX components.
-- For endpoints not covered by the OpenAPI spec, add manual API calls in a separate file (e.g. `src/api/billing-api.ts`) using the same `customInstance`.
+- Use the generated functions through the data layer — the shared data-loading hook for the shared cache, or a `useQuery`/`useMutation` inside a logic hook — never call them directly from JSX components.
+- For endpoints not covered by the OpenAPI spec, add manual API calls in a separate file using the same `customInstance`.
 
 **DON'T:**
 - Edit any file inside `src/api/generated/` manually — changes will be overwritten on the next generation run.
