@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { useReadFileFromVolume } from "@/api/generated/backend-api";
-import { FileBrowserPreviewContent } from "./FileBrowserPreviewContent";
+import { FileBrowserPreviewContent } from "../FileBrowserPreviewContent";
 
 interface UseFilePreviewNodeArgs {
   serverUuid: string;

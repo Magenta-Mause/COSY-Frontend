@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
-import type { FileBrowserContextValue } from "../FileBrowserContext";
+import type { FileBrowserContextValue } from "../../FileBrowserContext";
 import type { useFileBrowserActions } from "./useFileBrowserActions";
 
 interface UseFileBrowserContextValueArgs {

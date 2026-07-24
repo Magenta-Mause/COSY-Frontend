@@ -1,8 +1,8 @@
-import { ChangePermissionsModal } from "../ChangePermissionsModal/ChangePermissionsModal";
-import { DownloadOptionsModal } from "../DownloadOptionsModal/DownloadOptionsModal";
-import { EditFileModal } from "../EditFileModal/EditFileModal";
-import { UploadArchiveModal } from "../UploadArchiveModal/UploadArchiveModal";
-import type { useFileBrowserActions } from "./useFileBrowserActions";
+import { ChangePermissionsModal } from "./ChangePermissionsModal/ChangePermissionsModal";
+import { DownloadOptionsModal } from "./DownloadOptionsModal/DownloadOptionsModal";
+import { EditFileModal } from "./EditFileModal/EditFileModal";
+import { UploadArchiveModal } from "./UploadArchiveModal/UploadArchiveModal";
+import type { useFileBrowserActions } from "./hooks/useFileBrowserActions";
 
 interface FileBrowserModalsProps {
   readonly serverUuid: string;

@@ -12,10 +12,10 @@ import { FileBrowserProvider } from "../FileBrowserContext";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FileBrowserActionBar } from "./FileBrowserActionBar";
 import { FileBrowserModals } from "./FileBrowserModals";
-import { useFileBrowserActions } from "./useFileBrowserActions";
-import { useFileBrowserContextValue } from "./useFileBrowserContextValue";
-import { useFileBrowserNavigation } from "./useFileBrowserNavigation";
-import { useFilePreviewNode } from "./useFilePreviewNode";
+import { useFileBrowserActions } from "./hooks/useFileBrowserActions";
+import { useFileBrowserContextValue } from "./hooks/useFileBrowserContextValue";
+import { useFileBrowserNavigation } from "./hooks/useFileBrowserNavigation";
+import { useFilePreviewNode } from "./hooks/useFilePreviewNode";
 
 type FileBrowserDialogProps = {
   width?: number;
