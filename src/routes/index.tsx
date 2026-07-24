@@ -6,7 +6,7 @@ import GameServerBackground from "@/components/display/GameServer/GameServerBack
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
 import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 interface IndexSearch {
   inviteToken?: string;
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
+  const gameServers = useAppSelector((state) => state.gameServerSliceReducer.data);
   const sortedGameServers = useMemo(
     () =>
       [...gameServers].sort((a, b) => {

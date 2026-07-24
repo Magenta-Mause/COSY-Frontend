@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTypedSelector } from "@/stores/rootReducer";
+import { useAppSelector } from "@/stores/hooks.ts";
 import {
   extractCustomMetricKey,
   formatMetricDisplayName,
@@ -41,7 +41,7 @@ const MetricDropDown = (props: {
 }) => {
   const { t } = useTranslation();
 
-  const metrics = useTypedSelector((state) =>
+  const metrics = useAppSelector((state) =>
     props.gameServerUuid
       ? state.gameServerMetricsSliceReducer.data[props.gameServerUuid]?.metrics
       : undefined,

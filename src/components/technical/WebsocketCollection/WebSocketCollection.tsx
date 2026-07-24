@@ -1,6 +1,6 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks.ts";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
 import type {
@@ -10,7 +10,6 @@ import type {
   MetricPointDto,
 } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
@@ -29,11 +28,11 @@ interface GameServerDockerProgressUpdateDto {
 }
 
 const WebSocketCollection = () => {
-  const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const gameServerMetrics = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
+  const gameServer = useAppSelector((state) => state.gameServerSliceReducer.data);
+  const gameServerMetrics = useAppSelector((state) => state.gameServerMetricsSliceReducer.data);
   const { uuid: userUuid, authorized } = useContext(AuthContext);
   const { loadGameServer } = useDataLoading();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useSubscription(
     gameServer

@@ -3,7 +3,7 @@ import WebSocketCollection from "@components/technical/WebsocketCollection/WebSo
 import config from "@config";
 import { jwtDecode } from "jwt-decode";
 import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { StompSessionProvider } from "react-stomp-hooks";
 import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
@@ -69,7 +69,7 @@ const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 const AuthProvider = (props: { children: ReactNode }) => {
   const { loadAllData, loadPublicGameServer } = useDataLoading();
   const assetsLoaded = useAssetPreloader();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [username, setUsername] = useState<string | null>(null);
   const [uuid, setUuid] = useState<string | null>(null);
   const [role, setRole] = useState<UserEntityDtoRole | null>(null);

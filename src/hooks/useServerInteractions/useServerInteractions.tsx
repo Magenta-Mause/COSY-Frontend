@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { startService, stopService } from "@/api/generated/backend-api.ts";
 import { GameServerDtoStatus } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useServerInteractions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const startServer = async (gameServerId: string, includeToastNotification?: boolean) => {

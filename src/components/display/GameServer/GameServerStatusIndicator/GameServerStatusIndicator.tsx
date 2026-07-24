@@ -2,7 +2,7 @@ import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx";
 
 const COMPLETED_STATUSES = new Set(["Pull complete", "Already exists", "Download complete"]);
@@ -13,7 +13,7 @@ const GameServerStatusIndicator = (props: {
 }) => {
   const { t } = useTranslation();
   const status = props.gameServer.status ?? GameServerDtoStatus.STOPPED;
-  const pullProgressMap = useTypedSelector((state) => state.gameServerSliceReducer.pullProgress);
+  const pullProgressMap = useAppSelector((state) => state.gameServerSliceReducer.pullProgress);
 
   let buttonLabel: ReactNode = t(`serverStatus.${status}`);
   let tooltipContent: ReactNode = null;

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { v7 as generateUuid } from "uuid";
 import {
   getAllGameServers,
@@ -24,7 +24,7 @@ import { DashboardElementTypes } from "@/types/dashboardTypes";
 const gameServersMetricsRequestCounter: Record<string, number> = {};
 
 const useGameServerLoading = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const removeGameServer = useCallback(
     async (gameServerUuid: string) => {

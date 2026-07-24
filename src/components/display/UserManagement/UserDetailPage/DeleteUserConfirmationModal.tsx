@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@components/ui/dialog";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { useDeleteUserEntity } from "@/api/generated/backend-api";
 import type { UserEntityDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -19,7 +19,7 @@ const DeleteUserConfirmationModal = (props: {
   open: boolean;
   onClose: () => void;
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [submitError, setSubmitError] = useState<string | null>(null);
   const { t } = useTranslationPrefix("components.userManagement.deleteUserDialog");
 

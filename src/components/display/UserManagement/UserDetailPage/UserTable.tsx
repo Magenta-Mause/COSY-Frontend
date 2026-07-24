@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import searchIcon from "@/assets/icons/search.webp";
-import { useTypedSelector } from "@/stores/rootReducer";
+import { useAppSelector } from "@/stores/hooks.ts";
 import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";
 import RoleFilter from "./RoleFilter";
@@ -17,8 +17,8 @@ interface UserListProps {
 }
 
 const UserTable = ({ onRevoke }: UserListProps) => {
-  const users = useTypedSelector((state) => state.userSliceReducer.data);
-  const invites = useTypedSelector((state) => state.userInviteSliceReducer.data);
+  const users = useAppSelector((state) => state.userSliceReducer.data);
+  const invites = useAppSelector((state) => state.userInviteSliceReducer.data);
   const { t } = useTranslation();
 
   const [searchTerm, setSearchTerm] = useState("");

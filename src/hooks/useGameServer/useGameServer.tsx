@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 const useGameServer = (serverUuid: string) => {
-  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const gameServersInitialized = useTypedSelector(
+  const gameServers = useAppSelector((state) => state.gameServerSliceReducer.data);
+  const gameServersInitialized = useAppSelector(
     (state) => state.gameServerSliceReducer.initialized,
   );
 

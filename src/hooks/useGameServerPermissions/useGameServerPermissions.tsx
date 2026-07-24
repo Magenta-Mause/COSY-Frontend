@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import type { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import { containsPermission } from "@/lib/permissionCalculations.ts";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 const useGameServerPermissions = (gameServerId: string) => {
-  const gameServerPermissions = useTypedSelector(
+  const gameServerPermissions = useAppSelector(
     (state) => state.gameServerPermissionsSliceReducer.data,
   );
 

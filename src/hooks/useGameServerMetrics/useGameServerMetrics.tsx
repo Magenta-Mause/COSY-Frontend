@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 const useGameServerMetrics = (serverId: string) => {
-  const gameServerMetrics = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
+  const gameServerMetrics = useAppSelector((state) => state.gameServerMetricsSliceReducer.data);
   return useMemo(() => {
     if (!gameServerMetrics || !gameServerMetrics[serverId]) {
       return { state: "failed", metrics: [] };

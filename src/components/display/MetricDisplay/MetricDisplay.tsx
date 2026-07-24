@@ -2,11 +2,10 @@ import { Button } from "@components/ui/button";
 import { useSearch } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks.ts";
 import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
 import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
-import { useTypedSelector } from "@/stores/rootReducer";
 import {
   type GameServerMetricsWithUuid,
   gameServerMetricsSliceActions,
@@ -27,7 +26,7 @@ const MetricDisplay = (
   const [loading, setLoading] = useState<boolean>(false);
   const [isCustomTime, setIsCustomTime] = useState<boolean>(false);
   const { loadGameServerMetrics } = useDataLoading();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { metrics, gameServer } = props;
 
   const search = useSearch({ strict: false }) as { timeRangeType?: string };
@@ -40,7 +39,7 @@ const MetricDisplay = (
   // a loading→idle transition we didn't initiate and re-fire with the saved range.
   const savedTimeRangeRef = useRef<{ start: Date; end?: Date } | null>(null);
   const needsRefire = useRef(hasUrlTimeRange);
-  const metricsReduxState = useTypedSelector(
+  const metricsReduxState = useAppSelector(
     (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.state,
   );
   const prevMetricsReduxStateRef = useRef<string | undefined>(undefined);
@@ -61,7 +60,7 @@ const MetricDisplay = (
     }
   }, [metricsReduxState, gameServer.uuid, loadGameServerMetrics]);
 
-  const liveEnabled = useTypedSelector(
+  const liveEnabled = useAppSelector(
     (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
   );
 

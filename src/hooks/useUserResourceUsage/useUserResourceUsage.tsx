@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { GameServerDtoStatus } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 interface UserResourceUsage {
   cpuUsage: string;
@@ -15,8 +15,8 @@ const convertBytesToReadable = (bytes: number): string => {
 };
 
 export const useUserResourceUsage = (userUuid: string | null | undefined): UserResourceUsage => {
-  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const metricsData = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
+  const gameServers = useAppSelector((state) => state.gameServerSliceReducer.data);
+  const metricsData = useAppSelector((state) => state.gameServerMetricsSliceReducer.data);
 
   return useMemo(() => {
     // Return zeros if no userUuid provided
