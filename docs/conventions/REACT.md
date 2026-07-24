@@ -102,10 +102,11 @@ lazily-fetched panel shows a visible loading state.
 
 **DO:**
 - Pass `loading={isPending}` to the shared `<Button>` (`ui/button.tsx`) for any
-  async-triggering button. It disables the button, renders an inline pixel-art spinner
-  sized to the button variant, and sets `data-loading="true"` (which also drives the
-  loading cursor from `src/index.css`). Derive the flag from the mutation's `isPending`
-  where one exists — don't hand-roll `useState` booleans next to a mutation.
+  async-triggering button. It disables the button and swaps its label for a translated
+  loading label (`loadingLabel` prop to customize, defaults to `common.loading`), and
+  sets `data-loading="true"` (which also drives the loading cursor from `src/index.css`).
+  Derive the flag from the mutation's `isPending` where one exists — don't hand-roll
+  `useState` booleans next to a mutation.
 - For per-row actions, gate on the acted-on id (via the mutation's `variables`) so only
   the clicked control shows pending, not every row.
 - Give every fetched list or panel a visible **loading** branch and an **error** branch —

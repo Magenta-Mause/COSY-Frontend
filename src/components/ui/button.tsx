@@ -2,8 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import reloadIcon from "@/assets/icons/reload.webp";
-import Icon from "@/components/ui/Icon";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -118,26 +117,13 @@ const buttonVariants = cva(
   },
 );
 
-// Pending-indicator size per button size variant, matching the icon sizing
-// each variant already uses so the spinner reads as part of the button.
-const spinnerSizeForSize: Record<
-  NonNullable<VariantProps<typeof buttonVariants>["size"]>,
-  string
-> = {
-  default: "size-4",
-  sm: "size-3.5",
-  lg: "size-5",
-  icon: "size-4",
-  "icon-sm": "size-3.5",
-  "icon-lg": "size-5",
-};
-
 function Button({
   className,
   variant,
   size,
   asChild = false,
   loading = false,
+  loadingLabel,
   disabled,
   children,
   ...props
@@ -145,7 +131,9 @@ function Button({
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     loading?: boolean;
+    loadingLabel?: React.ReactNode;
   }) {
+  const { t } = useTranslationPrefix("common");
   const Comp = asChild ? Slot : "button";
 
   return (
@@ -157,23 +145,8 @@ function Button({
       {...props}
     >
       {/* asChild forwards to an arbitrary single child (Slot uses Children.only),
-          so we must not inject a sibling — just apply disabled + data-loading. */}
-      {asChild ? (
-        children
-      ) : (
-        <>
-          {loading ? (
-            <Icon
-              src={reloadIcon}
-              className={cn(
-                "animate-spin text-current",
-                spinnerSizeForSize[size ?? "default"],
-              )}
-            />
-          ) : null}
-          {children}
-        </>
-      )}
+          so we must not inject or swap the child — just apply disabled + data-loading. */}
+      {asChild ? children : loading ? (loadingLabel ?? t("loading")) : children}
     </Comp>
   );
 }

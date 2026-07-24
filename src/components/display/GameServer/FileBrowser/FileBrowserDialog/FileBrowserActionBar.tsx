@@ -59,17 +59,20 @@ export const FileBrowserActionBar = ({
       <Button
         onClick={onDownloadAll}
         loading={downloading.includes(currentPath) || loading}
+        loadingLabel={
+          downloading.includes(currentPath)
+            ? downloadProgress
+              ? t("downloadingFile", {
+                  done: formatBytes(downloadProgress.done),
+                  total: formatBytes(downloadProgress.total),
+                })
+              : t("preparing")
+            : undefined
+        }
         disabled={!canReadFiles || isSynthetic}
       >
         <Icon src={downloadIcon} className="size-5" />
-        {downloading.includes(currentPath)
-          ? downloadProgress
-            ? t("downloadingFile", {
-                done: formatBytes(downloadProgress.done),
-                total: formatBytes(downloadProgress.total),
-              })
-            : t("preparing")
-          : t("downloadAllAction")}
+        {t("downloadAllAction")}
       </Button>
 
       <TooltipWrapper

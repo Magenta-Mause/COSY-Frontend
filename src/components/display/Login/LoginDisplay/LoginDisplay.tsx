@@ -56,9 +56,10 @@ const LoginDisplay = () => {
                 form="login-form"
                 data-testid="login-submit-btn"
                 loading={isLoggingIn}
+                loadingLabel={t("loading")}
                 className="w-full"
               >
-                {isLoggingIn ? t("loading") : t("signIn")}
+                {t("signIn")}
               </Button>
               <p className="flex items-center gap-1">
                 Made with{" "}
