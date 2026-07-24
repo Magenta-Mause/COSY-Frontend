@@ -54,10 +54,8 @@ import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 **DO:**
 - Use `import type` for anything imported only as a type.
 - Include the file extension in import specifiers.
-
-**Target:** use the `@/` alias for all cross-directory imports. The extra aliases
-(`@components/*`, `@types/*`, `@config`) are being retired — don't introduce them in new
-code, and prefer `@/` when you touch an existing import.
+- Use the `@/` alias for all cross-directory imports — it is the only path alias.
+  (The former `@components/*`, `@types/*`, and `@config` aliases are removed.)
 
 ---
 
@@ -65,9 +63,9 @@ code, and prefer `@/` when you touch an existing import.
 
 Global state uses Redux Toolkit. Slices live in `src/stores/slices/` (one file per
 slice, e.g. `gameServerSlice.ts`, `userSlice.ts`, `templateSlice.ts`), combined in
-`src/stores/rootReducer.ts`. `rootReducer.ts` also defines the `RESET_STORE` action and
-the typed `useTypedSelector`. The store itself is configured in `src/stores/index.ts`,
-which exports `RootState` and the shared `SliceState<T>` shape:
+`src/stores/rootReducer.ts`, which also defines the `RESET_STORE` action. The store
+itself is configured in `src/stores/index.ts`, which exports `RootState`, `AppDispatch`,
+and the shared `SliceState<T>` shape:
 
 ```ts
 export interface SliceState<T> {
@@ -88,41 +86,43 @@ a third:
 
 **DO:**
 - Route every new server interaction through one of these hooks.
+- Use the typed `useAppDispatch` / `useAppSelector` hooks from `src/stores/hooks.ts`.
 
 **DON'T:**
 - Call a generated client function directly from a component.
 - Duplicate fetch-and-dispatch logic inline instead of extending the data hooks.
-
-**Target:** add typed `useAppDispatch` / `useAppSelector` hooks (typed against
-`RootState` / `AppDispatch`) and use them in new code instead of the raw `useDispatch`
-from `react-redux` and the current `useTypedSelector`.
+- Import raw `useDispatch` / `useSelector` from `react-redux` — always the typed pair.
 
 ---
 
 ## Loading States & Buttons
 
-**Target** — this whole section is the agreed fix. Current behavior is inconsistent, and
-the rules below are where we're heading; the "meanwhile" note records what to keep doing
-until the shared primitive lands.
+Every control that triggers an async request gives clear pending feedback, and every
+lazily-fetched panel shows a visible loading state.
 
-**Target:**
-- Give the shared `ui/button.tsx` a `loading` prop that disables the button and shows an
-  inline pending indicator. Async-triggering buttons then pass the mutation's `isPending`
-  instead of hand-rolling `useState` booleans.
+**DO:**
+- Pass `loading={isPending}` to the shared `<Button>` (`ui/button.tsx`) for any
+  async-triggering button. It disables the button, renders an inline pixel-art spinner
+  sized to the button variant, and sets `data-loading="true"` (which also drives the
+  loading cursor from `src/index.css`). Derive the flag from the mutation's `isPending`
+  where one exists — don't hand-roll `useState` booleans next to a mutation.
 - For per-row actions, gate on the acted-on id (via the mutation's `variables`) so only
   the clicked control shows pending, not every row.
-- Every fetched list or panel renders a visible **loading** branch and an **error**
-  branch — never an empty list while a fetch is in flight.
-- Completeness-gated submits: primary-action buttons stay disabled until every required
-  input is filled. Gate on *completeness*, not on format validity — format errors surface
-  as validation messages on submit.
+- Give every fetched list or panel a visible **loading** branch and an **error** branch —
+  never an empty panel while a fetch is in flight. Use the shared `<Spinner>`
+  (`src/components/ui/Spinner.tsx`); `LogDisplay` and `MetricDisplay`/`MetricGraph`
+  (driven by the hooks' `DataLoadState`) are the reference implementations.
+- Completeness-gated submits: keep primary-action buttons disabled until every required
+  input is filled, composing with the pending state —
+  `disabled={!isFormValid} loading={isPending}` (`EditFooterModal.tsx` is the model).
+  Gate on *completeness*, not on format validity — format errors surface as validation
+  messages on submit.
 
-*Meanwhile (current practice to keep):* disable buttons while a request is in flight and
-set the `data-loading="true"` attribute, which drives the loading cursor defined in
-`src/index.css`.
-
-A good existing model for the completeness gate is `EditFooterModal.tsx`, whose submit is
-`disabled={!isFormValid || isPending}`.
+**DON'T:**
+- Leave a button firing an async handler with no pending feedback.
+- Show a bare empty panel while its data is loading — render the loading branch.
+- Flash the loading branch again for streaming appends/refreshes once initial data is
+  shown.
 
 ---
 
@@ -139,11 +139,10 @@ co-located hooks such as `useCreationFormState` and `useWebhookForm`. Validation
 - Build forms from the `ui/field.tsx` primitives and existing domain input wrappers.
 - Keep form state in a co-located hook, not scattered through the JSX.
 - Validate with zod.
-
-**Target:** put field/schema validators in `src/lib/validators/` — one file per
-validator, with named constants for limits. `cpuLimitValidator.ts` and
-`memoryLimitValidator.ts` are the pattern. New inline zod schemas written in a component
-should move there instead.
+- Put field/schema validators in `src/lib/validators/` — one file per validator, with
+  named constants for limits (`portValidator.ts` with `PORT_MIN`/`PORT_MAX`,
+  `requiredStringValidator.ts`, `webhookUrlValidator.ts`, `cpuLimitValidator.ts`,
+  `memoryLimitValidator.ts`). Don't define domain zod schemas inline in a component.
 
 ---
 
@@ -202,6 +201,7 @@ supports an optional `bold` drop-shadow. This is a deliberate pixel-art icon sys
 - Leave unused locals, parameters, or fall-through switch cases (they fail the build).
 
 **Target:** declare new component props as `interface XxxProps` with `readonly` fields.
+(Existing components mix styles — migrate opportunistically when you touch one.)
 
 ---
 
@@ -217,8 +217,12 @@ Access control today happens at render time via `AuthContext` and the helpers in
 `NoAccess` fallback (`src/components/display/NoAccess/NoAccess.tsx`).
 
 **Target:** move access control into route-level `beforeLoad` guards so unauthorized
-routes never render at all. New routes should prefer `beforeLoad` over render-time
-checks.
+routes never render at all. **Prerequisite:** auth currently lives only in React state,
+populated by an async `fetchToken()` — there is no source of truth `beforeLoad` can read,
+so guards added today would mis-redirect on deep links and hard refreshes while auth is
+still resolving. Adopting this requires first extracting an awaitable out-of-React auth
+singleton (consumed by both `AuthProvider` and router context) — that is its own task.
+Until then, render-time checks are the correct pattern.
 
 ---
 
@@ -233,6 +237,8 @@ Structure under `src/i18n/`:
 - `en-US/translation.ts` and `de-DE/translation.ts` — both annotated
   `const translation: i18nLanguage`, so a missing, extra, or mistyped key in either
   language **fails typecheck**.
+- `i18next.d.ts` — `CustomTypeOptions` augmentation over `i18nLanguage`, so `t("bad.key")`
+  **also fails typecheck at every call site**, including prefix-scoped keys.
 
 **DO:**
 - Add a new key to `i18nLanguage` first, then to **both** language files in the same
@@ -241,38 +247,42 @@ Structure under `src/i18n/`:
   `ContainsVariable<"var">`.
 - Route every UI string through `t()`.
 
+- Use the `useTranslationPrefix` hook (`src/hooks/useTranslationPrefix/`) with a
+  component-scoped key prefix — it is generically typed, so the returned `t` is checked
+  against that prefix's keys. Raw `useTranslation` is reserved for components whose keys
+  genuinely span multiple top-level namespaces (some of those keep a second root
+  translator named `tRoot` alongside a prefixed one — follow that pattern).
+- For dynamic/computed keys, cast narrowly at the call site with
+  `ParseKeys<"translation">` (or the prefixed form) — never weaken the global typing.
+
 **DON'T:**
 - Ship a bare string literal as user-facing text.
-
-**Target:**
-- Use the `useTranslationPrefix` hook (`src/hooks/useTranslationPrefix/`) with a
-  component-scoped key prefix in new components, instead of raw `useTranslation`.
-- Add an `i18next.d.ts` module augmentation (`CustomTypeOptions` over the existing
-  `i18nLanguage` type) so `t("bad.key")` also fails typecheck at call sites.
+- Hand a component an untyped `(key: string) => string` translator prop — type it as
+  `TFunction<"translation", "<prefix>">`.
 
 ---
 
 ## Testing
 
-**Target** — the repo currently has **no unit tests**, which is a known gap, not a
-convention. The direction below is where we want to go; start applying it to new pure
-logic.
-
-**Target:**
-- Test with **vitest** + **@testing-library/react**, wired to a `bun test` script and a
-  CI job.
-- Co-locate tests as `<name>.test.ts(x)` next to the code they cover.
-- Start with pure logic: validators, redux slice reducers, and form-state hooks.
-
-*Current practice that does exist:* `data-testid` attributes on interactive elements,
-consumed by the external E2E system tests. Use kebab-case, descriptive ids
-(e.g. `login-username-input`, `create-server-next-btn`, `login-submit-btn`).
+Unit tests run on **vitest** + **@testing-library/react** (`vitest.config.ts` — a
+standalone config, deliberately without the router codegen plugin). Run them with
+`bun run test` (`bun test` alone would invoke bun's own runner instead) or
+`bun run test:watch`; CI runs them via `.github/workflows/test.yml`. Existing coverage:
+every validator in `src/lib/validators/`, the substantial redux slice reducers, and
+`useCreationFormState` via `renderHook`.
 
 **DO:**
-- Keep adding `data-testid` to new interactive elements.
+- Co-locate tests as `<name>.test.ts(x)` next to the code they cover.
+- Import `describe`/`it`/`expect` explicitly from `vitest` — globals are off.
+- Cover new pure logic (validators, slice reducers, form-state hooks) with tests in the
+  same PR; test observable behavior, not implementation details.
+- Keep adding kebab-case `data-testid` attributes to new interactive elements
+  (e.g. `login-username-input`, `create-server-next-btn`) — the external E2E system
+  tests select on them.
 
 **DON'T:**
 - Use `data-testid` as a substitute for semantic HTML.
+- Ship a new validator, slice, or logic hook without a test.
 
 ---
 
