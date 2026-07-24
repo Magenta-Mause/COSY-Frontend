@@ -6,9 +6,9 @@ import {
   type GameServerUpdateDto,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import AdvancedServerFields from "./AdvancedServerFields";
-import CoreServerFields from "./CoreServerFields";
-import HardwareLimitFields from "./HardwareLimitFields";
+import AdvancedServerFields from "@/components/display/GameServer/EditGameServer/sections/AdvancedServerFields";
+import CoreServerFields from "@/components/display/GameServer/EditGameServer/sections/CoreServerFields";
+import HardwareLimitFields from "@/components/display/GameServer/EditGameServer/sections/HardwareLimitFields";
 import { useEditGameServerForm } from "./useEditGameServerForm.ts";
 
 const EditGameServerPage = (props: {

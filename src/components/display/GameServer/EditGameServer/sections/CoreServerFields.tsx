@@ -10,10 +10,10 @@ import {
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { portValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
-import InputFieldEditGameServer from "./InputFieldEditGameServer";
-import EditKeyValueInput from "./KeyValueInputEditGameServer";
-import PortInputEditGameServer from "./PortInputEditGameServer";
+import EditVolumeMountConfigurationInput from "@/components/display/GameServer/EditGameServer/inputs/EditVolumeMountConfigurationInput";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer";
+import EditKeyValueInput from "@/components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
+import PortInputEditGameServer from "@/components/display/GameServer/EditGameServer/inputs/PortInputEditGameServer";
 
 interface CoreServerFieldsProps {
   readonly gameServerState: GameServerUpdateDto;

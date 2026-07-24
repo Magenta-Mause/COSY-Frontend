@@ -7,7 +7,7 @@ import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import infoIcon from "@/assets/icons/info.webp";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/utils/inputValue";
-import ListInputEdit from "./ListInputEditGameServer";
+import ListInputEdit from "@/components/display/GameServer/EditGameServer/inputs/ListInputEditGameServer";
 
 interface KeyValueItem {
   key: string;

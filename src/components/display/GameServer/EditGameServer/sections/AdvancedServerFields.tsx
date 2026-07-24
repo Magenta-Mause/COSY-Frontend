@@ -4,9 +4,9 @@ import type { GameServerUpdateDto, HostVolumeMountConfigurationDto } from "@/api
 import Collapsible from "@/components/ui/Collapsible.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import EditHostVolumeMountConfigurationInput from "./EditHostVolumeMountConfigurationInput";
-import InputFieldEditGameServer from "./InputFieldEditGameServer";
-import EditKeyValueInput from "./KeyValueInputEditGameServer";
+import EditHostVolumeMountConfigurationInput from "@/components/display/GameServer/EditGameServer/inputs/EditHostVolumeMountConfigurationInput";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer";
+import EditKeyValueInput from "@/components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
 
 interface AdvancedServerFieldsProps {
   readonly executionCommandRaw: string;

@@ -4,8 +4,8 @@ import type { GameServerUpdateDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
-import CpuLimitInputFieldEdit from "./CpuLimitInputFieldEdit.tsx";
-import MemoryLimitInputFieldEdit from "./MemoryLimitInputFieldEdit.tsx";
+import CpuLimitInputFieldEdit from "@/components/display/GameServer/EditGameServer/inputs/CpuLimitInputFieldEdit.tsx";
+import MemoryLimitInputFieldEdit from "@/components/display/GameServer/EditGameServer/inputs/MemoryLimitInputFieldEdit.tsx";
 
 interface HardwareLimitFieldsProps {
   readonly cpuLimit: number | null;

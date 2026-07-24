@@ -19,7 +19,7 @@ import type { ZodType } from "zod";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
 import checkCircleIcon from "@/assets/icons/checkCircle.webp";
 import closeCirleIcon from "@/assets/icons/closeCircle.webp";
-import { type InputType, preProcessInputValue } from "../CreateGameServer/utils/inputValue";
+import { type InputType, preProcessInputValue } from "@/components/display/GameServer/CreateGameServer/utils/inputValue";
 import ListInputEdit from "./ListInputEditGameServer";
 
 interface VolumeMountRow {
