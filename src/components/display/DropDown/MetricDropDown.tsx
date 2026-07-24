@@ -1,7 +1,7 @@
 import Icon from "@/components/ui/Icon.tsx";
 import { useMemo } from "react";
-import type { ParseKeys } from "i18next";
-import { useTranslation } from "react-i18next";
+import type { ParseKeys, TOptions } from "i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +40,7 @@ const MetricDropDown = (props: {
   setMetricType: (unit: string) => void;
   gameServerUuid?: string;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("metrics");
 
   const metrics = useAppSelector((state) =>
     props.gameServerUuid
@@ -62,7 +62,7 @@ const MetricDropDown = (props: {
       return formatMetricDisplayName(key);
     }
 
-    return t(`metrics.types.${metricType}` as ParseKeys<"translation">);
+    return t(`types.${metricType}` as ParseKeys<"translation", TOptions, "metrics">);
   };
 
   return (
@@ -77,12 +77,12 @@ const MetricDropDown = (props: {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-40 bg-primary-modal-background" align="center">
         <DropdownMenuLabel className="text-xs text-muted-foreground uppercase tracking-wide">
-          {t("metrics.standardMetrics")}
+          {t("standardMetrics")}
         </DropdownMenuLabel>
         <DropdownMenuGroup>
           {DROPDOWN_OPTIONS.map((type) => (
             <DropdownMenuItem key={type} onSelect={() => handleSelect(type)}>
-              {t(`metrics.types.${type}`)}
+              {t(`types.${type}`)}
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
@@ -90,7 +90,7 @@ const MetricDropDown = (props: {
         <DropdownMenuSeparator />
 
         <DropdownMenuLabel className="text-xs text-muted-foreground uppercase tracking-wide">
-          {t("metrics.customMetrics")}
+          {t("customMetrics")}
         </DropdownMenuLabel>
         <DropdownMenuGroup>
           {customMetrics.length > 0 ? (
@@ -100,7 +100,7 @@ const MetricDropDown = (props: {
               </DropdownMenuItem>
             ))
           ) : (
-            <DropdownMenuItem disabled>{t("metrics.noCustomMetrics")}</DropdownMenuItem>
+            <DropdownMenuItem disabled>{t("noCustomMetrics")}</DropdownMenuItem>
           )}
         </DropdownMenuGroup>
       </DropdownMenuContent>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { useRouter, useRouterState } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import marketPlaceSignAsset from "@/assets/header/marketPlaceSign.png";
 import arrowBigRightIcon from "@/assets/icons/arrowBigRight.webp";
@@ -10,7 +10,7 @@ import { useRequireRoles } from "@/utils/routeGuards";
 const MarketplaceSign = () => {
   const router = useRouter();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.userManagement.userDetailButton");
 
   const hasAccess = useRequireRoles([UserEntityDtoRole.OWNER, UserEntityDtoRole.ADMIN]);
 
@@ -31,7 +31,7 @@ const MarketplaceSign = () => {
     >
       <div className="pt-15 pb-4 pl-3">
         <Button className="text-sm" size="sm" onClick={() => router.navigate({ to: "/users" })}>
-          {t("components.userManagement.userDetailButton.viewUsers")}
+          {t("viewUsers")}
           <Icon src={arrowBigRightIcon} className="size-5" />
         </Button>
       </div>

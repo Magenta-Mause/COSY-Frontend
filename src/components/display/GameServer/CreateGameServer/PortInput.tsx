@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select.tsx";
 import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
@@ -49,7 +49,7 @@ function PortInput({
   errorLabel,
   required,
 }: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3.portSelection");
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -143,9 +143,7 @@ function PortInput({
           >
             <SelectTrigger className={"w-20"}>
               <SelectValue
-                placeholder={t(
-                  "components.CreateGameServer.steps.step3.portSelection.protocolPlaceholder",
-                )}
+                placeholder={t("protocolPlaceholder")}
               />
             </SelectTrigger>
             <SelectContent>

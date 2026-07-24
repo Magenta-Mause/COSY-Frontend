@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import type { ComponentProps } from "react";
 import { forwardRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import userIcon from "@/assets/icons/user.webp";
 import { cn } from "@/lib/utils.ts";
 
@@ -12,7 +12,7 @@ type UserMenuButtonProps = ComponentProps<typeof Button>;
 const UserMenuButton = forwardRef<HTMLButtonElement, UserMenuButtonProps>(
   ({ onClick, ...props }, ref) => {
     const [isUserOpen, setIsUserOpen] = useState(false);
-    const { t } = useTranslation();
+    const { t } = useTranslationPrefix("optionsBanner");
 
     return (
       <>
@@ -24,7 +24,7 @@ const UserMenuButton = forwardRef<HTMLButtonElement, UserMenuButtonProps>(
             setIsUserOpen((prev) => !prev);
           }}
           className={cn("h-auto aspect-square", props.className)}
-          aria-label={t("optionsBanner.userMenu")}
+          aria-label={t("userMenu")}
         >
           <Icon src={userIcon} />
         </Button>

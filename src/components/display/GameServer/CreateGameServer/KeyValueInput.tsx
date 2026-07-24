@@ -3,7 +3,7 @@ import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { Fragment, useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import infoIcon from "@/assets/icons/info.webp";
@@ -47,7 +47,7 @@ function KeyValueInput({
   objectValue,
   processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.keyValueInput");
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -135,7 +135,7 @@ function KeyValueInput({
             />
             {shouldProcessEscapeSequences && (
               <TooltipWrapper
-                tooltip={t("components.CreateGameServer.keyValueInput.escapeSequencesTooltip")}
+                tooltip={t("escapeSequencesTooltip")}
                 side="top"
                 asChild={false}
                 triggerProps={{ className: "flex" }}

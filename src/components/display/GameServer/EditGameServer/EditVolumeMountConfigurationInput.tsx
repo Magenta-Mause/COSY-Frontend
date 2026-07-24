@@ -13,7 +13,7 @@ import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
@@ -62,7 +62,7 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
   objectKey,
   originalVolumeMounts,
 }: Props<T>) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.editGameServer.volumeMountSelection.pathChange");
 
   const [pathChangeDecisions, setPathChangeDecisions] = useState<Map<string, PathChangeDecision>>(
     new Map(),
@@ -233,8 +233,8 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
               <TooltipWrapper
                 tooltip={
                   pathChangeDecisions.get(row.originalUuid) === "keep"
-                    ? t("components.editGameServer.volumeMountSelection.pathChange.keepIndicator")
-                    : t("components.editGameServer.volumeMountSelection.pathChange.deleteIndicator")
+                    ? t("keepIndicator")
+                    : t("deleteIndicator")
                 }
                 asChild
               >
@@ -273,25 +273,25 @@ const VolumeMountChangeDialog = (props: {
   handleDecision: (decision: PathChangeDecision) => void;
 }) => {
   const { dialogOpen, setDialogOpen, handleDecision } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.editGameServer.volumeMountSelection.pathChange");
 
   return (
     <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {t("components.editGameServer.volumeMountSelection.pathChange.title")}
+            {t("title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {t("components.editGameServer.volumeMountSelection.pathChange.description")}
+            {t("description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => handleDecision("delete")}>
-            {t("components.editGameServer.volumeMountSelection.pathChange.deleteButton")}
+            {t("deleteButton")}
           </AlertDialogCancel>
           <AlertDialogAction onClick={() => handleDecision("keep")}>
-            {t("components.editGameServer.volumeMountSelection.pathChange.keepButton")}
+            {t("keepButton")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

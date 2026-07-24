@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { MetricLayoutSize } from "@/api/generated/model";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { cn } from "@/lib/utils";
@@ -21,14 +21,14 @@ interface SizeDropDownProps {
 }
 
 const SizeDropDown = (props: SizeDropDownProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("cardWidth");
   const { className, size, uuid, handleWidthSelect } = props;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" className={cn("w-full", className)}>
-          {t(`cardWidth.${size}`)}
+          {t(size)}
           <Icon src={arrowDownIcon} variant="secondary" className="size-5 -m-1 mt-0.5" />
         </Button>
       </DropdownMenuTrigger>
@@ -36,7 +36,7 @@ const SizeDropDown = (props: SizeDropDownProps) => {
         <DropdownMenuGroup>
           {[MetricLayoutSize.SMALL, MetricLayoutSize.MEDIUM, MetricLayoutSize.LARGE].map((size) => (
             <DropdownMenuItem key={size} onSelect={() => handleWidthSelect(size, uuid)}>
-              {t(`cardWidth.${size}`)}
+              {t(size)}
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>

@@ -1,5 +1,5 @@
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { GameServerDtoStatus } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
 
@@ -18,7 +18,7 @@ export default function GameServerStatusDot(props: {
   showTooltip?: boolean;
   useScreenRelativeSizes?: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("serverStatus");
 
   const dot = (
     <span
@@ -35,7 +35,7 @@ export default function GameServerStatusDot(props: {
   if (!props.showTooltip) return dot;
 
   return (
-    <TooltipWrapper tooltip={t(`serverStatus.${props.status}`)} side="top" asChild>
+    <TooltipWrapper tooltip={t(props.status)} side="top" asChild>
       {dot}
     </TooltipWrapper>
   );

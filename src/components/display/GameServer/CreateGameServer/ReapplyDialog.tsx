@@ -7,7 +7,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface ReapplyDialogProps {
   open: boolean;
@@ -16,25 +16,25 @@ interface ReapplyDialogProps {
 }
 
 const ReapplyDialog = ({ open, onConfirm, onCancel }: ReapplyDialogProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.reapplyDialog");
 
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {t("components.CreateGameServer.reapplyDialog.title")}
+            {t("title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {t("components.CreateGameServer.reapplyDialog.description")}
+            {t("description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={onCancel}>
-            {t("components.CreateGameServer.reapplyDialog.cancel")}
+            {t("cancel")}
           </Button>
           <Button variant="primary" onClick={onConfirm}>
-            {t("components.CreateGameServer.reapplyDialog.confirm")}
+            {t("confirm")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

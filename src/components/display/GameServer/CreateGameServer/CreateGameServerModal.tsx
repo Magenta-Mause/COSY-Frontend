@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import type { Dispatch, SetStateAction } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import ConfirmCreateDialog from "./ConfirmCreateDialog.tsx";
 import Step1 from "./CreationSteps/Step1/Step1.tsx";
 import Step2 from "./CreationSteps/Step2/Step2.tsx";
@@ -31,7 +31,7 @@ interface Props {
 }
 
 const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer");
   const {
     creationState,
     isPageValid,
@@ -101,7 +101,7 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
               >
                 <DialogHeader>
                   <DialogTitle className={"mr-5"}>
-                    {t("components.CreateGameServer.steps.title")}
+                    {t("steps.title")}
                   </DialogTitle>
                 </DialogHeader>
 
@@ -111,7 +111,7 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
                 <DialogFooter className="shrink-0">
                   {currentPage > 0 && (
                     <Button variant="secondary" onClick={handleBack}>
-                      {t("components.CreateGameServer.backButton")}
+                      {t("backButton")}
                     </Button>
                   )}
                   <GameServerCreationNextPageButton />

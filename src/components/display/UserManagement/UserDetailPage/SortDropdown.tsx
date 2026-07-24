@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import sortIcon from "@/assets/icons/sort.webp";
 import sortDownIcon from "@/assets/icons/sortDown.webp";
 import sortUpIcon from "@/assets/icons/sortUp.webp";
@@ -27,7 +27,7 @@ const SortDropdown = ({
   onSortFieldChange,
   onSortDirectionToggle,
 }: SortControlProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.userManagement.userTable");
 
   const SORT_OPTIONS: SortField[] = [
     "username",
@@ -36,14 +36,14 @@ const SortDropdown = ({
     "docker_memory_limit",
   ];
 
-  const getLabel = (field: SortField) => t(`components.userManagement.userTable.sortBy.${field}`);
+  const getLabel = (field: SortField) => t(`sortBy.${field}`);
 
   return (
     <div className="flex flex-row items-center gap-0.5">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="rounded-r-none">
-            {sortField ? getLabel(sortField) : t("components.userManagement.userTable.sort")}
+            {sortField ? getLabel(sortField) : t("sort")}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -60,7 +60,7 @@ const SortDropdown = ({
                 className="text-destructive focus:text-destructive focus:bg-destructive/10"
                 onClick={() => onSortFieldChange(null)}
               >
-                {t("components.userManagement.userTable.clearSort")}
+                {t("clearSort")}
               </DropdownMenuItem>
             </>
           )}

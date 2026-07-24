@@ -3,7 +3,7 @@ import Icon from "@/components/ui/Icon.tsx";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,7 +48,7 @@ const timeAgo = (value: number, unit: string): Date => {
 };
 
 const TimeRangeDropDown = (props: TimeRangeProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("timerange");
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as {
     timeRangeType?: string;
@@ -109,9 +109,9 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
   const selectedLabel = useMemo(() => {
     switch (selection.type) {
       case "default":
-        return props.defaultLabel ?? t("timerange.button");
+        return props.defaultLabel ?? t("button");
       case "preset":
-        return t(`timerange.${selection.unit}`, { time: selection.time });
+        return t(selection.unit, { time: selection.time });
       case "custom":
         return `${format(selection.startDate, "LLL dd, y")} - ${format(selection.endDate, "LLL dd, y")}`;
     }
@@ -166,11 +166,11 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
         >
           <DropdownMenuGroup>
             <DropdownMenuItem onSelect={() => setOpenCustom(true)}>
-              {t("timerange.custom")}
+              {t("custom")}
             </DropdownMenuItem>
             {TIME_RANGE_PRESETS.map(([time, unit]) => (
               <DropdownMenuItem key={`${time}-${unit}`} onSelect={() => handleSelect(time, unit)}>
-                {t(`timerange.${unit}`, { time: time })}
+                {t(unit, { time: time })}
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>

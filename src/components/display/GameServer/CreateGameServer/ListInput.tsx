@@ -3,7 +3,7 @@ import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import attentionIcon from "@/assets/icons/attention.webp";
 import plusIcon from "@/assets/icons/plus.webp";
@@ -41,7 +41,7 @@ function ListInput<T extends { uuid: string }>({
   defaultNewItem,
   parseInitialValue,
 }: Props<T>) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("common");
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid, attributesTouched } = useContext(
     GameServerCreationPageContext,
@@ -201,7 +201,7 @@ function ListInput<T extends { uuid: string }>({
                   variant="destructive"
                   onClick={() => removeValue(keyValuePair.uuid)}
                   className="h-9 w-9 p-0 flex items-center justify-center"
-                  aria-label={t("common.removeEntry")}
+                  aria-label={t("removeEntry")}
                 >
                   <Icon src={trashIcon} className="size-5" />
                 </Button>
