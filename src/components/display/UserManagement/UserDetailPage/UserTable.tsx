@@ -2,6 +2,7 @@ import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMemo, useState } from "react";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import searchIcon from "@/assets/icons/search.webp";
@@ -117,7 +118,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           <div className="text-center py-10 text-muted-foreground">
             {t("components.userManagement.userTable.noUsersFound")}{" "}
             {selectedRole
-              ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}`
+              ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}` as ParseKeys<"translation">)}`
               : ""}
           </div>
         )}

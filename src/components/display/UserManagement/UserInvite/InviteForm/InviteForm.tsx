@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select.tsx";
 import { Label } from "@radix-ui/react-label";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 
@@ -83,7 +84,7 @@ export const InviteForm = ({
                   .filter((role) => role !== UserEntityDtoRole.OWNER)
                   .map((role) => (
                     <SelectItem value={role} key={role}>
-                      {t(`userRoles.${role}`)}
+                      {t(`userRoles.${role}` as ParseKeys<"translation">)}
                     </SelectItem>
                   ))}
               </SelectContent>

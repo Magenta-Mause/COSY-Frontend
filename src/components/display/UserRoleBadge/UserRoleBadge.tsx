@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import { cn } from "@/lib/utils";
@@ -19,7 +20,7 @@ const UserRoleBadge = ({ role, className }: UserRoleBadgeProps) => {
 
   return (
     <Badge className={cn("rounded-xl text-sm px-3 uppercase", USER_COLORS[role], className)}>
-      {t(`components.userManagement.userRow.roles.${role.toLowerCase()}`)}
+      {t(`components.userManagement.userRow.roles.${role.toLowerCase()}` as ParseKeys<"translation">)}
     </Badge>
   );
 };

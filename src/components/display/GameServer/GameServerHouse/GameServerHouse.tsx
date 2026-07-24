@@ -123,7 +123,7 @@ const GameServerHouse = (props: {
         )}
         to={`/server/${props.gameServer.uuid}`}
         data-testid="server-house"
-        aria-label={t("aria.gameServerConfiguration", {
+        aria-label={t("aria.gameServer", {
           serverName: props.gameServer.server_name,
         })}
         style={{
@@ -146,7 +146,7 @@ const GameServerHouse = (props: {
           {props.gameServer.server_name}
         </NameAndStatusBanner>
         <img
-          alt={t("aria.gameServerConfiguration", {
+          alt={t("aria.gameServer", {
             serverName: props.gameServer.server_name,
           })}
           className="w-full h-full object-contain overflow-visible flex items-center justify-center"

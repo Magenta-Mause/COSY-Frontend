@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,7 +20,7 @@ type Props = {
   busy: boolean;
   error: string | null;
 
-  t: (k: string, vars?: Record<string, unknown>) => string;
+  t: TFunction<"translation", "components.fileBrowser.fileBrowserList">;
 
   onSubmit: () => void | Promise<void>;
 };

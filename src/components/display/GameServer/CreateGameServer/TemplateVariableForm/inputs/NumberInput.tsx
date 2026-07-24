@@ -1,3 +1,4 @@
+import type { ParseKeys, TOptions } from "i18next";
 import { FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import RequiredMark from "@/components/ui/RequiredMark.tsx";
@@ -34,7 +35,13 @@ export default function NumberInput({
             onEnterKey();
           }
         }}
-        error={showError ? (errorMessage ? t(errorMessage) : t("validationError")) : undefined}
+        error={
+          showError
+            ? errorMessage
+              ? t(errorMessage as ParseKeys<"translation", TOptions, "components.TemplateVariableForm">)
+              : t("validationError")
+            : undefined
+        }
       />
       <TemplateInputDescription htmlFor={placeholder} description={variable.description} />
     </div>

@@ -16,6 +16,7 @@ import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useLocation, useSearch } from "@tanstack/react-router";
 import type * as React from "react";
 import { type CSSProperties, cloneElement, createContext, useContext } from "react";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
@@ -358,7 +359,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
               tooltip={
                 !isLinkReachable
                   ? t("serverPage.noAccessFor", {
-                      element: t(`serverPage.navbar.${label}`),
+                      element: t(`serverPage.navbar.${label}` as ParseKeys<"translation">),
                     })
                   : null
               }
@@ -367,7 +368,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
             >
               <FancyNavigationButton
                 isActive={activePathPattern ? activePathPattern.test(location.pathname) : isActive}
-                label={t(`serverPage.navbar.${label}`)}
+                label={t(`serverPage.navbar.${label}` as ParseKeys<"translation">)}
                 data-testid={`server-tab-${label}`}
                 disabled={!isLinkReachable}
                 variant={props.buttonVariant}

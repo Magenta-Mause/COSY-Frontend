@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import filterIcon from "@/assets/icons/filter.webp";
@@ -31,7 +32,7 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
         <Button className="z-10">
           <Icon src={filterIcon} className="size-5" />
           {selectedRole
-            ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)
+            ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}` as ParseKeys<"translation">)
             : t("components.userManagement.userTable.filter")}
         </Button>
       </DropdownMenuTrigger>
@@ -39,7 +40,7 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
         <DropdownMenuGroup>
           {roles.map((role) => (
             <DropdownMenuItem key={role} onClick={() => onRoleChange(role)}>
-              {t(`components.userManagement.userRow.roles.${role.toLowerCase()}`)}
+              {t(`components.userManagement.userRow.roles.${role.toLowerCase()}` as ParseKeys<"translation">)}
             </DropdownMenuItem>
           ))}
 

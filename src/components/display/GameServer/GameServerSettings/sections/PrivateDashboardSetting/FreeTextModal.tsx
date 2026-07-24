@@ -74,7 +74,7 @@ const FreeTextModal = (props: FreeTextModalProps) => {
             placeHolderValueInput="VALUE"
             keyValidator={requiredStringValidator}
             valueValidator={requiredStringValidator}
-            errorLabel={t("environmentVariablesSelection.errorLabel")}
+            errorLabel={t("GameServerSettings.privateDashboard.freetext.error")}
             required={false}
             inputType="text"
             objectKey="key"

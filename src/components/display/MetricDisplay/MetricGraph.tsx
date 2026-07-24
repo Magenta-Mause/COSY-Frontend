@@ -6,6 +6,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
@@ -138,7 +139,7 @@ const MetricGraph = (props: MetricGraphProps) => {
     if (isCustomMetric(type)) {
       return formatMetricDisplayName(extractCustomMetricKey(type));
     }
-    return t(`metrics.types.${type}`);
+    return t(`metrics.types.${type}` as ParseKeys<"translation">);
   };
 
   useEffect(() => {

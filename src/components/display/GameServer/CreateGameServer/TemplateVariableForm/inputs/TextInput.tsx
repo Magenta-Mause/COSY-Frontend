@@ -1,3 +1,4 @@
+import type { ParseKeys, TOptions } from "i18next";
 import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input";
@@ -39,7 +40,13 @@ export default function TextInput({
             onEnterKey();
           }
         }}
-        error={showError ? (errorMessage ? t(errorMessage) : t("validationError")) : undefined}
+        error={
+          showError
+            ? errorMessage
+              ? t(errorMessage as ParseKeys<"translation", TOptions, "components.TemplateVariableForm">)
+              : t("validationError")
+            : undefined
+        }
         endDecorator={
           variable.regex ? (
             <TooltipWrapper

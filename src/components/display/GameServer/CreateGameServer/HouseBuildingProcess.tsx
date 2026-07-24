@@ -1,3 +1,4 @@
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import type { GameServerDto } from "@/api/generated/model";
 import castle1 from "@/assets/gameServerCreation/castles/castle1.webp";
@@ -77,7 +78,8 @@ const HouseBuildingProcess = (props: {
 const Stepper = (props: { step: number; label?: string; allStepsFinished?: boolean }) => {
   const { t } = useTranslation();
   const stepTitle =
-    props.label ?? t(`components.CreateGameServer.steps.step${props.step + 1}.title`);
+    props.label ??
+    t(`components.CreateGameServer.steps.step${props.step + 1}.title` as ParseKeys<"translation">);
   return (
     <div className="flex flex-col items-center gap-3">
       {/* Step indicators */}

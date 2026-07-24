@@ -1,5 +1,6 @@
 import Icon from "@/components/ui/Icon.tsx";
 import { useMemo } from "react";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
@@ -61,7 +62,7 @@ const MetricDropDown = (props: {
       return formatMetricDisplayName(key);
     }
 
-    return t(`metrics.types.${metricType}`);
+    return t(`metrics.types.${metricType}` as ParseKeys<"translation">);
   };
 
   return (

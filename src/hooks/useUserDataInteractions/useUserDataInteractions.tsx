@@ -64,7 +64,7 @@ const useUserDataInteractions = () => {
         dispatch(userInviteSliceActions.removeInvite(variables.uuid));
       },
       onError: (err) => {
-        notificationModal.error({ message: t("toasts.inviteRevokeError"), cause: err });
+        notificationModal.error({ message: t("inviteRevokeError"), cause: err });
         throw err;
       },
       onSettled: () => {

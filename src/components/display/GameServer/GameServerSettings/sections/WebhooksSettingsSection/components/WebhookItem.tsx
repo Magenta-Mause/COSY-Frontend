@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import CopyButton from "@/components/ui/CopyButton";
@@ -17,7 +18,7 @@ interface WebhookItemProps {
   onDelete: (webhook: WebhookDto) => void;
   getWebhookTypeLabel: (type: string | undefined) => string;
   getEventLabel: (event: string) => string;
-  t: (key: string) => string;
+  t: TFunction<"translation", "components.GameServerSettings.webhooks">;
 }
 
 const WebhookItem = ({

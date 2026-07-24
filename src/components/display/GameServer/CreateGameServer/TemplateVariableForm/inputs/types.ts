@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import type { TemplateVariable } from "@/api/generated/model";
 
 export interface VariableInputProps {
@@ -7,6 +8,6 @@ export interface VariableInputProps {
   errorMessage?: string;
   onValueChange: (variable: TemplateVariable, value: string | number | boolean) => void;
   onEnterKey: () => void;
-  t: (key: string) => string;
+  t: TFunction<"translation", "components.TemplateVariableForm">;
   isRequired?: boolean;
 }

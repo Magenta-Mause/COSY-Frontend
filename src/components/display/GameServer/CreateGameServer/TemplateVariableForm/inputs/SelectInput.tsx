@@ -1,3 +1,4 @@
+import type { ParseKeys, TOptions } from "i18next";
 import { FieldError, FieldLabel } from "@/components/ui/field";
 import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import {
@@ -46,7 +47,9 @@ export default function SelectInput({
         </FieldLabel>
       )}
       {showError && (
-        <FieldError>{errorMessage ? t(errorMessage) : t("validationError")}</FieldError>
+        <FieldError>
+          {errorMessage ? t(errorMessage as ParseKeys<"translation", TOptions, "components.TemplateVariableForm">) : t("validationError")}
+        </FieldError>
       )}
     </div>
   );

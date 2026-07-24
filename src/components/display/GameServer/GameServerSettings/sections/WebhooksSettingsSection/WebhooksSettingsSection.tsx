@@ -1,3 +1,4 @@
+import type { ParseKeys, TOptions } from "i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { useState } from "react";
 import type { WebhookDto } from "@/api/generated/model";
@@ -48,11 +49,11 @@ const WebhooksSettingsSection = () => {
 
   const getWebhookTypeLabel = (type: string | undefined): string => {
     if (!type) return "-";
-    return t(`types.${type}`);
+    return t(`types.${type}` as ParseKeys<"translation", TOptions, "components.GameServerSettings.webhooks">);
   };
 
   const getEventLabel = (event: string): string => {
-    return t(`events.${event}`);
+    return t(`events.${event}` as ParseKeys<"translation", TOptions, "components.GameServerSettings.webhooks">);
   };
 
   return (
