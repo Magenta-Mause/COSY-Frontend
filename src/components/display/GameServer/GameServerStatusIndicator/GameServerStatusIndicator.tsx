@@ -66,7 +66,7 @@ const GameServerStatusIndicator = (props: {
   }
 
   return (
-    <div className={"flex gap-2 align-middle items-center"}>
+    <div className={"flex gap-2 align-middle items-center"} data-testid="server-status-indicator">
       <GameServerStatusDot status={status} />
       <TooltipWrapper
         tooltip={status === GameServerDtoStatus.PULLING_IMAGE ? tooltipContent : null}

@@ -56,7 +56,13 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
               {t("cancel")}
             </Button>
           </DialogClose>
-          <Button type="button" variant={"destructive"} onClick={handleConfirm} disabled={loading}>
+          <Button
+            type="button"
+            variant={"destructive"}
+            data-testid="logout-confirm-btn"
+            onClick={handleConfirm}
+            disabled={loading}
+          >
             {t("confirm")}
           </Button>
         </DialogFooter>

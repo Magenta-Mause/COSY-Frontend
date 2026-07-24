@@ -46,7 +46,12 @@ export const DeleteDialog = ({ open, onOpenChange, obj, busy, error, t, onSubmit
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={busy}>
             {t("cancel")}
           </Button>
-          <Button variant="destructive" onClick={onSubmit} disabled={busy || !obj}>
+          <Button
+            variant="destructive"
+            onClick={onSubmit}
+            disabled={busy || !obj}
+            data-testid="delete-submit-btn"
+          >
             {busy ? t("deleteInProgress") : t("deleteAction")}
           </Button>
         </DialogFooter>

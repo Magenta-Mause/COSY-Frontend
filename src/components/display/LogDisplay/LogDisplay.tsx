@@ -129,7 +129,7 @@ const LogDisplay = (
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 relative">
+      <div className="flex-1 min-h-0 relative" data-testid="console-log-list">
         <Virtuoso
           ref={logDisplayRef}
           key={displayLogs.length === 0 ? "empty" : "loaded"}
@@ -182,6 +182,7 @@ const LogDisplay = (
         <div className="border-t border-gray-800 p-2 flex gap-2">
           <Input
             type="text"
+            data-testid="console-command-input"
             placeholder={
               isServerRunning ? t("logDisplay.enterCommand") : t("logDisplay.cantSendCommands")
             }
@@ -202,6 +203,7 @@ const LogDisplay = (
           />
           <Button
             onClick={handleSendCommand}
+            data-testid="console-send-btn"
             disabled={!commandInput.trim() || isPending || !isServerRunning}
             size="sm"
             className={"w-fit h-10"}
