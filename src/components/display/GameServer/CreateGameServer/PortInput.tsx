@@ -1,13 +1,13 @@
-import type { InputType } from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
-import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
-import { Input } from "@components/ui/input.tsx";
+import type { InputType } from "@/components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select.tsx";
+} from "@/components/ui/select.tsx";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";

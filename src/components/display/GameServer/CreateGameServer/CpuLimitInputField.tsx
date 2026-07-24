@@ -1,9 +1,9 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
+import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
-} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+} from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "@/components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 

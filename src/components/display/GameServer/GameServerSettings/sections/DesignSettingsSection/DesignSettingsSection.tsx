@@ -1,5 +1,5 @@
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import UnsavedModal from "@components/ui/UnsavedModal";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import castle from "@/assets/MainPage/castle.png";

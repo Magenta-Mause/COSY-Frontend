@@ -1,7 +1,7 @@
-import { Button } from "@components/ui/button.tsx";
-import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";

@@ -1,7 +1,7 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { Checkbox } from "@components/ui/checkbox.tsx";
-import UnsavedModal from "@components/ui/UnsavedModal";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";

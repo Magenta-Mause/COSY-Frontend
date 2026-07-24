@@ -1,4 +1,4 @@
-import PublicDashboardSettingsSection from "@components/display/GameServer/GameServerSettings/sections/PublicDashboardSettingsSection";
+import PublicDashboardSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/PublicDashboardSettingsSection";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import useGameServer from "@/hooks/useGameServer/useGameServer";

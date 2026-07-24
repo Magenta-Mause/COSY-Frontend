@@ -1,7 +1,7 @@
-import LogMessage from "@components/display/LogDisplay/LogMessage";
-import { Button } from "@components/ui/button";
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input";
+import LogMessage from "@/components/display/LogDisplay/LogMessage";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";

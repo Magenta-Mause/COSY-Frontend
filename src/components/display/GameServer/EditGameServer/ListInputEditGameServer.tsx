@@ -1,7 +1,7 @@
-import { Button } from "@components/ui/button.tsx";
-import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useCallback, useEffect, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import attentionIcon from "@/assets/icons/attention.webp";

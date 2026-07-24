@@ -1,6 +1,6 @@
-import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
-import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
-import Collapsible from "@components/ui/Collapsible.tsx";
+import KeyValueInput from "@/components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import PortInput from "@/components/display/GameServer/CreateGameServer/PortInput.tsx";
+import Collapsible from "@/components/ui/Collapsible.tsx";
 import * as z from "zod";
 import settingsIcon from "@/assets/icons/settings.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";

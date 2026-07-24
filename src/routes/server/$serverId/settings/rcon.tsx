@@ -1,5 +1,5 @@
-import RconSettingsSection from "@components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettingsSection.tsx";
-import NoAccess from "@components/display/NoAccess/NoAccess";
+import RconSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettingsSection.tsx";
+import NoAccess from "@/components/display/NoAccess/NoAccess";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";

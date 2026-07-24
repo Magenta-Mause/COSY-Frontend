@@ -1,8 +1,8 @@
-import { Badge } from "@components/ui/badge";
-import { Button } from "@components/ui/button";
-import CopyButton from "@components/ui/CopyButton";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import CopyButton from "@/components/ui/CopyButton";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { WebhookDto } from "@/api/generated/model";
 import checkCircleIcon from "@/assets/icons/checkCircle.webp";
 import closeCircleIcon from "@/assets/icons/closeCircle.webp";

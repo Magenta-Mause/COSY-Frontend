@@ -1,4 +1,4 @@
-import { Label } from "@components/ui/label";
+import { Label } from "@/components/ui/label";
 import { type ReactNode, useEffect, useRef } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { AutoCompleteItem, GameServerCreationValue } from "./types";

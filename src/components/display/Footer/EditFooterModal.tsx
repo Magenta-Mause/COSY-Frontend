@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import type * as React from "react";
 import { useEffect, useState } from "react";
 import type { FooterDto, FooterUpdateDto } from "@/api/generated/model";

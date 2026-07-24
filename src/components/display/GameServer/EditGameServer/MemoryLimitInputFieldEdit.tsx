@@ -1,4 +1,4 @@
-import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { useCallback, useEffect, useState } from "react";
 import {
   MEMORY_LIMIT_MIN_ERROR,

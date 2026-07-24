@@ -1,10 +1,10 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";

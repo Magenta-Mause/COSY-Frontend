@@ -1,5 +1,5 @@
-import { Badge } from "@components/ui/badge.tsx";
-import { Button } from "@components/ui/button.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";

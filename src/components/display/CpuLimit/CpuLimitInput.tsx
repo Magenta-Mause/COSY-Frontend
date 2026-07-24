@@ -1,5 +1,5 @@
-import { Input } from "@components/ui/input.tsx";
-import RequiredMark from "@components/ui/RequiredMark.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import { useCallback, useEffect, useState } from "react";
 
 interface CpuLimitInputProps {

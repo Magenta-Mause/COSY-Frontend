@@ -1,6 +1,6 @@
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input";
-import { Separator } from "@components/ui/separator";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";

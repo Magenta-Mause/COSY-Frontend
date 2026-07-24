@@ -1,4 +1,4 @@
-import RconSettings from "@components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettings.tsx";
+import RconSettings from "@/components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettings.tsx";
 import { useTranslation } from "react-i18next";
 import type { RCONConfiguration } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";

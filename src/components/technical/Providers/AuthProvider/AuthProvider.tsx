@@ -1,6 +1,6 @@
-import PublicWebSocketCollection from "@components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
-import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
-import config from "@config";
+import PublicWebSocketCollection from "@/components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
+import WebSocketCollection from "@/components/technical/WebsocketCollection/WebSocketCollection.tsx";
+import config from "@/config.ts";
 import { jwtDecode } from "jwt-decode";
 import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "@/stores/hooks.ts";

@@ -1,5 +1,5 @@
-import GeneralSettingsSection from "@components/display/GameServer/GameServerSettings/sections/GeneralSettingsSection";
-import NoAccess from "@components/display/NoAccess/NoAccess";
+import GeneralSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/GeneralSettingsSection";
+import NoAccess from "@/components/display/NoAccess/NoAccess";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";

@@ -1,4 +1,4 @@
-import { FileBrowserDialog } from "@components/display/GameServer/FileBrowser/FileBrowserDialog/FileBrowserDialog";
+import { FileBrowserDialog } from "@/components/display/GameServer/FileBrowser/FileBrowserDialog/FileBrowserDialog";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";

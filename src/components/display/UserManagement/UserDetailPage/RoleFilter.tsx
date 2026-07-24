@@ -1,12 +1,12 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import Icon from "@components/ui/Icon.tsx";
+} from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import filterIcon from "@/assets/icons/filter.webp";

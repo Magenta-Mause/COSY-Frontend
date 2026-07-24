@@ -1,8 +1,8 @@
-import BackToHomeLink from "@components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink";
-import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
-import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
-import { ThemeContext, ThemeOptions } from "@components/technical/Providers/ThemeProvider.tsx";
+import BackToHomeLink from "@/components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink";
+import { GameServerNotFoundPage } from "@/components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
+import UserTable from "@/components/display/UserManagement/UserDetailPage/UserTable";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
+import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { type CSSProperties, useContext } from "react";
 import { UserEntityDtoRole } from "@/api/generated/model";

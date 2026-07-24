@@ -1,6 +1,6 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { useTranslation } from "react-i18next";
 import globeIcon from "@/assets/icons/globe.webp";
 import { cn } from "@/lib/utils.ts";

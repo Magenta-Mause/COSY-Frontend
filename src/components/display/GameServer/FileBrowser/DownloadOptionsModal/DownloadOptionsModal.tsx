@@ -1,11 +1,11 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useGetDirectorySize } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";

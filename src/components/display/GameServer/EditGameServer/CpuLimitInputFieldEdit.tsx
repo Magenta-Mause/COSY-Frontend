@@ -1,4 +1,4 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
+import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput.tsx";
 import { useCallback, useEffect, useState } from "react";
 import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 

@@ -1,5 +1,5 @@
-import GameServerCreationNextPageButton from "@components/display/GameServer/CreateGameServer/GameServerCreationButton.tsx";
-import { Button } from "@components/ui/button.tsx";
+import GameServerCreationNextPageButton from "@/components/display/GameServer/CreateGameServer/GameServerCreationButton.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
+} from "@/components/ui/dialog.tsx";
 import type { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import ConfirmCreateDialog from "./ConfirmCreateDialog.tsx";

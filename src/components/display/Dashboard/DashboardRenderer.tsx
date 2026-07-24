@@ -1,7 +1,7 @@
-import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
-import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
-import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
-import { Card } from "@components/ui/card";
+import LogDisplay from "@/components/display/LogDisplay/LogDisplay.tsx";
+import MetricGraph from "@/components/display/MetricDisplay/MetricGraph";
+import { COL_SPAN_MAP } from "@/components/display/MetricDisplay/metricLayout";
+import { Card } from "@/components/ui/card";
 import { MetricLayoutSize } from "@/api/generated/model";
 import type { PrivateDashboardLayout } from "@/api/generated/model/privateDashboardLayout";
 import type { PublicDashboardLayout } from "@/api/generated/model/publicDashboardLayout";

@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 

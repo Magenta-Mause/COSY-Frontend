@@ -1,6 +1,6 @@
-import { Button } from "@components/ui/button";
-import CopyButton from "@components/ui/CopyButton.tsx";
-import { Card, CardContent } from "@components/ui/card";
+import { Button } from "@/components/ui/button";
+import CopyButton from "@/components/ui/CopyButton.tsx";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+} from "@/components/ui/dialog";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserInviteDto } from "@/api/generated/model";

@@ -1,4 +1,4 @@
-import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
+import LogDisplay from "@/components/display/LogDisplay/LogDisplay.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   GameServerAccessGroupDtoPermissionsItem,

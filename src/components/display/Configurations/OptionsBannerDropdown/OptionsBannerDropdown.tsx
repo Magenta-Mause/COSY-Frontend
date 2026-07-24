@@ -1,8 +1,8 @@
-import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
-import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
-import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import LanguageSelector from "@/components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@/components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@/components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import banner from "@/assets/header/Banner.webp";

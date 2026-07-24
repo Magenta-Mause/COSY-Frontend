@@ -1,11 +1,11 @@
-import { Input } from "@components/ui/input.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select.tsx";
+} from "@/components/ui/select.tsx";
 import { useCallback, useMemo, useRef } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";

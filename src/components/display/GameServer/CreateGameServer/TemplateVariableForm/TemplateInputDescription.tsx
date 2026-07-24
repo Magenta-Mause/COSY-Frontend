@@ -1,5 +1,5 @@
-import { FieldLabel } from "@components/ui/field";
-import LinkedText from "@components/ui/LinkedText";
+import { FieldLabel } from "@/components/ui/field";
+import LinkedText from "@/components/ui/LinkedText";
 
 interface TemplateInputDescriptionProps {
   htmlFor?: string;

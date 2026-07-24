@@ -1,7 +1,7 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput";
-import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput";
-import { Button } from "@components/ui/button";
-import { Checkbox } from "@components/ui/checkbox";
+import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
 import type { UserEntityDto } from "@/api/generated/model";

@@ -1,5 +1,5 @@
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { useMemo, useState } from "react";
 import type { GameDto, TemplateEntity } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";

@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useSearch } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

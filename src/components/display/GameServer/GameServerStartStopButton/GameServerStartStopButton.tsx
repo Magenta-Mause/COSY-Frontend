@@ -1,6 +1,6 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import { useTranslation } from "react-i18next";
 import {
   GameServerAccessGroupDtoPermissionsItem,

@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useState } from "react";
 import { useAppDispatch } from "@/stores/hooks.ts";
 import { useDeleteUserEntity } from "@/api/generated/backend-api";

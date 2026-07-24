@@ -1,7 +1,7 @@
-import { Button } from "@components/ui/button";
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FILE_TRANSFER_OPTIONS } from "@/api/axiosInstance";
 import {

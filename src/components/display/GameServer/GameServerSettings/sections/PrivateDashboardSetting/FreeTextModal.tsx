@@ -1,5 +1,5 @@
-import EditKeyValueInput from "@components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
-import { Button } from "@components/ui/button";
+import EditKeyValueInput from "@/components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";

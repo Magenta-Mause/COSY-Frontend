@@ -1,17 +1,17 @@
-import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge";
-import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
-import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
-import { Badge } from "@components/ui/badge";
-import { Button } from "@components/ui/button";
-import { Card, CardContent } from "@components/ui/card";
+import ResourceUsageBadge from "@/components/display/ResourceUsageBadge/ResourceUsageBadge";
+import { UserProfileModal } from "@/components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
+import UserRoleBadge from "@/components/display/UserRoleBadge/UserRoleBadge";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import Icon from "@components/ui/Icon.tsx";
+} from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import dotsIcon from "@/assets/icons/dots.webp";

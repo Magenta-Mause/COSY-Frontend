@@ -1,10 +1,10 @@
-import SizeDropDown from "@components/display/DropDown/SizeDropDown";
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
-import { Button } from "@components/ui/button";
-import { Card, CardContent } from "@components/ui/card";
-import Icon from "@components/ui/Icon.tsx";
-import UnsavedModal from "@components/ui/UnsavedModal";
+import SizeDropDown from "@/components/display/DropDown/SizeDropDown";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { COL_SPAN_MAP } from "@/components/display/MetricDisplay/metricLayout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Icon from "@/components/ui/Icon.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import {
   closestCorners,
   DndContext,

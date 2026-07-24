@@ -1,5 +1,5 @@
-import HouseBuildingProcess from "@components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
-import { Button } from "@components/ui/button.tsx";
+import HouseBuildingProcess from "@/components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
+} from "@/components/ui/dialog.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import type { GameServerDto } from "@/api/generated/model";

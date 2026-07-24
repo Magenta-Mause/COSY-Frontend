@@ -1,12 +1,12 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import Icon from "@components/ui/Icon.tsx";
+} from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { MetricLayoutSize } from "@/api/generated/model";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";

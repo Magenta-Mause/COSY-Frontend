@@ -1,8 +1,8 @@
-import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Checkbox } from "@components/ui/checkbox.tsx";
-import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
-import { Input } from "@components/ui/input.tsx";
+import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { useCallback, useContext } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { HostVolumeMountConfigurationDto } from "@/api/generated/model";

@@ -1,5 +1,5 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import checkCircleIcon from "@/assets/icons/checkCircle.webp";
 import copyIcon from "@/assets/icons/copy.webp";

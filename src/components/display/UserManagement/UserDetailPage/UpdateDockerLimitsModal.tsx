@@ -1,6 +1,6 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput";
-import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput";
-import { Button } from "@components/ui/button";
+import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import type { UserEntityDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";

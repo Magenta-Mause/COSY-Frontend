@@ -1,5 +1,5 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import { useRouter, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";

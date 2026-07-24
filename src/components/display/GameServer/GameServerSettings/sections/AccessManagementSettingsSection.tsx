@@ -1,4 +1,4 @@
-import AccessGroupEditComponent from "@components/display/AccessGroups/AccessGroupEditComponent/AccessGroupEditComponent";
+import AccessGroupEditComponent from "@/components/display/AccessGroups/AccessGroupEditComponent/AccessGroupEditComponent";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 

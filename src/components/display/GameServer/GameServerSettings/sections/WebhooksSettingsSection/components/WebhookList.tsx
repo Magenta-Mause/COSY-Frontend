@@ -1,4 +1,4 @@
-import { Card } from "@components/ui/card.tsx";
+import { Card } from "@/components/ui/card.tsx";
 import type { WebhookDto } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
 import WebhookItem from "./WebhookItem";

@@ -1,8 +1,8 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input";
-import RequiredMark from "@components/ui/RequiredMark.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
+import RequiredMark from "@/components/ui/RequiredMark.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import infoIcon from "@/assets/icons/info.webp";
 import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";

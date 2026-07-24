@@ -1,12 +1,12 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import Icon from "@components/ui/Icon.tsx";
+} from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import sortIcon from "@/assets/icons/sort.webp";
 import sortDownIcon from "@/assets/icons/sortDown.webp";

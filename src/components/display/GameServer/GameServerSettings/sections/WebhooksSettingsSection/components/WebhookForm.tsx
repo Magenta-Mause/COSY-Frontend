@@ -1,12 +1,12 @@
-import { Checkbox } from "@components/ui/checkbox";
-import { Input } from "@components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select";
+} from "@/components/ui/select";
 import { useTranslation } from "react-i18next";
 import {
   WEBHOOK_EVENTS,

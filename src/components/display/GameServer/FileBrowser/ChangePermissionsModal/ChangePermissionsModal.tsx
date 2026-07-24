@@ -1,11 +1,11 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";

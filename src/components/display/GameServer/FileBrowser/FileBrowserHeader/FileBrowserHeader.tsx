@@ -1,5 +1,5 @@
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import arrowRightIcon from "@/assets/icons/arrowRight.webp";
 import houseIcon from "@/assets/icons/house.webp";
 import plusIcon from "@/assets/icons/plus.webp";

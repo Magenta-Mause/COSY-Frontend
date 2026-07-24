@@ -1,8 +1,8 @@
 import RightClickMenu, {
   type RightClickAction,
-} from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
-import NameAndStatusBanner from "@components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
-import Link from "@components/ui/Link.tsx";
+} from "@/components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
+import NameAndStatusBanner from "@/components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
+import Link from "@/components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useMemo } from "react";

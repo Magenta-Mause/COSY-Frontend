@@ -1,4 +1,4 @@
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useTranslation } from "react-i18next";
 
 const RequiredMark = () => {

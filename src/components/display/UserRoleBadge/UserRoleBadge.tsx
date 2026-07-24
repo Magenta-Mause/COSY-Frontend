@@ -1,4 +1,4 @@
-import { Badge } from "@components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import { cn } from "@/lib/utils";

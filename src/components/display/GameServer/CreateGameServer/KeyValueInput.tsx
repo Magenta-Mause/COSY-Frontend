@@ -1,7 +1,7 @@
-import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { Fragment, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";

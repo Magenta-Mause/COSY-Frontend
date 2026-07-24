@@ -1,5 +1,5 @@
-import {Button} from "@components/ui/button";
-import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogMain, DialogTitle} from "@components/ui/dialog";
+import {Button} from "@/components/ui/button";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogMain, DialogTitle} from "@/components/ui/dialog";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import * as React from "react";
 import {useBlocker} from "@tanstack/react-router";

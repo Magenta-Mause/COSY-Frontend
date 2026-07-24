@@ -1,5 +1,5 @@
-import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
-import { Input } from "@components/ui/input.tsx";
+import ListInput from "@/components/display/GameServer/CreateGameServer/ListInput.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { VolumeMountConfigurationCreationDto } from "@/api/generated/model/volumeMountConfigurationCreationDto.ts";

@@ -1,4 +1,4 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks.ts";
 import { useSubscription } from "react-stomp-hooks";

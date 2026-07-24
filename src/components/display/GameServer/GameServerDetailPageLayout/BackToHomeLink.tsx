@@ -1,5 +1,5 @@
-import Icon from "@components/ui/Icon.tsx";
-import Link from "@components/ui/Link.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import Link from "@/components/ui/Link.tsx";
 import { useTranslation } from "react-i18next";
 import doorClosedIcon from "@/assets/icons/doorClosed.webp";
 import doorOpenIcon from "@/assets/icons/doorOpen.webp";

@@ -5,8 +5,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@components/ui/alert-dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
+} from "@/components/ui/alert-dialog.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { useTranslation } from "react-i18next";
 
 interface UnsavedChangesDialogProps {

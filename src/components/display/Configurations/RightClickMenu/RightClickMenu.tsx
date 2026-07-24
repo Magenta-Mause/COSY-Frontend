@@ -8,8 +8,8 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@components/ui/context-menu.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+} from "@/components/ui/context-menu.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useState } from "react";
 
 export interface RightClickChildren {

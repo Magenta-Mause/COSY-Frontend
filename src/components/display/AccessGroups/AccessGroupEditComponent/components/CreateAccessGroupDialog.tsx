@@ -1,5 +1,5 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import { Button } from "@components/ui/button.tsx";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -8,8 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import Icon from "@components/ui/Icon.tsx";
+} from "@/components/ui/dialog.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import { useState } from "react";
 import * as z from "zod";
 import type { GameServerAccessGroupDto } from "@/api/generated/model";

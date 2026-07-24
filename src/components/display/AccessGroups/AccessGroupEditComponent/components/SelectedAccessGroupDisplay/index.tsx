@@ -1,5 +1,5 @@
-import { Card } from "@components/ui/card.tsx";
-import UnsavedModal from "@components/ui/UnsavedModal.tsx";
+import { Card } from "@/components/ui/card.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal.tsx";
 import { useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import { getUUIDByUsername } from "@/api/generated/backend-api.ts";

@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Label } from "@components/ui/label";
-import { Button } from "@components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 interface InputProps extends React.ComponentProps<"input"> {
   header?: string | React.ReactNode;

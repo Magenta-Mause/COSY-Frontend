@@ -1,4 +1,4 @@
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useTranslation } from "react-i18next";
 import { GameServerDtoStatus } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";

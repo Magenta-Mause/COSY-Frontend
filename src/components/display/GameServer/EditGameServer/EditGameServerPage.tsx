@@ -1,9 +1,9 @@
-import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
-import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import Collapsible from "@components/ui/Collapsible.tsx";
-import UnsavedModal from "@components/ui/UnsavedModal";
+import CpuLimitInputFieldEdit from "@/components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
+import MemoryLimitInputFieldEdit from "@/components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import Collapsible from "@/components/ui/Collapsible.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";

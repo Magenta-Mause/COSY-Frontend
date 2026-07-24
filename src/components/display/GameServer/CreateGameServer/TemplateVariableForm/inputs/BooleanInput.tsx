@@ -1,12 +1,12 @@
-import { FieldError, FieldLabel } from "@components/ui/field";
-import RequiredMark from "@components/ui/RequiredMark.tsx";
+import { FieldError, FieldLabel } from "@/components/ui/field";
+import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select";
+} from "@/components/ui/select";
 import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 

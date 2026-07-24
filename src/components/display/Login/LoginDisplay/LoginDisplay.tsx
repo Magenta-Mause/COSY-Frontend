@@ -1,11 +1,11 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "@/api/generated/backend-api";

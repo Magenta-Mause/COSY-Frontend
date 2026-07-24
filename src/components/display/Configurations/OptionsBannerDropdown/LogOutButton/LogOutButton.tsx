@@ -1,6 +1,6 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import type { ComponentProps } from "react";
 import { forwardRef, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -1,5 +1,5 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import Icon from "@components/ui/Icon.tsx";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import * as z from "zod";
 import type { UserEntityDto } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";

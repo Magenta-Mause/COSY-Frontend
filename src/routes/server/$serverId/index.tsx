@@ -1,4 +1,4 @@
-import DashboardRenderer from "@components/display/Dashboard/DashboardRenderer";
+import DashboardRenderer from "@/components/display/Dashboard/DashboardRenderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import {

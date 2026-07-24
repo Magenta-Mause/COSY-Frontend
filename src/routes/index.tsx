@@ -1,5 +1,5 @@
-import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { DeleteGameServerSuccessDialog } from "@/components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { useContext, useEffect, useMemo, useRef } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";

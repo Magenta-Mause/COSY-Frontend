@@ -1,5 +1,5 @@
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { Button } from "@components/ui/button.tsx";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
+} from "@/components/ui/dialog.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type Props = {

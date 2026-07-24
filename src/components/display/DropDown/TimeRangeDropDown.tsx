@@ -1,5 +1,5 @@
-import DatePicker from "@components/display/DatePicker/DatePicker";
-import Icon from "@components/ui/Icon.tsx";
+import DatePicker from "@/components/display/DatePicker/DatePicker";
+import Icon from "@/components/ui/Icon.tsx";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useEffect, useMemo, useRef, useState } from "react";

@@ -1,6 +1,6 @@
-import { FieldLabel } from "@components/ui/field";
-import { Input } from "@components/ui/input";
-import RequiredMark from "@components/ui/RequiredMark.tsx";
+import { FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 

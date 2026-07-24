@@ -1,5 +1,5 @@
-import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
+import { GameServerCreationContext } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCallback, useContext, useState } from "react";
 import type { TemplateEntity, TemplateVariable } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
