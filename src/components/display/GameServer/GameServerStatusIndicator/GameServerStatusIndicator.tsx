@@ -1,8 +1,8 @@
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import type { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx";
 
 const COMPLETED_STATUSES = new Set(["Pull complete", "Already exists", "Download complete"]);
@@ -11,11 +11,11 @@ const GameServerStatusIndicator = (props: {
   gameServer: GameServerDto;
   useScreenRelativeSizes?: boolean;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("serverStatus");
   const status = props.gameServer.status ?? GameServerDtoStatus.STOPPED;
-  const pullProgressMap = useTypedSelector((state) => state.gameServerSliceReducer.pullProgress);
+  const pullProgressMap = useAppSelector((state) => state.gameServerSliceReducer.pullProgress);
 
-  let buttonLabel: ReactNode = t(`serverStatus.${status}`);
+  let buttonLabel: ReactNode = t(status);
   let tooltipContent: ReactNode = null;
 
   if (status === GameServerDtoStatus.PULLING_IMAGE) {
@@ -36,8 +36,8 @@ const GameServerStatusIndicator = (props: {
 
     buttonLabel =
       overallPercent !== null
-        ? `${t("serverStatus.PULLING_IMAGE")} (${overallPercent}%)`
-        : t("serverStatus.PULLING_IMAGE");
+        ? `${t("PULLING_IMAGE")} (${overallPercent}%)`
+        : t("PULLING_IMAGE");
 
     if (layers.length > 0) {
       tooltipContent = (

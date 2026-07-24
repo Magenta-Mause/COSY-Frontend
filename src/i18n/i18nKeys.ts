@@ -46,6 +46,8 @@ export type i18nLanguage = {
     accountCreatedSuccess: string;
     accountCreateError: ContainsVariable<"error">;
     createGameServerSuccess: string;
+    createGameServerError: string;
+    serverStarting: string;
     serverStartSuccess: string;
     serverStartError: ContainsVariable<"error">;
     serverStopSuccess: string;
@@ -90,6 +92,7 @@ export type i18nLanguage = {
     created: ContainsVariable<"date">;
     copyTooltip: string;
     roleLabel: string;
+    rolePlaceholder: string;
     editTooltip: string;
     memoryLimit: string;
     memoryDescription: string;
@@ -234,6 +237,8 @@ export type i18nLanguage = {
     noLogsPermission: string;
     timestampFormatDetailed: string;
     displayTimestamp: string;
+    loadingLogs: string;
+    loadingLogsFailed: string;
   };
 
   serverPage: {
@@ -1113,6 +1118,8 @@ export type i18nLanguage = {
     };
     liveMetricsOn: string;
     liveMetricsOff: string;
+    loadingMetrics: string;
+    loadingMetricsFailed: string;
   };
   timerange: {
     localTime: string;

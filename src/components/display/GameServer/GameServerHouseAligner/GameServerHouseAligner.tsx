@@ -1,7 +1,7 @@
-import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlace/ConstructionPlaceHouse.tsx";
-import GameServerHouse from "@components/display/GameServer/GameServerHouse/GameServerHouse.tsx";
-import calculateCoordinate from "@components/display/GameServer/GameServerHouseAligner/calculateCoordinate.ts";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import ConstructionPlaceHouse from "@/components/display/GameServer/ConstructionPlace/ConstructionPlaceHouse.tsx";
+import GameServerHouse from "@/components/display/GameServer/GameServerHouse/GameServerHouse.tsx";
+import calculateCoordinate from "@/components/display/GameServer/GameServerHouseAligner/calculateCoordinate.ts";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 

@@ -1,9 +1,9 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import * as z from "zod";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import type { UserEntityDto } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 
 type Props = {
   localUsers: UserEntityDto[];
@@ -64,7 +64,7 @@ const UserManagementSection = ({
           setUsernameInput(v as string);
           setUsernameError(null);
         }}
-        validator={z.string().min(1)}
+        validator={requiredStringValidator}
         placeholder={t("addUserPlaceholder")}
         errorLabel={usernameError || t("addUserError")}
         disabled={loading}

@@ -1,7 +1,7 @@
-import { LatestServerMetricsContext } from "@components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider";
+import { LatestServerMetricsContext } from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider";
 import { useContext, useEffect, useMemo } from "react";
 import { GameServerDtoStatus } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 interface UserResourceUsage {
   cpuUsage: string;
@@ -16,7 +16,7 @@ const convertBytesToReadable = (bytes: number): string => {
 };
 
 export const useUserResourceUsage = (userUuid: string | null | undefined): UserResourceUsage => {
-  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
+  const gameServers = useAppSelector((state) => state.gameServerSliceReducer.data);
   const { latestMetrics, acquire } = useContext(LatestServerMetricsContext);
 
   // Keeps the live metric feed running only while a usage display is mounted.

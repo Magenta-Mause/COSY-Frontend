@@ -1,11 +1,12 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { Checkbox } from "@components/ui/checkbox.tsx";
-import UnsavedModal from "@components/ui/UnsavedModal";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import * as z from "zod";
 import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { coercedPortValidator } from "@/lib/validators/portValidator.ts";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 
 const RconSettings = (props: {
   gameServer: GameServerDto;
@@ -33,8 +34,8 @@ const RconSettings = (props: {
   }, [props.gameServer]);
 
   const allFieldsValid = useMemo(() => {
-    const rconPortValid = z.coerce.number().min(1).max(65535).safeParse(rconPort).success;
-    const rconPasswordValid = z.string().min(1).safeParse(rconPassword).success;
+    const rconPortValid = coercedPortValidator.safeParse(rconPort).success;
+    const rconPasswordValid = requiredStringValidator.safeParse(rconPassword).success;
 
     return (rconPasswordValid && rconPortValid) || !rconEnabled;
   }, [rconPassword, rconPort, rconEnabled]);
@@ -118,7 +119,7 @@ const RconSettings = (props: {
           label={t("rconPort.title")}
           value={rconPort}
           onChange={(v) => setRconPort((v as string) ?? "")}
-          validator={z.coerce.number().min(1).max(65535)}
+          validator={coercedPortValidator}
           placeholder="25575"
           description={t("rconPort.description")}
           errorLabel={t("rconPort.errorLabel")}
@@ -131,7 +132,7 @@ const RconSettings = (props: {
           label={t("rconPassword.title")}
           value={rconPassword === undefined ? "" : String(rconPassword)}
           onChange={(v) => setRconPassword(v as string)}
-          validator={z.string().min(1)}
+          validator={requiredStringValidator}
           placeholder="mysecretpassword"
           description={t("rconPassword.description")}
           errorLabel={t("rconPassword.errorLabel")}
@@ -146,6 +147,7 @@ const RconSettings = (props: {
         onConfirm={handleConfirm}
         revertDisabled={loading || !isChanged}
         confirmDisabled={isConfirmButtonDisabled}
+        loading={loading}
       />
       <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />
     </div>

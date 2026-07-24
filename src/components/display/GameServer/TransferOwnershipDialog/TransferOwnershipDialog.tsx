@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DialogClose,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Dialog } from "@radix-ui/react-dialog";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";

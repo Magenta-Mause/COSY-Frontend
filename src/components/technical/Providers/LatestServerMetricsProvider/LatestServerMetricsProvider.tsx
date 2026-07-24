@@ -15,7 +15,7 @@ import {
   type MetricPointDto,
 } from "@/api/generated/model";
 import { containsPermission } from "@/lib/permissionCalculations";
-import { useTypedSelector } from "@/stores/rootReducer";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 /** Window used to seed the first value so consumers don't render a zero until the first push. */
 const SEED_WINDOW_MS = 60 * 1000;
@@ -40,8 +40,8 @@ const LatestServerMetricsContext = createContext<LatestServerMetricsContextType>
  * and everything is dropped again once the last consumer unmounts.
  */
 const LatestServerMetricsProvider = (props: { children: ReactNode }) => {
-  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const gameServerPermissions = useTypedSelector(
+  const gameServers = useAppSelector((state) => state.gameServerSliceReducer.data);
+  const gameServerPermissions = useAppSelector(
     (state) => state.gameServerPermissionsSliceReducer.data,
   );
   const [subscriberCount, setSubscriberCount] = useState(0);

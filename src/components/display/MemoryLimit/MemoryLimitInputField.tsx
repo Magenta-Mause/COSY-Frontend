@@ -1,4 +1,4 @@
-import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";

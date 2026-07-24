@@ -1,8 +1,9 @@
-import { Badge } from "@components/ui/badge";
-import { Button } from "@components/ui/button";
-import CopyButton from "@components/ui/CopyButton";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import type { TFunction } from "i18next";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import CopyButton from "@/components/ui/CopyButton";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { WebhookDto } from "@/api/generated/model";
 import checkCircleIcon from "@/assets/icons/checkCircle.webp";
 import closeCircleIcon from "@/assets/icons/closeCircle.webp";
@@ -17,7 +18,7 @@ interface WebhookItemProps {
   onDelete: (webhook: WebhookDto) => void;
   getWebhookTypeLabel: (type: string | undefined) => string;
   getEventLabel: (event: string) => string;
-  t: (key: string) => string;
+  t: TFunction<"translation", "components.GameServerSettings.webhooks">;
 }
 
 const WebhookItem = ({

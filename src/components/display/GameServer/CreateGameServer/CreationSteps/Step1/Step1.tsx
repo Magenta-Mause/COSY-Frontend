@@ -4,7 +4,7 @@ import useTemplateGames, {
   templateMatchesGame,
 } from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 import {
   GameServerCreationContext,
   GENERIC_GAME_PLACEHOLDER_VALUE,
@@ -24,7 +24,7 @@ const Step1 = () => {
     handleTemplateSelected,
   } = useContext(GameServerCreationContext);
 
-  const templates = useTypedSelector((state) => state.templateSliceReducer.data);
+  const templates = useAppSelector((state) => state.templateSliceReducer.data);
   const sidebarGames = useTemplateGames();
   const selectedGameId = creationState.utilState.selectedGameId ?? GENERIC_SIDEBAR_SELECTION;
   const selectedTemplate = creationState.utilState.selectedTemplate ?? null;

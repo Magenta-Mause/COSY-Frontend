@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DialogClose,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { Dialog } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model";

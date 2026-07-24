@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +7,8 @@ import {
   DialogMain,
   DialogTitle,
   DialogTrigger,
-} from "@components/ui/dialog.tsx";
-import Icon from "@components/ui/Icon.tsx";
+} from "@/components/ui/dialog.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDtoRole } from "@/api/generated/model";

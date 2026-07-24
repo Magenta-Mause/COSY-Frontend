@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { getGetFooterQueryKey, useUpdateFooter } from "@/api/generated/backend-api.ts";
 import type { FooterUpdateDto } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
@@ -7,7 +7,7 @@ import { footerSliceActions } from "@/stores/slices/footerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useFooterDataInteractions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix("toasts");
 

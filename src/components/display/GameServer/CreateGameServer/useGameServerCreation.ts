@@ -4,7 +4,7 @@ import { parse as parseCommand } from "shell-quote";
 import type { GameServerCreationDto, GameServerDto, TemplateEntity } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import type { GameServerCreationContext } from "./context.ts";
-import { processEscapeSequences } from "./util";
+import { processEscapeSequences } from "./utils/inputValue";
 import useCreationFormState from "./useCreationFormState.ts";
 import { GENERIC_GAME_PLACEHOLDER_VALUE } from "./context.ts";
 

@@ -1,12 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks.ts";
 import { useSubscription } from "react-stomp-hooks";
 import type { GameServerDto } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const PublicWebSocketCollection = () => {
-  const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const dispatch = useDispatch();
+  const gameServer = useAppSelector((state) => state.gameServerSliceReducer.data);
+  const dispatch = useAppDispatch();
 
   const publicServers = gameServer?.filter((server) => server.public_dashboard?.enabled);
 

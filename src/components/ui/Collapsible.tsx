@@ -1,4 +1,4 @@
-import Icon from "@components/ui/Icon.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import { type ReactNode, useId, useState } from "react";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { cn } from "@/lib/utils.ts";

@@ -1,5 +1,5 @@
-import EditKeyValueInput from "@components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
-import { Button } from "@components/ui/button";
+import EditKeyValueInput from "@/components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,11 +8,11 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
-import z from "zod";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 
 interface FreeTextModalProps {
@@ -72,9 +72,9 @@ const FreeTextModal = (props: FreeTextModalProps) => {
             }
             placeHolderKeyInput="KEY"
             placeHolderValueInput="VALUE"
-            keyValidator={z.string().min(1)}
-            valueValidator={z.string().min(1)}
-            errorLabel={t("environmentVariablesSelection.errorLabel")}
+            keyValidator={requiredStringValidator}
+            valueValidator={requiredStringValidator}
+            errorLabel={t("GameServerSettings.privateDashboard.freetext.error")}
             required={false}
             inputType="text"
             objectKey="key"

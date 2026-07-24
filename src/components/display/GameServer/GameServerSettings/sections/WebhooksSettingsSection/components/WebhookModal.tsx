@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useEffect } from "react";
 import {
   WebhookCreationDtoSubscribedEventsItem,
@@ -130,7 +130,7 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
           <Button variant="secondary" onClick={() => handleClose(false)} disabled={isLoading}>
             {t("cancel")}
           </Button>
-          <Button onClick={onFormSubmit} disabled={isDisabled || isCreatingWebhook}>
+          <Button onClick={onFormSubmit} disabled={isDisabled} loading={isLoading}>
             {submitLabel}
           </Button>
         </DialogFooter>
