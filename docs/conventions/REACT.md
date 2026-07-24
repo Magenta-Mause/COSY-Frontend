@@ -1,424 +1,304 @@
-# React Rules
+# React / TypeScript Conventions
 
-## Component Structure
+How this document works:
 
-**DO:**
-- Split every non-trivial component into a thin JSX file and a co-located logic hook (`use<ComponentName>Logic.ts`).
-- Keep the JSX file focused purely on rendering. Move all state, effects, selectors, callbacks, and navigation into the logic hook.
-- Keep `useTranslation()` (for `t()`) in the component file, not in the logic hook — unless the hook needs to set translated error messages directly.
-- Target ~100 lines per file. If a component grows beyond this, extract sub-components or split the hook.
-- Limit JSX nesting to 3 levels deep. Extract banners, headers, and repeated sections as named sub-components.
-
-  ```tsx
-  // useDashboardLogic.ts — all non-JSX logic
-  export function useDashboardLogic() {
-    const dispatch = useAppDispatch();
-    const items = useAppSelector(selectItems);
-    const handleCreate = useCallback(() => { ... }, [dispatch]);
-    return { items, handleCreate };
-  }
-
-  // index.tsx — thin JSX only
-  export function DashboardPage() {
-    const { t } = useTranslation();
-    const { items, handleCreate } = useDashboardLogic();
-    return (
-      <main>
-        <h1>{t("dashboard.title")}</h1>
-        <ItemList items={items} onCreateNew={handleCreate} />
-      </main>
-    );
-  }
-  ```
-
-**DON'T:**
-- Put `useEffect`, `useCallback`, `useMemo`, API calls, or Redux selectors directly in the JSX component body.
-- Let a single component file grow beyond ~100 lines without splitting it.
-- Nest JSX more than 3 levels deep without extracting a named component.
+- **Unmarked rules describe how this codebase works today.** They are the current
+  practice and must be followed.
+- **Rules marked `Target` are agreed direction.** New code and any code you touch must
+  follow them, but do **not** mass-refactor existing code to satisfy them — migrate
+  opportunistically as you pass through.
 
 ---
 
-## File & Folder Naming
+## Component Structure
+
+Components live under `src/components/` in three buckets:
+
+- `ui/` — shadcn-style primitives (`button.tsx`, `field.tsx`, `dialog.tsx`, `Icon.tsx`, …).
+- `display/` — feature components. Each is a PascalCase folder containing a same-named
+  `.tsx` (e.g. `display/Footer/Footer.tsx`), often with nested sub-folders.
+- `technical/` — providers, websockets, and other non-visual wiring
+  (`Providers`, `WebsocketCollection`, `LoadingScreen`).
+
+Shared logic lives in the central `src/hooks/` directory — one folder per hook,
+`useXxx/useXxx.tsx`. The data hooks (the `use*DataInteractions` family and
+`useDataLoading`) live here. Co-located component hooks exist but are the exception —
+e.g. `display/GameServer/CreateGameServer/useCreationFormState.ts`.
 
 **DO:**
-- Name component files in `PascalCase.tsx` (e.g. `UserMenu.tsx`, `SettingsPanel.tsx`).
-- Name logic hook files in `camelCase.ts` matching their export (e.g. `useDashboardLogic.ts`).
-- Give every component folder a barrel `index.ts` that re-exports its public API.
-- Use `index.tsx` as the entry point for page-level components.
-- Name test files `<filename>.test.ts(x)`, co-located with the file they test.
+- Put reusable primitives in `ui/`, features in `display/`, and infrastructure in `technical/`.
+- Keep one same-named `.tsx` per PascalCase `display/` folder.
+- Import files directly by path — barrel `index.ts` re-exports are **not** a convention here.
 
 **DON'T:**
-- Mix casing conventions within the same category (e.g. kebab-case component files).
-- Export multiple unrelated components from a single file.
+- Add a barrel `index.ts` just to re-export a folder's public API.
+
+**Target:** treat ~200 lines as a soft ceiling for a component file. When a component
+grows past it, extract a co-located logic hook (`useXxx.ts`) or named sub-components
+rather than letting it sprawl. Several existing components are 300–600+ lines — that is
+legacy, not a pattern to copy.
 
 ---
 
 ## Imports & Exports
 
-**DO:**
-- Use the `@/` path alias for all cross-directory imports (e.g. `import { useAppSelector } from "@/store/hooks"`).
-- Use relative imports only within the same component folder.
-- Use `import type { Foo }` for all type-only imports (required when `verbatimModuleSyntax` is enabled).
-- Re-export public APIs through the folder's `index.ts` barrel.
+`verbatimModuleSyntax` is enabled in `tsconfig.app.json`, so type-only imports must use
+`import type`. Explicit `.ts` / `.tsx` extensions in relative and aliased imports are the
+norm (`allowImportingTsExtensions` is on).
 
-**DON'T:**
-- Use deep relative paths like `../../../store/hooks` — use the path alias instead.
-- Import types without the `type` keyword when `verbatimModuleSyntax` is enabled.
+```tsx
+import type { RootState } from "@/stores";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+```
+
+**DO:**
+- Use `import type` for anything imported only as a type.
+- Include the file extension in import specifiers.
+
+**Target:** use the `@/` alias for all cross-directory imports. The extra aliases
+(`@components/*`, `@types/*`, `@config`) are being retired — don't introduce them in new
+code, and prefer `@/` when you touch an existing import.
 
 ---
 
 ## State Management
 
-State is split across two libraries by concern:
+Global state uses Redux Toolkit. Slices live in `src/stores/slices/` (one file per
+slice, e.g. `gameServerSlice.ts`, `userSlice.ts`, `templateSlice.ts`), combined in
+`src/stores/rootReducer.ts`. `rootReducer.ts` also defines the `RESET_STORE` action and
+the typed `useTypedSelector`. The store itself is configured in `src/stores/index.ts`,
+which exports `RootState` and the shared `SliceState<T>` shape:
 
-- **Redux Toolkit** owns client/UI state and any cached shared data that many
-  views read (e.g. session/auth, language, toast, and shared data slices read
-  through a data-loading hook).
-- **React Query** (`@tanstack/react-query`) owns *dynamic server interactions*:
-  (a) **async mutations** (any create/update/delete/upload/sign-in API call),
-  and (b) **dynamic reads that need their own loading indicator** (admin lists,
-  moderation queues, per-page panels that fetch on demand).
+```ts
+export interface SliceState<T> {
+  data: T[];
+  state: "idle" | "loading" | "failed";
+}
+```
+
+Server data reaches the store through two established patterns — use them, don't invent
+a third:
+
+- **`src/hooks/use*DataInteractions/*`** wrap the Orval-generated react-query mutation
+  hooks. `onSuccess` dispatches into the matching slice, `onError` surfaces via
+  `notificationModal` (`src/lib/notificationModal.ts`), and `onSettled` invalidates the
+  affected query key. See `useGameServerDataInteractions`.
+- **`src/hooks/useDataLoading/`** imperatively calls generated client functions and
+  dispatches `SliceState` transitions (`loading` → `idle` / `failed`) for list data.
 
 **DO:**
-- Use typed `useAppDispatch` and `useAppSelector` hooks from a central
-  `src/store/hooks.ts` — never the raw react-redux versions.
-- Define Redux slices with `createSlice`; use `PayloadAction<T>` in reducers and
-  union string literals `"idle" | "loading" | "failed"` for async status.
-- Route the shared cached data reads through the shared data-loading hook.
-- For every async **mutation**, use `useMutation` inside the component's logic
-  hook. Expose `mutation.isPending` (and `mutation.variables` for per-row
-  actions) so buttons can show a pending state. On success, `invalidateQueries`
-  the affected query key instead of a manual refetch; surface failures in
-  `onError`.
-- For **on-demand reads**, use `useQuery` with a stable `queryKey`; expose
-  `isLoading`/`isError` so the view can render a loading/failed branch.
-- Provide the `QueryClient` in the app entry (inside the Redux `<Provider>`) and
-  in the test wrapper utility so hooks using React Query work under test.
-- Derive store types with `ReturnType<typeof store.getState>` and
-  `AppDispatch = typeof store.dispatch`.
-
-  ```ts
-  // inside a logic hook
-  const qc = useQueryClient();
-  const listQuery = useQuery({ queryKey: ["orders"], queryFn: () => listOrders() });
-  const remove = useMutation({
-    mutationFn: (o: Order) => deleteOrder(o.id),
-    onSuccess: () => { dispatch(showToast("Deleted")); void qc.invalidateQueries({ queryKey: ["orders"] }); },
-    onError: () => dispatch(showToast("Delete failed")),
-  });
-  return { orders: listQuery.data ?? [], loading: listQuery.isLoading, deletingBusy: remove.isPending };
-  ```
+- Route every new server interaction through one of these hooks.
 
 **DON'T:**
-- Call API functions directly from JSX files, or fetch with bare
-  `useState + useEffect` when the read needs a loading indicator — use `useQuery`.
-- Hand-roll `busy`/`saving`/`placing` booleans for a request — derive them from
-  `useMutation().isPending`.
-- Use raw `useDispatch` or `useSelector` from react-redux — always use the typed
-  wrappers.
+- Call a generated client function directly from a component.
+- Duplicate fetch-and-dispatch logic inline instead of extending the data hooks.
+
+**Target:** add typed `useAppDispatch` / `useAppSelector` hooks (typed against
+`RootState` / `AppDispatch`) and use them in new code instead of the raw `useDispatch`
+from `react-redux` and the current `useTypedSelector`.
 
 ---
 
 ## Loading States & Buttons
 
-Every control that triggers an async request must give clear pending feedback:
-the control disables and shows a spinner until the request settles.
+**Target** — this whole section is the agreed fix. Current behavior is inconsistent, and
+the rules below are where we're heading; the "meanwhile" note records what to keep doing
+until the shared primitive lands.
 
-**DO:**
-- Render request-triggering buttons with a shared `<Button>` that takes a
-  `loading` prop and pass `loading={mutation.isPending}`. It disables the button
-  and renders an inline spinner while pending.
-- For destructive confirms and shared editor/modal components, thread a
-  `busy`/`saving` prop through to the same `<Button>`.
-- For per-row/per-item actions, gate `loading` on the acted-on id (e.g.
-  `loading={approvingId === row.id}`) using the mutation's `variables`, so only
-  the clicked control spins.
-- Give every `useQuery`-backed list/panel a visible `isLoading` branch
-  (a loading label or skeleton) and an `isError` branch.
+**Target:**
+- Give the shared `ui/button.tsx` a `loading` prop that disables the button and shows an
+  inline pending indicator. Async-triggering buttons then pass the mutation's `isPending`
+  instead of hand-rolling `useState` booleans.
+- For per-row actions, gate on the acted-on id (via the mutation's `variables`) so only
+  the clicked control shows pending, not every row.
+- Every fetched list or panel renders a visible **loading** branch and an **error**
+  branch — never an empty list while a fetch is in flight.
+- Completeness-gated submits: primary-action buttons stay disabled until every required
+  input is filled. Gate on *completeness*, not on format validity — format errors surface
+  as validation messages on submit.
 
-**DON'T:**
-- Leave a raw `<button>` firing an async handler with no disabled/spinner state.
-- Show an empty list while a fetch is in flight — render the loading branch.
+*Meanwhile (current practice to keep):* disable buttons while a request is in flight and
+set the `data-loading="true"` attribute, which drives the loading cursor defined in
+`src/index.css`.
 
----
-
-## Disabled / Gated Buttons
-
-A submit or primary-action button must be **disabled until the action is actually
-possible**. An always-pressable button that only reveals, on click, that a required
-field is empty is a dead end — gate it up front instead.
-
-Gate on **completeness, not full validity**. Disable while a *required* input is
-still missing — an empty text field, an unticked mandatory acknowledgement checkbox,
-an unselected required option, or (for multi-step flows) a prerequisite step not yet
-cleared. Do **not** disable for *format* errors (bad email shape, password too short,
-password mismatch): let the user submit and surface those as validation messages, so
-the reason for rejection is explicit rather than a silently-dead button.
-
-Derive the gate in the logic hook and expose it as a boolean (`canSubmit`), keeping
-the JSX thin:
-
-```ts
-// use<Page>Logic.ts — with react-hook-form + zod in `mode: "onSubmit"`
-const email = form.watch("email");
-const password = form.watch("password");
-const understand = form.watch("understand");
-// completeness only — zod still validates email/password *format* on submit
-const canSubmit = email.trim().length > 0 && password.length > 0 && understand;
-return { form, onSubmit, canSubmit, isSubmitting: mutation.isPending };
-```
-
-```tsx
-// index.tsx
-<Button type="submit" loading={isSubmitting} disabled={!canSubmit}>
-  {t("signin.submit")}
-</Button>
-```
-
-`disabled` and `loading` compose: the shared `<Button>` treats either as disabled, so
-the button is unpressable while the form is incomplete *and* while the request is in
-flight.
-
-**DO:**
-- Disable action buttons until every required field is filled / required checkbox is
-  ticked / prerequisite step is done, via a `canSubmit`-style boolean from the hook.
-- Keep the enable/disable derivation in the logic hook — not inline in the JSX.
-- Still run format validation on submit and show the messages; don't fold format
-  rules into the disable gate.
-
-**DON'T:**
-- Ship an always-pressable submit button whose only feedback is a post-click error
-  that a field is empty.
-- Disable the button on *format* errors — that hides why submit is blocked.
-- Recompute the gate in the component body — derive it in the hook.
+A good existing model for the completeness gate is `EditFooterModal.tsx`, whose submit is
+`disabled={!isFormValid || isPending}`.
 
 ---
 
-## Pure Utilities & `lib.ts`
+## Forms & Validation
+
+Forms are native `<form>` elements built from the shared field primitives in
+`src/components/ui/field.tsx` (plus `RequiredMark.tsx`) and hand-rolled domain input
+wrappers — e.g. `CpuLimitInputField`, the `AutoCompleteInputField` and
+`TemplateVariableForm` components under `CreateGameServer/`. Form state lives in
+co-located hooks such as `useCreationFormState` and `useWebhookForm`. Validation uses
+**zod**.
 
 **DO:**
-- Extract pure functions, types, and constants that don't need React into a co-located `lib.ts`.
-- Place all field validation functions in a single `src/lib/validators.ts` — never inline validation in components or hooks.
-- Use named constants for all validation rules (min/max lengths, regex patterns).
+- Build forms from the `ui/field.tsx` primitives and existing domain input wrappers.
+- Keep form state in a co-located hook, not scattered through the JSX.
+- Validate with zod.
 
-  ```ts
-  // src/lib/validators.ts
-  export const USERNAME_MIN = 3;
-  export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  export function isValidEmail(value: string): boolean { ... }
-  ```
-
-**DON'T:**
-- Create `lib.ts` for trivial 1–2 line helpers that don't warrant their own file.
-- Allow React imports inside `lib.ts` — keep it framework-agnostic.
-- Duplicate validation logic across multiple components or hooks.
-
----
-
-## Forms & Inputs
-
-**DO:**
-- Use a shared `<FormField>` component for all form inputs — never raw `<input>` + `<label>` pairs.
-- Drive validation from `src/lib/validators.ts` functions.
-- Display validation errors via the `FormField` component's error prop.
-
-**DON'T:**
-- Inline validation logic inside form components.
-- Use raw HTML form elements without the shared wrapper.
+**Target:** put field/schema validators in `src/lib/validators/` — one file per
+validator, with named constants for limits. `cpuLimitValidator.ts` and
+`memoryLimitValidator.ts` are the pattern. New inline zod schemas written in a component
+should move there instead.
 
 ---
 
 ## Styling
 
+Styling is Tailwind v4 with CSS-first config. Design tokens are defined in an
+`@theme inline` block in `src/globals.css` (e.g. `--color-background`, `--color-foreground`,
+`--color-border`, and the `--color-button-*` family). Compose conditional or merged class
+lists with the `cn()` helper from `src/lib/utils.ts` (clsx + tailwind-merge).
+
+```tsx
+import { cn } from "@/lib/utils.ts";
+
+<button className={cn("bg-button-primary-default text-foreground", isActive && "bg-button-primary-hover")} />
+```
+
 **DO:**
-- Use Tailwind utility classes as the primary styling approach.
-- Use the `cn()` helper (clsx + tailwind-merge) for conditional or merged class names.
-- Use named design tokens defined as Tailwind utilities (e.g. `bg-background`, `text-foreground`, `rounded-radius-sm`).
-- Restrict `style={{}}` to values Tailwind cannot express: gradients, `textShadow`, dynamic runtime values, fractional `gridTemplateColumns`.
-
-  ```tsx
-  import { cn } from "@/lib/utils";
-
-  <div className={cn("rounded-radius border-foreground", isActive && "bg-accent")} />
-  ```
+- Use named token utilities: `bg-background`, `text-foreground`, `border-border`,
+  `bg-button-primary-default`, etc.
+- Use `cn()` for conditional and merged class names.
 
 **DON'T:**
-- Use `[var(--x)]` arbitrary CSS variable syntax — always use the named token class.
-- Write inline styles for values that Tailwind can express with a utility class.
+- Reach for `[var(--x)]` arbitrary-value syntax when a named token utility exists.
+- Use inline `style={{}}` except for values Tailwind can't express — dynamic runtime
+  values, or the CSS mask in `Icon.tsx`.
 
 ---
 
 ## Icons
 
-Use **`lucide-react`** icon components for every UI icon — arrows, checks,
-crosses, chevrons, spinners, close/menu affordances, etc. Never render an
-ASCII/UTF glyph (`←`, `→`, `↑`, `↓`, `✓`, `✗`, `▸`, `×`, …) as an icon: they
-render inconsistently across platforms/fonts, don't scale with `size`, and
-can't be recoloured cleanly.
-
-**DO:**
-- Import the specific icon: `import { ArrowLeft, Check, X } from "lucide-react"`.
-- Size with the `size` prop (px) and control weight with `strokeWidth`; colour
-  via `text-*` tokens on the icon (or a wrapper), never a hardcoded hex.
-- Mark decorative icons `aria-hidden` and keep the adjacent text label as the
-  accessible name (e.g. a "back" link is `<ArrowLeft aria-hidden /> back`).
-- Keep the icon glyph out of i18n strings — the translation is the word only
-  (`back`, not `← back`); the icon is rendered by the component.
+All UI icons render through the shared `Icon` component
+(`src/components/ui/Icon.tsx`, default export). It masks a `.webp` asset from
+`src/assets/` with the current text color (`bg-current` + a CSS `mask-image`, with
+`imageRendering: "pixelated"`), maps the `variant` prop to `text-icon-*` tokens, and
+supports an optional `bold` drop-shadow. This is a deliberate pixel-art icon system.
 
 **DON'T:**
-- Hand-roll an arrow/check with a text glyph, an SVG literal, or a CSS
-  triangle when a Lucide icon exists.
-- Bake an icon character into a translation resource or a shared constant.
-
-**Deliberate exceptions (not icons):** brand marks (e.g. a logo glyph),
-faithful **terminal/TUI simulations** where ASCII is the point (a mock prompt,
-a `▸` selection caret in a rendered "terminal"), placeholder masks
-(`····-····`), and ordinary prose punctuation (a `·` separator, an in-sentence
-`→`). These stay as text.
+- Import icon libraries (no `lucide-react` or similar), inline raw SVG icons, or use
+  ASCII/unicode glyphs as icons — they break the aesthetic and the recoloring model.
+- Put icon glyphs inside i18n strings.
 
 ---
 
 ## TypeScript
 
+`tsconfig.app.json` runs strict. The enabled flags are: `strict`, `noUnusedLocals`,
+`noUnusedParameters`, `noFallthroughCasesInSwitch`, `verbatimModuleSyntax`,
+`noUncheckedSideEffectImports`, and `erasableSyntaxOnly`.
+
 **DO:**
-- Enable strict mode. Treat all `noUnusedLocals`, `noUnusedParameters`, and `noFallthroughCasesInSwitch` violations as errors.
-- Define component props as `interface FooProps` with `readonly` on all fields.
-- Prefix floating promises with `void`: `void navigate(...)`, `void (async () => { ... })()`.
-- Use `globalThis` instead of `window` for browser globals.
-- Use `as const` on static lookup objects to get literal types.
+- Prefer `unknown` and narrow it, rather than `any`.
+- If you must suppress an error, document *why* — no bare `@ts-ignore`.
 
 **DON'T:**
-- Use `any` — use `unknown` and narrow the type explicitly.
-- Suppress TypeScript errors with `// @ts-ignore` without a documented reason.
-- Use non-null assertion (`!`) without a comment explaining why it is safe.
+- Introduce `any`.
+- Leave unused locals, parameters, or fall-through switch cases (they fail the build).
+
+**Target:** declare new component props as `interface XxxProps` with `readonly` fields.
 
 ---
 
 ## Routing
 
-**DO:**
-- Define one route file per route in `src/routes/`.
-- Use route-level `beforeLoad` guards (e.g. `requireFullAuth()`) for access control.
-- Let the router plugin auto-generate the route tree — never edit the generated file manually.
+Routing is TanStack Router with file-based routes under `src/routes/` — one file per
+route, with nested layouts (e.g. `server/$serverId.tsx` wraps its
+`server/$serverId/*.tsx` children). `src/routeTree.gen.ts` is generated (see Code
+Generation below) — never hand-edit it.
 
-**DON'T:**
-- Implement access control inside page components — do it in `beforeLoad`.
-- Manually edit auto-generated route tree files.
+Access control today happens at render time via `AuthContext` and the helpers in
+`src/utils/routeGuards.ts` (`requireAuth`, `requireRoles`, `useRequireRoles`), with a
+`NoAccess` fallback (`src/components/display/NoAccess/NoAccess.tsx`).
+
+**Target:** move access control into route-level `beforeLoad` guards so unauthorized
+routes never render at all. New routes should prefer `beforeLoad` over render-time
+checks.
 
 ---
 
 ## Internationalisation (i18n)
 
-Translations are plain TypeScript objects — **no JSON files** — so every key is
-compile-time checked and missing/mistyped keys fail the build.
+Structure under `src/i18n/`:
 
-**Structure — one `resources.ts` per app:**
-- Write the base language (`en`) as a single object literal ending in `as const`
-  (e.g. `const enCommon = { ... } as const`). This object is the source of truth
-  for the key shape.
-- Derive a schema type from it and type every other language against that schema, so
-  a translator cannot omit, add, or mistype a key:
-
-  ```ts
-  // src/i18n/resources.ts
-  const enCommon = {
-    login: { title: "Welcome back", submit: "Log in" },
-    verify: { inputDescription: "We sent a code to {{email}}." },
-  } as const;
-
-  // maps every leaf to `string` while preserving the nested shape
-  type DeepStringSchema<T> = {
-    [K in keyof T]: T[K] extends string ? string : DeepStringSchema<T[K]>;
-  };
-  type CommonSchema = DeepStringSchema<typeof enCommon>;
-
-  const deCommon: CommonSchema = { login: { title: "Willkommen zurück", submit: "Anmelden" },
-    verify: { inputDescription: "Wir haben einen Code an {{email}} gesendet." } };
-
-  export const defaultNS = "common";
-  export const resources = { en: { common: enCommon }, de: { common: deCommon } } as const;
-  export type AppLanguage = keyof typeof resources;
-  ```
-
-**Type-safe `t()` — augment the i18next module:**
-- Add `src/i18n/i18next.d.ts` so `t("key")` autocompletes and rejects unknown keys:
-
-  ```ts
-  import "i18next";
-  import { defaultNS, resources } from "@/i18n/resources";
-  declare module "i18next" {
-    interface CustomTypeOptions {
-      defaultNS: typeof defaultNS;
-      resources: (typeof resources)["en"];
-    }
-  }
-  ```
-
-**Init & language persistence (`config.ts`):**
-- Initialise once with `i18n.use(initReactI18next).init({ resources, defaultNS,
-  fallbackLng: "en", interpolation: { escapeValue: false } })`.
-- Persist the choice in `localStorage` under a stable, app-prefixed key
-  (e.g. `"cosy-language"`); read it back through `globalThis` guards for SSR/test
-  safety and validate it against `resources` before use, falling back to `"en"`.
-- Expose a small `useLanguageChange` hook for switching + persisting the language.
+- `i18n.ts` — i18next setup.
+- `i18nKeys.ts` — the hand-written `i18nLanguage` type, the single source of truth for
+  the key shape. It also defines the `ContainsVariable<T>` helper
+  (`` `${string}{{${T}}}${string}` ``) used to require an interpolation variable in a key.
+- `en-US/translation.ts` and `de-DE/translation.ts` — both annotated
+  `const translation: i18nLanguage`, so a missing, extra, or mistyped key in either
+  language **fails typecheck**.
 
 **DO:**
-- Read every UI string through `t("dot.path.key")` — never a bare string literal.
-- Add each new key to `enCommon` first (the schema), then to every other language
-  in the **same commit** — a missing key is a type error, not a runtime surprise.
-- Use i18next interpolation (`{{email}}`, `{{count}}`) for dynamic values rather
-  than string concatenation.
-- Keep an `src/i18n/resources.test.ts` asserting all languages share the same key
-  set, and a `config.test.ts` for the init/persistence logic.
+- Add a new key to `i18nLanguage` first, then to **both** language files in the same
+  commit.
+- Use i18next interpolation (`{{var}}`) for dynamic values, and type such keys with
+  `ContainsVariable<"var">`.
+- Route every UI string through `t()`.
 
 **DON'T:**
-- Add JSON translation files or fetch translations over HTTP — keep them in typed TS.
-- Add a key to one language object without adding it to all others (it won't compile).
-- Put `useTranslation()` in a logic hook — keep `t()` in the component file (see
-  Component Structure), unless the hook must produce translated error strings itself.
+- Ship a bare string literal as user-facing text.
+
+**Target:**
+- Use the `useTranslationPrefix` hook (`src/hooks/useTranslationPrefix/`) with a
+  component-scoped key prefix in new components, instead of raw `useTranslation`.
+- Add an `i18next.d.ts` module augmentation (`CustomTypeOptions` over the existing
+  `i18nLanguage` type) so `t("bad.key")` also fails typecheck at call sites.
 
 ---
 
 ## Testing
 
+**Target** — the repo currently has **no unit tests**, which is a known gap, not a
+convention. The direction below is where we want to go; start applying it to new pure
+logic.
+
+**Target:**
+- Test with **vitest** + **@testing-library/react**, wired to a `bun test` script and a
+  CI job.
+- Co-locate tests as `<name>.test.ts(x)` next to the code they cover.
+- Start with pure logic: validators, redux slice reducers, and form-state hooks.
+
+*Current practice that does exist:* `data-testid` attributes on interactive elements,
+consumed by the external E2E system tests. Use kebab-case, descriptive ids
+(e.g. `login-username-input`, `create-server-next-btn`, `login-submit-btn`).
+
 **DO:**
-- Co-locate test files with the files they test, named `<filename>.test.ts(x)`.
-- Use `renderHook()` from `@testing-library/react` for testing logic hooks.
-- Wrap Redux-connected hooks with a store provider utility (e.g. `makeWrapper(preloadedState)`).
-- Use `vi.mock(...)` for module mocking and `vi.fn()` / `vi.mocked()` for mock functions.
-- Call `vi.clearAllMocks()` in `beforeEach` to ensure test isolation.
-- Add `data-testid` attributes to interactive elements for E2E test selectors.
-- Test Redux slice reducers as pure unit tests — no React needed.
+- Keep adding `data-testid` to new interactive elements.
 
 **DON'T:**
-- Test implementation details — test observable behaviour.
-- Skip testing error paths and boundary conditions.
-- Use `data-testid` as a substitute for semantic HTML attributes where they exist.
+- Use `data-testid` as a substitute for semantic HTML.
 
 ---
 
 ## API Generation with Orval
 
-Orval reads an OpenAPI spec from the running backend and generates a fully-typed TypeScript client into `src/api/generated/`. The generated output includes one function per endpoint and a matching set of request/response types in `src/api/generated/model/`.
+The typed API client is generated by Orval into `src/api/generated/` from the backend
+OpenAPI spec (config in `orval.config.js`). Regenerate with `bun gen:api` while the
+backend runs on `localhost:8080`. The output is **committed**, so CI never needs a live
+backend.
 
-A shared `customInstance` function is injected into every generated call, so authentication headers, base URL, and error handling are configured once and applied automatically.
+Every request goes through the shared axios `customInstance`
+(`src/api/axiosInstance.ts`), which applies the base URL, attaches the bearer token, and
+unwraps the response envelope.
 
 **DO:**
-- Run `bun gen:api` (with the backend running) to fetch the latest OpenAPI spec and regenerate the client.
-- Treat `src/api/generated/` as a build artefact — commit the output so the build never depends on a running backend in CI.
-- Use the generated functions through the data layer — the shared data-loading hook for the shared cache, or a `useQuery`/`useMutation` inside a logic hook — never call them directly from JSX components.
-- For endpoints not covered by the OpenAPI spec, add manual API calls in a separate file using the same `customInstance`.
+- Consume the generated client through the data hooks (see State Management).
+- Regenerate and commit the client when the backend contract changes.
 
 **DON'T:**
-- Edit any file inside `src/api/generated/` manually — changes will be overwritten on the next generation run.
-- Duplicate API call logic that already exists in the generated client.
+- Edit anything under `src/api/generated/` by hand.
+- Call the generated client directly from a component.
 
 ---
 
 ## Code Generation (Routes)
 
-**DO:**
-- Regenerate the route tree by running the dev server after adding or renaming route files.
-
-**DON'T:**
-- Edit `src/routeTree.gen.ts` manually — it is auto-generated by the router plugin.
+`src/routeTree.gen.ts` is generated from the files in `src/routes/`. It regenerates
+automatically while the dev server runs, or on demand with `bun tsr:gen`. Never edit it
+by hand.

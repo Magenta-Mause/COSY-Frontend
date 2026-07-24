@@ -30,5 +30,6 @@ Cosy is a multi-repo project under [github.com/Magenta-Mause](https://github.com
 
 ## Deep dives — read when your task touches the area
 
-- Writing or reviewing **React / TypeScript** code (component/hook split, state,
-  styling, i18n, testing) → [docs/conventions/REACT.md](docs/conventions/REACT.md)
+- Writing or reviewing **React / TypeScript** code (component structure, state,
+  loading/buttons, forms, styling, icons, routing, i18n, testing, API codegen) →
+  [docs/conventions/REACT.md](docs/conventions/REACT.md)
