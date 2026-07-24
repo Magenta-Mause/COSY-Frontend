@@ -14,16 +14,17 @@ export const Route = createFileRoute("/server/$serverId/console")({
 
 function RouteComponent() {
   const { serverId } = Route.useParams();
-  const { logs } = useGameServerLogs(serverId ?? "");
   const { gameServer } = useGameServer(serverId ?? "");
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
+  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
+  // Only this view renders the logs, so they are fetched here and dropped on unmount.
+  const { logs } = useGameServerLogs(serverId ?? "", { enabled: canReadLogs });
 
   if (!gameServer) {
     return null;
   }
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
-  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (

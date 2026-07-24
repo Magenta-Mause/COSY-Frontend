@@ -25,8 +25,6 @@ export const Route = createFileRoute("/server/$serverId/")({
 function GameServerDetailPageDashboardPage() {
   const { serverId } = Route.useParams();
   const { view } = Route.useSearch();
-  const { logs } = useGameServerLogs(serverId ?? "");
-  const { metrics } = useGameServerMetrics(serverId ?? "");
   const { gameServer } = useGameServer(serverId ?? "");
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
   const canSeePrivateDashboard = hasPermission(
@@ -63,15 +61,56 @@ function GameServerDetailPageDashboardPage() {
     return { canSeeMetric: metric, canSeeLogs: logs };
   }, [dashboardLayout, gameServer?.public_dashboard.enabled]);
 
+  // Which widgets the currently shown dashboard actually renders. Anything the
+  // layout does not contain is never requested in the first place.
+  const { showsMetrics, showsLogs } = useMemo(() => {
+    let metrics = false;
+    let logs = false;
+
+    dashboardLayout?.forEach((dashboard) => {
+      if (dashboard.layout_type === DashboardElementTypes.METRIC) metrics = true;
+      if (dashboard.layout_type === DashboardElementTypes.LOGS) logs = true;
+    });
+
+    return { showsMetrics: metrics, showsLogs: logs };
+  }, [dashboardLayout]);
+
+  // Widgets the public dashboard exposes — those are readable without the
+  // corresponding server permission, via the public endpoints.
+  const { publiclyExposesMetrics, publiclyExposesLogs } = useMemo(() => {
+    let metrics = false;
+    let logs = false;
+
+    if (gameServer?.public_dashboard.enabled) {
+      gameServer.public_dashboard.layouts?.forEach((layout) => {
+        if (layout.layout_type === DashboardElementTypes.METRIC) metrics = true;
+        if (layout.layout_type === DashboardElementTypes.LOGS) logs = true;
+      });
+    }
+
+    return { publiclyExposesMetrics: metrics, publiclyExposesLogs: logs };
+  }, [gameServer?.public_dashboard]);
+
+  const hasMetricsPermission = hasPermission(
+    GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
+  );
+  const canReadMetrics = hasMetricsPermission || canSeeMetric;
+  const canReadLogs =
+    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || canSeeLogs;
+
+  const { logs } = useGameServerLogs(serverId ?? "", {
+    enabled: showsLogs && (canReadLogs || publiclyExposesLogs),
+  });
+  const { metrics } = useGameServerMetrics(serverId ?? "", {
+    enabled: showsMetrics && (hasMetricsPermission || publiclyExposesMetrics),
+    source: hasMetricsPermission ? "private" : "public",
+  });
+
   if (!gameServer) {
     return null;
   }
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
-  const canReadMetrics =
-    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS) || canSeeMetric;
-  const canReadLogs =
-    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || canSeeLogs;
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (

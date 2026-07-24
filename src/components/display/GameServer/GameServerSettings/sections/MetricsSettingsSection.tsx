@@ -3,6 +3,7 @@ import GenericLayoutBuilder from "@components/display/GameServer/GameServerSetti
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
+import useCustomMetricKeys from "@/hooks/useCustomMetricKeys/useCustomMetricKeys";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { type MetricLayoutUI, MetricsType } from "@/types/metricsTyp";
@@ -25,6 +26,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
   const [metricLayoutState, setMetricLayoutState] = useState<MetricLayoutUI[]>(() =>
     wrapMetrics(gameServer.metric_layout),
   );
+  const customMetrics = useCustomMetricKeys(gameServer.uuid);
 
   const isChanged = useMemo(() => {
     if (metricLayoutState.length !== gameServer.metric_layout.length) return true;
@@ -75,7 +77,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
             className="w-full"
             metricType={metric.metric_type}
             setMetricType={(type) => handleMetricTypeChange(type, metric._uiUuid)}
-            gameServerUuid={gameServer.uuid}
+            customMetrics={customMetrics}
           />
         )}
       </GenericLayoutBuilder>

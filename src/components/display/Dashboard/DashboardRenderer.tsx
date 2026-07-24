@@ -6,11 +6,10 @@ import { MetricLayoutSize } from "@/api/generated/model";
 import type { PrivateDashboardLayout } from "@/api/generated/model/privateDashboardLayout";
 import type { PublicDashboardLayout } from "@/api/generated/model/publicDashboardLayout";
 import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
-import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice";
-import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize.ts";
-import type { MetricsType } from "@/types/metricsTyp";
+import type { GameServerLogWithUuid } from "@/types/logTypes";
+import type { GameServerMetricsWithUuid, MetricsType } from "@/types/metricsTyp";
 
 interface DashboardRendererProps {
   dashboardLayout: (PrivateDashboardLayout | PublicDashboardLayout)[];

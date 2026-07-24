@@ -1,4 +1,6 @@
-import type { MetricLayout } from "@/api/generated/model";
+import type { MetricLayout, MetricPointDto } from "@/api/generated/model";
+
+export type GameServerMetricsWithUuid = MetricPointDto & { uuid: string };
 
 export type MetricsType = (typeof MetricsType)[keyof typeof MetricsType];
 

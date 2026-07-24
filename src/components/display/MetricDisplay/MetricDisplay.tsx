@@ -1,16 +1,10 @@
 import { Button } from "@components/ui/button";
 import { useSearch } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
 import spinner from "@/assets/gifs/spinner.gif";
-import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
-import { useTypedSelector } from "@/stores/rootReducer";
-import {
-  type GameServerMetricsWithUuid,
-  gameServerMetricsSliceActions,
-} from "@/stores/slices/gameServerMetrics";
+import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
 import TimeRangeDropDown from "../DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
@@ -18,75 +12,35 @@ import { COL_SPAN_MAP } from "./metricLayout";
 
 const MetricDisplay = (
   props: {
-    metrics: GameServerMetricsWithUuid[];
     gameServer: GameServerDto;
+    canReadMetrics?: boolean;
   } & React.ComponentProps<"div">,
 ) => {
   const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
-  const [loading, setLoading] = useState<boolean>(false);
   const [isCustomTime, setIsCustomTime] = useState<boolean>(false);
-  const { loadGameServerMetrics } = useDataLoading();
-  const dispatch = useDispatch();
-  const { metrics, gameServer } = props;
+  const { gameServer, canReadMetrics = true } = props;
 
   const search = useSearch({ strict: false }) as { timeRangeType?: string };
   const hasUrlTimeRange = search.timeRangeType === "preset" || search.timeRangeType === "custom";
 
-  // When a URL-restored time range is present, the initial onChange from
-  // TimeRangeDropDown races against loadAdditionalGameServerData's default
-  // metrics load. If the background load wins (higher request counter), the
-  // URL-restored selection gets overwritten. We detect this by watching for
-  // a loading→idle transition we didn't initiate and re-fire with the saved range.
-  const savedTimeRangeRef = useRef<{ start: Date; end?: Date } | null>(null);
-  const needsRefire = useRef(hasUrlTimeRange);
-  const metricsReduxState = useTypedSelector(
-    (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.state,
-  );
-  const prevMetricsReduxStateRef = useRef<string | undefined>(undefined);
+  // The metrics belong to this view only: they are loaded on mount and released
+  // again on unmount. Because this component is the sole owner of the request,
+  // a time range restored from the URL can no longer be overwritten by an
+  // unrelated background load — the initial default load is simply skipped and
+  // TimeRangeDropDown fires the restored range instead.
+  const { metrics, state, liveUpdatesEnabled, setLiveUpdatesEnabled, loadRange } =
+    useGameServerMetrics(gameServer.uuid, {
+      enabled: canReadMetrics,
+      deferInitialLoad: hasUrlTimeRange,
+    });
 
-  useEffect(() => {
-    const prev = prevMetricsReduxStateRef.current;
-    prevMetricsReduxStateRef.current = metricsReduxState;
-
-    if (
-      prev === "loading" &&
-      metricsReduxState === "idle" &&
-      needsRefire.current &&
-      savedTimeRangeRef.current
-    ) {
-      needsRefire.current = false;
-      const { start, end } = savedTimeRangeRef.current;
-      loadGameServerMetrics(gameServer.uuid, start, end);
-    }
-  }, [metricsReduxState, gameServer.uuid, loadGameServerMetrics]);
-
-  const liveEnabled = useTypedSelector(
-    (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
-  );
-
-  const handleLiveMetrics = (enableLiveMetrics: boolean) => {
-    dispatch(
-      gameServerMetricsSliceActions.setEnableMetricsLiveUpdates({
-        gameServerUuid: gameServer.uuid,
-        enable: enableLiveMetrics,
-      }),
-    );
-  };
-
-  const handleTimeChange = async (startTime: Date, endTime?: Date) => {
+  const handleTimeChange = (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
-    savedTimeRangeRef.current = { start: startTime, end: endTime };
     const isToday = !endTime || endTime.getDate() === new Date().getDate();
     setIsCustomTime(!isToday);
-    handleLiveMetrics(isToday);
-
-    setLoading(true);
-    try {
-      await loadGameServerMetrics(gameServer.uuid, startTime, endTime);
-    } finally {
-      setLoading(false);
-    }
+    setLiveUpdatesEnabled(isToday);
+    loadRange(startTime, endTime);
   };
 
   return (
@@ -103,12 +57,12 @@ const MetricDisplay = (
           }}
           defaultLabel={t("timerange.hour", { time: 1 })}
         />
-        <Button disabled={isCustomTime} onClick={() => handleLiveMetrics(!liveEnabled)}>
-          {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
+        <Button disabled={isCustomTime} onClick={() => setLiveUpdatesEnabled(!liveUpdatesEnabled)}>
+          {liveUpdatesEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
         </Button>
       </div>
       <div className="grid grid-cols-1 min-[1300px]:grid-cols-6 gap-2 w-full h-auto mb-auto relative">
-        {loading && (
+        {state === "loading" && (
           <div className="absolute z-10 flex justify-center items-center w-full h-full backdrop-blur-sm">
             <div className="flex flex-col gap-2">
               <img src={spinner} alt="spinner" />
@@ -123,6 +77,7 @@ const MetricDisplay = (
             metrics={metrics}
             type={metric.metric_type ?? MetricsType.CPU_PERCENT}
             timeUnit={unit}
+            canReadMetrics={canReadMetrics}
           />
         ))}
       </div>
