@@ -76,6 +76,7 @@ const OptionsBannerDropdown = () => {
     // biome-ignore lint/a11y/noStaticElementInteractions: Banner is an interactive container for nested controls
     <div
       id="banner"
+      data-testid="options-banner"
       ref={bannerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

@@ -36,7 +36,14 @@ const LoginForm = (props: {
       }}
     >
       <FieldGroup className="gap-2">
-        <Input type="text" id="username" name="username" header={t("signIn.username")} required />
+        <Input
+          type="text"
+          id="username"
+          name="username"
+          header={t("signIn.username")}
+          data-testid="login-username-input"
+          required
+        />
 
         <Input
           type={showPassword ? "text" : "password"}
@@ -44,6 +51,7 @@ const LoginForm = (props: {
           name="password"
           header={t("signIn.password")}
           error={props.error}
+          data-testid="login-password-input"
           required
           endDecorator={
             <button

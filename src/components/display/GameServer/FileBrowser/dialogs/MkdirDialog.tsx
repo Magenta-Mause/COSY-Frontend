@@ -61,6 +61,7 @@ export const MkdirDialog = ({
 
             <Input
               autoFocus
+              data-testid="mkdir-name-input"
               value={value}
               onChange={(e) => {
                 if (!touched) setTouched(true);
@@ -80,7 +81,7 @@ export const MkdirDialog = ({
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={busy}>
             Cancel
           </Button>
-          <Button onClick={onSubmit} disabled={busy}>
+          <Button onClick={onSubmit} disabled={busy} data-testid="mkdir-submit-btn">
             {busy ? t("creatingInProgress") : t("createAction")}
           </Button>
         </DialogFooter>

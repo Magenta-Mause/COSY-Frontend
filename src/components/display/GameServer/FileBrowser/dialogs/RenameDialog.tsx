@@ -61,6 +61,7 @@ export const RenameDialog = ({
             <span className="text-sm text-muted-foreground">{t("newName")}</span>
             <Input
               autoFocus
+              data-testid="rename-name-input"
               value={value}
               onChange={(e) => onChange(e.target.value)}
               placeholder={t("newName")}
@@ -76,7 +77,7 @@ export const RenameDialog = ({
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={busy}>
             {t("cancel")}
           </Button>
-          <Button onClick={onSubmit} disabled={busy || !obj}>
+          <Button onClick={onSubmit} disabled={busy || !obj} data-testid="rename-submit-btn">
             {busy ? t("renameInProgress") : t("renameAction")}
           </Button>
         </DialogFooter>

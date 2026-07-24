@@ -36,7 +36,13 @@ const GameServerCreationButton = () => {
   return (
     <TooltipWrapper tooltip={disabledTooltip} asChild={false} triggerProps={{ asChild: true }}>
       <span className="inline-flex">
-        <Button type="button" variant="primary" onClick={triggerNextPage} disabled={isDisabled}>
+        <Button
+          type="button"
+          variant="primary"
+          data-testid="create-server-next-btn"
+          onClick={triggerNextPage}
+          disabled={isDisabled}
+        >
           {t(buttonLabel)}
         </Button>
       </span>

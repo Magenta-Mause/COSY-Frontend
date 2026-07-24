@@ -51,7 +51,13 @@ const LoginDisplay = () => {
             <DialogDescription>{t("signIn.desc")}</DialogDescription>
             <LoginForm loginCallback={handleLogin} error={error} />
             <DialogFooter>
-              <Button type="submit" form="login-form" disabled={isLoggingIn} className="w-full">
+              <Button
+                type="submit"
+                form="login-form"
+                data-testid="login-submit-btn"
+                disabled={isLoggingIn}
+                className="w-full"
+              >
                 {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
               </Button>
               <p className="flex items-center gap-1">
