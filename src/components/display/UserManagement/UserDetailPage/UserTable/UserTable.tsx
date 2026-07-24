@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import searchIcon from "@/assets/icons/search.webp";
 import { useAppSelector } from "@/stores/hooks.ts";
-import UserInviteButton from "../UserInvite/UserInviteButton";
+import UserInviteButton from "../../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";
 import RoleFilter from "./RoleFilter";
 import SortDropdown, { type SortField } from "./SortDropdown";

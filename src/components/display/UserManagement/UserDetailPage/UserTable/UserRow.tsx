@@ -19,10 +19,10 @@ import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
-import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
-import ChangePermissionsModal from "./ChangePermissionsModal";
-import ChangeRoleModal from "./ChangeRoleModal";
-import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
+import ChangePasswordByAdminModal from "../modals/ChangePasswordByAdminModal";
+import ChangePermissionsModal from "../modals/ChangePermissionsModal";
+import ChangeRoleModal from "../modals/ChangeRoleModal";
+import DeleteUserConfirmationModal from "../modals/DeleteUserConfirmationModal";
 
 type UserAction = {
   label: string;
