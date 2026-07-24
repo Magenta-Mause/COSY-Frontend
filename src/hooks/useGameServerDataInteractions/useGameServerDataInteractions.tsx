@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
@@ -17,7 +17,7 @@ import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useGameServerDataInteractions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix("toasts");
   const { loadGameServer } = useDataLoading();

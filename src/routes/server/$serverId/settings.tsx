@@ -1,4 +1,4 @@
-import GameServerSettingsLayout from "@components/display/GameServer/GameServerSettings/GameServerSettingsLayout";
+import GameServerSettingsLayout from "@/components/display/GameServer/GameServerSettings/GameServerSettingsLayout";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
 

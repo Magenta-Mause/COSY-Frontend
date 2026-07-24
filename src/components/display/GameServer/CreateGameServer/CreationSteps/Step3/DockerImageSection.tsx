@@ -1,5 +1,5 @@
-import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 
 const DockerImageSection = () => {
@@ -9,7 +9,7 @@ const DockerImageSection = () => {
     <div className="grid grid-cols-2 gap-4">
       <GenericGameServerCreationInputField
         attribute="docker_image_name"
-        validator={z.string().min(1)}
+        validator={requiredStringValidator}
         placeholder={t("dockerImageSelection.placeholder")}
         label={t("dockerImageSelection.title")}
         description={t("dockerImageSelection.description")}
@@ -17,7 +17,7 @@ const DockerImageSection = () => {
       />
       <GenericGameServerCreationInputField
         attribute="docker_image_tag"
-        validator={z.string().min(1)}
+        validator={requiredStringValidator}
         placeholder={t("imageTagSelection.placeholder")}
         label={t("imageTagSelection.title")}
         description={t("imageTagSelection.description")}

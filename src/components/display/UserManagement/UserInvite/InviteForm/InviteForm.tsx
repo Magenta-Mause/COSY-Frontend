@@ -1,15 +1,16 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
-import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
-import { Checkbox } from "@components/ui/checkbox.tsx";
-import { Input } from "@components/ui/input.tsx";
+import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput.tsx";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select.tsx";
+} from "@/components/ui/select.tsx";
 import { Label } from "@radix-ui/react-label";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 
@@ -83,7 +84,7 @@ export const InviteForm = ({
                   .filter((role) => role !== UserEntityDtoRole.OWNER)
                   .map((role) => (
                     <SelectItem value={role} key={role}>
-                      {t(`userRoles.${role}`)}
+                      {t(`userRoles.${role}` as ParseKeys<"translation">)}
                     </SelectItem>
                   ))}
               </SelectContent>

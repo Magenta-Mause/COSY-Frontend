@@ -10,7 +10,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import Icon from "@components/ui/Icon.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 
 function Calendar({
   className,

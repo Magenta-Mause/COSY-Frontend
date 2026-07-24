@@ -1,4 +1,4 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";

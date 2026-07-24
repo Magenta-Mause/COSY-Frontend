@@ -1,5 +1,5 @@
-import Footer from "@components/display/Footer/Footer.tsx";
-import { ThemeContext, ThemeOptions } from "@components/technical/Providers/ThemeProvider.tsx";
+import Footer from "@/components/display/Footer/Footer.tsx";
+import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
 import { type ReactNode, type RefObject, useContext } from "react";
 import bgImageLoopDay from "@/assets/MainPage/backgrounds/bg_day_loop.png";
 import bgImageTopDay from "@/assets/MainPage/backgrounds/bg_day_top.png";

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   getAllGameServers,
   getGameServerById,
@@ -11,7 +11,7 @@ import { gameServerPermissionsSliceActions } from "@/stores/slices/gameServerPer
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useGameServerLoading = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const removeGameServer = useCallback(
     async (gameServerUuid: string) => {

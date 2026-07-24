@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   getGetAllUserInvitesQueryKey,
   useChangePasswordByAdmin,
@@ -21,7 +21,7 @@ import type { InvalidRequestError } from "@/types/errors.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useUserDataInteractions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix("toasts");
 
@@ -64,7 +64,7 @@ const useUserDataInteractions = () => {
         dispatch(userInviteSliceActions.removeInvite(variables.uuid));
       },
       onError: (err) => {
-        notificationModal.error({ message: t("toasts.inviteRevokeError"), cause: err });
+        notificationModal.error({ message: t("inviteRevokeError"), cause: err });
         throw err;
       },
       onSettled: () => {

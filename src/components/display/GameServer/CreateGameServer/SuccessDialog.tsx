@@ -1,5 +1,5 @@
-import HouseBuildingProcess from "@components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
-import { Button } from "@components/ui/button.tsx";
+import HouseBuildingProcess from "@/components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
+} from "@/components/ui/dialog.tsx";
 import { useNavigate } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { GameServerDto } from "@/api/generated/model";
 
 interface SuccessDialogProps {
@@ -22,7 +22,7 @@ interface SuccessDialogProps {
 }
 
 const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.successDialog");
   const navigate = useNavigate();
   const openDashboard = () => navigate({ to: `/server/${successInfo?.server.uuid}` });
 
@@ -30,9 +30,9 @@ const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="flex flex-col gap-6 p-8">
         <DialogHeader className="items-center">
-          <DialogTitle>{t("components.CreateGameServer.successDialog.title")}</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            {t("components.CreateGameServer.successDialog.description", {
+            {t("description", {
               name: successInfo?.server.server_name,
             })}
           </DialogDescription>
@@ -43,7 +43,7 @@ const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
               houseType={successInfo.server.design}
               currentStep={2}
               serverName={successInfo.server.server_name}
-              stepLabel={t("components.CreateGameServer.successDialog.completedStepLabel")}
+              stepLabel={t("completedStepLabel")}
               allStepsFinished
               asChild
             />
@@ -51,14 +51,14 @@ const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
         </DialogMain>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose}>
-            {t("components.CreateGameServer.successDialog.doneButton")}
+            {t("doneButton")}
           </Button>
           <Button
             variant={"primary"}
             data-testid="create-success-open-dashboard-btn"
             onClick={openDashboard}
           >
-            {t("components.CreateGameServer.successDialog.openDashboard")}
+            {t("openDashboard")}
           </Button>
         </DialogFooter>
       </DialogContent>

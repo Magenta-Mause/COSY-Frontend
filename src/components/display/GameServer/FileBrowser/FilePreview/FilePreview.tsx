@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { blobToTextIfLikely, getExt, IMAGE_EXTS, VIDEO_EXTS } from "@/lib/fileSystemUtils";
@@ -15,7 +16,7 @@ async function loadTextPreview(
   isCancelled: () => boolean,
   onSuccess: (text: string) => void,
   onError: (reason: string) => void,
-  t: (key: string) => string,
+  t: TFunction<"translation", "components.fileBrowser.filePreview">,
 ) {
   try {
     const res = await blobToTextIfLikely(blob);

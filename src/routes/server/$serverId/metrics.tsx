@@ -1,4 +1,4 @@
-import MetricDisplay from "@components/display/MetricDisplay/MetricDisplay";
+import MetricDisplay from "@/components/display/MetricDisplay/MetricDisplay";
 import { createFileRoute } from "@tanstack/react-router";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
