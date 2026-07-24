@@ -368,6 +368,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
               <FancyNavigationButton
                 isActive={activePathPattern ? activePathPattern.test(location.pathname) : isActive}
                 label={t(`serverPage.navbar.${label}`)}
+                data-testid={`server-tab-${label}`}
                 disabled={!isLinkReachable}
                 variant={props.buttonVariant}
               >

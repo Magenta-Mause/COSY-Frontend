@@ -98,6 +98,7 @@ const GameServerStartStopButton = (props: {
     >
       <Button
         {...buttonProps}
+        data-testid="server-start-stop-btn"
         className="transition-all duration-300"
         variant={props.buttonVariant ?? "primary"}
       />

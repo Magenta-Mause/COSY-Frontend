@@ -122,6 +122,7 @@ const GameServerHouse = (props: {
           props.className,
         )}
         to={`/server/${props.gameServer.uuid}`}
+        data-testid="server-house"
         aria-label={t("aria.gameServerConfiguration", {
           serverName: props.gameServer.server_name,
         })}

@@ -53,7 +53,11 @@ const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
           <Button variant="secondary" onClick={onClose}>
             {t("components.CreateGameServer.successDialog.doneButton")}
           </Button>
-          <Button variant={"primary"} onClick={openDashboard}>
+          <Button
+            variant={"primary"}
+            data-testid="create-success-open-dashboard-btn"
+            onClick={openDashboard}
+          >
             {t("components.CreateGameServer.successDialog.openDashboard")}
           </Button>
         </DialogFooter>

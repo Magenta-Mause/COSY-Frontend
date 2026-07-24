@@ -65,6 +65,7 @@ export const FileBrowserHeader = ({
           <TooltipWrapper tooltip={t("newFolder")}>
             <button
               type="button"
+              data-testid="files-new-folder-btn"
               onClick={onNewFolder}
               className={cn(
                 "inline-flex items-center gap-1 rounded-md px-2 py-1",

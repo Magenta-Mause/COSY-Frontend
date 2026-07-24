@@ -88,6 +88,7 @@ export function DeleteGameServerAlertDialog({
             </div>
             <Input
               id="serverName"
+              data-testid="delete-confirm-input"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -105,6 +106,7 @@ export function DeleteGameServerAlertDialog({
           <Button
             type="button"
             variant={"destructive"}
+            data-testid="delete-confirm-btn"
             onClick={handleConfirm}
             className={"h-12.5"}
             disabled={isConfirmButtonDisabled}

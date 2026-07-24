@@ -39,7 +39,12 @@ const ConfirmCreateDialog = ({
           <Button variant="secondary" onClick={onCancel} disabled={isCreating}>
             {t("components.CreateGameServer.confirmCreateDialog.cancel")}
           </Button>
-          <Button variant="primary" onClick={onConfirm} disabled={isCreating}>
+          <Button
+            variant="primary"
+            data-testid="create-confirm-btn"
+            onClick={onConfirm}
+            disabled={isCreating}
+          >
             {isCreating
               ? t("components.CreateGameServer.confirmCreateDialog.creating")
               : t("components.CreateGameServer.confirmCreateDialog.confirm")}

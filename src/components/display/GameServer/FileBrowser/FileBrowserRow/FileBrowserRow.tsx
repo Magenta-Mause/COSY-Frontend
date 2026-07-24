@@ -62,6 +62,7 @@ export const FileBrowserRow = ({
     // biome-ignore lint/a11y/useSemanticElements: <button> cannot be used here — DropdownMenuTrigger is also a <button> and nested buttons are invalid HTML
     <div
       role="button"
+      data-testid="file-row"
       tabIndex={onEntryClick ? 0 : -1}
       aria-disabled={!onEntryClick || undefined}
       onClick={onEntryClick ? () => onEntryClick(obj) : undefined}
@@ -129,6 +130,7 @@ export const FileBrowserRow = ({
           <DropdownMenuTrigger asChild>
             <button
               type="button"
+              data-testid="file-row-menu-btn"
               onClick={(e) => e.stopPropagation()}
               className={cn(
                 "inline-flex items-center justify-center rounded-md p-1.5 shrink-0",

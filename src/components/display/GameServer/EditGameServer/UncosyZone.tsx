@@ -44,6 +44,7 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
               </div>
               <Button
                 variant="destructive"
+                data-testid="server-delete-btn"
                 onClick={() => {
                   setIsDeleteDialogOpen(true);
                 }}

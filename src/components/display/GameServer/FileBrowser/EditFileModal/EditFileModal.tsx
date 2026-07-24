@@ -80,6 +80,7 @@ export const EditFileModal = ({
             </div>
           ) : (
             <textarea
+              data-testid="editfile-textarea"
               className={cn(
                 "flex-1 w-full resize-none rounded-md border border-border bg-muted/30",
                 "px-3 py-2 font-mono text-sm leading-relaxed",
@@ -106,6 +107,7 @@ export const EditFileModal = ({
             onClick={handleSave}
             disabled={busy || fetching}
             data-loading={saving}
+            data-testid="editfile-save-btn"
             className="flex-1"
           >
             {saving ? t("saving") : t("save")}
