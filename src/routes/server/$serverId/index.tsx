@@ -43,24 +43,6 @@ function GameServerDetailPageDashboardPage() {
       : gameServer.public_dashboard.layouts;
   }, [gameServer, currentlyVisibleDashboard]);
 
-  const { canSeeMetric, canSeeLogs } = useMemo(() => {
-    let metric = false;
-    let logs = false;
-
-    dashboardLayout?.forEach((dashboard) => {
-      if ("public_dashboard_types" in dashboard && gameServer?.public_dashboard.enabled) {
-        if (dashboard.public_dashboard_types === DashboardElementTypes.METRIC) {
-          metric = true;
-        }
-        if (dashboard.public_dashboard_types === DashboardElementTypes.LOGS) {
-          logs = true;
-        }
-      }
-    });
-
-    return { canSeeMetric: metric, canSeeLogs: logs };
-  }, [dashboardLayout, gameServer?.public_dashboard.enabled]);
-
   // Which widgets the currently shown dashboard actually renders. Anything the
   // layout does not contain is never requested in the first place.
   const { showsMetrics, showsLogs } = useMemo(() => {
@@ -94,15 +76,15 @@ function GameServerDetailPageDashboardPage() {
   const hasMetricsPermission = hasPermission(
     GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
   );
-  const canReadMetrics = hasMetricsPermission || canSeeMetric;
+  const canReadMetrics = hasMetricsPermission || publiclyExposesMetrics;
   const canReadLogs =
-    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || canSeeLogs;
+    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || publiclyExposesLogs;
 
   const { logs } = useGameServerLogs(serverId ?? "", {
-    enabled: showsLogs && (canReadLogs || publiclyExposesLogs),
+    enabled: showsLogs && canReadLogs,
   });
   const { metrics } = useGameServerMetrics(serverId ?? "", {
-    enabled: showsMetrics && (hasMetricsPermission || publiclyExposesMetrics),
+    enabled: showsMetrics && canReadMetrics,
     source: hasMetricsPermission ? "private" : "public",
   });
 
