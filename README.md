@@ -204,8 +204,12 @@ static output with nginx (with SPA fallback routing). Build and run it with:
 
 ```sh
 docker build -t cosy-frontend .
-docker run -p 8080:80 cosy-frontend
+docker run -p 8081:80 cosy-frontend
 ```
+
+The container serves the app on port `80`; the example maps it to host port `8081`. Pick a host
+port that is not already in use — in particular, avoid `8080`, which the frontend expects
+Cosy-Backend to occupy when both run locally.
 
 The `Build and Push Docker Image` GitHub Actions workflow builds and publishes this image on
 pushes. For full deployment guidance see the main [Cosy](https://github.com/magenta-mause/Cosy)
