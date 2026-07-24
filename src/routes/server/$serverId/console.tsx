@@ -18,7 +18,9 @@ function RouteComponent() {
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
   const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
   // Only this view renders the logs, so they are fetched here and dropped on unmount.
-  const { logs } = useGameServerLogs(serverId ?? "", { enabled: canReadLogs });
+  const { logs, state: logsLoadState } = useGameServerLogs(serverId ?? "", {
+    enabled: canReadLogs,
+  });
 
   if (!gameServer) {
     return null;
@@ -31,6 +33,7 @@ function RouteComponent() {
     <div className="flex flex-col gap-4 grow h-full w-full rounded-none">
       <LogDisplay
         logMessages={logs}
+        loadState={logsLoadState}
         showCommandInput={canSendCommands}
         gameServerUuid={serverId}
         isServerRunning={isServerRunning}

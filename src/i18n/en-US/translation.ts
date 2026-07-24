@@ -1071,6 +1071,8 @@ const translation: i18nLanguage = {
     cantSendCommands: "Server must be running to send commands",
     noLogsPermission: "You don't have permission to view server logs",
     displayTimestamp: "Display timestamp",
+    loadingLogs: "Loading logs …",
+    loadingLogsFailed: "Failed to load logs",
   },
   serverPage: {
     notFound: "404 - Server Not Found",
@@ -1130,6 +1132,8 @@ const translation: i18nLanguage = {
     },
     liveMetricsOn: "Live Metrics: On",
     liveMetricsOff: "Live Metrics: Off",
+    loadingMetrics: "Loading metrics …",
+    loadingMetricsFailed: "Failed to load metrics",
   },
   timerange: {
     localTime: "en-US",

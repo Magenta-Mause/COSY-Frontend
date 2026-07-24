@@ -3,7 +3,7 @@ import { useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
-import spinner from "@/assets/gifs/spinner.gif";
+import Spinner from "@/components/ui/Spinner.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
 import TimeRangeDropDown from "../DropDown/TimeRangeDropDown";
@@ -64,10 +64,15 @@ const MetricDisplay = (
       <div className="grid grid-cols-1 min-[1300px]:grid-cols-6 gap-2 w-full h-auto mb-auto relative">
         {state === "loading" && (
           <div className="absolute z-10 flex justify-center items-center w-full h-full backdrop-blur-sm">
-            <div className="flex flex-col gap-2">
-              <img src={spinner} alt="spinner" />
-              <div className="flex justify-center text-xl">{t("signIn.loading")}</div>
+            <div className="flex flex-col items-center gap-2">
+              <Spinner className="size-10" />
+              <div className="flex justify-center text-xl">{t("metrics.loadingMetrics")}</div>
             </div>
+          </div>
+        )}
+        {state === "failed" && (
+          <div className="absolute z-10 flex justify-center items-center w-full h-full backdrop-blur-sm">
+            <div className="flex justify-center text-xl">{t("metrics.loadingMetricsFailed")}</div>
           </div>
         )}
         {gameServer.metric_layout?.map((metric) => (

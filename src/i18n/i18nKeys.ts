@@ -237,6 +237,8 @@ export type i18nLanguage = {
     noLogsPermission: string;
     timestampFormatDetailed: string;
     displayTimestamp: string;
+    loadingLogs: string;
+    loadingLogsFailed: string;
   };
 
   serverPage: {
@@ -1116,6 +1118,8 @@ export type i18nLanguage = {
     };
     liveMetricsOn: string;
     liveMetricsOff: string;
+    loadingMetrics: string;
+    loadingMetricsFailed: string;
   };
   timerange: {
     localTime: string;

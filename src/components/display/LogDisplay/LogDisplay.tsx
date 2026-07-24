@@ -2,6 +2,7 @@ import LogMessage from "@/components/display/LogDisplay/LogMessage";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input";
+import Spinner from "@/components/ui/Spinner.tsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
@@ -9,6 +10,7 @@ import { useSendCommand } from "@/api/generated/backend-api";
 import arrowRightIcon from "@/assets/icons/arrowRight.webp";
 import sendIcon from "@/assets/icons/send.webp";
 import { cn } from "@/lib/utils.ts";
+import type { DataLoadState } from "@/types/dataLoadState.ts";
 import type { GameServerLogWithUuid } from "@/types/logTypes";
 
 const LogDisplay = (
@@ -23,6 +25,8 @@ const LogDisplay = (
     disableRoundness?: boolean;
     disableBorder?: boolean;
     overridePermissionCheck?: boolean;
+    /** Load state of the initial log fetch, used to render loading/error branches. */
+    loadState?: DataLoadState;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -37,6 +41,7 @@ const LogDisplay = (
     disableRoundness,
     disableBorder,
     overridePermissionCheck,
+    loadState = "idle",
     ...divProps
   } = props;
 
@@ -166,6 +171,19 @@ const LogDisplay = (
             Footer: () => <div className="h-2" />,
           }}
         />
+        {loadState === "loading" && displayLogs.length === 0 && (
+          <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2 text-gray-400">
+              <Spinner className="size-8" />
+              <span className="text-sm">{t("logDisplay.loadingLogs")}</span>
+            </div>
+          </div>
+        )}
+        {loadState === "failed" && displayLogs.length === 0 && (
+          <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
+            <span className="text-gray-400 text-sm">{t("logDisplay.loadingLogsFailed")}</span>
+          </div>
+        )}
         {!canReadLogs && !overridePermissionCheck && (
           <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
             <div className="text-gray-400 text-center px-2">
