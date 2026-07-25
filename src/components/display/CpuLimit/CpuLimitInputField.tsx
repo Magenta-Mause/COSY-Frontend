@@ -1,4 +1,4 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
+import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput.tsx";
 import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";

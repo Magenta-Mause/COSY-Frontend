@@ -1,4 +1,5 @@
-import { Card } from "@components/ui/card.tsx";
+import type { TFunction } from "i18next";
+import { Card } from "@/components/ui/card.tsx";
 import type { WebhookDto } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
 import WebhookItem from "./WebhookItem";
@@ -10,7 +11,7 @@ interface WebhookListProps {
   onDelete: (webhook: WebhookDto) => void;
   getWebhookTypeLabel: (type: string | undefined) => string;
   getEventLabel: (event: string) => string;
-  t: (key: string) => string;
+  t: TFunction<"translation", "components.GameServerSettings.webhooks">;
 }
 
 const WebhookList = ({

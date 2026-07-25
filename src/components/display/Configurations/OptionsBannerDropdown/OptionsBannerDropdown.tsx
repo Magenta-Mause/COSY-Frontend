@@ -1,10 +1,10 @@
-import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
-import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
-import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import LanguageSelector from "@/components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@/components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@/components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import banner from "@/assets/header/Banner.webp";
 import { cn } from "@/lib/utils.ts";
 
@@ -15,7 +15,7 @@ const OptionsBannerDropdown = () => {
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLDivElement>(null);
   const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("optionsBanner");
   const { authorized } = useContext(AuthContext);
 
   const handleMouseEnter = () => {
@@ -117,7 +117,7 @@ const OptionsBannerDropdown = () => {
         )}
       >
         <div className={isExpanded && !authorized ? "translate-y-[130%]" : ""}>
-          <TooltipWrapper tooltip={t("optionsBanner.languageSelector")} side="right" asChild>
+          <TooltipWrapper tooltip={t("languageSelector")} side="right" asChild>
             <div>
               <LanguageSelector
                 tabIndex={isExpanded ? undefined : -1}
@@ -130,7 +130,7 @@ const OptionsBannerDropdown = () => {
         {authorized && (
           <>
             <TooltipWrapper
-              tooltip={t("optionsBanner.userMenu")}
+              tooltip={t("userMenu")}
               side="right"
               open={userTooltipOpen}
               onOpenChange={setUserTooltipOpen}
@@ -143,7 +143,7 @@ const OptionsBannerDropdown = () => {
               <UserMenuButton tabIndex={isExpanded ? undefined : -1} className="size-12" />
             </TooltipWrapper>
             <TooltipWrapper
-              tooltip={t("optionsBanner.logout")}
+              tooltip={t("logout")}
               side="right"
               open={logOutTooltipOpen}
               onOpenChange={setLogOutTooltipOpen}

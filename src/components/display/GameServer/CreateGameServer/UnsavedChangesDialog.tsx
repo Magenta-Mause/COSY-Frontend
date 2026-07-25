@@ -5,9 +5,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@components/ui/alert-dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
-import { useTranslation } from "react-i18next";
+} from "@/components/ui/alert-dialog.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface UnsavedChangesDialogProps {
   open: boolean;
@@ -16,25 +16,25 @@ interface UnsavedChangesDialogProps {
 }
 
 const UnsavedChangesDialog = ({ open, onDiscard, onCancel }: UnsavedChangesDialogProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.unsavedChangesDialog");
 
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {t("components.CreateGameServer.unsavedChangesDialog.title")}
+            {t("title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {t("components.CreateGameServer.unsavedChangesDialog.description")}
+            {t("description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={onCancel}>
-            {t("components.CreateGameServer.unsavedChangesDialog.keepEditing")}
+            {t("keepEditing")}
           </Button>
           <Button variant="destructive" onClick={onDiscard}>
-            {t("components.CreateGameServer.unsavedChangesDialog.discard")}
+            {t("discard")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

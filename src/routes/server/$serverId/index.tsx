@@ -1,4 +1,4 @@
-import DashboardRenderer from "@components/display/Dashboard/DashboardRenderer";
+import DashboardRenderer from "@/components/display/Dashboard/DashboardRenderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import {
@@ -80,10 +80,10 @@ function GameServerDetailPageDashboardPage() {
   const canReadLogs =
     hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || publiclyExposesLogs;
 
-  const { logs } = useGameServerLogs(serverId ?? "", {
+  const { logs, state: logsLoadState } = useGameServerLogs(serverId ?? "", {
     enabled: showsLogs && canReadLogs,
   });
-  const { metrics } = useGameServerMetrics(serverId ?? "", {
+  const { metrics, state: metricsLoadState } = useGameServerMetrics(serverId ?? "", {
     enabled: showsMetrics && canReadMetrics,
     source: hasMetricsPermission ? "private" : "public",
   });
@@ -106,6 +106,8 @@ function GameServerDetailPageDashboardPage() {
       canReadLogs={canReadLogs}
       canSendCommands={canSendCommands}
       overridePermissionCheck={currentlyVisibleDashboard === "public"}
+      metricsLoadState={metricsLoadState}
+      logsLoadState={logsLoadState}
     />
   );
 }

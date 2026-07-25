@@ -5,7 +5,7 @@ import arrowDown from "@/assets/icons/arrowDown.webp"
 import arrowUp from "@/assets/icons/arrowUp.webp"
 
 import { cn } from "@/lib/utils"
-import Icon from "@components/ui/Icon.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 
 function Select({
   ...props

@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
+} from "@/components/ui/dialog.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface DeleteGameServerSuccessModalProps {

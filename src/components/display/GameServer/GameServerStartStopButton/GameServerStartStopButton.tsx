@@ -1,6 +1,7 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   GameServerAccessGroupDtoPermissionsItem,
@@ -18,6 +19,19 @@ const GameServerStartStopButton = (props: {
   const { t } = useTranslation();
   const { stopServer, startServer } = useDataInteractions();
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
+  const [isPending, setIsPending] = useState(false);
+
+  // Guard against double-firing while a start/stop request is in flight; the
+  // underlying interactions are plain async functions with no isPending.
+  const runInteraction = async (action: () => Promise<void>) => {
+    if (isPending) return;
+    setIsPending(true);
+    try {
+      await action();
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   const canStartStopServer = hasPermission(
     GameServerAccessGroupDtoPermissionsItem.START_STOP_SERVER,
@@ -29,7 +43,7 @@ const GameServerStartStopButton = (props: {
     switch (props.gameServer.status) {
       case GameServerDtoStatus.RUNNING:
         return {
-          onClick: () => stopServer(props.gameServer.uuid),
+          onClick: () => runInteraction(() => stopServer(props.gameServer.uuid)),
           disabled: !canStartStopServer,
           children: (
             <>
@@ -41,7 +55,7 @@ const GameServerStartStopButton = (props: {
       case GameServerDtoStatus.STOPPED:
       case GameServerDtoStatus.FAILED:
         return {
-          onClick: () => startServer(props.gameServer.uuid),
+          onClick: () => runInteraction(() => startServer(props.gameServer.uuid)),
           disabled: !canStartStopServer,
           children: (
             <>
@@ -98,6 +112,7 @@ const GameServerStartStopButton = (props: {
     >
       <Button
         {...buttonProps}
+        loading={isPending}
         data-testid="server-start-stop-btn"
         className="transition-all duration-300"
         variant={props.buttonVariant ?? "primary"}

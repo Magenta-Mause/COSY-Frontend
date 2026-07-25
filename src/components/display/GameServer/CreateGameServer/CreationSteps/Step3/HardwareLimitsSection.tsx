@@ -1,6 +1,6 @@
-import CpuLimitInputField from "@components/display/GameServer/CreateGameServer/CpuLimitInputField.tsx";
-import MemoryLimitInputFieldCreation from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import CpuLimitInputField from "./CpuLimitInputField.tsx";
+import MemoryLimitInputFieldCreation from "./MemoryLimitInputFieldCreation.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";

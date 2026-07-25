@@ -1,6 +1,6 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import * as z from "zod";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 
 type Props = {
   localGroupName: string;
@@ -25,7 +25,7 @@ const GroupNameSection = ({
         label={t("groupNameLabel")}
         value={localGroupName}
         onChange={(v) => setLocalGroupName(v as string)}
-        validator={z.string().min(1)}
+        validator={requiredStringValidator}
         placeholder={t("groupNamePlaceholder")}
         errorLabel={t("groupNameRequired")}
         disabled={loading}

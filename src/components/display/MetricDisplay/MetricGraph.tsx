@@ -1,16 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@components/ui/chart";
+} from "@/components/ui/chart";
 import { useEffect, useState } from "react";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { MetricValues } from "@/api/generated/model";
+import Spinner from "@/components/ui/Spinner.tsx";
 import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
+import type { DataLoadState } from "@/types/dataLoadState.ts";
 import {
   extractCustomMetricKey,
   formatMetricDisplayName,
@@ -26,6 +29,8 @@ interface MetricGraphProps {
   metrics: GameServerMetricsWithUuid[];
   canReadMetrics?: boolean;
   overridePermissionCheck?: boolean;
+  /** Load state of the metrics fetch, used to render loading/error branches. */
+  loadState?: DataLoadState;
 }
 
 const chartConfig = {
@@ -48,7 +53,7 @@ const METRIC_KEY_MAP: Record<MetricsType, keyof MetricValues> = {
 
 const MetricGraph = (props: MetricGraphProps) => {
   const { t } = useTranslation();
-  const { className, type, timeUnit, metrics, canReadMetrics = true } = props;
+  const { className, type, timeUnit, metrics, canReadMetrics = true, loadState = "idle" } = props;
   const [chartData, setChartData] = useState<{ time: number; value: number }[]>([]);
   const isDesktop = useIsDesktop();
 
@@ -138,7 +143,7 @@ const MetricGraph = (props: MetricGraphProps) => {
     if (isCustomMetric(type)) {
       return formatMetricDisplayName(extractCustomMetricKey(type));
     }
-    return t(`metrics.types.${type}`);
+    return t(`metrics.types.${type}` as ParseKeys<"translation">);
   };
 
   useEffect(() => {
@@ -255,6 +260,19 @@ const MetricGraph = (props: MetricGraphProps) => {
         )}
       </CardContent>
 
+      {loadState === "loading" && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+          <div className="flex flex-col items-center gap-2">
+            <Spinner className="size-8" />
+            <div className="text-sm text-muted-foreground">{t("metrics.loadingMetrics")}</div>
+          </div>
+        </div>
+      )}
+      {loadState === "failed" && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+          <div className="text-sm text-muted-foreground">{t("metrics.loadingMetricsFailed")}</div>
+        </div>
+      )}
       {!canReadMetrics && !props.overridePermissionCheck && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
           <div className="text-center">

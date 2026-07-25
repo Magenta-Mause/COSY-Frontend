@@ -5,7 +5,7 @@ import arrowRight from "@/assets/icons/arrowRight.webp"
 import circleIcon from "@/assets/icons/circle.webp"
 
 import { cn } from "@/lib/utils"
-import Icon from "@components/ui/Icon.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 
 function DropdownMenu({
   ...props

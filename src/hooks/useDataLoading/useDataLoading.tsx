@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   getAllTemplates,
   getAllUserEntities,
@@ -13,7 +13,7 @@ import { userSliceActions } from "@/stores/slices/userSlice.ts";
 import useGameServerLoading from "./useGameServerLoading.ts";
 
 const useDataLoading = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const gameServerLoading = useGameServerLoading();
 
   const loadGames = useCallback(async () => {

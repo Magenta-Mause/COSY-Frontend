@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { format } from "date-fns";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {
   type GameServerLogMessageEntity,
   GameServerLogMessageEntityLevel,
@@ -60,7 +60,7 @@ const LogMessage = ({
   showExtendedTimestamps?: boolean;
   hideTimestamp?: boolean;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("logDisplay");
   const level = (message.level as string) ?? "INFO";
   const styles = LOG_STYLES[level] ?? LOG_STYLES[GameServerLogMessageEntityLevel.INFO];
 
@@ -68,8 +68,8 @@ const LogMessage = ({
     ? format(
         new Date(message.timestamp),
         showExtendedTimestamps
-          ? t("logDisplay.timestampFormatDetailed")
-          : t("logDisplay.timestampFormat"),
+          ? t("timestampFormatDetailed")
+          : t("timestampFormat"),
       )
     : "--:--:--";
 

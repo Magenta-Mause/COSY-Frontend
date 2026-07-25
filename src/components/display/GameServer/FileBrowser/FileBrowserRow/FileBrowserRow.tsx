@@ -1,13 +1,13 @@
-import { useFileBrowser } from "@components/display/GameServer/FileBrowser/FileBrowserContext.tsx";
+import { useFileBrowser } from "@/components/display/GameServer/FileBrowser/FileBrowserContext.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+} from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import dotsIcon from "@/assets/icons/dots.webp";
 import downloadIcon from "@/assets/icons/download.webp";

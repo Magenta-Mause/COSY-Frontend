@@ -1,5 +1,5 @@
 import type {MouseEventHandler, ReactNode} from "react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@components/ui/tooltip.tsx";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 
 interface TooltipWrapperProps {
   children?: ReactNode;

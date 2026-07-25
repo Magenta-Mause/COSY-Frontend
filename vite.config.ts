@@ -23,9 +23,6 @@ export default defineConfig({
       // Polyfill for global
       global: "global",
       "@": path.resolve(__dirname, "./src"),
-      "@components": path.resolve(__dirname, "./src/components"),
-      "@types": path.resolve(__dirname, "./src/types"),
-      "@config": path.resolve(__dirname, "./src/config.ts"),
     },
   },
   optimizeDeps: {

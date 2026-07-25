@@ -1,4 +1,5 @@
-import { Button } from "@components/ui/button";
+import type { TFunction } from "i18next";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import type { WebhookDto } from "@/api/generated/model";
 
 type WebhookDeleteDialogProps = {
@@ -14,7 +15,7 @@ type WebhookDeleteDialogProps = {
   onOpenChange: (open: boolean) => void;
   webhook: WebhookDto | null;
   isDeleting: boolean;
-  t: (key: string, vars?: Record<string, unknown>) => string;
+  t: TFunction<"translation", "components.GameServerSettings.webhooks">;
   onConfirm: () => void | Promise<void>;
 };
 

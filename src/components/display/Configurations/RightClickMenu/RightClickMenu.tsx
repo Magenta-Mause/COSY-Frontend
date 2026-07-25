@@ -8,8 +8,8 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@components/ui/context-menu.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+} from "@/components/ui/context-menu.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useState } from "react";
 
 export interface RightClickChildren {
@@ -60,6 +60,7 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                   }
                 }}
                 disabled={loading || action.disabled}
+                data-loading={loading || undefined}
                 variant={action.destructive ? "destructive" : "default"}
                 className="[&[data-disabled]]:pointer-events-auto"
               >
