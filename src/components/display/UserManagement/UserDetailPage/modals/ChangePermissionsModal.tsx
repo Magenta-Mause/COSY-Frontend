@@ -29,6 +29,7 @@ const ChangePermissionsModal = (props: {
   showCanCreateGameServers: boolean;
 }) => {
   const { t } = useTranslationPrefix("components.userManagement.admin.changePermissionsDialog");
+  const { t: tCommon } = useTranslationPrefix("common");
   const { updateDockerLimits, setCanCreateGameServers } = useDataInteractions();
 
   const [cpu, setCpu] = useState(
@@ -164,7 +165,7 @@ const ChangePermissionsModal = (props: {
           <Button variant="secondary" onClick={handleClose}>
             {t("cancelButton")}
           </Button>
-          <Button onClick={handleSubmit} loading={isPending}>
+          <Button onClick={handleSubmit} loading={isPending} loadingLabel={tCommon("saving")}>
             {t("confirmButton")}
           </Button>
         </DialogFooter>

@@ -37,6 +37,15 @@ export const FileBrowserActionBar = ({
 }: FileBrowserActionBarProps) => {
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
 
+  const downloadIconNode = <Icon src={downloadIcon} className="size-5" />;
+  const isDownloading = downloading.includes(currentPath);
+  const downloadingLabel = downloadProgress
+    ? t("downloadingFile", {
+        done: formatBytes(downloadProgress.done),
+        total: formatBytes(downloadProgress.total),
+      })
+    : t("preparing");
+
   return (
     <div className="flex gap-4">
       <TooltipWrapper
@@ -58,18 +67,19 @@ export const FileBrowserActionBar = ({
 
       <Button
         onClick={onDownloadAll}
-        loading={downloading.includes(currentPath) || loading}
-        disabled={!canReadFiles || isSynthetic}
+        loading={isDownloading}
+        loadingLabel={
+          <>
+            {downloadIconNode}
+            {downloadingLabel}
+          </>
+        }
+        // A directory listing fetch (`loading`) is not this button's own async
+        // operation, so it only gates the button — it must not relabel it.
+        disabled={!canReadFiles || isSynthetic || loading}
       >
-        <Icon src={downloadIcon} className="size-5" />
-        {downloading.includes(currentPath)
-          ? downloadProgress
-            ? t("downloadingFile", {
-                done: formatBytes(downloadProgress.done),
-                total: formatBytes(downloadProgress.total),
-              })
-            : t("preparing")
-          : t("downloadAllAction")}
+        {downloadIconNode}
+        {t("downloadAllAction")}
       </Button>
 
       <TooltipWrapper

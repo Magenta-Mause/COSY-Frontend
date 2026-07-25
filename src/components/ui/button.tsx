@@ -2,8 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import reloadIcon from "@/assets/icons/reload.webp";
-import Icon from "@/components/ui/Icon";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -118,26 +117,13 @@ const buttonVariants = cva(
   },
 );
 
-// Pending-indicator size per button size variant, matching the icon sizing
-// each variant already uses so the spinner reads as part of the button.
-const spinnerSizeForSize: Record<
-  NonNullable<VariantProps<typeof buttonVariants>["size"]>,
-  string
-> = {
-  default: "size-4",
-  sm: "size-3.5",
-  lg: "size-5",
-  icon: "size-4",
-  "icon-sm": "size-3.5",
-  "icon-lg": "size-5",
-};
-
 function Button({
   className,
   variant,
   size,
   asChild = false,
   loading = false,
+  loadingLabel,
   disabled,
   children,
   ...props
@@ -145,35 +131,38 @@ function Button({
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     loading?: boolean;
+    /**
+     * Replaces the children while `loading`; defaults to `common.loading`.
+     * It is a ReactNode, so a call site that wants to keep its icon can pass
+     * `<><Icon … />{t("saving")}</>`.
+     *
+     * Ignored when `asChild` is set, or when `size` is an icon-only variant —
+     * see the render branch below.
+     */
+    loadingLabel?: React.ReactNode;
   }) {
+  const { t } = useTranslationPrefix("common");
   const Comp = asChild ? Slot : "button";
+
+  // Icon-only buttons are square and have no room for a text label, so they keep
+  // their icon and signal pending through `disabled` + `data-loading` alone.
+  const isIconOnly = size === "icon" || size === "icon-sm" || size === "icon-lg";
+
+  // `asChild` forwards to an arbitrary single child (Slot uses Children.only), so we
+  // must not inject or swap the child — `loadingLabel` is deliberately ignored there,
+  // and only `disabled` + `data-loading` are applied.
+  const showLoadingLabel = loading && !asChild && !isIconOnly;
 
   return (
     <Comp
       data-slot="button"
       data-loading={loading ? "true" : undefined}
+      aria-busy={loading || undefined}
       className={cn(buttonVariants({ variant, size, className }))}
       disabled={disabled || loading}
       {...props}
     >
-      {/* asChild forwards to an arbitrary single child (Slot uses Children.only),
-          so we must not inject a sibling — just apply disabled + data-loading. */}
-      {asChild ? (
-        children
-      ) : (
-        <>
-          {loading ? (
-            <Icon
-              src={reloadIcon}
-              className={cn(
-                "animate-spin text-current",
-                spinnerSizeForSize[size ?? "default"],
-              )}
-            />
-          ) : null}
-          {children}
-        </>
-      )}
+      {showLoadingLabel ? (loadingLabel ?? t("loading")) : children}
     </Comp>
   );
 }

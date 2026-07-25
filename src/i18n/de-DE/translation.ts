@@ -4,6 +4,7 @@ const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
     loading: "Lädt...",
+    saving: "Speichert...",
     required: "Pflichtfeld",
     optional: "Optional",
     removeEntry: "Eintrag entfernen",
