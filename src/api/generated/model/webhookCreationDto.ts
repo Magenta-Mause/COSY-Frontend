@@ -7,6 +7,8 @@
  */
 import type { WebhookCreationDtoSubscribedEventsItem } from './webhookCreationDtoSubscribedEventsItem';
 import type { WebhookCreationDtoWebhookType } from './webhookCreationDtoWebhookType';
+import type { WebhookCreationDtoHttpMethod } from './webhookCreationDtoHttpMethod';
+import type { WebhookCreationDtoHeaders } from './webhookCreationDtoHeaders';
 
 export interface WebhookCreationDto {
   subscribed_events: WebhookCreationDtoSubscribedEventsItem[];
@@ -17,4 +19,7 @@ export interface WebhookCreationDto {
    * @pattern https?://.+
    */
   webhook_url: string;
+  http_method?: WebhookCreationDtoHttpMethod;
+  body_template?: string;
+  headers?: WebhookCreationDtoHeaders;
 }

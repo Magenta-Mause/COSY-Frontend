@@ -8,19 +8,36 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
+import { WebhookCreationDtoWebhookType } from "@/api/generated/model";
+import WebhookHeadersField from "./WebhookHeadersField";
 import {
   WEBHOOK_EVENTS,
+  WEBHOOK_HTTP_METHODS,
+  WEBHOOK_PLACEHOLDERS,
   WEBHOOK_TYPES,
+  methodAllowsBody,
   type WebhookEvent,
   type WebhookFormProps,
+  type WebhookHeaderField,
+  type WebhookHttpMethod,
   type WebhookType,
 } from "./webhook.types";
 
 const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFormProps) => {
   const { t } = useTranslation();
+  const isCustom = values.webhook_type === WebhookCreationDtoWebhookType.CUSTOM;
 
   const handleWebhookTypeChange = (value: string) => {
     onValuesChange({ webhook_type: value as WebhookType });
+  };
+
+  const handleHttpMethodChange = (value: string) => {
+    onValuesChange({ http_method: value as WebhookHttpMethod });
+  };
+
+  const handleHeadersChange = (headers: WebhookHeaderField[]) => {
+    onValuesChange({ headers });
   };
 
   const handleWebhookUrlChange = (value: string) => {
@@ -70,6 +87,77 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
         error={errors.webhook_url}
         disabled={isSubmitting}
       />
+
+      {isCustom && (
+        <>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-bold" htmlFor="webhook-http-method">
+              {t("components.GameServerSettings.webhooks.form.httpMethod")}
+            </label>
+            <Select value={values.http_method} onValueChange={handleHttpMethodChange}>
+              <SelectTrigger id="webhook-http-method" className="w-full" disabled={isSubmitting}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {WEBHOOK_HTTP_METHODS.map((method) => (
+                  <SelectItem key={method} value={method}>
+                    {method}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <WebhookHeadersField
+            headers={values.headers}
+            error={errors.headers}
+            disabled={isSubmitting}
+            onChange={handleHeadersChange}
+          />
+
+          {methodAllowsBody(values.http_method) && (
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-bold" htmlFor="webhook-body-template">
+                {t("components.GameServerSettings.webhooks.form.bodyTemplate")}
+              </label>
+              <textarea
+                id="webhook-body-template"
+                className={cn(
+                  "w-full resize-y rounded-md border border-border bg-muted/30",
+                  "px-3 py-2 font-mono text-sm leading-relaxed min-h-32",
+                  "focus:outline-none focus:ring-2 focus:ring-ring/50",
+                  errors.body_template && "border-destructive",
+                )}
+                value={values.body_template}
+                onChange={(e) => onValuesChange({ body_template: e.target.value })}
+                disabled={isSubmitting}
+                spellCheck={false}
+                autoCorrect="off"
+                autoCapitalize="off"
+              />
+              {errors.body_template && (
+                <p className="text-sm text-destructive">{errors.body_template}</p>
+              )}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-muted-foreground">
+              {t("components.GameServerSettings.webhooks.form.placeholderHint")}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {WEBHOOK_PLACEHOLDERS.map((placeholder) => (
+                <code
+                  key={placeholder}
+                  className="text-xs bg-muted/50 px-2 py-1 rounded font-mono text-muted-foreground"
+                >
+                  {`{{${placeholder}}}`}
+                </code>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       <button
         type="button"

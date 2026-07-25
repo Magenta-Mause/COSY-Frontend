@@ -36,6 +36,11 @@ const WebhookItem = ({
           <Badge className="text-sm text-bold bg-accent px-3 py-0">
             {getWebhookTypeLabel(webhook.webhook_type)}
           </Badge>
+          {webhook.http_method && (
+            <Badge variant="secondary" className="text-sm px-1.5 py-0 font-mono">
+              {webhook.http_method}
+            </Badge>
+          )}
           <div className="flex items-center gap-1.5">
             {webhook.enabled ? (
               <>
@@ -105,6 +110,22 @@ const WebhookItem = ({
             ))}
           </div>
         </div>
+
+        {Object.keys(webhook.headers ?? {}).length > 0 && (
+          <div className="flex items-start gap-2">
+            <span className="text-sm text-button-primary-default font-bold shrink-0 mt-0.5">
+              {t("labels.headers")}:
+            </span>
+            {/* Names only: header values routinely carry tokens and have no place in a list row. */}
+            <div className="flex flex-wrap gap-1.5">
+              {Object.keys(webhook.headers ?? {}).map((name) => (
+                <Badge key={name} variant="secondary" className="text-sm px-1.5 py-0 font-mono">
+                  {name}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
