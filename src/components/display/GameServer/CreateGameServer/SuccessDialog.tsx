@@ -33,7 +33,7 @@ const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
             {t("description", {
-              name: successInfo?.server.server_name,
+              name: successInfo?.server.server_name ?? "",
             })}
           </DialogDescription>
         </DialogHeader>
