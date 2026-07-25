@@ -7,7 +7,6 @@ import copyIcon from "@/assets/icons/copy.webp";
 interface InviteResultProps {
   generatedKey: string | null;
   onCopyLink: () => void;
-  onBack: () => void;
 }
 
 export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) => {
