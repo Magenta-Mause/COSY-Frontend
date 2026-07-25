@@ -1,4 +1,4 @@
-import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
+import LogDisplay from "@/components/display/LogDisplay/LogDisplay.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   GameServerAccessGroupDtoPermissionsItem,
@@ -14,22 +14,26 @@ export const Route = createFileRoute("/server/$serverId/console")({
 
 function RouteComponent() {
   const { serverId } = Route.useParams();
-  const { logs } = useGameServerLogs(serverId ?? "");
   const { gameServer } = useGameServer(serverId ?? "");
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
+  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
+  // Only this view renders the logs, so they are fetched here and dropped on unmount.
+  const { logs, state: logsLoadState } = useGameServerLogs(serverId ?? "", {
+    enabled: canReadLogs,
+  });
 
   if (!gameServer) {
     return null;
   }
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
-  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
     <div className="flex flex-col gap-4 grow h-full w-full rounded-none">
       <LogDisplay
         logMessages={logs}
+        loadState={logsLoadState}
         showCommandInput={canSendCommands}
         gameServerUuid={serverId}
         isServerRunning={isServerRunning}

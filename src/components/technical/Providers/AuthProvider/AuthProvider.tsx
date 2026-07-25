@@ -1,9 +1,10 @@
-import PublicWebSocketCollection from "@components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
-import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
-import config from "@config";
+import LatestServerMetricsProvider from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider.tsx";
+import PublicWebSocketCollection from "@/components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
+import WebSocketCollection from "@/components/technical/WebsocketCollection/WebSocketCollection.tsx";
+import config from "@/config.ts";
 import { jwtDecode } from "jwt-decode";
 import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { StompSessionProvider } from "react-stomp-hooks";
 import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
@@ -69,7 +70,7 @@ const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 const AuthProvider = (props: { children: ReactNode }) => {
   const { loadAllData, loadPublicGameServer } = useDataLoading();
   const assetsLoaded = useAssetPreloader();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [username, setUsername] = useState<string | null>(null);
   const [uuid, setUuid] = useState<string | null>(null);
   const [role, setRole] = useState<UserEntityDtoRole | null>(null);
@@ -267,7 +268,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
           }}
         >
           <WebSocketCollection />
-          {props.children}
+          <LatestServerMetricsProvider>{props.children}</LatestServerMetricsProvider>
         </StompSessionProvider>
       ) : authorized === false ? (
         <StompSessionProvider
@@ -280,7 +281,11 @@ const AuthProvider = (props: { children: ReactNode }) => {
           {props.children}
         </StompSessionProvider>
       ) : (
-        props.children
+        // Auth is still being resolved: provide an inactive stomp session so that
+        // components subscribing to live data can mount without a connection.
+        <StompSessionProvider url={config.backendBrokerUrl} enabled={false}>
+          {props.children}
+        </StompSessionProvider>
       )}
     </AuthContext.Provider>
   );

@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { LatestServerMetricsContext } from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider";
+import { useContext, useEffect, useMemo } from "react";
 import { GameServerDtoStatus } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer";
+import { useAppSelector } from "@/stores/hooks.ts";
 
 interface UserResourceUsage {
   cpuUsage: string;
@@ -15,8 +16,11 @@ const convertBytesToReadable = (bytes: number): string => {
 };
 
 export const useUserResourceUsage = (userUuid: string | null | undefined): UserResourceUsage => {
-  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const metricsData = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
+  const gameServers = useAppSelector((state) => state.gameServerSliceReducer.data);
+  const { latestMetrics, acquire } = useContext(LatestServerMetricsContext);
+
+  // Keeps the live metric feed running only while a usage display is mounted.
+  useEffect(() => acquire(), [acquire]);
 
   return useMemo(() => {
     // Return zeros if no userUuid provided
@@ -37,18 +41,13 @@ export const useUserResourceUsage = (userUuid: string | null | undefined): UserR
     let totalMemoryUsage = 0;
 
     userRunningServers.forEach((server) => {
-      const serverMetrics = metricsData[server.uuid];
-      if (serverMetrics?.metrics && serverMetrics.metrics.length > 0) {
-        // Get the latest metric point
-        const latestMetric = serverMetrics.metrics[serverMetrics.metrics.length - 1];
-        const metricValues = latestMetric.metric_values;
+      const metricValues = latestMetrics[server.uuid]?.metric_values;
 
-        if (metricValues) {
-          // cpu_percent is reported as a percentage value (0-100); accumulate the raw percentage here
-          // and convert to an approximate core count by dividing by 100 when formatting cpuUsage below.
-          totalCpuUsage += metricValues.cpu_percent ?? 0;
-          totalMemoryUsage += metricValues.memory_usage ?? 0;
-        }
+      if (metricValues) {
+        // cpu_percent is reported as a percentage value (0-100); accumulate the raw percentage here
+        // and convert to an approximate core count by dividing by 100 when formatting cpuUsage below.
+        totalCpuUsage += metricValues.cpu_percent ?? 0;
+        totalMemoryUsage += metricValues.memory_usage ?? 0;
       }
     });
 
@@ -56,5 +55,5 @@ export const useUserResourceUsage = (userUuid: string | null | undefined): UserR
       cpuUsage: (totalCpuUsage / 100).toFixed(2),
       memoryUsage: convertBytesToReadable(totalMemoryUsage),
     };
-  }, [userUuid, gameServers, metricsData]);
+  }, [userUuid, gameServers, latestMetrics]);
 };

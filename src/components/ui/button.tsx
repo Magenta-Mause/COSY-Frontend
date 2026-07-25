@@ -2,6 +2,8 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
+import reloadIcon from "@/assets/icons/reload.webp";
+import Icon from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -116,25 +118,62 @@ const buttonVariants = cva(
   },
 );
 
+// Pending-indicator size per button size variant, matching the icon sizing
+// each variant already uses so the spinner reads as part of the button.
+const spinnerSizeForSize: Record<
+  NonNullable<VariantProps<typeof buttonVariants>["size"]>,
+  string
+> = {
+  default: "size-4",
+  sm: "size-3.5",
+  lg: "size-5",
+  icon: "size-4",
+  "icon-sm": "size-3.5",
+  "icon-lg": "size-5",
+};
+
 function Button({
   className,
   variant,
   size,
   asChild = false,
+  loading = false,
+  disabled,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    loading?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
       data-slot="button"
+      data-loading={loading ? "true" : undefined}
       className={cn(buttonVariants({ variant, size, className }))}
+      disabled={disabled || loading}
       {...props}
     >
-      {props.children}
+      {/* asChild forwards to an arbitrary single child (Slot uses Children.only),
+          so we must not inject a sibling — just apply disabled + data-loading. */}
+      {asChild ? (
+        children
+      ) : (
+        <>
+          {loading ? (
+            <Icon
+              src={reloadIcon}
+              className={cn(
+                "animate-spin text-current",
+                spinnerSizeForSize[size ?? "default"],
+              )}
+            />
+          ) : null}
+          {children}
+        </>
+      )}
     </Comp>
   );
 }

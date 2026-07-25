@@ -1,13 +1,13 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { login } from "@/api/generated/backend-api";
 import HerzIcon from "@/assets/deko/herz.webp";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import LoginBanner from "../LoginBanner/LoginBanner";
 import LoginForm from "../LoginDialog/LoginForm";
 
 const LoginDisplay = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("signIn");
   const { authorized, refreshIdentityToken } = useContext(AuthContext);
 
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ const LoginDisplay = () => {
 
       setOpen(false);
     } catch {
-      setError(t("signIn.incorrectCredentials"));
+      setError(t("incorrectCredentials"));
     } finally {
       setIsLoggingIn(false);
     }
@@ -47,12 +47,18 @@ const LoginDisplay = () => {
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="w-100">
-            <DialogTitle>{t("signIn.signIn")}</DialogTitle>
-            <DialogDescription>{t("signIn.desc")}</DialogDescription>
+            <DialogTitle>{t("signIn")}</DialogTitle>
+            <DialogDescription>{t("desc")}</DialogDescription>
             <LoginForm loginCallback={handleLogin} error={error} />
             <DialogFooter>
-              <Button type="submit" form="login-form" disabled={isLoggingIn} className="w-full">
-                {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
+              <Button
+                type="submit"
+                form="login-form"
+                data-testid="login-submit-btn"
+                loading={isLoggingIn}
+                className="w-full"
+              >
+                {isLoggingIn ? t("loading") : t("signIn")}
               </Button>
               <p className="flex items-center gap-1">
                 Made with{" "}

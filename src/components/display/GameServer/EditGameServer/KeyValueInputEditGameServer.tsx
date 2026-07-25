@@ -1,13 +1,13 @@
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { Fragment, useCallback, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import infoIcon from "@/assets/icons/info.webp";
-import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
-import ListInputEdit from "./ListInputEditGameServer";
+import { type InputType, preProcessInputValue } from "../CreateGameServer/utils/inputValue";
+import ListInputEdit from "@/components/display/GameServer/EditGameServer/inputs/ListInputEditGameServer";
 
 interface KeyValueItem {
   key: string;
@@ -53,7 +53,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
   objectValue,
   processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props<T>) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.keyValueInput");
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -147,7 +147,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
               />
               {shouldProcessEscapeSequences && (
                 <TooltipWrapper
-                  tooltip={t("components.CreateGameServer.keyValueInput.escapeSequencesTooltip")}
+                  tooltip={t("escapeSequencesTooltip")}
                   side="top"
                   asChild={false}
                 >

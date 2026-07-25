@@ -1,12 +1,12 @@
-import { Input } from "@components/ui/input.tsx";
-import RequiredMark from "@components/ui/RequiredMark.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select.tsx";
+} from "@/components/ui/select.tsx";
 import { useCallback, useEffect, useState } from "react";
 
 interface MemoryLimitInputProps {
@@ -20,6 +20,7 @@ interface MemoryLimitInputProps {
   className?: string;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   error?: string;
+  "data-testid"?: string;
 }
 
 export const MemoryLimitInput = ({
@@ -33,6 +34,7 @@ export const MemoryLimitInput = ({
   className,
   onKeyDown,
   error,
+  "data-testid": dataTestId,
 }: MemoryLimitInputProps) => {
   const [unit, setUnit] = useState<"MiB" | "GiB">("MiB");
   const [localInputValue, setLocalInputValue] = useState("");
@@ -125,6 +127,7 @@ export const MemoryLimitInput = ({
       type="number"
       endDecorator={unitSelector}
       onKeyDown={onKeyDown}
+      data-testid={dataTestId}
     />
   );
 };

@@ -1,7 +1,8 @@
-import LogMessage from "@components/display/LogDisplay/LogMessage";
-import { Button } from "@components/ui/button";
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input";
+import LogMessage from "@/components/display/LogDisplay/LogMessage";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
+import Spinner from "@/components/ui/Spinner.tsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
@@ -9,7 +10,8 @@ import { useSendCommand } from "@/api/generated/backend-api";
 import arrowRightIcon from "@/assets/icons/arrowRight.webp";
 import sendIcon from "@/assets/icons/send.webp";
 import { cn } from "@/lib/utils.ts";
-import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
+import type { DataLoadState } from "@/types/dataLoadState.ts";
+import type { GameServerLogWithUuid } from "@/types/logTypes";
 
 const LogDisplay = (
   props: {
@@ -23,6 +25,8 @@ const LogDisplay = (
     disableRoundness?: boolean;
     disableBorder?: boolean;
     overridePermissionCheck?: boolean;
+    /** Load state of the initial log fetch, used to render loading/error branches. */
+    loadState?: DataLoadState;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -37,6 +41,7 @@ const LogDisplay = (
     disableRoundness,
     disableBorder,
     overridePermissionCheck,
+    loadState = "idle",
     ...divProps
   } = props;
 
@@ -129,7 +134,7 @@ const LogDisplay = (
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 relative">
+      <div className="flex-1 min-h-0 relative" data-testid="console-log-list">
         <Virtuoso
           ref={logDisplayRef}
           key={displayLogs.length === 0 ? "empty" : "loaded"}
@@ -166,6 +171,19 @@ const LogDisplay = (
             Footer: () => <div className="h-2" />,
           }}
         />
+        {loadState === "loading" && displayLogs.length === 0 && (
+          <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2 text-gray-400">
+              <Spinner className="size-8" />
+              <span className="text-sm">{t("logDisplay.loadingLogs")}</span>
+            </div>
+          </div>
+        )}
+        {loadState === "failed" && displayLogs.length === 0 && (
+          <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
+            <span className="text-gray-400 text-sm">{t("logDisplay.loadingLogsFailed")}</span>
+          </div>
+        )}
         {!canReadLogs && !overridePermissionCheck && (
           <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
             <div className="text-gray-400 text-center px-2">
@@ -182,6 +200,7 @@ const LogDisplay = (
         <div className="border-t border-gray-800 p-2 flex gap-2">
           <Input
             type="text"
+            data-testid="console-command-input"
             placeholder={
               isServerRunning ? t("logDisplay.enterCommand") : t("logDisplay.cantSendCommands")
             }
@@ -202,6 +221,7 @@ const LogDisplay = (
           />
           <Button
             onClick={handleSendCommand}
+            data-testid="console-send-btn"
             disabled={!commandInput.trim() || isPending || !isServerRunning}
             size="sm"
             className={"w-fit h-10"}

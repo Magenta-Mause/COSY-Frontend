@@ -1,6 +1,6 @@
-import { FileBrowserDialog } from "@components/display/GameServer/FileBrowser/FileBrowserDialog/FileBrowserDialog";
+import { FileBrowserDialog } from "@/components/display/GameServer/FileBrowser/FileBrowserDialog/FileBrowserDialog";
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
@@ -12,13 +12,13 @@ export const Route = createFileRoute("/server/$serverId/files/$")({
 function RouteComponent() {
   const { serverId } = Route.useParams();
   const { gameServer } = useGameServer(serverId);
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("filesPage");
   const { _splat: path } = Route.useParams();
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
 
   if (!gameServer)
     return (
-      <div className="flex justify-center items-center h-screen">{t("filesPage.loading")}</div>
+      <div className="flex justify-center items-center h-screen">{t("loading")}</div>
     );
 
   const canReadFiles = hasPermission(

@@ -1,6 +1,6 @@
-import { Button } from "@components/ui/button";
-import { Card, CardContent } from "@components/ui/card";
-import { Separator } from "@components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
@@ -44,6 +44,7 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
               </div>
               <Button
                 variant="destructive"
+                data-testid="server-delete-btn"
                 onClick={() => {
                   setIsDeleteDialogOpen(true);
                 }}

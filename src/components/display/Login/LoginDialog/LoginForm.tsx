@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import eyeClosed from "@/assets/icons/eyeClosed.webp";
 import eyeOpen from "@/assets/icons/eyeOpen.webp";
 import { FieldGroup } from "@/components/ui/field";
@@ -19,7 +19,7 @@ const LoginForm = (props: {
   loginCallback: (formValues: { username: string; password: string }) => void;
   error: string | null;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("signIn");
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -36,21 +36,29 @@ const LoginForm = (props: {
       }}
     >
       <FieldGroup className="gap-2">
-        <Input type="text" id="username" name="username" header={t("signIn.username")} required />
+        <Input
+          type="text"
+          id="username"
+          name="username"
+          header={t("username")}
+          data-testid="login-username-input"
+          required
+        />
 
         <Input
           type={showPassword ? "text" : "password"}
           id="password"
           name="password"
-          header={t("signIn.password")}
+          header={t("password")}
           error={props.error}
+          data-testid="login-password-input"
           required
           endDecorator={
             <button
               type="button"
               className="opacity-60 hover:opacity-100 transition-opacity"
               onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? t("signIn.hidePassword") : t("signIn.showPassword")}
+              aria-label={showPassword ? t("hidePassword") : t("showPassword")}
             >
               <Icon
                 src={showPassword ? eyeOpen : eyeClosed}

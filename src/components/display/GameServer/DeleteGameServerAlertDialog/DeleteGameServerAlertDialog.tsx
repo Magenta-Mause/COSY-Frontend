@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@radix-ui/react-label";
 import { useNavigate } from "@tanstack/react-router";
 import type { KeyboardEvent } from "react";
@@ -88,6 +88,7 @@ export function DeleteGameServerAlertDialog({
             </div>
             <Input
               id="serverName"
+              data-testid="delete-confirm-input"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -105,6 +106,7 @@ export function DeleteGameServerAlertDialog({
           <Button
             type="button"
             variant={"destructive"}
+            data-testid="delete-confirm-btn"
             onClick={handleConfirm}
             className={"h-12.5"}
             disabled={isConfirmButtonDisabled}

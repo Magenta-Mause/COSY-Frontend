@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { VariantProps } from "class-variance-authority";
-import Icon from "@components/ui/Icon.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 
 interface CopyButtonProps
   extends VariantProps<typeof buttonVariants> {

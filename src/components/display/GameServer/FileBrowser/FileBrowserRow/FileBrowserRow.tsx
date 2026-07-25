@@ -1,13 +1,13 @@
-import { useFileBrowser } from "@components/display/GameServer/FileBrowser/FileBrowserContext.tsx";
+import { useFileBrowser } from "@/components/display/GameServer/FileBrowser/FileBrowserContext.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+} from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import dotsIcon from "@/assets/icons/dots.webp";
 import downloadIcon from "@/assets/icons/download.webp";
@@ -62,6 +62,7 @@ export const FileBrowserRow = ({
     // biome-ignore lint/a11y/useSemanticElements: <button> cannot be used here — DropdownMenuTrigger is also a <button> and nested buttons are invalid HTML
     <div
       role="button"
+      data-testid="file-row"
       tabIndex={onEntryClick ? 0 : -1}
       aria-disabled={!onEntryClick || undefined}
       onClick={onEntryClick ? () => onEntryClick(obj) : undefined}
@@ -129,6 +130,7 @@ export const FileBrowserRow = ({
           <DropdownMenuTrigger asChild>
             <button
               type="button"
+              data-testid="file-row-menu-btn"
               onClick={(e) => e.stopPropagation()}
               className={cn(
                 "inline-flex items-center justify-center rounded-md p-1.5 shrink-0",

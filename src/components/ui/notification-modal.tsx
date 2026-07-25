@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {
   Dialog,
   DialogContent,
@@ -16,13 +16,13 @@ interface NotificationModalProps {
 }
 
 const TITLE_KEYS = {
-  success: "notificationModal.successTitle",
-  error: "notificationModal.errorTitle",
-  info: "notificationModal.infoTitle",
+  success: "successTitle",
+  error: "errorTitle",
+  info: "infoTitle",
 } as const;
 
 export function NotificationModal({ item }: NotificationModalProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("notificationModal");
 
   const handleDismiss = () => {
     if (item) dismissNotification(item.id);
@@ -55,7 +55,7 @@ export function NotificationModal({ item }: NotificationModalProps) {
             )}
             <DialogFooter>
               <Button onClick={handleDismiss}>
-                {item.type === "error" ? t("notificationModal.dismiss") : t("notificationModal.ok")}
+                {item.type === "error" ? t("dismiss") : t("ok")}
               </Button>
             </DialogFooter>
           </>

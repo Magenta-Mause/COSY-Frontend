@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@types/*": ["./src/types/*"],
-      "@/*": ["./src/*"],
-      "@config": ["./src/config.ts"]
+      "@/*": ["./src/*"]
     }
   },
   "files": [],

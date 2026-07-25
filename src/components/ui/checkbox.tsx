@@ -3,7 +3,7 @@ import checkIcon from "@/assets/icons/check.webp"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 
 import { cn } from "@/lib/utils"
-import Icon from "@components/ui/Icon.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 
 function Checkbox({
   className,

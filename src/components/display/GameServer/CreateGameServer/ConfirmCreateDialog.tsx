@@ -5,9 +5,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@components/ui/alert-dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
-import { useTranslation } from "react-i18next";
+} from "@/components/ui/alert-dialog.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface ConfirmCreateDialogProps {
   open: boolean;
@@ -22,27 +22,32 @@ const ConfirmCreateDialog = ({
   onConfirm,
   onCancel,
 }: ConfirmCreateDialogProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer.confirmCreateDialog");
 
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {t("components.CreateGameServer.confirmCreateDialog.title")}
+            {t("title")}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {t("components.CreateGameServer.confirmCreateDialog.description")}
+            {t("description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={onCancel} disabled={isCreating}>
-            {t("components.CreateGameServer.confirmCreateDialog.cancel")}
+            {t("cancel")}
           </Button>
-          <Button variant="primary" onClick={onConfirm} disabled={isCreating}>
+          <Button
+            variant="primary"
+            data-testid="create-confirm-btn"
+            onClick={onConfirm}
+            disabled={isCreating}
+          >
             {isCreating
-              ? t("components.CreateGameServer.confirmCreateDialog.creating")
-              : t("components.CreateGameServer.confirmCreateDialog.confirm")}
+              ? t("creating")
+              : t("confirm")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

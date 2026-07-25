@@ -1,9 +1,9 @@
-import MetricDropDown from "@components/display/DropDown/MetricDropDown";
-import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
-import { Button } from "@components/ui/button";
-import { Checkbox } from "@components/ui/checkbox";
-import { FieldGroup } from "@components/ui/field";
-import Icon from "@components/ui/Icon.tsx";
+import MetricDropDown from "@/components/display/DropDown/MetricDropDown";
+import WidgetDropDown from "@/components/display/DropDown/WidgetDropDown";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FieldGroup } from "@/components/ui/field";
+import Icon from "@/components/ui/Icon.tsx";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -12,6 +12,7 @@ import {
   type PublicDashboardLayout,
 } from "@/api/generated/model";
 import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import useCustomMetricKeys from "@/hooks/useCustomMetricKeys/useCustomMetricKeys";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
@@ -39,6 +40,13 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
   const [checked, setChecked] = useState(gameServer.public_dashboard.enabled ?? false);
+
+  const hasMetricWidget = useMemo(
+    () =>
+      publicDashboard.some((dashboard) => dashboard.layout_type === DashboardElementTypes.METRIC),
+    [publicDashboard],
+  );
+  const customMetrics = useCustomMetricKeys(gameServer.uuid, hasMetricWidget);
 
   const isChanged = useMemo(() => {
     if (publicDashboard.length !== gameServer.public_dashboard?.layouts?.length) return true;
@@ -215,7 +223,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
                 <MetricDropDown
                   className={`flex-1 ${checked ? "" : "pointer-events-none"}`}
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
-                  gameServerUuid={gameServer.uuid}
+                  customMetrics={customMetrics}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                 />
               )}

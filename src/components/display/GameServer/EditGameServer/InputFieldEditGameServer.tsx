@@ -1,4 +1,4 @@
-import { Input } from "@components/ui/input.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
 

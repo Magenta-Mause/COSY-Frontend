@@ -1,16 +1,16 @@
-import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
-import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
-import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
-import { Card } from "@components/ui/card";
+import LogDisplay from "@/components/display/LogDisplay/LogDisplay.tsx";
+import MetricGraph from "@/components/display/MetricDisplay/MetricGraph";
+import { COL_SPAN_MAP } from "@/components/display/MetricDisplay/metricLayout";
+import { Card } from "@/components/ui/card";
 import { MetricLayoutSize } from "@/api/generated/model";
 import type { PrivateDashboardLayout } from "@/api/generated/model/privateDashboardLayout";
 import type { PublicDashboardLayout } from "@/api/generated/model/publicDashboardLayout";
 import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
-import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice";
-import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
+import type { DataLoadState } from "@/types/dataLoadState.ts";
 import { LayoutSize } from "@/types/layoutSize.ts";
-import type { MetricsType } from "@/types/metricsTyp";
+import type { GameServerLogWithUuid } from "@/types/logTypes";
+import type { GameServerMetricsWithUuid, MetricsType } from "@/types/metricsTyp";
 
 interface DashboardRendererProps {
   dashboardLayout: (PrivateDashboardLayout | PublicDashboardLayout)[];
@@ -22,6 +22,8 @@ interface DashboardRendererProps {
   canReadLogs: boolean;
   canSendCommands: boolean;
   overridePermissionCheck?: boolean;
+  metricsLoadState?: DataLoadState;
+  logsLoadState?: DataLoadState;
 }
 
 export default function DashboardRenderer({
@@ -34,6 +36,8 @@ export default function DashboardRenderer({
   canReadLogs,
   canSendCommands,
   overridePermissionCheck,
+  metricsLoadState,
+  logsLoadState,
 }: DashboardRendererProps) {
   const isDesktop = useIsDesktop();
   return (
@@ -53,6 +57,7 @@ export default function DashboardRenderer({
                 className={sizeClass}
                 canReadMetrics={canReadMetrics}
                 overridePermissionCheck={overridePermissionCheck}
+                loadState={metricsLoadState}
               />
             );
 
@@ -64,6 +69,7 @@ export default function DashboardRenderer({
               >
                 <LogDisplay
                   logMessages={logs}
+                  loadState={logsLoadState}
                   showCommandInput={canSendCommands}
                   gameServerUuid={serverId}
                   isServerRunning={isServerRunning}

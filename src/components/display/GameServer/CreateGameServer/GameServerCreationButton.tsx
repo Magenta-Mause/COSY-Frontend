@@ -1,25 +1,23 @@
-import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import { Button } from "@components/ui/button.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { GameServerCreationContext } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useContext } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const GameServerCreationButton = () => {
   const { triggerNextPage, isPageValid, currentPage, creationState } =
     useContext(GameServerCreationContext);
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.CreateGameServer");
   const isDisabled = !isPageValid[currentPage];
 
   const buttonLabel = (() => {
     switch (currentPage) {
       case 0:
-        return "components.CreateGameServer.useNoTemplate";
+        return "useNoTemplate";
       case 1:
-        return creationState.utilState.selectedTemplate
-          ? "components.CreateGameServer.useTemplate"
-          : "components.CreateGameServer.useNoTemplate";
+        return creationState.utilState.selectedTemplate ? "useTemplate" : "useNoTemplate";
       default:
-        return "components.CreateGameServer.createServerButton";
+        return "createServerButton";
     }
   })();
 
@@ -27,16 +25,22 @@ const GameServerCreationButton = () => {
     if (!isDisabled) return undefined;
     switch (currentPage) {
       case 1:
-        return t("components.CreateGameServer.disabledTooltip.step2");
+        return t("disabledTooltip.step2");
       default:
-        return t("components.CreateGameServer.disabledTooltip.step3");
+        return t("disabledTooltip.step3");
     }
   })();
 
   return (
     <TooltipWrapper tooltip={disabledTooltip} asChild={false} triggerProps={{ asChild: true }}>
       <span className="inline-flex">
-        <Button type="button" variant="primary" onClick={triggerNextPage} disabled={isDisabled}>
+        <Button
+          type="button"
+          variant="primary"
+          data-testid="create-server-next-btn"
+          onClick={triggerNextPage}
+          disabled={isDisabled}
+        >
           {t(buttonLabel)}
         </Button>
       </span>

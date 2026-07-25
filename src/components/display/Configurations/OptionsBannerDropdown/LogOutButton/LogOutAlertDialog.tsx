@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
+} from "@/components/ui/dialog.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -56,7 +56,13 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
               {t("cancel")}
             </Button>
           </DialogClose>
-          <Button type="button" variant={"destructive"} onClick={handleConfirm} disabled={loading}>
+          <Button
+            type="button"
+            variant={"destructive"}
+            data-testid="logout-confirm-btn"
+            onClick={handleConfirm}
+            disabled={loading}
+          >
             {t("confirm")}
           </Button>
         </DialogFooter>
