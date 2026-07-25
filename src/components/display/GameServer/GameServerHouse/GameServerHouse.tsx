@@ -69,7 +69,7 @@ const GameServerHouse = (props: {
                 startServer(props.gameServer.uuid, true);
               } catch (e) {
                 notificationModal.error({
-                  message: t("toasts.serverStartError", { error: e }),
+                  message: t("toasts.serverStartError", { error: String(e) }),
                   cause: e,
                 });
               }
@@ -85,7 +85,7 @@ const GameServerHouse = (props: {
                   await stopServer(props.gameServer.uuid, true);
                 } catch (e) {
                   notificationModal.error({
-                    message: t("toasts.serverStopError", { error: e }),
+                    message: t("toasts.serverStopError", { error: String(e) }),
                     cause: e,
                   });
                 }
