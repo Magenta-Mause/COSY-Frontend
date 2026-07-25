@@ -22,6 +22,7 @@ interface ChangePasswordModalProps {
 
 export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePasswordModalProps) {
   const { t } = useTranslationPrefix("changePasswordModal");
+  const { t: tCommon } = useTranslationPrefix("common");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -146,6 +147,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
             form="change-password-form"
             disabled={!isFormValid || hasPasswordError}
             loading={isPending}
+            loadingLabel={tCommon("saving")}
           >
             {t("changePassword")}
           </Button>

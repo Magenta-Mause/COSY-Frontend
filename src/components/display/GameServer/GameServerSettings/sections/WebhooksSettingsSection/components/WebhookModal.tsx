@@ -36,6 +36,7 @@ const DEFAULT_CREATE_VALUES: WebhookFormValues = {
 
 const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: WebhookModalProps) => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
+  const { t: tCommon } = useTranslationPrefix("common");
   const { createWebhook, updateWebhook, isCreatingWebhook } = useDataInteractions();
 
   const isEdit = mode === "edit";
@@ -130,7 +131,12 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
           <Button variant="secondary" onClick={() => handleClose(false)} disabled={isLoading}>
             {t("cancel")}
           </Button>
-          <Button onClick={onFormSubmit} disabled={isDisabled} loading={isLoading}>
+          <Button
+            onClick={onFormSubmit}
+            disabled={isDisabled}
+            loading={isLoading}
+            loadingLabel={tCommon("saving")}
+          >
             {submitLabel}
           </Button>
         </DialogFooter>

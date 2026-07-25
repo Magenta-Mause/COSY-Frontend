@@ -39,12 +39,18 @@ const GameServerStartStopButton = (props: {
 
   const icon = <Icon src={powerIcon} variant={props.buttonVariant} className="size-5" />;
 
-  const buttonProps: React.ComponentProps<"button"> = (() => {
+  const buttonProps: React.ComponentProps<typeof Button> = (() => {
     switch (props.gameServer.status) {
       case GameServerDtoStatus.RUNNING:
         return {
           onClick: () => runInteraction(() => stopServer(props.gameServer.uuid)),
           disabled: !canStartStopServer,
+          loadingLabel: (
+            <>
+              {icon}
+              {t("serverStatus.STOPPING")}
+            </>
+          ),
           children: (
             <>
               {icon}
@@ -57,6 +63,12 @@ const GameServerStartStopButton = (props: {
         return {
           onClick: () => runInteraction(() => startServer(props.gameServer.uuid)),
           disabled: !canStartStopServer,
+          loadingLabel: (
+            <>
+              {icon}
+              {t("serverStatus.STARTING")}
+            </>
+          ),
           children: (
             <>
               {icon}

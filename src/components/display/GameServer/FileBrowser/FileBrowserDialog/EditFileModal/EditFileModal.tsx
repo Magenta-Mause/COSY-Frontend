@@ -107,10 +107,11 @@ export const EditFileModal = ({
             onClick={handleSave}
             disabled={busy || fetching}
             loading={saving}
+            loadingLabel={t("saving")}
             data-testid="editfile-save-btn"
             className="flex-1"
           >
-            {saving ? t("saving") : t("save")}
+            {t("save")}
           </Button>
         </div>
       </DialogContent>
