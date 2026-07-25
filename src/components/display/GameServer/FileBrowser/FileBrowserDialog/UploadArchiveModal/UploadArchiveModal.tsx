@@ -157,9 +157,10 @@ export const UploadArchiveModal = ({ open, files, onClose, onExtract }: Props) =
                 onClick={handleExtract}
                 disabled={!files?.length}
                 loading={extracting}
+                loadingLabel={t("extracting")}
                 className="flex-1"
               >
-                {extracting ? t("extracting") : t("extract")}
+                {t("extract")}
               </Button>
             </div>
           </div>
