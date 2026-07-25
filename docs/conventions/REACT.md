@@ -104,9 +104,20 @@ lazily-fetched panel shows a visible loading state.
 - Pass `loading={isPending}` to the shared `<Button>` (`ui/button.tsx`) for any
   async-triggering button. It disables the button and swaps its label for a translated
   loading label (`loadingLabel` prop to customize, defaults to `common.loading`), and
-  sets `data-loading="true"` (which also drives the loading cursor from `src/index.css`).
-  Derive the flag from the mutation's `isPending` where one exists — don't hand-roll
-  `useState` booleans next to a mutation.
+  sets `data-loading="true"` (which also drives the loading cursor from `src/index.css`)
+  plus `aria-busy`. Derive the flag from the mutation's `isPending` where one exists —
+  don't hand-roll `useState` booleans next to a mutation.
+- Give `loading` only the button's **own** async operation. An unrelated fetch that
+  merely has to gate the control (e.g. a directory listing next to a download button)
+  belongs in `disabled` — otherwise the button gets relabelled for something it isn't
+  doing.
+- Prefer a contextual `loadingLabel` (`common.saving`, `serverStatus.STOPPING`, a
+  download-progress string) over the generic `common.loading` fallback. It is a
+  ReactNode, so pass `<><Icon … />{label}</>` to keep the icon from disappearing
+  mid-flight.
+- Two deliberate exceptions where the label is *not* swapped: `asChild` (Slot requires
+  `Children.only`) and the icon-only sizes (`icon`, `icon-sm`, `icon-lg`, which have no
+  room for text). Both still disable and set `data-loading`.
 - For per-row actions, gate on the acted-on id (via the mutation's `variables`) so only
   the clicked control shows pending, not every row.
 - Give every fetched list or panel a visible **loading** branch and an **error** branch —

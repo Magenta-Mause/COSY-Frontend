@@ -2,6 +2,7 @@ export type i18nLanguage = {
   common: {
     yourLimit: string;
     loading: string;
+    saving: string;
     required: string;
     optional: string;
     removeEntry: string;
