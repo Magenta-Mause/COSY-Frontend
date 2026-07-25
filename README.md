@@ -10,7 +10,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Bun](https://img.shields.io/badge/Bun-1.x-000000.svg?logo=bun&logoColor=white)](https://bun.sh/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-7-646CFF.svg?logo=vite&logoColor=white)](https://vite.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vite.dev/)
 
 ---
 
@@ -138,9 +138,13 @@ Cosy-Frontend/
 ├─ openapi-backend.json    # Backend OpenAPI spec (input for Orval codegen)
 ├─ orval.config.js         # Orval API-client generation config
 ├─ vite.config.ts          # Vite build & dev-server config
+├─ vitest.config.ts        # Vitest test-runner config
 ├─ biome.json              # Biome lint/format config
 └─ Dockerfile              # Production image (Vite build served by nginx)
 ```
+
+Tests live next to the code they cover as `*.test.ts` / `*.test.tsx` — for example
+`src/lib/validators/portValidator.test.ts` and `src/components/ui/button.test.tsx`.
 
 ### Available commands
 
@@ -193,7 +197,7 @@ bunx --bun shadcn@latest add button
 
 ### Major dependencies
 
-- **[React 19](https://react.dev/)** with the React Compiler, bundled by **[Vite 7](https://vite.dev/)**
+- **[React 19](https://react.dev/)** with the React Compiler, bundled by **[Vite 8](https://vite.dev/)**
 - **[TanStack Router](https://tanstack.com/router)** for file-based routing and **[TanStack Query](https://tanstack.com/query)** for server state
 - **[Redux Toolkit](https://redux-toolkit.js.org/)** for client state
 - **[Tailwind CSS 4](https://tailwindcss.com/)** + **[ShadCN/ui](https://ui.shadcn.com/)** (Radix primitives) for styling
@@ -233,7 +237,7 @@ repository and [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs).
 
 ## Documentation
 
-Full project documentation is available at **[cosy-hosting.net](https://cosy-hosting.net)** and in
+Full project documentation is available at **[cosy-hosting.net/docs](https://cosy-hosting.net/docs)** and in
 the [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs) repository.
 
 ---
@@ -258,4 +262,4 @@ This project is licensed under the **MIT License** — see the [LICENSE](./LICEN
 
 For help and questions, open an issue in the main
 [Cosy](https://github.com/Magenta-Mause/cosy/issues) repository or consult the documentation at
-[cosy-hosting.net](https://cosy-hosting.net).
+[cosy-hosting.net/docs](https://cosy-hosting.net/docs).
