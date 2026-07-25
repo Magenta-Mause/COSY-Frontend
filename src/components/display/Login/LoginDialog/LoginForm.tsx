@@ -25,9 +25,10 @@ const LoginForm = (props: {
   return (
     <form
       id="login-form"
-      onSubmit={(event: React.FormEvent<SignInElement>) => {
+      onSubmit={(event) => {
         event.preventDefault();
-        const form = event.currentTarget;
+        // onSubmit is typed against HTMLFormElement, so narrow here to reach the named inputs.
+        const form = event.currentTarget as SignInElement;
         const data = {
           username: form.elements.username.value,
           password: form.elements.password.value,

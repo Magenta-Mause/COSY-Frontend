@@ -160,6 +160,13 @@ const UserInviteButton = (props: { className?: string }) => {
     resetView();
   };
 
+  // Leaves the invite flow entirely and reveals the user overview behind the dialog.
+  // The form state is cleared when the dialog is reopened, so that the invite form
+  // does not flash during the closing animation.
+  const handleBackToUsers = useCallback(() => {
+    setIsDialogOpen(false);
+  }, []);
+
   return (
     <>
       <Dialog
@@ -209,11 +216,7 @@ const UserInviteButton = (props: { className?: string }) => {
             )}
 
             {view === "result" && (
-              <InviteResult
-                generatedKey={generatedKey}
-                onCopyLink={handleCopyLink}
-                onBack={resetView}
-              />
+              <InviteResult generatedKey={generatedKey} onCopyLink={handleCopyLink} />
             )}
           </DialogMain>
           <DialogFooter>
@@ -228,7 +231,7 @@ const UserInviteButton = (props: { className?: string }) => {
               </>
             )}
             {view === "result" && (
-              <Button onClick={resetView} variant="secondary">
+              <Button onClick={handleBackToUsers} variant="secondary">
                 {t("userModal.backToUsers")}
               </Button>
             )}
