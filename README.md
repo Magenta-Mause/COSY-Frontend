@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Lint](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/lint.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/lint.yml)
 [![Type Check](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/type-check.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/type-check.yml)
+[![Test](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/test.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/test.yml)
 [![Build and Push Docker Image](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/build-and-push.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Bun](https://img.shields.io/badge/Bun-1.x-000000.svg?logo=bun&logoColor=white)](https://bun.sh/)
@@ -41,7 +42,7 @@ over a STOMP WebSocket connection.
 | --- | --- |
 | [Cosy](https://github.com/magenta-mause/Cosy) | Main project / download & deployment repo |
 | [Cosy-Backend](https://github.com/magenta-mause/Cosy-Backend) | Backend API this frontend talks to |
-| [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs) | Official documentation ([cosy-hosting.net](https://cosy-hosting.net)) |
+| [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs) | Official documentation ([cosy-hosting.net/docs](https://cosy-hosting.net/docs)) |
 
 ---
 
@@ -64,7 +65,7 @@ curl -fsSL https://bun.com/install | bash
 # Windows (PowerShell)
 powershell -c "irm bun.sh/install.ps1 | iex"
 
-# or via npm
+# or via npm, if you already have Node.js/npm installed
 npm install -g bun
 ```
 
@@ -92,8 +93,11 @@ cp .env.example .env.local
 | `VITE_BACKEND_WEBSOCKET_FACTORY` | `http://localhost:8080/api/v1/ws` | HTTP endpoint used as the SockJS WebSocket factory |
 
 Only variables prefixed with `VITE_` are exposed to the browser bundle, so do not store secrets
-here. During development, REST calls to `/api` are proxied to `http://127.0.0.1:8080` (see
-`vite.config.ts`), so the REST base URL does not need to be configured separately.
+here. Vite inlines these values at build time, so changing them requires restarting `bun run dev`
+or rebuilding — they have no effect on an already-built bundle or a prebuilt Docker image (see
+[Deployment](#deployment)). During development, REST calls to `/api` are proxied to
+`http://127.0.0.1:8080` (see `vite.config.ts`), so the REST base URL does not need to be
+configured separately.
 
 ### Quick Start
 
@@ -150,14 +154,16 @@ All scripts are defined in `package.json` and run with Bun:
 | `bun run lint` | Run Biome lint plus a TypeScript type check |
 | `bun run lint:fix` | Apply Biome's safe lint autofixes |
 | `bun run lint:fix:unsafe` | Apply Biome fixes including unsafe ones |
+| `bun run test` | Run the test suite once with Vitest |
+| `bun run test:watch` | Run Vitest in watch mode |
 | `bun run tsr:gen` | Regenerate the TanStack Router route tree |
 | `bun run gen:api` | Fetch the backend OpenAPI spec and regenerate the API client (see below) |
 
 ### Development workflow
 
 1. Create a feature branch and make your changes.
-2. Run `bun run lint` and `bun run typecheck` before opening a pull request; both are also
-   enforced in CI (see the badges above).
+2. Run `bun run lint`, `bun run typecheck` and `bun run test` before opening a pull request;
+   all three are enforced in CI (see the badges above).
 3. Open a pull request against `main`.
 
 **Code style** is enforced by [Biome](https://biomejs.dev/) (linting + formatting) and
@@ -210,6 +216,14 @@ docker run -p 8081:80 cosy-frontend
 The container serves the app on port `80`; the example maps it to host port `8081`. Pick a host
 port that is not already in use — in particular, avoid `8080`, which the frontend expects
 Cosy-Backend to occupy when both run locally.
+
+> **The image expects a reverse proxy in front of it.** Vite inlines `VITE_*` variables at build
+> time, and the `Dockerfile` bakes the backend URLs in as same-origin relative paths
+> (`/api/v1/ws`) before `bun run build`. The nginx stage only serves the static files with SPA
+> fallback — it does not proxy `/api`. Running the container on its own therefore serves a UI
+> whose API and WebSocket calls 404. In a real deployment it sits behind a proxy that routes
+> `/api` to Cosy-Backend on the same origin; pointing it at a different backend means rebuilding
+> the image with different `VITE_*` values.
 
 The `Build and Push Docker Image` GitHub Actions workflow builds and publishes this image on
 pushes. For full deployment guidance see the main [Cosy](https://github.com/magenta-mause/Cosy)
