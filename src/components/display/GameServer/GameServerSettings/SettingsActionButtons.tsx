@@ -71,9 +71,10 @@ const SettingsActionButtons = ({
             className="h-12.5"
             disabled={confirmDisabled}
             loading={loading}
+            loadingLabel={t("saving")}
             onClick={requireConfirmationLabel ? () => setConfirmationModalOpen(true) : onConfirm}
           >
-            {loading ? t("saving") : t("confirm")}
+            {t("confirm")}
           </Button>
         </TooltipWrapper>
       </div>
