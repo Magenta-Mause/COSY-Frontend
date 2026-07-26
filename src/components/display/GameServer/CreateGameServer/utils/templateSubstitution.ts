@@ -7,7 +7,6 @@ import {
 } from "@/api/generated/model";
 import { quote } from "shell-quote";
 import type { GameServerCreationFormState } from "../CreateGameServerModal";
-import { escapeSequences } from "./inputValue";
 
 /**
  * Substitutes template variables in a string
@@ -84,15 +83,18 @@ export function applyTemplate(
     newState.docker_image_tag = substituteVariables(template.docker_image_tag, variables);
   }
 
-  // Substitute environment variables. The form edits values in escaped notation and processes them
-  // once at submit time, so a template value carrying a real newline or backslash has to be escaped
-  // on the way in -- otherwise submit would reinterpret it (`C:\Users\test` -> `C:\Users<TAB>est`).
+  // Substitute environment variables.
+  //
+  // Template values are authored *in* the form's escape notation and are copied through verbatim:
+  // `MODRINTH_PROJECTS: 'fabric-api\ncosy-integration-mod'` is a literal backslash + n in the YAML,
+  // and the author means the newline that submit-time processing turns it into. They are already
+  // field notation, so escaping them here would send the literal `\n` instead.
   if (template.environment_variables) {
     const envVars: EnvironmentVariableConfiguration[] = [];
     for (const [key, value] of Object.entries(template.environment_variables)) {
       envVars.push({
         key: substituteVariables(key, variables),
-        value: escapeSequences(substituteVariables(value, variables)),
+        value: substituteVariables(value, variables),
       });
     }
     newState.environment_variables = envVars;
@@ -166,8 +168,8 @@ export function applyTemplate(
       const substitutedValue = substituteVariables(String(value), variables);
       // Skip entries where key or value stays unresolved to keep the DTO valid.
       if (hasUnresolvedOrEmpty(substitutedKey) || hasUnresolvedOrEmpty(substitutedValue)) continue;
-      // Escaped on the way in for the same reason as the environment variables above.
-      annotations.push({ key: substitutedKey, value: escapeSequences(substitutedValue) });
+      // Copied through verbatim, in the authored escape notation -- see the env vars above.
+      annotations.push({ key: substitutedKey, value: substitutedValue });
     }
     newState.annotations = annotations;
   }
