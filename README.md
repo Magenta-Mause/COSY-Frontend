@@ -3,10 +3,10 @@
 > The web frontend for **Cosy** — a self-hostable platform for hosting and managing game servers.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Lint](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/lint.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/lint.yml)
-[![Type Check](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/type-check.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/type-check.yml)
-[![Test](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/test.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/test.yml)
-[![Build and Push Docker Image](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/magenta-mause/Cosy-Frontend/actions/workflows/build-and-push.yml)
+[![Lint](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/lint.yml/badge.svg)](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/lint.yml)
+[![Type Check](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/type-check.yml/badge.svg)](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/type-check.yml)
+[![Test](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/test.yml/badge.svg)](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/test.yml)
+[![Build and Push Docker Image](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/Magenta-Mause/Cosy-Frontend/actions/workflows/build-and-push.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Bun](https://img.shields.io/badge/Bun-1.x-000000.svg?logo=bun&logoColor=white)](https://bun.sh/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react&logoColor=black)](https://react.dev/)
@@ -22,7 +22,7 @@ interact with: it provides the dashboard for creating game servers from template
 them, browsing files, watching live metrics and logs, and managing users and access groups.
 
 The frontend is a TypeScript + React application built with Vite and served by the
-[Cosy-Backend](https://github.com/magenta-mause/Cosy-Backend) API. The typed API client and
+[Cosy-Backend](https://github.com/Magenta-Mause/Cosy-Backend) API. The typed API client and
 React Query hooks are generated from the backend's OpenAPI specification using
 [Orval](https://orval.dev/), and realtime updates (metrics, logs, server state) are delivered
 over a STOMP WebSocket connection.
@@ -40,9 +40,13 @@ over a STOMP WebSocket connection.
 
 | Repository | Description |
 | --- | --- |
-| [Cosy](https://github.com/magenta-mause/Cosy) | Main project / download & deployment repo |
-| [Cosy-Backend](https://github.com/magenta-mause/Cosy-Backend) | Backend API this frontend talks to |
-| [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs) | Official documentation ([cosy-hosting.net/docs](https://cosy-hosting.net/docs)) |
+| [Cosy](https://github.com/Magenta-Mause/Cosy) | Main project / download & deployment repo |
+| [Cosy-Backend](https://github.com/Magenta-Mause/Cosy-Backend) | Backend API this frontend talks to — and the source of the OpenAPI spec the API client is generated from |
+| [Cosy-Template-Service](https://github.com/Magenta-Mause/Cosy-Template-Service) | Serves the template & game catalog the creation flow lists (reached through Cosy-Backend, not called directly) |
+| [Cosy-Templates](https://github.com/Magenta-Mause/Cosy-Templates) | The template definitions themselves |
+| [Cosy-Docs](https://github.com/Magenta-Mause/Cosy-Docs) | Official documentation ([cosy-hosting.net/docs](https://cosy-hosting.net/docs)) |
+| [Cosy-Internal-Deployment](https://github.com/Magenta-Mause/Cosy-Internal-Deployment) | Maintainers' reference Kubernetes deployment for test environments |
+| [Cosy-Systemtest](https://github.com/Magenta-Mause/Cosy-Systemtest) | End-to-end system tests that drive this UI against a fresh install |
 
 ---
 
@@ -52,7 +56,7 @@ over a STOMP WebSocket connection.
 
 - **[Bun](https://bun.sh/) 1.x** — used as the package manager, runtime and dev tooling.
   Node.js is **not** required to develop the frontend.
-- A running **[Cosy-Backend](https://github.com/magenta-mause/Cosy-Backend)** instance
+- A running **[Cosy-Backend](https://github.com/Magenta-Mause/Cosy-Backend)** instance
   (defaults assume it is reachable at `http://localhost:8080`) to log in and load data.
 - Optional: [Docker](https://www.docker.com/) 24+ if you want to build/run the production container image.
 
@@ -72,7 +76,7 @@ npm install -g bun
 ### Installation
 
 ```sh
-git clone https://github.com/magenta-mause/Cosy-Frontend.git
+git clone https://github.com/Magenta-Mause/Cosy-Frontend.git
 cd Cosy-Frontend
 bun install
 ```
@@ -230,25 +234,27 @@ Cosy-Backend to occupy when both run locally.
 > the image with different `VITE_*` values.
 
 The `Build and Push Docker Image` GitHub Actions workflow builds and publishes this image on
-pushes. For full deployment guidance see the main [Cosy](https://github.com/magenta-mause/Cosy)
-repository and [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs).
+pushes. For full deployment guidance see the main [Cosy](https://github.com/Magenta-Mause/Cosy)
+repository and [Cosy-Docs](https://github.com/Magenta-Mause/Cosy-Docs).
 
 ---
 
 ## Documentation
 
 Full project documentation is available at **[cosy-hosting.net/docs](https://cosy-hosting.net/docs)** and in
-the [Cosy-Docs](https://github.com/magenta-mause/Cosy-Docs) repository.
+the [Cosy-Docs](https://github.com/Magenta-Mause/Cosy-Docs) repository.
 
 ---
 
 ## Contributing
 
-Contributions are welcome! Organization-wide contribution guidelines live in the
-[magenta-mause/.github](https://github.com/magenta-mause/.github) repository.
+Contributions are welcome! Organization-wide contribution guidelines will live in the
+[Magenta-Mause/.github](https://github.com/Magenta-Mause/.github) repository — that file has not
+landed yet, so until it does, the [Development workflow](#development-workflow) and code-style notes
+above are the authoritative guide.
 
 - **Report a bug or request a feature:** Issues for the whole Cosy project are collected in the
-  main [Cosy](https://github.com/Magenta-Mause/cosy/issues) repository. (Issues opened directly on
+  main [Cosy](https://github.com/Magenta-Mause/Cosy/issues) repository. (Issues opened directly on
   this repository are automatically redirected there.)
 - **Development setup:** see [Getting Started](#getting-started) above.
 
@@ -261,5 +267,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](./LICEN
 ## Support
 
 For help and questions, open an issue in the main
-[Cosy](https://github.com/Magenta-Mause/cosy/issues) repository or consult the documentation at
+[Cosy](https://github.com/Magenta-Mause/Cosy/issues) repository or consult the documentation at
 [cosy-hosting.net/docs](https://cosy-hosting.net/docs).
