@@ -2,6 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -121,20 +122,47 @@ function Button({
   variant,
   size,
   asChild = false,
+  loading = false,
+  loadingLabel,
+  disabled,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    loading?: boolean;
+    /**
+     * Replaces the children while `loading`; defaults to `common.loading`.
+     * It is a ReactNode, so a call site that wants to keep its icon can pass
+     * `<><Icon … />{t("saving")}</>`.
+     *
+     * Ignored when `asChild` is set, or when `size` is an icon-only variant —
+     * see the render branch below.
+     */
+    loadingLabel?: React.ReactNode;
   }) {
+  const { t } = useTranslationPrefix("common");
   const Comp = asChild ? Slot : "button";
+
+  // Icon-only buttons are square and have no room for a text label, so they keep
+  // their icon and signal pending through `disabled` + `data-loading` alone.
+  const isIconOnly = size === "icon" || size === "icon-sm" || size === "icon-lg";
+
+  // `asChild` forwards to an arbitrary single child (Slot uses Children.only), so we
+  // must not inject or swap the child — `loadingLabel` is deliberately ignored there,
+  // and only `disabled` + `data-loading` are applied.
+  const showLoadingLabel = loading && !asChild && !isIconOnly;
 
   return (
     <Comp
       data-slot="button"
+      data-loading={loading ? "true" : undefined}
+      aria-busy={loading || undefined}
       className={cn(buttonVariants({ variant, size, className }))}
+      disabled={disabled || loading}
       {...props}
     >
-      {props.children}
+      {showLoadingLabel ? (loadingLabel ?? t("loading")) : children}
     </Comp>
   );
 }

@@ -4,6 +4,7 @@ const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
     loading: "Lädt...",
+    saving: "Speichert...",
     required: "Pflichtfeld",
     optional: "Optional",
     removeEntry: "Eintrag entfernen",
@@ -47,6 +48,8 @@ const translation: i18nLanguage = {
       "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
+    createGameServerError: "Fehler beim Erstellen des Gameservers.",
+    serverStarting: "Server wird gestartet...",
     serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
     serverStartSuccess: "Server erfolgreich gestartet.",
     serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
@@ -92,6 +95,7 @@ const translation: i18nLanguage = {
     created: "Erstellt: {{date}}",
     copyTooltip: "Klicken, um Link zu Kopieren",
     roleLabel: "Benutzerrolle",
+    rolePlaceholder: "Rolle auswählen",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
     memoryLimit: "RAM Limit (Optional)",
     memoryDescription: "Leer lassen, damit der Benutzer unbegrenzt RAM zur Verfügung hat.",
@@ -1096,6 +1100,8 @@ const translation: i18nLanguage = {
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
     noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
     displayTimestamp: "Timestamp anzeigen",
+    loadingLogs: "Logs werden geladen …",
+    loadingLogsFailed: "Logs konnten nicht geladen werden",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",
@@ -1154,6 +1160,8 @@ const translation: i18nLanguage = {
     },
     liveMetricsOn: "Live-Metriken: An",
     liveMetricsOff: "Live-Metriken: Aus",
+    loadingMetrics: "Metriken werden geladen …",
+    loadingMetricsFailed: "Metriken konnten nicht geladen werden",
   },
   timerange: {
     localTime: "de-DE",

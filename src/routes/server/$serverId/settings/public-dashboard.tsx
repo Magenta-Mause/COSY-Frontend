@@ -1,6 +1,6 @@
-import PublicDashboardSettingsSection from "@components/display/GameServer/GameServerSettings/sections/PublicDashboardSettingsSection";
+import PublicDashboardSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/PublicDashboardSettingsSection";
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
 
 export const Route = createFileRoute("/server/$serverId/settings/public-dashboard")({
@@ -8,12 +8,12 @@ export const Route = createFileRoute("/server/$serverId/settings/public-dashboar
 });
 
 function RouteComponent() {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("serverPage");
   const { serverId } = Route.useParams();
   const { gameServer } = useGameServer(serverId ?? "");
 
   if (!serverId || !gameServer) {
-    return <div>{t("serverPage.notFound")}</div>;
+    return <div>{t("notFound")}</div>;
   }
 
   return <PublicDashboardSettingsSection gameServer={gameServer} />;

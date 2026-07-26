@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   useCreateGameServerAccessGroup,
   useDeleteGameServerAccessGroup,
@@ -10,7 +10,7 @@ import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useAccessGroupDataInteractions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslationPrefix("toasts");
 
   const { mutateAsync: createGameServerAccessGroupMutateAsync } = useCreateGameServerAccessGroup({

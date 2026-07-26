@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import type * as React from "react";
 import { useEffect, useState } from "react";
 import type { FooterDto, FooterUpdateDto } from "@/api/generated/model";
@@ -22,6 +22,7 @@ interface EditFooterModalProps {
 
 const EditFooterModal = ({ open, onOpenChange, footerData }: EditFooterModalProps) => {
   const { t } = useTranslationPrefix("footer.editModal");
+  const { t: tCommon } = useTranslationPrefix("common");
   const { updateFooter } = useDataInteractions();
   const [formData, setFormData] = useState<FooterUpdateDto>({
     full_name: "",
@@ -128,7 +129,13 @@ const EditFooterModal = ({ open, onOpenChange, footerData }: EditFooterModalProp
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isPending}>
             {t("cancel")}
           </Button>
-          <Button type="submit" form="edit-footer-form" disabled={!isFormValid || isPending}>
+          <Button
+            type="submit"
+            form="edit-footer-form"
+            disabled={!isFormValid}
+            loading={isPending}
+            loadingLabel={tCommon("saving")}
+          >
             {t("save")}
           </Button>
         </DialogFooter>

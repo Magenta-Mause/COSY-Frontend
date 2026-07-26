@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@radix-ui/react-label";
 import { useNavigate } from "@tanstack/react-router";
 import type { KeyboardEvent } from "react";

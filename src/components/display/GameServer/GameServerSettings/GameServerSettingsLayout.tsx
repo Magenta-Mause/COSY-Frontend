@@ -1,8 +1,8 @@
-import { Button } from "@components/ui/button";
-import Icon from "@components/ui/Icon.tsx";
-import Link from "@components/ui/Link";
-import { Separator } from "@components/ui/separator.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
+import Link from "@/components/ui/Link";
+import { Separator } from "@/components/ui/separator.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";

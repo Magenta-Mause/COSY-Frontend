@@ -1,12 +1,12 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+} from "@/components/ui/dialog.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { Dialog } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -70,10 +70,11 @@ const SettingsActionButtons = ({
           <Button
             className="h-12.5"
             disabled={confirmDisabled}
-            data-loading={loading || undefined}
+            loading={loading}
+            loadingLabel={t("saving")}
             onClick={requireConfirmationLabel ? () => setConfirmationModalOpen(true) : onConfirm}
           >
-            {loading ? t("saving") : t("confirm")}
+            {t("confirm")}
           </Button>
         </TooltipWrapper>
       </div>

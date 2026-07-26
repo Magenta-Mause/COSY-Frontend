@@ -1,10 +1,9 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks.ts";
 import { useSubscription } from "react-stomp-hooks";
 import type { GameServerAccessGroupDtoPermissionsItem, GameServerDto } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 interface DockerPullProgressDtoResponse {
@@ -21,10 +20,10 @@ interface GameServerDockerProgressUpdateDto {
 }
 
 const WebSocketCollection = () => {
-  const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
+  const gameServer = useAppSelector((state) => state.gameServerSliceReducer.data);
   const { uuid: userUuid, authorized } = useContext(AuthContext);
   const { loadGameServer } = useDataLoading();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useSubscription(
     gameServer

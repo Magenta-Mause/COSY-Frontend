@@ -1,8 +1,8 @@
 import RightClickMenu, {
   type RightClickAction,
-} from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
-import NameAndStatusBanner from "@components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
-import Link from "@components/ui/Link.tsx";
+} from "@/components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
+import NameAndStatusBanner from "@/components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
+import Link from "@/components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useMemo } from "react";
@@ -69,7 +69,7 @@ const GameServerHouse = (props: {
                 startServer(props.gameServer.uuid, true);
               } catch (e) {
                 notificationModal.error({
-                  message: t("toasts.serverStartError", { error: e }),
+                  message: t("toasts.serverStartError", { error: String(e) }),
                   cause: e,
                 });
               }
@@ -85,7 +85,7 @@ const GameServerHouse = (props: {
                   await stopServer(props.gameServer.uuid, true);
                 } catch (e) {
                   notificationModal.error({
-                    message: t("toasts.serverStopError", { error: e }),
+                    message: t("toasts.serverStopError", { error: String(e) }),
                     cause: e,
                   });
                 }
@@ -123,7 +123,7 @@ const GameServerHouse = (props: {
         )}
         to={`/server/${props.gameServer.uuid}`}
         data-testid="server-house"
-        aria-label={t("aria.gameServerConfiguration", {
+        aria-label={t("aria.gameServer", {
           serverName: props.gameServer.server_name,
         })}
         style={{
@@ -146,7 +146,7 @@ const GameServerHouse = (props: {
           {props.gameServer.server_name}
         </NameAndStatusBanner>
         <img
-          alt={t("aria.gameServerConfiguration", {
+          alt={t("aria.gameServer", {
             serverName: props.gameServer.server_name,
           })}
           className="w-full h-full object-contain overflow-visible flex items-center justify-center"

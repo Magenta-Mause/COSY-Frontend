@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useChangePassword } from "@/api/generated/backend-api";
@@ -22,6 +22,7 @@ interface ChangePasswordModalProps {
 
 export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePasswordModalProps) {
   const { t } = useTranslationPrefix("changePasswordModal");
+  const { t: tCommon } = useTranslationPrefix("common");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -144,7 +145,9 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
           <Button
             type="submit"
             form="change-password-form"
-            disabled={!isFormValid || isPending || hasPasswordError}
+            disabled={!isFormValid || hasPasswordError}
+            loading={isPending}
+            loadingLabel={tCommon("saving")}
           >
             {t("changePassword")}
           </Button>

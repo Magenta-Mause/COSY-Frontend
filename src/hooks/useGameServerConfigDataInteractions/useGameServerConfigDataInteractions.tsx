@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   useUpdateDesign,
   useUpdateMetricLayout,
@@ -19,7 +19,7 @@ import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useGameServerConfigDataInteractions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslationPrefix("toasts");
 
   const { mutateAsync: updateRconConfigurationMutateAsync } = useUpdateRconConfiguration({

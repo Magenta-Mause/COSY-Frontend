@@ -1,21 +1,22 @@
 import "./gameServerDetailPageLayout.css";
-import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
-import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
-import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
-import BackToHomeLink from "@components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink.tsx";
-import FancyNavigationButton from "@components/display/GameServer/GameServerDetailPageLayout/FancyNavigationButton.tsx";
-import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
-import GameServerStartStopButton from "@components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
-import GameServerStatusIndicator from "@components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import Link from "@components/ui/Link.tsx";
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import LanguageSelector from "@/components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@/components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@/components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import BackToHomeLink from "@/components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink.tsx";
+import FancyNavigationButton from "@/components/display/GameServer/GameServerDetailPageLayout/FancyNavigationButton.tsx";
+import GameServerDetailPageHeader from "@/components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
+import GameServerStartStopButton from "@/components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
+import GameServerStatusIndicator from "@/components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import Link from "@/components/ui/Link.tsx";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useLocation, useSearch } from "@tanstack/react-router";
 import type * as React from "react";
 import { type CSSProperties, cloneElement, createContext, useContext } from "react";
+import type { ParseKeys } from "i18next";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
@@ -358,7 +359,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
               tooltip={
                 !isLinkReachable
                   ? t("serverPage.noAccessFor", {
-                      element: t(`serverPage.navbar.${label}`),
+                      element: t(`serverPage.navbar.${label}` as ParseKeys<"translation">),
                     })
                   : null
               }
@@ -367,7 +368,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
             >
               <FancyNavigationButton
                 isActive={activePathPattern ? activePathPattern.test(location.pathname) : isActive}
-                label={t(`serverPage.navbar.${label}`)}
+                label={t(`serverPage.navbar.${label}` as ParseKeys<"translation">)}
                 data-testid={`server-tab-${label}`}
                 disabled={!isLinkReachable}
                 variant={props.buttonVariant}

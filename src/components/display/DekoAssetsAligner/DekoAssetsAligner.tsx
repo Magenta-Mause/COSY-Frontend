@@ -1,4 +1,4 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
 import { useContext, useMemo } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 import bush1 from "@/assets/deko/bush1.png";

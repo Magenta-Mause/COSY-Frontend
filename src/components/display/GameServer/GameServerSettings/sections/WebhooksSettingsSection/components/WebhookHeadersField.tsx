@@ -1,9 +1,10 @@
-import { Button } from "@components/ui/button";
-import Icon from "@components/ui/Icon.tsx";
-import { Input } from "@components/ui/input";
 import { useTranslation } from "react-i18next";
 import plusIcon from "@/assets/icons/plus.webp";
 import trashIcon from "@/assets/icons/trash.webp";
+import Icon from "@/components/ui/Icon.tsx";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { WebhookHeaderField } from "./webhook.types";
 
 interface WebhookHeadersFieldProps {
@@ -15,8 +16,9 @@ interface WebhookHeadersFieldProps {
 
 /** Name/value editor for the request headers of a custom webhook. */
 const WebhookHeadersField = ({ headers, error, disabled, onChange }: WebhookHeadersFieldProps) => {
-  const { t } = useTranslation();
-  const prefix = "components.GameServerSettings.webhooks.form";
+  const { t } = useTranslationPrefix("components.GameServerSettings.webhooks.form");
+  // The remove-button label lives outside this section's key prefix.
+  const { t: tRoot } = useTranslation();
 
   const updateHeader = (index: number, patch: Partial<WebhookHeaderField>) => {
     onChange(headers.map((header, i) => (i === index ? { ...header, ...patch } : header)));
@@ -32,7 +34,7 @@ const WebhookHeadersField = ({ headers, error, disabled, onChange }: WebhookHead
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-sm font-bold">{t(`${prefix}.headers`)}</p>
+      <p className="text-sm font-bold">{t("headers")}</p>
 
       {headers.map((header, index) => (
         // Headers have no id of their own and an empty name is a valid intermediate state while
@@ -41,14 +43,14 @@ const WebhookHeadersField = ({ headers, error, disabled, onChange }: WebhookHead
         <div key={index} className="flex items-center gap-2 w-full">
           <Input
             value={header.name}
-            placeholder={t(`${prefix}.headerName`)}
+            placeholder={t("headerName")}
             onChange={(e) => updateHeader(index, { name: e.target.value })}
             disabled={disabled}
             wrapperClassName="flex-1"
           />
           <Input
             value={header.value}
-            placeholder={t(`${prefix}.headerValue`)}
+            placeholder={t("headerValue")}
             onChange={(e) => updateHeader(index, { value: e.target.value })}
             disabled={disabled}
             wrapperClassName="flex-1"
@@ -58,7 +60,7 @@ const WebhookHeadersField = ({ headers, error, disabled, onChange }: WebhookHead
             variant="destructive"
             size="icon"
             disabled={disabled}
-            aria-label={t("common.removeEntry")}
+            aria-label={tRoot("common.removeEntry")}
             onClick={() => removeHeader(index)}
           >
             <Icon src={trashIcon} className="size-4" />
@@ -74,7 +76,7 @@ const WebhookHeadersField = ({ headers, error, disabled, onChange }: WebhookHead
         onClick={addHeader}
       >
         <Icon src={plusIcon} className="size-4" />
-        {t(`${prefix}.addHeader`)}
+        {t("addHeader")}
       </Button>
 
       {error && <p className="text-sm text-destructive">{error}</p>}

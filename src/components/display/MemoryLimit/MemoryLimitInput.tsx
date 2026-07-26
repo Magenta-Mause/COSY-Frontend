@@ -1,12 +1,12 @@
-import { Input } from "@components/ui/input.tsx";
-import RequiredMark from "@components/ui/RequiredMark.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select.tsx";
+} from "@/components/ui/select.tsx";
 import { useCallback, useEffect, useState } from "react";
 
 interface MemoryLimitInputProps {

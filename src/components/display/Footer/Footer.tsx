@@ -1,4 +1,4 @@
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetFooter } from "@/api/generated/backend-api.ts";

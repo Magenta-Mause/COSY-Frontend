@@ -1,15 +1,15 @@
-import { Checkbox } from "@components/ui/checkbox";
-import { Input } from "@components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select";
-import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/select";
 import { WebhookCreationDtoWebhookType } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { cn } from "@/lib/utils";
 import WebhookHeadersField from "./WebhookHeadersField";
 import {
   WEBHOOK_EVENTS,
@@ -25,7 +25,7 @@ import {
 } from "./webhook.types";
 
 const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFormProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
   const isCustom = values.webhook_type === WebhookCreationDtoWebhookType.CUSTOM;
 
   const handleWebhookTypeChange = (value: string) => {
@@ -62,7 +62,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label className="text-sm font-bold" htmlFor="webhook-type">
-          {t("components.GameServerSettings.webhooks.form.webhookType")}
+          {t("form.webhookType")}
         </label>
         <Select value={values.webhook_type} onValueChange={handleWebhookTypeChange}>
           <SelectTrigger id="webhook-type" className="w-full" disabled={isSubmitting}>
@@ -71,7 +71,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
           <SelectContent>
             {WEBHOOK_TYPES.map((value) => (
               <SelectItem key={value} value={value}>
-                {t(`components.GameServerSettings.webhooks.types.${value}`)}
+                {t(`types.${value}`)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -80,7 +80,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
 
       <Input
         id="webhook-url"
-        header={t("components.GameServerSettings.webhooks.form.webhookUrl")}
+        header={t("form.webhookUrl")}
         value={values.webhook_url}
         placeholder="https://your-webhook-url.org"
         onChange={(e) => handleWebhookUrlChange(e.target.value)}
@@ -92,7 +92,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
         <>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-bold" htmlFor="webhook-http-method">
-              {t("components.GameServerSettings.webhooks.form.httpMethod")}
+              {t("form.httpMethod")}
             </label>
             <Select value={values.http_method} onValueChange={handleHttpMethodChange}>
               <SelectTrigger id="webhook-http-method" className="w-full" disabled={isSubmitting}>
@@ -118,7 +118,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
           {methodAllowsBody(values.http_method) && (
             <div className="flex flex-col gap-1">
               <label className="text-sm font-bold" htmlFor="webhook-body-template">
-                {t("components.GameServerSettings.webhooks.form.bodyTemplate")}
+                {t("form.bodyTemplate")}
               </label>
               <textarea
                 id="webhook-body-template"
@@ -143,7 +143,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
 
           <div className="flex flex-col gap-1">
             <p className="text-sm text-muted-foreground">
-              {t("components.GameServerSettings.webhooks.form.placeholderHint")}
+              {t("form.placeholderHint")}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {WEBHOOK_PLACEHOLDERS.map((placeholder) => (
@@ -166,12 +166,12 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
         disabled={isSubmitting}
       >
         <Checkbox checked={values.enabled} className="size-5" tabIndex={-1} />
-        <span className="text-sm">{t("components.GameServerSettings.webhooks.form.enabled")}</span>
+        <span className="text-sm">{t("form.enabled")}</span>
       </button>
 
       <div className="flex flex-col gap-2">
         <p className="text-sm font-bold">
-          {t("components.GameServerSettings.webhooks.form.subscribedEvents")}
+          {t("form.subscribedEvents")}
         </p>
         {WEBHOOK_EVENTS.map((event) => (
           <button
@@ -187,7 +187,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
               tabIndex={-1}
             />
             <span className="text-sm">
-              {t(`components.GameServerSettings.webhooks.events.${event}`)}
+              {t(`events.${event}`)}
             </span>
           </button>
         ))}

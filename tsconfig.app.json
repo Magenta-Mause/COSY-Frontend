@@ -28,17 +28,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@types/*": [
-        "./src/types/*"
-      ],
       "@/*": [
         "./src/*"
-      ],
-      "@config": [
-        "./src/config.ts"
       ]
     }
   },

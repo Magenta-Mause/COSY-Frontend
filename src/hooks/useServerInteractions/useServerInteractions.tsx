@@ -1,14 +1,14 @@
 import axios from "axios";
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { startService, stopService } from "@/api/generated/backend-api.ts";
 import { GameServerDtoStatus } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useServerInteractions = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { t } = useTranslationPrefix("toasts");
 
   const startServer = async (gameServerId: string, includeToastNotification?: boolean) => {
     try {
@@ -16,7 +16,7 @@ const useServerInteractions = () => {
       dispatch(gameServerSliceActions.awaitPendingUpdate(gameServerId));
       await startPromise;
       if (includeToastNotification) {
-        notificationModal.success({ message: t("toasts.serverStartSuccess") });
+        notificationModal.success({ message: t("serverStartSuccess") });
       }
     } catch (e) {
       if (axios.isAxiosError(e) && e.code === "ECONNABORTED") return;
@@ -26,7 +26,7 @@ const useServerInteractions = () => {
           serverState: GameServerDtoStatus.FAILED,
         }),
       );
-      notificationModal.error({ message: t("toasts.serverStartError", { error: e }), cause: e });
+      notificationModal.error({ message: t("serverStartError", { error: String(e) }), cause: e });
     }
   };
 
@@ -36,10 +36,10 @@ const useServerInteractions = () => {
       dispatch(gameServerSliceActions.awaitPendingUpdate(gameServerId));
       await stopPromise;
       if (includeToastNotification) {
-        notificationModal.success({ message: t("toasts.serverStopSuccess") });
+        notificationModal.success({ message: t("serverStopSuccess") });
       }
     } catch (e) {
-      notificationModal.error({ message: t("toasts.serverStopError", { error: e }), cause: e });
+      notificationModal.error({ message: t("serverStopError", { error: String(e) }), cause: e });
     }
   };
 

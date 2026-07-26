@@ -1,7 +1,7 @@
 import type { GameDto, TemplateEntity } from "@/api/generated/model";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { useAppSelector } from "@/stores/hooks.ts";
 
-const useTemplateGames = (): GameDto[] => useTypedSelector((state) => state.gameSliceReducer.data);
+const useTemplateGames = (): GameDto[] => useAppSelector((state) => state.gameSliceReducer.data);
 
 export default useTemplateGames;
 

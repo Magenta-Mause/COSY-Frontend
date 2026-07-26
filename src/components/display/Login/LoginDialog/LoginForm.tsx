@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import eyeClosed from "@/assets/icons/eyeClosed.webp";
 import eyeOpen from "@/assets/icons/eyeOpen.webp";
 import { FieldGroup } from "@/components/ui/field";
@@ -19,15 +19,16 @@ const LoginForm = (props: {
   loginCallback: (formValues: { username: string; password: string }) => void;
   error: string | null;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("signIn");
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form
       id="login-form"
-      onSubmit={(event: React.FormEvent<SignInElement>) => {
+      onSubmit={(event) => {
         event.preventDefault();
-        const form = event.currentTarget;
+        // onSubmit is typed against HTMLFormElement, so narrow here to reach the named inputs.
+        const form = event.currentTarget as SignInElement;
         const data = {
           username: form.elements.username.value,
           password: form.elements.password.value,
@@ -40,7 +41,7 @@ const LoginForm = (props: {
           type="text"
           id="username"
           name="username"
-          header={t("signIn.username")}
+          header={t("username")}
           data-testid="login-username-input"
           required
         />
@@ -49,7 +50,7 @@ const LoginForm = (props: {
           type={showPassword ? "text" : "password"}
           id="password"
           name="password"
-          header={t("signIn.password")}
+          header={t("password")}
           error={props.error}
           data-testid="login-password-input"
           required
@@ -58,7 +59,7 @@ const LoginForm = (props: {
               type="button"
               className="opacity-60 hover:opacity-100 transition-opacity"
               onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? t("signIn.hidePassword") : t("signIn.showPassword")}
+              aria-label={showPassword ? t("hidePassword") : t("showPassword")}
             >
               <Icon
                 src={showPassword ? eyeOpen : eyeClosed}

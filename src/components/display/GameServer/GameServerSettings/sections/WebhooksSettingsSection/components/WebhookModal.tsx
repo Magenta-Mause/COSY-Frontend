@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogMain,
   DialogTitle,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useEffect } from "react";
 import {
   WebhookCreationDtoSubscribedEventsItem,
@@ -45,6 +45,7 @@ const DEFAULT_CREATE_VALUES: WebhookFormValues = {
 
 const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: WebhookModalProps) => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
+  const { t: tCommon } = useTranslationPrefix("common");
   const { createWebhook, updateWebhook, isCreatingWebhook } = useDataInteractions();
 
   const isEdit = mode === "edit";
@@ -149,7 +150,12 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
           <Button variant="secondary" onClick={() => handleClose(false)} disabled={isLoading}>
             {t("cancel")}
           </Button>
-          <Button onClick={onFormSubmit} disabled={isDisabled || isCreatingWebhook}>
+          <Button
+            onClick={onFormSubmit}
+            disabled={isDisabled}
+            loading={isLoading}
+            loadingLabel={tCommon("saving")}
+          >
             {submitLabel}
           </Button>
         </DialogFooter>

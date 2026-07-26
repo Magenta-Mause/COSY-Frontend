@@ -1,7 +1,7 @@
-import { Button } from "@components/ui/button.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import globeIcon from "@/assets/icons/globe.webp";
 import { cn } from "@/lib/utils.ts";
 
@@ -21,7 +21,7 @@ const LanguageSelector = (props: {
   tabIndex?: number;
   onLanguageChange?: () => void;
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslationPrefix("optionsBanner");
 
   return (
     <Popover>
@@ -29,7 +29,7 @@ const LanguageSelector = (props: {
         <Button
           className={cn("h-auto aspect-square", props.className)}
           tabIndex={props.tabIndex}
-          aria-label={t("optionsBanner.languageSelector")}
+          aria-label={t("languageSelector")}
           onClick={(e) => {
             e.stopPropagation();
           }}

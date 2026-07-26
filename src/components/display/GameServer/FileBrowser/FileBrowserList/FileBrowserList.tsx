@@ -10,9 +10,9 @@ import {
   validateName,
 } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
-import { DeleteDialog } from "../dialogs/DeleteDialog";
-import { MkdirDialog } from "../dialogs/MkdirDialog";
-import { RenameDialog } from "../dialogs/RenameDialog";
+import { DeleteDialog } from "./dialogs/DeleteDialog";
+import { MkdirDialog } from "./dialogs/MkdirDialog";
+import { RenameDialog } from "./dialogs/RenameDialog";
 import { FileBrowserBody } from "../FileBrowserBody/FileBrowserBody";
 import { useFileBrowser } from "../FileBrowserContext";
 import { FileBrowserHeader } from "../FileBrowserHeader/FileBrowserHeader";

@@ -1,7 +1,8 @@
+import type { ParseKeys, TOptions } from "i18next";
 import { useCallback, useMemo, useState } from "react";
-import { z } from "zod";
 import { WebhookCreationDtoWebhookType } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { webhookUrlValidator } from "@/lib/validators/webhookUrlValidator.ts";
 import {
   MAX_BODY_TEMPLATE_LENGTH,
   MAX_HEADER_VALUE_LENGTH,
@@ -13,14 +14,6 @@ import {
   type WebhookHeaderField,
 } from "./webhook.types";
 
-const webhookUrlSchema = z
-  .string()
-  .min(1, "validation.webhookUrlRequired")
-  .refine(
-    (url) => url.trim().startsWith("http://") || url.trim().startsWith("https://"),
-    "validation.webhookUrlInvalid",
-  );
-
 type FormErrors = {
   webhook_url?: string;
   subscribed_events?: string;
@@ -28,11 +21,14 @@ type FormErrors = {
   body_template?: string;
 };
 
+/** Keys of this section, as accepted by the prefixed `t` from `useTranslationPrefix`. */
+type WebhookKey = ParseKeys<"translation", TOptions, "components.GameServerSettings.webhooks">;
+
 /**
  * Mirrors the backend's header rules so a rejected configuration is reported while the user is
  * editing it instead of as a 400 on submit. Returns the translation key of the first problem.
  */
-const validateHeaders = (headers: WebhookHeaderField[]): string | undefined => {
+const validateHeaders = (headers: WebhookHeaderField[]): WebhookKey | undefined => {
   const named = headers.filter((header) => header.name.trim().length > 0);
 
   if (headers.some((header) => header.value.trim().length > 0 && header.name.trim().length === 0)) {
@@ -72,9 +68,9 @@ export const useWebhookForm = ({ defaultValues, onSubmit }: UseWebhookFormOption
     const result: FormErrors = {};
 
     if (values.webhook_url.length > 0) {
-      const urlResult = webhookUrlSchema.safeParse(values.webhook_url);
+      const urlResult = webhookUrlValidator.safeParse(values.webhook_url);
       if (!urlResult.success) {
-        result.webhook_url = t(urlResult.error.issues[0].message);
+        result.webhook_url = t(urlResult.error.issues[0].message as WebhookKey);
       }
     }
 
