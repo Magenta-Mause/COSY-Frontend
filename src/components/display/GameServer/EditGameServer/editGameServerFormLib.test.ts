@@ -5,7 +5,6 @@ import {
   type GameServerUpdateDto,
   PortMappingProtocol,
 } from "@/api/generated/model";
-import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import {
   type AnnotationEntry,
   annotationsToEntries,
@@ -13,6 +12,7 @@ import {
   buildUpdatePayload,
   entriesToAnnotationsRecord,
   isGameServerChanged,
+  toEditFormState,
 } from "./editGameServerFormLib.ts";
 
 const makeUpdate = (overrides: Partial<GameServerUpdateDto> = {}): GameServerUpdateDto => ({
@@ -56,6 +56,40 @@ describe("annotationsToEntries", () => {
       { key: "b", value: "2" },
     ]);
     expect(annotationsToEntries(undefined)).toEqual([]);
+  });
+
+  it("renders stored values in the escaped notation the editor uses", () => {
+    expect(annotationsToEntries({ path: "C:\\Users\\test", multi: "a\nb" })).toEqual([
+      { key: "path", value: "C:\\\\Users\\\\test" },
+      { key: "multi", value: "a\\nb" },
+    ]);
+  });
+});
+
+describe("toEditFormState", () => {
+  it("renders environment variable values in the escaped notation", () => {
+    const state = toEditFormState(
+      makeOriginal({
+        environment_variables: [
+          { key: "WIN", value: "C:\\Users\\test" },
+          { key: "MULTI", value: "a\nb" },
+          { key: "PLAIN", value: "value" },
+        ],
+      }),
+    );
+
+    expect(state.environment_variables).toEqual([
+      { key: "WIN", value: "C:\\\\Users\\\\test" },
+      { key: "MULTI", value: "a\\nb" },
+      { key: "PLAIN", value: "value" },
+    ]);
+  });
+
+  it("leaves everything else as the plain mapper produced it", () => {
+    const state = toEditFormState(richOriginal);
+    expect(state.server_name).toBe("srv");
+    expect(state.annotations).toEqual({ "com.x": "1" });
+    expect(state.volume_mounts).toEqual([{ container_path: "/data", uuid: "u1" }]);
   });
 });
 
@@ -121,7 +155,7 @@ describe("areEditFieldsValid", () => {
 });
 
 describe("isGameServerChanged", () => {
-  const baseState = mapGameServerDtoToUpdate(richOriginal);
+  const baseState = toEditFormState(richOriginal);
   const baseRaw = quote(baseState.execution_command ?? []);
   const baseEntries = annotationsToEntries(baseState.annotations);
 
@@ -261,5 +295,88 @@ describe("buildUpdatePayload", () => {
 
   it("produces an empty command array for a blank raw string", () => {
     expect(buildUpdatePayload(makeUpdate(), "   ", []).execution_command).toEqual([]);
+  });
+});
+
+describe("load/save round trip", () => {
+  /** One open-edit-save cycle: load the server into the form, touch a field, build the payload. */
+  const editAndSave = (server: GameServerDto, serverName: string) => {
+    const state = toEditFormState(server);
+    const entries = annotationsToEntries(state.annotations);
+    return buildUpdatePayload({ ...state, server_name: serverName }, quote([]), entries);
+  };
+
+  const serverWithTrickyValues = makeOriginal({
+    environment_variables: [
+      { key: "WIN_PATH", value: "C:\\Users\\test" },
+      { key: "LITERAL", value: "a\\nb" },
+      { key: "MULTI", value: "a\nb" },
+      { key: "PLAIN", value: "value" },
+    ],
+    annotations: { "com.example.path": "C:\\Users\\test", "com.example.literal": "a\\nb" },
+  });
+
+  it("keeps values intact when the user edits an unrelated field", () => {
+    const payload = editAndSave(serverWithTrickyValues, "renamed");
+
+    expect(payload.environment_variables).toEqual([
+      { key: "WIN_PATH", value: "C:\\Users\\test" },
+      { key: "LITERAL", value: "a\\nb" },
+      { key: "MULTI", value: "a\nb" },
+      { key: "PLAIN", value: "value" },
+    ]);
+    expect(payload.annotations).toEqual({
+      "com.example.path": "C:\\Users\\test",
+      "com.example.literal": "a\\nb",
+    });
+  });
+
+  it("stays stable across repeated save cycles", () => {
+    let server = serverWithTrickyValues;
+    for (let i = 0; i < 3; i++) {
+      const payload = editAndSave(server, `rename-${i}`);
+      server = { ...server, ...payload } as GameServerDto;
+    }
+
+    expect(server.environment_variables).toEqual([
+      { key: "WIN_PATH", value: "C:\\Users\\test" },
+      { key: "LITERAL", value: "a\\nb" },
+      { key: "MULTI", value: "a\nb" },
+      { key: "PLAIN", value: "value" },
+    ]);
+    expect(server.annotations).toEqual({
+      "com.example.path": "C:\\Users\\test",
+      "com.example.literal": "a\\nb",
+    });
+  });
+
+  it("does not report a freshly loaded server as changed", () => {
+    const state = toEditFormState(serverWithTrickyValues);
+    expect(
+      isGameServerChanged(
+        state,
+        serverWithTrickyValues,
+        quote(serverWithTrickyValues.execution_command ?? []),
+        annotationsToEntries(state.annotations),
+      ),
+    ).toBe(false);
+  });
+
+  it("still reports a real edit to a value containing a backslash", () => {
+    const state = toEditFormState(serverWithTrickyValues);
+    expect(
+      isGameServerChanged(
+        {
+          ...state,
+          environment_variables: [
+            { key: "WIN_PATH", value: "C:\\\\Users\\\\other" },
+            ...(state.environment_variables ?? []).slice(1),
+          ],
+        },
+        serverWithTrickyValues,
+        quote(serverWithTrickyValues.execution_command ?? []),
+        annotationsToEntries(state.annotations),
+      ),
+    ).toBe(true);
   });
 });

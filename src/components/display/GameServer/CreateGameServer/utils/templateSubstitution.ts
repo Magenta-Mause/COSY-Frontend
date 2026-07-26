@@ -7,6 +7,7 @@ import {
 } from "@/api/generated/model";
 import { quote } from "shell-quote";
 import type { GameServerCreationFormState } from "../CreateGameServerModal";
+import { escapeSequences } from "./inputValue";
 
 /**
  * Substitutes template variables in a string
@@ -83,13 +84,15 @@ export function applyTemplate(
     newState.docker_image_tag = substituteVariables(template.docker_image_tag, variables);
   }
 
-  // Substitute environment variables
+  // Substitute environment variables. The form edits values in escaped notation and processes them
+  // once at submit time, so a template value carrying a real newline or backslash has to be escaped
+  // on the way in -- otherwise submit would reinterpret it (`C:\Users\test` -> `C:\Users<TAB>est`).
   if (template.environment_variables) {
     const envVars: EnvironmentVariableConfiguration[] = [];
     for (const [key, value] of Object.entries(template.environment_variables)) {
       envVars.push({
         key: substituteVariables(key, variables),
-        value: substituteVariables(value, variables),
+        value: escapeSequences(substituteVariables(value, variables)),
       });
     }
     newState.environment_variables = envVars;
@@ -163,7 +166,8 @@ export function applyTemplate(
       const substitutedValue = substituteVariables(String(value), variables);
       // Skip entries where key or value stays unresolved to keep the DTO valid.
       if (hasUnresolvedOrEmpty(substitutedKey) || hasUnresolvedOrEmpty(substitutedValue)) continue;
-      annotations.push({ key: substitutedKey, value: substitutedValue });
+      // Escaped on the way in for the same reason as the environment variables above.
+      annotations.push({ key: substitutedKey, value: escapeSequences(substitutedValue) });
     }
     newState.annotations = annotations;
   }
