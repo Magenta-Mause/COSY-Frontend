@@ -83,7 +83,12 @@ export function applyTemplate(
     newState.docker_image_tag = substituteVariables(template.docker_image_tag, variables);
   }
 
-  // Substitute environment variables
+  // Substitute environment variables.
+  //
+  // Template values are authored *in* the form's escape notation and are copied through verbatim:
+  // `MODRINTH_PROJECTS: 'fabric-api\ncosy-integration-mod'` is a literal backslash + n in the YAML,
+  // and the author means the newline that submit-time processing turns it into. They are already
+  // field notation, so escaping them here would send the literal `\n` instead.
   if (template.environment_variables) {
     const envVars: EnvironmentVariableConfiguration[] = [];
     for (const [key, value] of Object.entries(template.environment_variables)) {
@@ -163,6 +168,7 @@ export function applyTemplate(
       const substitutedValue = substituteVariables(String(value), variables);
       // Skip entries where key or value stays unresolved to keep the DTO valid.
       if (hasUnresolvedOrEmpty(substitutedKey) || hasUnresolvedOrEmpty(substitutedValue)) continue;
+      // Copied through verbatim, in the authored escape notation -- see the env vars above.
       annotations.push({ key: substitutedKey, value: substitutedValue });
     }
     newState.annotations = annotations;

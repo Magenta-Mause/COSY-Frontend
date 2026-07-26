@@ -4,7 +4,8 @@ import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 import { memoryLimitValidator } from "@/lib/validators/memoryLimitValidator.ts";
 import { portValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import { processEscapeSequences } from "../CreateGameServer/utils/inputValue";
+import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
+import { escapeSequences, processEscapeSequences } from "../CreateGameServer/utils/inputValue";
 
 export interface AnnotationEntry {
   readonly key: string;
@@ -16,11 +17,34 @@ export interface EditFieldLimits {
   readonly memoryLimit: string | null;
 }
 
-/** Annotations are a Record<string,string> on the DTO but edited as key/value entries. */
+/**
+ * Values that carry escape sequences (environment variables, annotations) live in the form state
+ * in their *escaped* notation -- the form is the only place that notation exists. They are escaped
+ * once here on the way in and processed once in {@link buildUpdatePayload} on the way out, so
+ * repeated open/save cycles are stable. Everything else is copied through verbatim.
+ */
+export const toEditFormState = (gameServer: GameServerDto): GameServerUpdateDto => {
+  const state = mapGameServerDtoToUpdate(gameServer);
+  return {
+    ...state,
+    environment_variables: state.environment_variables?.map((env) => ({
+      ...env,
+      value: escapeSequences(env.value ?? ""),
+    })),
+  };
+};
+
+/**
+ * Annotations are a Record<string,string> on the DTO but edited as key/value entries, in the
+ * escaped notation (see {@link toEditFormState}).
+ */
 export const annotationsToEntries = (
   annotations?: Record<string, string>,
 ): { key: string; value: string }[] =>
-  Object.entries(annotations ?? {}).map(([key, value]) => ({ key, value }));
+  Object.entries(annotations ?? {}).map(([key, value]) => ({
+    key,
+    value: escapeSequences(value ?? ""),
+  }));
 
 /**
  * Converts annotation entries back to the DTO's Record<string,string> (trimmed key wins on dupes).
@@ -150,9 +174,22 @@ export const isGameServerChanged = (
   const portsChanged =
     JSON.stringify(state.port_mappings ?? []) !== JSON.stringify(original.port_mappings ?? []);
 
+  // The form state holds escaped notation, the server holds the processed value -- compare on the
+  // server's side of the boundary, otherwise every value containing a backslash or a control
+  // character would read as changed the moment the dialog opens.
   const envChanged =
-    JSON.stringify(state.environment_variables ?? []) !==
-    JSON.stringify(original.environment_variables ?? []);
+    JSON.stringify(
+      (state.environment_variables ?? []).map((env) => ({
+        key: env.key ?? "",
+        value: processEscapeSequences(env.value ?? ""),
+      })),
+    ) !==
+    JSON.stringify(
+      (original.environment_variables ?? []).map((env) => ({
+        key: env.key ?? "",
+        value: env.value ?? "",
+      })),
+    );
 
   const volumesChanged =
     JSON.stringify(
@@ -182,15 +219,10 @@ export const isGameServerChanged = (
       })) ?? [],
     );
 
+  // Same boundary as envChanged: entriesToAnnotationsRecord is exactly what confirm will send.
   const annotationsChanged =
-    JSON.stringify(
-      annotationEntries
-        .filter((e) => e.key?.trim())
-        .reduce<Record<string, string>>((acc, e) => {
-          acc[e.key.trim()] = e.value ?? "";
-          return acc;
-        }, {}),
-    ) !== JSON.stringify(original.annotations ?? {});
+    JSON.stringify(entriesToAnnotationsRecord(annotationEntries)) !==
+    JSON.stringify(original.annotations ?? {});
 
   const normalizeLimitValue = (val: string | number | null | undefined) =>
     val === null || val === undefined || val === "" ? null : val;

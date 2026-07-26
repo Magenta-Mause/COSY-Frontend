@@ -64,6 +64,7 @@ const AdvancedServerFields = ({
           inputType="text"
           objectKey="key"
           objectValue="value"
+          processEscapeSequences={true}
         />
 
         <EditHostVolumeMountConfigurationInput

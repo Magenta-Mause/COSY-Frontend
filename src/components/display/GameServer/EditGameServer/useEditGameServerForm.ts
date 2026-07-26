@@ -2,12 +2,12 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { quote } from "shell-quote";
 import type { GameServerDto, GameServerUpdateDto } from "@/api/generated/model";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import {
   annotationsToEntries,
   areEditFieldsValid,
   buildUpdatePayload,
   isGameServerChanged,
+  toEditFormState,
 } from "./editGameServerFormLib.ts";
 
 interface UseEditGameServerFormArgs {
@@ -19,7 +19,7 @@ export const useEditGameServerForm = ({ gameServer, onConfirm }: UseEditGameServ
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
-    mapGameServerDtoToUpdate(gameServer),
+    toEditFormState(gameServer),
   );
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     quote(gameServerState.execution_command ?? []),
@@ -32,7 +32,7 @@ export const useEditGameServerForm = ({ gameServer, onConfirm }: UseEditGameServ
   const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    const updatedState = mapGameServerDtoToUpdate(gameServer);
+    const updatedState = toEditFormState(gameServer);
     setGameServerState(updatedState);
     setExecutionCommandRaw(quote(updatedState.execution_command ?? []));
     setAnnotationEntries(annotationsToEntries(updatedState.annotations));
@@ -49,7 +49,7 @@ export const useEditGameServerForm = ({ gameServer, onConfirm }: UseEditGameServ
   );
 
   const handleRevert = () => {
-    const reverted = mapGameServerDtoToUpdate(gameServer);
+    const reverted = toEditFormState(gameServer);
     setGameServerState(reverted);
     setExecutionCommandRaw(quote(gameServer.execution_command ?? []));
     setAnnotationEntries(annotationsToEntries(reverted.annotations));
