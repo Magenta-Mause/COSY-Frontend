@@ -1,8 +1,8 @@
-import MetricDropDown from "@/components/display/DropDown/MetricDropDown";
-import GenericLayoutBuilder from "@/components/display/GameServer/GameServerSettings/sections/GenericLayoutBuilder/GenericLayoutBuilder.tsx";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
+import MetricDropDown from "@/components/display/DropDown/MetricDropDown";
+import GenericLayoutBuilder from "@/components/display/GameServer/GameServerSettings/sections/GenericLayoutBuilder/GenericLayoutBuilder.tsx";
 import useCustomMetricKeys from "@/hooks/useCustomMetricKeys/useCustomMetricKeys";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";

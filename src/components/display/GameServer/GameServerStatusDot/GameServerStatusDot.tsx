@@ -1,6 +1,6 @@
+import { GameServerDtoStatus } from "@/api/generated/model";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GameServerDtoStatus } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
 
 const GAME_SERVER_STATUS_TO_COLOR: Record<GameServerDtoStatus, string> = {

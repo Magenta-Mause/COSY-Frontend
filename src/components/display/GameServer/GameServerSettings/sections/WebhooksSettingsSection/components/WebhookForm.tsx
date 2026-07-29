@@ -82,9 +82,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
       </button>
 
       <div className="flex flex-col gap-2">
-        <p className="text-sm font-bold">
-          {t("form.subscribedEvents")}
-        </p>
+        <p className="text-sm font-bold">{t("form.subscribedEvents")}</p>
         {WEBHOOK_EVENTS.map((event) => (
           <button
             type="button"
@@ -98,9 +96,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
               className="size-5"
               tabIndex={-1}
             />
-            <span className="text-sm">
-              {t(`events.${event}`)}
-            </span>
+            <span className="text-sm">{t(`events.${event}`)}</span>
           </button>
         ))}
         {errors.subscribed_events && (

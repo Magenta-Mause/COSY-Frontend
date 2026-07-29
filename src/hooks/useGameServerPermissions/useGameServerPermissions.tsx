@@ -9,7 +9,7 @@ const useGameServerPermissions = (gameServerId: string) => {
   );
 
   const permissions = useMemo(() => {
-    if (!gameServerPermissions || !gameServerPermissions[gameServerId]) return [];
+    if (!gameServerPermissions?.[gameServerId]) return [];
     return gameServerPermissions[gameServerId]
       .permissions as GameServerAccessGroupDtoPermissionsItem[];
   }, [gameServerPermissions, gameServerId]);

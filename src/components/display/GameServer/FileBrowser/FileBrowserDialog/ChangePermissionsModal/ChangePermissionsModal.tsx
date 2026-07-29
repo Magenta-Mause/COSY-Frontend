@@ -1,13 +1,8 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 
@@ -20,9 +15,15 @@ type Props = {
 
 // Bit masks for the 9 permission bits
 const BITS = [
-  { label: "r", mask: 0o400 }, { label: "w", mask: 0o200 }, { label: "x", mask: 0o100 },
-  { label: "r", mask: 0o040 }, { label: "w", mask: 0o020 }, { label: "x", mask: 0o010 },
-  { label: "r", mask: 0o004 }, { label: "w", mask: 0o002 }, { label: "x", mask: 0o001 },
+  { label: "r", mask: 0o400 },
+  { label: "w", mask: 0o200 },
+  { label: "x", mask: 0o100 },
+  { label: "r", mask: 0o040 },
+  { label: "w", mask: 0o020 },
+  { label: "x", mask: 0o010 },
+  { label: "r", mask: 0o004 },
+  { label: "w", mask: 0o002 },
+  { label: "x", mask: 0o001 },
 ] as const;
 
 function modeToRwx(mode: number): string {
@@ -76,9 +77,7 @@ export const ChangePermissionsModal = ({ open, obj, onClose, onSave }: Props) =>
     <Dialog open={open} onOpenChange={(o) => !o && !saving && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="truncate">
-            {t("title", { name: obj?.name ?? "" })}
-          </DialogTitle>
+          <DialogTitle className="truncate">{t("title", { name: obj?.name ?? "" })}</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-5">
@@ -88,7 +87,10 @@ export const ChangePermissionsModal = ({ open, obj, onClose, onSave }: Props) =>
             <div className="grid grid-cols-[5rem_1fr_1fr_1fr] mb-1">
               <div />
               {[t("owner"), t("group"), t("other")].map((label) => (
-                <div key={label} className="text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                <div
+                  key={label}
+                  className="text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide"
+                >
                   {label}
                 </div>
               ))}
@@ -96,8 +98,8 @@ export const ChangePermissionsModal = ({ open, obj, onClose, onSave }: Props) =>
 
             {/* Row: Read / Write / Execute */}
             {[
-              { rowLabel: t("read"),    indices: [0, 3, 6] },
-              { rowLabel: t("write"),   indices: [1, 4, 7] },
+              { rowLabel: t("read"), indices: [0, 3, 6] },
+              { rowLabel: t("write"), indices: [1, 4, 7] },
               { rowLabel: t("execute"), indices: [2, 5, 8] },
             ].map(({ rowLabel, indices }) => (
               <div key={rowLabel} className="grid grid-cols-[5rem_1fr_1fr_1fr] gap-y-1 mb-1">
@@ -136,7 +138,9 @@ export const ChangePermissionsModal = ({ open, obj, onClose, onSave }: Props) =>
 
           {/* Owner UID */}
           <div className="flex flex-col gap-1">
-            <label htmlFor="perm-uid" className="text-sm font-medium">{t("ownerLabel")}</label>
+            <label htmlFor="perm-uid" className="text-sm font-medium">
+              {t("ownerLabel")}
+            </label>
             <Input
               id="perm-uid"
               type="number"

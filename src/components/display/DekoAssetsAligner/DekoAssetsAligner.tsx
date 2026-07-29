@@ -1,4 +1,3 @@
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
 import { useContext, useMemo } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 import bush1 from "@/assets/deko/bush1.png";
@@ -14,6 +13,7 @@ import tree2_1 from "@/assets/deko/tree2_1.png";
 import tree2_2 from "@/assets/deko/tree2_2.png";
 import tree2_3 from "@/assets/deko/tree2_3.png";
 import tree2_4 from "@/assets/deko/tree2_4.png";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
 import { cn } from "@/lib/utils";
 import dekoCalculateCoordinate from "./dekoCalculateCoordinate";
 

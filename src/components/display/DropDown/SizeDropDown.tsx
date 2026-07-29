@@ -1,3 +1,5 @@
+import { MetricLayoutSize } from "@/api/generated/model";
+import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,8 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { MetricLayoutSize } from "@/api/generated/model";
-import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { cn } from "@/lib/utils";
 import type { LayoutSize } from "@/types/layoutSize";
 

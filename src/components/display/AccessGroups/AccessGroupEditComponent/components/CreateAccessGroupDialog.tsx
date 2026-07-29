@@ -1,3 +1,6 @@
+import { useState } from "react";
+import type { GameServerAccessGroupDto } from "@/api/generated/model";
+import plusIcon from "@/assets/icons/plus.webp";
 import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -10,13 +13,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import Icon from "@/components/ui/Icon.tsx";
-import { useState } from "react";
-import type { GameServerAccessGroupDto } from "@/api/generated/model";
-import plusIcon from "@/assets/icons/plus.webp";
 import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import { cn } from "@/lib/utils";
+import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import { accessGroupToggleItemClassName } from "./accessGroupToggleStyles";
 
 const CreateAccessGroupDialog = (props: {

@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,15 +9,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
@@ -108,7 +103,9 @@ export const UploadArchiveModal = ({ open, files, onClose, onExtract }: Props) =
             )}
 
             <div className="flex flex-col gap-1">
-              <label htmlFor="archive-subdir" className="text-sm font-medium">{t("subdirectoryLabel")}</label>
+              <label htmlFor="archive-subdir" className="text-sm font-medium">
+                {t("subdirectoryLabel")}
+              </label>
               <Input
                 id="archive-subdir"
                 placeholder={t("subdirectoryPlaceholder")}
@@ -133,16 +130,12 @@ export const UploadArchiveModal = ({ open, files, onClose, onExtract }: Props) =
               </div>
               {clearExisting && (
                 <div className="rounded-md border border-yellow-600/60 bg-yellow-400/20 px-3 py-2">
-                  <p className="text-sm text-foreground">
-                    {t("clearExistingWarning")}
-                  </p>
+                  <p className="text-sm text-foreground">{t("clearExistingWarning")}</p>
                 </div>
               )}
             </div>
 
-            {error && (
-              <p className={cn("text-sm", "text-destructive")}>{error}</p>
-            )}
+            {error && <p className={cn("text-sm", "text-destructive")}>{error}</p>}
 
             <div className="flex gap-2">
               <Button

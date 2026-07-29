@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { type UserEntityDto, UserRoleUpdateDtoRole } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,8 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import { type UserEntityDto, UserRoleUpdateDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 

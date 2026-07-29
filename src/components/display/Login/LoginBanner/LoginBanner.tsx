@@ -1,6 +1,6 @@
+import papyrusScroll from "@/assets/MainPage/LoginPapyrusScroll.png";
 import { Button } from "@/components/ui/button";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import papyrusScroll from "@/assets/MainPage/LoginPapyrusScroll.png";
 
 const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
   const { t } = useTranslationPrefix("signIn");

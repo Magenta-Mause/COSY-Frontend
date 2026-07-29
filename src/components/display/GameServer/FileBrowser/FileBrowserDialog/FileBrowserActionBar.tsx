@@ -1,8 +1,8 @@
+import downloadIcon from "@/assets/icons/download.webp";
+import uploadIcon from "@/assets/icons/upload.webp";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
-import downloadIcon from "@/assets/icons/download.webp";
-import uploadIcon from "@/assets/icons/upload.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes } from "@/lib/fileSystemUtils";
 

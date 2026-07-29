@@ -1,14 +1,14 @@
-import BackToHomeLink from "@/components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink";
-import { GameServerNotFoundPage } from "@/components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
-import UserTable from "@/components/display/UserManagement/UserDetailPage/UserTable/UserTable";
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
-import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { type CSSProperties, useContext } from "react";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import marketplace_day from "@/assets/userManagement/market-bg-day.png";
 import marketplace_night from "@/assets/userManagement/market-bg-night.png";
 import marketplace_foreground from "@/assets/userManagement/market-foreground.png";
+import BackToHomeLink from "@/components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink";
+import { GameServerNotFoundPage } from "@/components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
+import UserTable from "@/components/display/UserManagement/UserDetailPage/UserTable/UserTable";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
+import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import { useRequireRoles } from "@/utils/routeGuards";
 

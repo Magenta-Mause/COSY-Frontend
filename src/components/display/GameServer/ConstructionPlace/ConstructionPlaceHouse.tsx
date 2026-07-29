@@ -1,12 +1,12 @@
+import { Link } from "@tanstack/react-router";
+import { type CSSProperties, useState } from "react";
+import { useTranslation } from "react-i18next";
+import constructionImage from "@/assets/MainPage/construction_place.png";
 import RightClickMenu, {
   type RightClickAction,
 } from "@/components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
 import CreateGameServer from "@/components/display/GameServer/CreateGameServer/CreateGameServer";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import { Link } from "@tanstack/react-router";
-import { type CSSProperties, useState } from "react";
-import { useTranslation } from "react-i18next";
-import constructionImage from "@/assets/MainPage/construction_place.png";
 import { cn } from "@/lib/utils.ts";
 
 const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperties }) => {

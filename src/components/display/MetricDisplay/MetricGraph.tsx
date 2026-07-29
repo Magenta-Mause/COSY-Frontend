@@ -1,3 +1,9 @@
+import type { ParseKeys } from "i18next";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
+import type { MetricValues } from "@/api/generated/model";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,
@@ -5,12 +11,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useEffect, useState } from "react";
-import type { ParseKeys } from "i18next";
-import { useTranslation } from "react-i18next";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
-import type { MetricValues } from "@/api/generated/model";
 import Spinner from "@/components/ui/Spinner.tsx";
 import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
 import type { DataLoadState } from "@/types/dataLoadState.ts";

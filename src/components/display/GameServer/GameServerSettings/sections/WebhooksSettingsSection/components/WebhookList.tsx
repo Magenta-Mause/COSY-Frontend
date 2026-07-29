@@ -1,6 +1,6 @@
 import type { TFunction } from "i18next";
-import { Card } from "@/components/ui/card.tsx";
 import type { WebhookDto } from "@/api/generated/model";
+import { Card } from "@/components/ui/card.tsx";
 import { cn } from "@/lib/utils.ts";
 import WebhookItem from "./WebhookItem";
 

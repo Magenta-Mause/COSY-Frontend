@@ -1,3 +1,4 @@
+import { quote } from "shell-quote";
 import {
   type EnvironmentVariableConfiguration,
   type HostVolumeMountConfigurationDto,
@@ -5,7 +6,6 @@ import {
   PortMappingProtocol,
   type TemplateEntity,
 } from "@/api/generated/model";
-import { quote } from "shell-quote";
 import type { GameServerCreationFormState } from "../CreateGameServerModal";
 
 /**
@@ -204,7 +204,7 @@ export function validateTemplateVariables(
   template: TemplateEntity | null,
   variables: Record<string, string | number | boolean>,
 ): boolean {
-  if (!template || !template.variables || template.variables.length === 0) {
+  if (!template?.variables || template.variables.length === 0) {
     return true; // No variables to validate
   }
 

@@ -1,3 +1,6 @@
+import sortIcon from "@/assets/icons/sort.webp";
+import sortDownIcon from "@/assets/icons/sortDown.webp";
+import sortUpIcon from "@/assets/icons/sortUp.webp";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,9 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import sortIcon from "@/assets/icons/sort.webp";
-import sortDownIcon from "@/assets/icons/sortDown.webp";
-import sortUpIcon from "@/assets/icons/sortUp.webp";
 
 export type SortField = "username" | "role" | "docker_max_cpu_cores" | "docker_memory_limit";
 
@@ -42,9 +42,7 @@ const SortDropdown = ({
     <div className="flex flex-row items-center gap-0.5">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="rounded-r-none">
-            {sortField ? getLabel(sortField) : t("sort")}
-          </Button>
+          <Button className="rounded-r-none">{sortField ? getLabel(sortField) : t("sort")}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {SORT_OPTIONS.map((field) => (

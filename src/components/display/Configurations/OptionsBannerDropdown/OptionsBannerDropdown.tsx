@@ -1,11 +1,11 @@
+import { useContext, useEffect, useRef, useState } from "react";
+import banner from "@/assets/header/Banner.webp";
 import LanguageSelector from "@/components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
 import LogOutButton from "@/components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
 import UserMenuButton from "@/components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import { useContext, useEffect, useRef, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import banner from "@/assets/header/Banner.webp";
 import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {

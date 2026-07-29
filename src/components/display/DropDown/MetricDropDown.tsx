@@ -1,6 +1,4 @@
-import Icon from "@/components/ui/Icon.tsx";
 import type { ParseKeys, TOptions } from "i18next";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {
   extractCustomMetricKey,
   formatMetricDisplayName,

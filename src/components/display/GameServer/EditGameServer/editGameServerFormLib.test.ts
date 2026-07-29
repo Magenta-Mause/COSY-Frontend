@@ -120,7 +120,9 @@ describe("areEditFieldsValid", () => {
 
   it("rejects a port mapping with an out-of-range port", () => {
     const state = makeUpdate({
-      port_mappings: [{ instance_port: 99999, container_port: 8080, protocol: PortMappingProtocol.TCP }],
+      port_mappings: [
+        { instance_port: 99999, container_port: 8080, protocol: PortMappingProtocol.TCP },
+      ],
     });
     expect(areEditFieldsValid(state, noLimits)).toBe(false);
   });
@@ -165,7 +167,12 @@ describe("isGameServerChanged", () => {
 
   it("detects a server name change", () => {
     expect(
-      isGameServerChanged({ ...baseState, server_name: "other" }, richOriginal, baseRaw, baseEntries),
+      isGameServerChanged(
+        { ...baseState, server_name: "other" },
+        richOriginal,
+        baseRaw,
+        baseEntries,
+      ),
     ).toBe(true);
   });
 
@@ -189,7 +196,9 @@ describe("isGameServerChanged", () => {
       isGameServerChanged(
         {
           ...baseState,
-          port_mappings: [{ instance_port: 1, container_port: 1, protocol: PortMappingProtocol.TCP }],
+          port_mappings: [
+            { instance_port: 1, container_port: 1, protocol: PortMappingProtocol.TCP },
+          ],
         },
         richOriginal,
         baseRaw,
@@ -266,10 +275,7 @@ describe("buildUpdatePayload", () => {
         { key: "K", value: "a\\nb" },
         { key: "", value: "" },
       ],
-      volume_mounts: [
-        { container_path: "/data", uuid: "u1" },
-        { container_path: "   " },
-      ],
+      volume_mounts: [{ container_path: "/data", uuid: "u1" }, { container_path: "   " }],
       host_volume_mounts: [
         { host_path: "/h", container_path: "/c", read_only: false, uuid: "h1" },
         { host_path: "  ", container_path: "  " },

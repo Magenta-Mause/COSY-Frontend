@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button.tsx";
-import Icon from "@/components/ui/Icon.tsx";
-import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -9,6 +6,9 @@ import {
   GameServerDtoStatus,
 } from "@/api/generated/model";
 import powerIcon from "@/assets/icons/power.webp";
+import { Button } from "@/components/ui/button.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 

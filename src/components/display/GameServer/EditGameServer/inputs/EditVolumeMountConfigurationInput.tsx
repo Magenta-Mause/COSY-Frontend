@@ -1,3 +1,13 @@
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { v7 as generateUuid } from "uuid";
+import type { ZodType } from "zod";
+import type { VolumeMountConfiguration } from "@/api/generated/model";
+import checkCircleIcon from "@/assets/icons/checkCircle.webp";
+import closeCirleIcon from "@/assets/icons/closeCircle.webp";
+import {
+  type InputType,
+  preProcessInputValue,
+} from "@/components/display/GameServer/CreateGameServer/utils/inputValue";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,14 +22,7 @@ import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { v7 as generateUuid } from "uuid";
-import type { ZodType } from "zod";
-import type { VolumeMountConfiguration } from "@/api/generated/model";
-import checkCircleIcon from "@/assets/icons/checkCircle.webp";
-import closeCirleIcon from "@/assets/icons/closeCircle.webp";
-import { type InputType, preProcessInputValue } from "@/components/display/GameServer/CreateGameServer/utils/inputValue";
 import ListInputEdit from "./ListInputEditGameServer";
 
 interface VolumeMountRow {
@@ -279,12 +282,8 @@ const VolumeMountChangeDialog = (props: {
     <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            {t("title")}
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("description")}
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => handleDecision("delete")}>

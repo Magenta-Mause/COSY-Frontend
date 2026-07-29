@@ -1,17 +1,12 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useGetDirectorySize } from "@/api/generated/backend-api";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes } from "@/lib/fileSystemUtils";
-import { supportsFilePicker } from "@/lib/zipDownload";
 import { cn } from "@/lib/utils";
+import { supportsFilePicker } from "@/lib/zipDownload";
 
 const FIREFOX_WARNING_THRESHOLD_BYTES = 500 * 1024 * 1024; // 500 MB
 
@@ -45,9 +40,7 @@ export const DownloadOptionsModal = ({
 
   const totalBytes = data?.total_bytes ?? null;
   const showFirefoxWarning =
-    !supportsFilePicker &&
-    totalBytes !== null &&
-    totalBytes > FIREFOX_WARNING_THRESHOLD_BYTES;
+    !supportsFilePicker && totalBytes !== null && totalBytes > FIREFOX_WARNING_THRESHOLD_BYTES;
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
@@ -99,7 +92,9 @@ export const DownloadOptionsModal = ({
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <div className="flex flex-col gap-1 flex-1">
-                <label htmlFor="chunk-size" className="text-sm font-medium">{t("chunkSizeLabel")}</label>
+                <label htmlFor="chunk-size" className="text-sm font-medium">
+                  {t("chunkSizeLabel")}
+                </label>
                 <div className="flex items-center gap-2">
                   <Input
                     id="chunk-size"

@@ -1,7 +1,3 @@
-import MetricDropDown from "@/components/display/DropDown/MetricDropDown";
-import WidgetDropDown from "@/components/display/DropDown/WidgetDropDown";
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/ui/Icon.tsx";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -10,6 +6,10 @@ import {
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
 import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import MetricDropDown from "@/components/display/DropDown/MetricDropDown";
+import WidgetDropDown from "@/components/display/DropDown/WidgetDropDown";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
 import useCustomMetricKeys from "@/hooks/useCustomMetricKeys/useCustomMetricKeys";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";

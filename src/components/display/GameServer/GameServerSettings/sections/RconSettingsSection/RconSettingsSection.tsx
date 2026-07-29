@@ -1,8 +1,8 @@
-import RconSettings from "@/components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettings.tsx";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { RCONConfiguration } from "@/api/generated/model";
+import RconSettings from "@/components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettings.tsx";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 
 const RconSettingsSection = () => {

@@ -391,7 +391,8 @@ const translation: i18nLanguage = {
             title: "Host Mounts",
             description:
               "Bind a host path directly into the container. Only admins and owners can edit these.",
-            errorLabel: "Host path is required and container path must be absolute (start with '/').",
+            errorLabel:
+              "Host path is required and container path must be absolute (start with '/').",
             hostPathPlaceholder: "/host/path",
             containerPathPlaceholder: "/container/path",
             readOnlyLabel: "Read-only",

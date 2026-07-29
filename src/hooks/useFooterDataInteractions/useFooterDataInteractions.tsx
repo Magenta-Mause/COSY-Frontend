@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useAppDispatch } from "@/stores/hooks.ts";
 import { getGetFooterQueryKey, useUpdateFooter } from "@/api/generated/backend-api.ts";
 import type { FooterUpdateDto } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { footerSliceActions } from "@/stores/slices/footerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 

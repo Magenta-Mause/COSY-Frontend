@@ -1,6 +1,6 @@
+import { useCallback, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input.tsx";
 import RequiredMark from "@/components/ui/RequiredMark.tsx";
-import { useCallback, useEffect, useState } from "react";
 
 interface CpuLimitInputProps {
   id?: string;
@@ -76,7 +76,15 @@ export const CpuLimitInput = ({
 
   return (
     <Input
-      header={isRequired ? <>{header} <RequiredMark /></> : header}
+      header={
+        isRequired ? (
+          <>
+            {header} <RequiredMark />
+          </>
+        ) : (
+          header
+        )
+      }
       description={description}
       className={className}
       error={error}

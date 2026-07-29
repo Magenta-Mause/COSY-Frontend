@@ -1,17 +1,17 @@
-import KeyValueInput from "./KeyValueInput.tsx";
-import PortInput from "./PortInput.tsx";
-import Collapsible from "@/components/ui/Collapsible.tsx";
 import settingsIcon from "@/assets/icons/settings.webp";
+import Collapsible from "@/components/ui/Collapsible.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { portValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import Icon from "@/components/ui/Icon.tsx";
 import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
-import HostVolumeMountInput from "./HostVolumeMountInput.tsx";
-import VolumeMountInput from "./VolumeMountInput.tsx";
 import DockerImageSection from "./DockerImageSection.tsx";
 import HardwareLimitsSection from "./HardwareLimitsSection.tsx";
+import HostVolumeMountInput from "./HostVolumeMountInput.tsx";
+import KeyValueInput from "./KeyValueInput.tsx";
+import PortInput from "./PortInput.tsx";
+import VolumeMountInput from "./VolumeMountInput.tsx";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");

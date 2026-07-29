@@ -1,6 +1,6 @@
-import { LatestServerMetricsContext } from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider";
 import { useContext, useEffect, useMemo } from "react";
 import { GameServerDtoStatus } from "@/api/generated/model";
+import { LatestServerMetricsContext } from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider";
 import { useAppSelector } from "@/stores/hooks.ts";
 
 interface UserResourceUsage {

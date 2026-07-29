@@ -3,8 +3,7 @@ import { baseNameFromPath } from "./fileSystemUtils";
 
 export type DownloadProgressCallback = (done: number) => void;
 
-const supportsFilePicker =
-  typeof window !== "undefined" && "showSaveFilePicker" in window;
+const supportsFilePicker = typeof window !== "undefined" && "showSaveFilePicker" in window;
 
 export { supportsFilePicker };
 
@@ -22,7 +21,10 @@ async function streamToFilePicker(
   ).showSaveFilePicker({ suggestedName: filename });
 
   const writable = await fileHandle.createWritable();
-  if (!response.body) { await writable.close(); return; }
+  if (!response.body) {
+    await writable.close();
+    return;
+  }
   const reader = response.body.getReader();
   let done = 0;
 

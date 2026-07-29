@@ -49,9 +49,9 @@ describe("applyTemplate environment variables", () => {
   });
 
   it("substitutes variables in both key and value", () => {
-    expect(applyEnv({ "{{name}}_MODE": "{{mode}}\\nverbose" }, { name: "MC", mode: "hard" })).toEqual(
-      [{ key: "MC_MODE", value: "hard\\nverbose" }],
-    );
+    expect(
+      applyEnv({ "{{name}}_MODE": "{{mode}}\\nverbose" }, { name: "MC", mode: "hard" }),
+    ).toEqual([{ key: "MC_MODE", value: "hard\\nverbose" }]);
   });
 
   it("leaves values without escape sequences alone", () => {
@@ -72,9 +72,9 @@ describe("applyTemplate annotations", () => {
   });
 
   it("skips entries whose key or value stays unresolved", () => {
-    expect(
-      applyAnnotations({ "com.example.a": "{{missing}}", "{{missing}}": "value" }),
-    ).toEqual([]);
+    expect(applyAnnotations({ "com.example.a": "{{missing}}", "{{missing}}": "value" })).toEqual(
+      [],
+    );
   });
 });
 

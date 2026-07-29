@@ -1,7 +1,7 @@
+import closeIcon from "@/assets/icons/close.webp";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
-import closeIcon from "@/assets/icons/close.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { FilePreview } from "../FilePreview/FilePreview";
 

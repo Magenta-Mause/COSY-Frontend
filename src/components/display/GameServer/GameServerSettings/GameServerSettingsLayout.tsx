@@ -1,8 +1,3 @@
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/ui/Icon.tsx";
-import Link from "@/components/ui/Link";
-import { Separator } from "@/components/ui/separator.tsx";
-import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
@@ -13,6 +8,11 @@ import metricsIcon from "@/assets/icons/metrics.webp";
 import settingsIcon from "@/assets/icons/settings.webp";
 import userIcon from "@/assets/icons/user.webp";
 import webhookIcon from "@/assets/icons/webhook.webp";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
+import Link from "@/components/ui/Link";
+import { Separator } from "@/components/ui/separator.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
@@ -173,4 +173,4 @@ const GameServerSettingsLayout = ({
 };
 
 export default GameServerSettingsLayout;
-export { SettingsProvider, type ServerSettingsState };
+export { type ServerSettingsState, SettingsProvider };

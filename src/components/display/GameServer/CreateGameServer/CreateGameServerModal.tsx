@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from "react";
 import GameServerCreationNextPageButton from "@/components/display/GameServer/CreateGameServer/GameServerCreationButton.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -10,7 +11,6 @@ import {
   DialogPortal,
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import type { Dispatch, SetStateAction } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import ConfirmCreateDialog from "./ConfirmCreateDialog.tsx";
 import Step1 from "./CreationSteps/Step1/Step1.tsx";
@@ -100,9 +100,7 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
                 }}
               >
                 <DialogHeader>
-                  <DialogTitle className={"mr-5"}>
-                    {t("steps.title")}
-                  </DialogTitle>
+                  <DialogTitle className={"mr-5"}>{t("steps.title")}</DialogTitle>
                 </DialogHeader>
 
                 <DialogMain className="scroller p-6 flex-1 min-h-0">

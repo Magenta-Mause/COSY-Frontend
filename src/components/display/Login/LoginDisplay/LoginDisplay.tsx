@@ -1,4 +1,8 @@
+import { useContext, useState } from "react";
+import { login } from "@/api/generated/backend-api";
+import HerzIcon from "@/assets/deko/herz.webp";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,11 +10,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useContext, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { login } from "@/api/generated/backend-api";
-import HerzIcon from "@/assets/deko/herz.webp";
-import { Button } from "@/components/ui/button";
 import LoginBanner from "../LoginBanner/LoginBanner";
 import LoginForm from "../LoginDialog/LoginForm";
 

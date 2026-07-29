@@ -1,4 +1,5 @@
 import type { TFunction } from "i18next";
+import type { FileSystemObjectDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import type { FileSystemObjectDto } from "@/api/generated/model";
 
 type Props = {
   open: boolean;

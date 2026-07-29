@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
+import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/Spinner.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";

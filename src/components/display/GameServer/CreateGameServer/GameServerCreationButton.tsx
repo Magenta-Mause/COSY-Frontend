@@ -1,7 +1,7 @@
+import { useContext } from "react";
 import { GameServerCreationContext } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import { useContext } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const GameServerCreationButton = () => {

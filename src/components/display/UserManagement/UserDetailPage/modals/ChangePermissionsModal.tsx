@@ -1,3 +1,6 @@
+import { Label } from "@radix-ui/react-label";
+import { useEffect, useState } from "react";
+import type { UserEntityDto } from "@/api/generated/model";
 import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput";
 import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput";
 import { Button } from "@/components/ui/button";
@@ -11,9 +14,6 @@ import {
   DialogMain,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@radix-ui/react-label";
-import { useEffect, useState } from "react";
-import type { UserEntityDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator";

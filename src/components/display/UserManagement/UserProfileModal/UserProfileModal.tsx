@@ -1,3 +1,6 @@
+import { useContext, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import pencilWrite from "@/assets/icons/pencilWrite.webp";
 import ResourceUsageBadge from "@/components/display/ResourceUsageBadge/ResourceUsageBadge.tsx";
 import { ChangePasswordModal } from "@/components/display/UserManagement/ChangePasswordModal/ChangePasswordModal.tsx";
 import UserRoleBadge from "@/components/display/UserRoleBadge/UserRoleBadge.tsx";
@@ -13,9 +16,6 @@ import {
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import { useContext, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import pencilWrite from "@/assets/icons/pencilWrite.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage.tsx";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";

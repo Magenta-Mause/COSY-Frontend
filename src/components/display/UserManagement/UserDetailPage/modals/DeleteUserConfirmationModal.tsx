@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useDeleteUserEntity } from "@/api/generated/backend-api";
+import type { UserEntityDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,11 +10,8 @@ import {
   DialogMain,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState } from "react";
-import { useAppDispatch } from "@/stores/hooks.ts";
-import { useDeleteUserEntity } from "@/api/generated/backend-api";
-import type { UserEntityDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { userSliceActions } from "@/stores/slices/userSlice";
 
 const DeleteUserConfirmationModal = (props: {

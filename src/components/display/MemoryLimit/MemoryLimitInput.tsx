@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input.tsx";
 import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import {
@@ -7,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
-import { useCallback, useEffect, useState } from "react";
 
 interface MemoryLimitInputProps {
   id?: string;
@@ -116,7 +116,15 @@ export const MemoryLimitInput = ({
 
   return (
     <Input
-      header={isRequired ? <>{header} <RequiredMark /></> : header}
+      header={
+        isRequired ? (
+          <>
+            {header} <RequiredMark />
+          </>
+        ) : (
+          header
+        )
+      }
       description={description}
       className={`pr-16 ${className ?? ""}`}
       error={error}

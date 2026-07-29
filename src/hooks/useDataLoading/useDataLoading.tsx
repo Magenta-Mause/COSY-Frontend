@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   getAllTemplates,
   getAllUserEntities,
   getAllUserInvites,
   queryGames,
 } from "@/api/generated/backend-api.ts";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { gameSliceActions } from "@/stores/slices/gameSlice.ts";
 import { templateSliceActions } from "@/stores/slices/templateSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";

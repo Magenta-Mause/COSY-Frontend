@@ -1,9 +1,9 @@
-import Icon from "@/components/ui/Icon.tsx";
-import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import arrowRightIcon from "@/assets/icons/arrowRight.webp";
 import houseIcon from "@/assets/icons/house.webp";
 import plusIcon from "@/assets/icons/plus.webp";
 import reloadIcon from "@/assets/icons/reload.webp";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 

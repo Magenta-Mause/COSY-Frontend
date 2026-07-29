@@ -1,7 +1,7 @@
-import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import Icon from "@/components/ui/Icon.tsx";
 import type { UserEntityDto } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 

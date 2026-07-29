@@ -28,4 +28,3 @@ export const templateMatchesGame = (template: TemplateEntity, game: GameDto): bo
 
   return false;
 };
-

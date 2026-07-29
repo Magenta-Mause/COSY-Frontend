@@ -1,3 +1,7 @@
+import { useContext, useState } from "react";
+import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import dotsIcon from "@/assets/icons/dots.webp";
+import userIcon from "@/assets/icons/user.webp";
 import ResourceUsageBadge from "@/components/display/ResourceUsageBadge/ResourceUsageBadge";
 import { UserProfileModal } from "@/components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import UserRoleBadge from "@/components/display/UserRoleBadge/UserRoleBadge";
@@ -12,10 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
-import { useContext, useState } from "react";
-import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
-import dotsIcon from "@/assets/icons/dots.webp";
-import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";

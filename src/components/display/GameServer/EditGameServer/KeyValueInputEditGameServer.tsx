@@ -1,13 +1,13 @@
-import Icon from "@/components/ui/Icon.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { Fragment, useCallback, useMemo, useRef } from "react";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import infoIcon from "@/assets/icons/info.webp";
-import { type InputType, preProcessInputValue } from "../CreateGameServer/utils/inputValue";
 import ListInputEdit from "@/components/display/GameServer/EditGameServer/inputs/ListInputEditGameServer";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { type InputType, preProcessInputValue } from "../CreateGameServer/utils/inputValue";
 
 interface KeyValueItem {
   key: string;
@@ -146,11 +146,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
                 type={inputType}
               />
               {shouldProcessEscapeSequences && (
-                <TooltipWrapper
-                  tooltip={t("escapeSequencesTooltip")}
-                  side="top"
-                  asChild={false}
-                >
+                <TooltipWrapper tooltip={t("escapeSequencesTooltip")} side="top" asChild={false}>
                   <Icon src={infoIcon} className="size-5" variant="foreground" />
                 </TooltipWrapper>
               )}

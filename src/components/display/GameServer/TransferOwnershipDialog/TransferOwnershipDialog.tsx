@@ -1,3 +1,8 @@
+import { Dialog } from "@radix-ui/react-dialog";
+import type { KeyboardEvent } from "react";
+import { useState } from "react";
+import { useGetUUIDByUsername } from "@/api/generated/backend-api";
+import type { GameServerDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -9,11 +14,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Dialog } from "@radix-ui/react-dialog";
-import type { KeyboardEvent } from "react";
-import { useState } from "react";
-import { useGetUUIDByUsername } from "@/api/generated/backend-api";
-import type { GameServerDto } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import TransferOwnershipConfirmationDialog from "./TransferOwnershipConfirmationDialog";

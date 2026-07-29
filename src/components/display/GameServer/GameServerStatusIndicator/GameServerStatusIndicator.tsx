@@ -1,7 +1,7 @@
-import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import type { ReactNode } from "react";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useAppSelector } from "@/stores/hooks.ts";
 import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx";
 
@@ -35,9 +35,7 @@ const GameServerStatusIndicator = (props: {
       totalBytes > 0 ? Math.round((currentBytes / totalBytes) * 100) : null;
 
     buttonLabel =
-      overallPercent !== null
-        ? `${t("PULLING_IMAGE")} (${overallPercent}%)`
-        : t("PULLING_IMAGE");
+      overallPercent !== null ? `${t("PULLING_IMAGE")} (${overallPercent}%)` : t("PULLING_IMAGE");
 
     if (layers.length > 0) {
       tooltipContent = (

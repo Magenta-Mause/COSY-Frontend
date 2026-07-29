@@ -1,4 +1,5 @@
 import type { TFunction } from "i18next";
+import type { WebhookDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { WebhookDto } from "@/api/generated/model";
 
 type WebhookDeleteDialogProps = {
   open: boolean;

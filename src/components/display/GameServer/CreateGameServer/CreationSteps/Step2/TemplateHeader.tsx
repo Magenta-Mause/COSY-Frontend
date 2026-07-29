@@ -1,5 +1,5 @@
-import LinkedText from "@/components/ui/LinkedText";
 import type { TemplateEntity } from "@/api/generated/model";
+import LinkedText from "@/components/ui/LinkedText";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface TemplateHeaderProps {

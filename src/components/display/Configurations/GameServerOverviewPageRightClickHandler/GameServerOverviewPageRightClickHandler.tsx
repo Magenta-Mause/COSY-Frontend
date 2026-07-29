@@ -1,11 +1,11 @@
+import { type ReactNode, useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import RightClickMenu, {
   type RightClickAction,
 } from "@/components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
 import CreateGameServer from "@/components/display/GameServer/CreateGameServer/CreateGameServer";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
-import { type ReactNode, useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 

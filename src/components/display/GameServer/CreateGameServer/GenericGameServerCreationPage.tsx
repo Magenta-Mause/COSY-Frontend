@@ -1,8 +1,8 @@
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
 } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 
 export const GameServerCreationPageContext = createContext<GameServerCreationPageContextType>({
   attributesValid: {},

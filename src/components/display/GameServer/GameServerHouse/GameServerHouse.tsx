@@ -1,8 +1,3 @@
-import RightClickMenu, {
-  type RightClickAction,
-} from "@/components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
-import NameAndStatusBanner from "@/components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
-import Link from "@/components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useMemo } from "react";
@@ -10,6 +5,11 @@ import { useTranslation } from "react-i18next";
 import type { GameServerDto } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
+import RightClickMenu, {
+  type RightClickAction,
+} from "@/components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
+import NameAndStatusBanner from "@/components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
+import Link from "@/components/ui/Link.tsx";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 import { cn } from "@/lib/utils.ts";
