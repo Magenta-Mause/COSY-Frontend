@@ -874,6 +874,13 @@ export type i18nLanguage = {
           webhookUrl: string;
           enabled: string;
           subscribedEvents: string;
+          httpMethod: string;
+          headers: string;
+          headerName: string;
+          headerValue: string;
+          addHeader: string;
+          bodyTemplate: string;
+          placeholderHint: string;
         };
         create: string;
         configuredWebhooks: string;
@@ -889,6 +896,7 @@ export type i18nLanguage = {
           url: string;
           enabled: string;
           events: string;
+          headers: string;
         };
         state: {
           enabled: string;
@@ -900,6 +908,7 @@ export type i18nLanguage = {
           DISCORD: string;
           SLACK: string;
           N8N: string;
+          CUSTOM: string;
         };
         events: {
           SERVER_STARTED: string;
@@ -910,6 +919,13 @@ export type i18nLanguage = {
           webhookUrlRequired: string;
           webhookUrlInvalid: string;
           subscribedEventsRequired: string;
+          headerNameRequired: string;
+          headerNameInvalid: string;
+          headerNameReserved: string;
+          headerNameDuplicate: string;
+          headerValueTooLong: string;
+          headersTooMany: string;
+          bodyTemplateTooLong: string;
         };
         cancel: string;
         creating: string;

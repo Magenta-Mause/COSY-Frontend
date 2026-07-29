@@ -7,6 +7,8 @@
  */
 import type { WebhookDtoWebhookType } from './webhookDtoWebhookType';
 import type { WebhookDtoSubscribedEventsItem } from './webhookDtoSubscribedEventsItem';
+import type { WebhookDtoHttpMethod } from './webhookDtoHttpMethod';
+import type { WebhookDtoHeaders } from './webhookDtoHeaders';
 
 export interface WebhookDto {
   webhook_url?: string;
@@ -14,4 +16,7 @@ export interface WebhookDto {
   enabled?: boolean;
   uuid?: string;
   subscribed_events?: WebhookDtoSubscribedEventsItem[];
+  http_method?: WebhookDtoHttpMethod;
+  body_template?: string;
+  headers?: WebhookDtoHeaders;
 }

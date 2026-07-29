@@ -14,4 +14,5 @@ export const WebhookUpdateDtoWebhookType = {
   DISCORD: 'DISCORD',
   SLACK: 'SLACK',
   N8N: 'N8N',
+  CUSTOM: 'CUSTOM',
 } as const;

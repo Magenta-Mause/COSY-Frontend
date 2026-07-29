@@ -17,7 +17,13 @@ import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useWebhookForm } from "./useWebhookForm";
 import WebhookForm from "./WebhookForm";
-import { type WebhookFormValues, webhookDtoToFormValues } from "./webhook.types";
+import {
+  DEFAULT_BODY_TEMPLATE,
+  DEFAULT_HTTP_METHOD,
+  fieldsToHeaders,
+  type WebhookFormValues,
+  webhookDtoToFormValues,
+} from "./webhook.types";
 
 export interface WebhookModalProps {
   mode: "create" | "edit";
@@ -32,6 +38,9 @@ const DEFAULT_CREATE_VALUES: WebhookFormValues = {
   webhook_url: "",
   enabled: true,
   subscribed_events: [WebhookCreationDtoSubscribedEventsItem.SERVER_STARTED],
+  http_method: DEFAULT_HTTP_METHOD,
+  body_template: DEFAULT_BODY_TEMPLATE,
+  headers: [],
 };
 
 const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: WebhookModalProps) => {
@@ -50,11 +59,21 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
   };
 
   const handleSubmit = async (values: WebhookFormValues) => {
+    const isCustom = values.webhook_type === WebhookCreationDtoWebhookType.CUSTOM;
     const payload = {
       webhook_type: values.webhook_type,
       webhook_url: values.webhook_url.trim(),
       enabled: values.enabled,
       subscribed_events: values.subscribed_events,
+      // The request format only travels with CUSTOM webhooks; the backend drops it for the
+      // built-in types anyway, so sending it would just be noise.
+      ...(isCustom
+        ? {
+            http_method: values.http_method,
+            body_template: values.body_template,
+            headers: fieldsToHeaders(values.headers),
+          }
+        : {}),
     };
 
     if (isCreating) {

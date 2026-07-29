@@ -7,6 +7,8 @@
  */
 import type { WebhookUpdateDtoSubscribedEventsItem } from './webhookUpdateDtoSubscribedEventsItem';
 import type { WebhookUpdateDtoWebhookType } from './webhookUpdateDtoWebhookType';
+import type { WebhookUpdateDtoHttpMethod } from './webhookUpdateDtoHttpMethod';
+import type { WebhookUpdateDtoHeaders } from './webhookUpdateDtoHeaders';
 
 export interface WebhookUpdateDto {
   subscribed_events: WebhookUpdateDtoSubscribedEventsItem[];
@@ -17,4 +19,7 @@ export interface WebhookUpdateDto {
    * @pattern https?://.+
    */
   webhook_url: string;
+  http_method?: WebhookUpdateDtoHttpMethod;
+  body_template?: string;
+  headers?: WebhookUpdateDtoHeaders;
 }
