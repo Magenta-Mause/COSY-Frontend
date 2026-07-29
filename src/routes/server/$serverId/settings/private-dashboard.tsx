@@ -1,7 +1,7 @@
-import PrivateDashboardSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/PrivateDashboardSetting/PrivateDashboardSettingsSection";
 import { createFileRoute } from "@tanstack/react-router";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import PrivateDashboardSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/PrivateDashboardSetting/PrivateDashboardSettingsSection";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 export const Route = createFileRoute("/server/$serverId/settings/private-dashboard")({
   component: RouteComponent,

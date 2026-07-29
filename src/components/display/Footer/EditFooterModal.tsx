@@ -1,3 +1,6 @@
+import type * as React from "react";
+import { useEffect, useState } from "react";
+import type { FooterDto, FooterUpdateDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
@@ -8,9 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import type * as React from "react";
-import { useEffect, useState } from "react";
-import type { FooterDto, FooterUpdateDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 

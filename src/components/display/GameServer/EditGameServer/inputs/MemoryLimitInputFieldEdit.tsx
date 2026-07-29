@@ -1,5 +1,5 @@
-import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { useCallback, useEffect, useState } from "react";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 import {
   MEMORY_LIMIT_MIN_ERROR,
   memoryLimitValidator,

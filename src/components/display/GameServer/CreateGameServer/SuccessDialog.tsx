@@ -1,3 +1,5 @@
+import { useNavigate } from "@tanstack/react-router";
+import type { GameServerDto } from "@/api/generated/model";
 import HouseBuildingProcess from "@/components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -9,9 +11,7 @@ import {
   DialogMain,
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { useNavigate } from "@tanstack/react-router";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import type { GameServerDto } from "@/api/generated/model";
 
 interface SuccessDialogProps {
   open: boolean;

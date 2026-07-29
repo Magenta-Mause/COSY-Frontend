@@ -1,9 +1,9 @@
-import LogDisplay from "@/components/display/LogDisplay/LogDisplay.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
 } from "@/api/generated/model";
+import LogDisplay from "@/components/display/LogDisplay/LogDisplay.tsx";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";

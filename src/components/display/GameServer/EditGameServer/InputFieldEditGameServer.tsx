@@ -1,6 +1,6 @@
-import { Input } from "@/components/ui/input.tsx";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
+import { Input } from "@/components/ui/input.tsx";
 
 const InputFieldEditGameServer = (props: {
   value?: string | number;

@@ -1,4 +1,3 @@
-import Icon from "@/components/ui/Icon.tsx";
 import { PrivateDashboardLayoutPrivateDashboardTypes } from "@/api/generated/model";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 const DROPDOWN_OPTIONS: PrivateDashboardLayoutPrivateDashboardTypes[] = [

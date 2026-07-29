@@ -1,6 +1,6 @@
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import GameServerDetailPageLayout from "@/components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
 import { GameServerNotFoundPage } from "@/components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 
 export const Route = createFileRoute("/server/$serverId")({

@@ -1,7 +1,7 @@
-import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
+import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 
 const MemoryLimitInputField = (props: {
   id: string;

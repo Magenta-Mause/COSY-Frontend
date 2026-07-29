@@ -1,7 +1,7 @@
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { GameServerUpdateDto } from "@/api/generated/model/gameServerUpdateDto";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 import EditGameServerPage from "../../EditGameServer/EditGameServerPage";
 import UncosyZone from "../../EditGameServer/UncosyZone";

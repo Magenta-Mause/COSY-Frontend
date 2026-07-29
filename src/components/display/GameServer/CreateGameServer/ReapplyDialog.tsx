@@ -22,12 +22,8 @@ const ReapplyDialog = ({ open, onConfirm, onCancel }: ReapplyDialogProps) => {
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            {t("title")}
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("description")}
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={onCancel}>

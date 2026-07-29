@@ -1,6 +1,6 @@
-import { Checkbox } from "@/components/ui/checkbox.tsx";
 import type { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import { GameServerAccessGroupDtoPermissionsItem as PermissionEnum } from "@/api/generated/model";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
 

@@ -1,8 +1,8 @@
-import MetricsSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/MetricsSettingsSection";
-import NoAccess from "@/components/display/NoAccess/NoAccess";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
+import MetricsSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/MetricsSettingsSection";
+import NoAccess from "@/components/display/NoAccess/NoAccess";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 

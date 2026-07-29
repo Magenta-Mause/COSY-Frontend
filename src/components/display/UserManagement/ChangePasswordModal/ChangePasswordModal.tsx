@@ -1,3 +1,6 @@
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useChangePassword } from "@/api/generated/backend-api";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
@@ -8,9 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import * as React from "react";
-import { useEffect, useState } from "react";
-import { useChangePassword } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 

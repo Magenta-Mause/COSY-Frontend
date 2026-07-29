@@ -1,9 +1,9 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import GeneralSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/GeneralSettingsSection";
 import NoAccess from "@/components/display/NoAccess/NoAccess";
-import { createFileRoute } from "@tanstack/react-router";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 export const Route = createFileRoute("/server/$serverId/settings/general")({
   component: RouteComponent,

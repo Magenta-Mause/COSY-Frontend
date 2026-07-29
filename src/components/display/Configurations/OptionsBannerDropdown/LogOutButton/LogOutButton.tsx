@@ -1,10 +1,10 @@
+import type { ComponentProps } from "react";
+import { forwardRef, useContext, useState } from "react";
+import logoutIcon from "@/assets/icons/logout.webp";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
-import type { ComponentProps } from "react";
-import { forwardRef, useContext, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import logoutIcon from "@/assets/icons/logout.webp";
 import { cn } from "@/lib/utils.ts";
 import { LogOutAlertDialog } from "./LogOutAlertDialog.tsx";
 

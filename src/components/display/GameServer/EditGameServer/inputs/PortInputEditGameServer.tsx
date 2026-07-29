@@ -1,3 +1,7 @@
+import { useCallback, useMemo, useRef } from "react";
+import { v7 as generateUuid } from "uuid";
+import type { ZodType } from "zod";
+import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
@@ -6,10 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
-import { useCallback, useMemo, useRef } from "react";
-import { v7 as generateUuid } from "uuid";
-import type { ZodType } from "zod";
-import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import ListInputEdit from "./ListInputEditGameServer";
 

@@ -25,7 +25,13 @@ export const useWebhookForm = ({ defaultValues, onSubmit }: UseWebhookFormOption
     if (values.webhook_url.length > 0) {
       const urlResult = webhookUrlValidator.safeParse(values.webhook_url);
       if (!urlResult.success) {
-        result.webhook_url = t(urlResult.error.issues[0].message as ParseKeys<"translation", TOptions, "components.GameServerSettings.webhooks">);
+        result.webhook_url = t(
+          urlResult.error.issues[0].message as ParseKeys<
+            "translation",
+            TOptions,
+            "components.GameServerSettings.webhooks"
+          >,
+        );
       }
     }
 

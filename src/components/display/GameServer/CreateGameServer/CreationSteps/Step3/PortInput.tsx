@@ -1,5 +1,8 @@
-import type { InputType } from "./KeyValueInput.tsx";
-import ListInput from "./ListInput.tsx";
+import { useCallback } from "react";
+import { v7 as generateUuid } from "uuid";
+import type { ZodType } from "zod";
+import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
+import type { GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
@@ -8,13 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
-import { useCallback } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { v7 as generateUuid } from "uuid";
-import type { ZodType } from "zod";
-import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
-import type { GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import type { InputType } from "./KeyValueInput.tsx";
+import ListInput from "./ListInput.tsx";
 
 interface PortItem {
   key: string;
@@ -142,9 +142,7 @@ function PortInput({
             }
           >
             <SelectTrigger className={"w-20"}>
-              <SelectValue
-                placeholder={t("protocolPlaceholder")}
-              />
+              <SelectValue placeholder={t("protocolPlaceholder")} />
             </SelectTrigger>
             <SelectContent>
               {Object.values(PortMappingProtocol).map((protocol) => (

@@ -39,7 +39,8 @@ export const useEditGameServerForm = ({ gameServer, onConfirm }: UseEditGameServ
   }, [gameServer]);
 
   const allFieldsValid = useMemo(
-    () => areEditFieldsValid(gameServerState, { cpuLimit, memoryLimit }) && !cpuError && !memoryError,
+    () =>
+      areEditFieldsValid(gameServerState, { cpuLimit, memoryLimit }) && !cpuError && !memoryError,
     [gameServerState, cpuLimit, memoryLimit, cpuError, memoryError],
   );
 

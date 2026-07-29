@@ -1,5 +1,5 @@
-import type { FileSystemObjectDto } from "@/api/generated/model";
 import { useMemo } from "react";
+import type { FileSystemObjectDto } from "@/api/generated/model";
 import { joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 import { useFileBrowser } from "../FileBrowserContext";

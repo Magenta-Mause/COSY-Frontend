@@ -1,11 +1,11 @@
-import Icon from "@/components/ui/Icon.tsx";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { useMemo, useState } from "react";
 import type { ParseKeys } from "i18next";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import searchIcon from "@/assets/icons/search.webp";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { useAppSelector } from "@/stores/hooks.ts";
 import UserInviteButton from "../../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";

@@ -1,5 +1,3 @@
-import Footer from "@/components/display/Footer/Footer.tsx";
-import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
 import { type ReactNode, type RefObject, useContext } from "react";
 import bgImageLoopDay from "@/assets/MainPage/backgrounds/bg_day_loop.png";
 import bgImageTopDay from "@/assets/MainPage/backgrounds/bg_day_top.png";
@@ -16,6 +14,8 @@ import pathLoop_3 from "@/assets/MainPage/platze_loop_3.png";
 import pathLoop_4 from "@/assets/MainPage/platze_loop_4.png";
 import pathLoop_5 from "@/assets/MainPage/platze_loop_5.png";
 import pathLoop_6 from "@/assets/MainPage/platze_loop_6.png";
+import Footer from "@/components/display/Footer/Footer.tsx";
+import { ThemeContext, ThemeOptions } from "@/components/technical/Providers/ThemeProvider.tsx";
 
 const HOUSES_PER_CYCLE = 6;
 const BASE_THRESHOLD = 2;

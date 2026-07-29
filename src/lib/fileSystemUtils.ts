@@ -102,11 +102,24 @@ export const VIDEO_EXTS = new Set(["mp4", "webm", "ogg", "mov", "m4v"]);
 
 export const TEXT_EDITABLE_EXTS = new Set([
   // Config / properties
-  "properties", "cfg", "conf", "config", "ini", "toml", "env",
+  "properties",
+  "cfg",
+  "conf",
+  "config",
+  "ini",
+  "toml",
+  "env",
   // Markup / data
-  "json", "yaml", "yml", "xml", "txt", "md", "csv",
+  "json",
+  "yaml",
+  "yml",
+  "xml",
+  "txt",
+  "md",
+  "csv",
   // Scripts
-  "sh", "bash",
+  "sh",
+  "bash",
   // Logs (usually append-only but still editable)
   "log",
 ]);
@@ -173,7 +186,11 @@ export async function downloadSingleFile(opts: {
   const fullPath = joinRemotePath(parentPath, name);
   const apiPath = fullPath === "/" ? "" : fullPath;
 
-  const blob = (await readFileFromVolume(serverUuid, { path: apiPath }, FILE_TRANSFER_OPTIONS)) as Blob;
+  const blob = (await readFileFromVolume(
+    serverUuid,
+    { path: apiPath },
+    FILE_TRANSFER_OPTIONS,
+  )) as Blob;
 
   const a = document.createElement("a");
   const url = URL.createObjectURL(blob);

@@ -1,3 +1,6 @@
+import type { ParseKeys, TOptions } from "i18next";
+import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
+import filterIcon from "@/assets/icons/filter.webp";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,10 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
-import type { ParseKeys, TOptions } from "i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
-import filterIcon from "@/assets/icons/filter.webp";
 
 interface RoleFilterProps {
   selectedRole: UserRole | null;
@@ -32,7 +32,13 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
         <Button className="z-10">
           <Icon src={filterIcon} className="size-5" />
           {selectedRole
-            ? t(`userRow.roles.${selectedRole.toLowerCase()}` as ParseKeys<"translation", TOptions, "components.userManagement">)
+            ? t(
+                `userRow.roles.${selectedRole.toLowerCase()}` as ParseKeys<
+                  "translation",
+                  TOptions,
+                  "components.userManagement"
+                >,
+              )
             : t("userTable.filter")}
         </Button>
       </DropdownMenuTrigger>
@@ -40,7 +46,13 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
         <DropdownMenuGroup>
           {roles.map((role) => (
             <DropdownMenuItem key={role} onClick={() => onRoleChange(role)}>
-              {t(`userRow.roles.${role.toLowerCase()}` as ParseKeys<"translation", TOptions, "components.userManagement">)}
+              {t(
+                `userRow.roles.${role.toLowerCase()}` as ParseKeys<
+                  "translation",
+                  TOptions,
+                  "components.userManagement"
+                >,
+              )}
             </DropdownMenuItem>
           ))}
 

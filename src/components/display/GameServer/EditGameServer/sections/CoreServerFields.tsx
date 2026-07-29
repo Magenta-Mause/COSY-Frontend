@@ -7,13 +7,13 @@ import {
   PortMappingProtocol,
   type VolumeMountConfiguration,
 } from "@/api/generated/model";
+import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer";
+import EditVolumeMountConfigurationInput from "@/components/display/GameServer/EditGameServer/inputs/EditVolumeMountConfigurationInput";
+import PortInputEditGameServer from "@/components/display/GameServer/EditGameServer/inputs/PortInputEditGameServer";
+import EditKeyValueInput from "@/components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { portValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import EditVolumeMountConfigurationInput from "@/components/display/GameServer/EditGameServer/inputs/EditVolumeMountConfigurationInput";
-import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer";
-import EditKeyValueInput from "@/components/display/GameServer/EditGameServer/KeyValueInputEditGameServer";
-import PortInputEditGameServer from "@/components/display/GameServer/EditGameServer/inputs/PortInputEditGameServer";
 
 interface CoreServerFieldsProps {
   readonly gameServerState: GameServerUpdateDto;

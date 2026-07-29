@@ -1,3 +1,7 @@
+import { Label } from "@radix-ui/react-label";
+import { useNavigate } from "@tanstack/react-router";
+import type { KeyboardEvent } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
@@ -10,10 +14,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@radix-ui/react-label";
-import { useNavigate } from "@tanstack/react-router";
-import type { KeyboardEvent } from "react";
-import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface DeleteGameServerAlertDialogProps {

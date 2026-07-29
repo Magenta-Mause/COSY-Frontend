@@ -1,5 +1,5 @@
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import spinnerGif from "@/assets/gifs/spinner.gif";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface Props {
   visible: boolean;

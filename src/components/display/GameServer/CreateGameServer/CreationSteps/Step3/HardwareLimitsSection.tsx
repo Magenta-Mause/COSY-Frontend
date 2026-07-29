@@ -1,10 +1,10 @@
-import CpuLimitInputField from "./CpuLimitInputField.tsx";
-import MemoryLimitInputFieldCreation from "./MemoryLimitInputFieldCreation.tsx";
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
+import CpuLimitInputField from "./CpuLimitInputField.tsx";
+import MemoryLimitInputFieldCreation from "./MemoryLimitInputFieldCreation.tsx";
 
 const HardwareLimitsSection = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");

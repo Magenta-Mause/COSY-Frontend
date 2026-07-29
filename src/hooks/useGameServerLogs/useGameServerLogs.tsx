@@ -1,9 +1,9 @@
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
 import { getLogs } from "@/api/generated/backend-api.ts";
 import type { GameServerLogMessageEntity } from "@/api/generated/model";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import type { DataLoadState } from "@/types/dataLoadState";
 import type { GameServerLogWithUuid } from "@/types/logTypes";
 

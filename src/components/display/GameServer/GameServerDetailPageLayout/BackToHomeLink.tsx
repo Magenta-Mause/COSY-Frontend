@@ -1,8 +1,8 @@
+import doorClosedIcon from "@/assets/icons/doorClosed.webp";
+import doorOpenIcon from "@/assets/icons/doorOpen.webp";
 import Icon from "@/components/ui/Icon.tsx";
 import Link from "@/components/ui/Link.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import doorClosedIcon from "@/assets/icons/doorClosed.webp";
-import doorOpenIcon from "@/assets/icons/doorOpen.webp";
 import { cn } from "@/lib/utils.ts";
 import FancyNavigationButton from "./FancyNavigationButton.tsx";
 

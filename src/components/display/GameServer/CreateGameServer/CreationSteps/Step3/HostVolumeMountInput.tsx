@@ -1,14 +1,17 @@
-import ListInput from "./ListInput.tsx";
+import { useCallback, useContext } from "react";
+import { v7 as generateUuid } from "uuid";
+import type { HostVolumeMountConfigurationDto } from "@/api/generated/model";
+import {
+  GameServerCreationContext,
+  type GameServerCreationFormState,
+} from "@/components/display/GameServer/CreateGameServer/context.ts";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useCallback, useContext } from "react";
-import { v7 as generateUuid } from "uuid";
-import type { HostVolumeMountConfigurationDto } from "@/api/generated/model";
 import { HOST_MOUNT_EDITABLE_ROLES } from "@/lib/authConstants.ts";
 import { cn } from "@/lib/utils.ts";
-import { GameServerCreationContext, type GameServerCreationFormState } from "@/components/display/GameServer/CreateGameServer/context.ts";
+import ListInput from "./ListInput.tsx";
 
 interface HostMountItem {
   host_path: string;
@@ -164,7 +167,9 @@ function HostVolumeMountInput({
             <Checkbox
               id={`host-mount-ro-${item.uuid}`}
               checked={item.read_only}
-              onCheckedChange={(checked) => changeCallback({ ...item, read_only: checked === true })}
+              onCheckedChange={(checked) =>
+                changeCallback({ ...item, read_only: checked === true })
+              }
             />
             {readOnlyLabel}
           </label>

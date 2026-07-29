@@ -1,3 +1,7 @@
+import { Label } from "@radix-ui/react-label";
+import type { ParseKeys } from "i18next";
+import { useTranslation } from "react-i18next";
+import { UserEntityDtoRole } from "@/api/generated/model";
 import { CpuLimitInput } from "@/components/display/CpuLimit/CpuLimitInput.tsx";
 import { MemoryLimitInput } from "@/components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
@@ -9,10 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
-import { Label } from "@radix-ui/react-label";
-import type { ParseKeys } from "i18next";
-import { useTranslation } from "react-i18next";
-import { UserEntityDtoRole } from "@/api/generated/model";
 
 interface InviteFormProps {
   username: string;

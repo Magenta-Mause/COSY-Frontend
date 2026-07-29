@@ -1,13 +1,12 @@
-import TemplateList from "./TemplateList/TemplateList.tsx";
-import Icon from "@/components/ui/Icon.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { useCallback, useMemo, useState } from "react";
-
 import type { TemplateEntity } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import searchIcon from "@/assets/icons/search.webp";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import TagFilter from "./TagFilter.tsx";
+import TemplateList from "./TemplateList/TemplateList.tsx";
 
 interface TemplateBrowserProps {
   templatesForSelected: TemplateEntity[];

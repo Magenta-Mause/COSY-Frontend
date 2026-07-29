@@ -1,12 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
-import {
-  gameServerSliceActions,
-  gameServerSliceReducer,
-} from "@/stores/slices/gameServerSlice.ts";
+import { gameServerSliceActions, gameServerSliceReducer } from "@/stores/slices/gameServerSlice.ts";
 
-const makeServer = (uuid: string, status: GameServerDtoStatus = GameServerDtoStatus.STOPPED): GameServerDto =>
-  ({ uuid, status }) as GameServerDto;
+const makeServer = (
+  uuid: string,
+  status: GameServerDtoStatus = GameServerDtoStatus.STOPPED,
+): GameServerDto => ({ uuid, status }) as GameServerDto;
 
 const initialState = gameServerSliceReducer(undefined, { type: "@@INIT" });
 
@@ -22,13 +21,19 @@ describe("gameServerSlice", () => {
 
   it("setGameServers replaces data and flips initialized", () => {
     const servers = [makeServer("a"), makeServer("b")];
-    const next = gameServerSliceReducer(initialState, gameServerSliceActions.setGameServers(servers));
+    const next = gameServerSliceReducer(
+      initialState,
+      gameServerSliceActions.setGameServers(servers),
+    );
     expect(next.initialized).toBe(true);
     expect(next.data).toEqual(servers);
   });
 
   it("addGameServer appends and marks initialized", () => {
-    const next = gameServerSliceReducer(initialState, gameServerSliceActions.addGameServer(makeServer("a")));
+    const next = gameServerSliceReducer(
+      initialState,
+      gameServerSliceActions.addGameServer(makeServer("a")),
+    );
     expect(next.initialized).toBe(true);
     expect(next.data.map((s) => s.uuid)).toEqual(["a"]);
   });
@@ -40,7 +45,10 @@ describe("gameServerSlice", () => {
     );
     const next = gameServerSliceReducer(
       start,
-      gameServerSliceActions.updateGameServerStatus({ uuid: "a", status: GameServerDtoStatus.RUNNING }),
+      gameServerSliceActions.updateGameServerStatus({
+        uuid: "a",
+        status: GameServerDtoStatus.RUNNING,
+      }),
     );
     expect(next.data.find((s) => s.uuid === "a")?.status).toBe(GameServerDtoStatus.RUNNING);
     expect(next.data.find((s) => s.uuid === "b")?.status).toBe(GameServerDtoStatus.STOPPED);
@@ -67,7 +75,10 @@ describe("gameServerSlice", () => {
     expect(replaced.data).toHaveLength(1);
     expect(replaced.data[0].status).toBe(GameServerDtoStatus.STOPPED);
 
-    const inserted = gameServerSliceReducer(start, gameServerSliceActions.updateGameServer(makeServer("z")));
+    const inserted = gameServerSliceReducer(
+      start,
+      gameServerSliceActions.updateGameServer(makeServer("z")),
+    );
     expect(inserted.data.map((s) => s.uuid)).toEqual(["a", "z"]);
   });
 

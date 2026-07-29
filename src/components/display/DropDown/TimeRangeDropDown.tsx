@@ -1,10 +1,8 @@
-import DatePicker from "@/components/display/DatePicker/DatePicker";
-import Icon from "@/components/ui/Icon.tsx";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useEffect, useMemo, useRef, useState } from "react";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
+import DatePicker from "@/components/display/DatePicker/DatePicker";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Icon from "@/components/ui/Icon.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface TimeRangeProps {
   className?: string;
@@ -165,9 +165,7 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
           className="w-(--radix-dropdown-menu-trigger-width) bg-primary-modal-background"
         >
           <DropdownMenuGroup>
-            <DropdownMenuItem onSelect={() => setOpenCustom(true)}>
-              {t("custom")}
-            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setOpenCustom(true)}>{t("custom")}</DropdownMenuItem>
             {TIME_RANGE_PRESETS.map(([time, unit]) => (
               <DropdownMenuItem key={`${time}-${unit}`} onSelect={() => handleSelect(time, unit)}>
                 {t(unit, { time: time })}

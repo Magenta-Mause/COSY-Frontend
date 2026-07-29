@@ -2,8 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./scrollbar.css";
-import ProviderCollection from "@/components/technical/Providers/ProviderCollection.tsx";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import ProviderCollection from "@/components/technical/Providers/ProviderCollection.tsx";
 import { routeTree } from "@/routeTree.gen";
 import "@/i18n/i18n.ts";
 

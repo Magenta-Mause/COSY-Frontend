@@ -1,10 +1,3 @@
-import SizeDropDown from "@/components/display/DropDown/SizeDropDown";
-import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { COL_SPAN_MAP } from "@/components/display/MetricDisplay/metricLayout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import Icon from "@/components/ui/Icon.tsx";
-import UnsavedModal from "@/components/ui/UnsavedModal";
 import {
   closestCorners,
   DndContext,
@@ -33,6 +26,13 @@ import type {
 } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import plusIcon from "@/assets/icons/plus.webp";
+import SizeDropDown from "@/components/display/DropDown/SizeDropDown";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { COL_SPAN_MAP } from "@/components/display/MetricDisplay/metricLayout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Icon from "@/components/ui/Icon.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { DashboardElementTypes } from "@/types/dashboardTypes";

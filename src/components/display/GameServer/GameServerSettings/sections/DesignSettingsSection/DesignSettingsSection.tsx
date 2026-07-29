@@ -1,9 +1,9 @@
-import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import UnsavedModal from "@/components/ui/UnsavedModal";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
+import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
 import { notificationModal } from "@/lib/notificationModal";

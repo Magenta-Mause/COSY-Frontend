@@ -19,7 +19,10 @@ describe("userSlice", () => {
   });
 
   it("addUser appends to the existing list", () => {
-    const start = userSliceReducer(initialState, userSliceActions.setUsers([makeUser("a", "alice")]));
+    const start = userSliceReducer(
+      initialState,
+      userSliceActions.setUsers([makeUser("a", "alice")]),
+    );
     const next = userSliceReducer(start, userSliceActions.addUser(makeUser("b", "bob")));
     expect(next.data.map((u) => u.uuid)).toEqual(["a", "b"]);
   });
@@ -29,7 +32,10 @@ describe("userSlice", () => {
       initialState,
       userSliceActions.setUsers([makeUser("a", "alice"), makeUser("b", "bob")]),
     );
-    const updated = userSliceReducer(start, userSliceActions.updateUser(makeUser("a", "alice-renamed")));
+    const updated = userSliceReducer(
+      start,
+      userSliceActions.updateUser(makeUser("a", "alice-renamed")),
+    );
     expect(updated.data.find((u) => u.uuid === "a")?.username).toBe("alice-renamed");
 
     const noop = userSliceReducer(start, userSliceActions.updateUser(makeUser("z", "ghost")));
@@ -46,7 +52,10 @@ describe("userSlice", () => {
   });
 
   it("resetUsers empties the list", () => {
-    const start = userSliceReducer(initialState, userSliceActions.setUsers([makeUser("a", "alice")]));
+    const start = userSliceReducer(
+      initialState,
+      userSliceActions.setUsers([makeUser("a", "alice")]),
+    );
     const next = userSliceReducer(start, userSliceActions.resetUsers());
     expect(next.data).toEqual([]);
   });

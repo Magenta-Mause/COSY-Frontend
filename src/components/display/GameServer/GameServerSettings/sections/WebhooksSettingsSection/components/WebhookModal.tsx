@@ -1,3 +1,9 @@
+import { useEffect } from "react";
+import {
+  WebhookCreationDtoSubscribedEventsItem,
+  WebhookCreationDtoWebhookType,
+  type WebhookDto,
+} from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,12 +13,6 @@ import {
   DialogMain,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useEffect } from "react";
-import {
-  WebhookCreationDtoSubscribedEventsItem,
-  WebhookCreationDtoWebhookType,
-  type WebhookDto,
-} from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useWebhookForm } from "./useWebhookForm";

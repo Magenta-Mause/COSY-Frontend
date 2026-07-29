@@ -1,11 +1,11 @@
-import { DeleteGameServerSuccessDialog } from "@/components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { useContext, useEffect, useMemo, useRef } from "react";
+import { DeleteGameServerSuccessDialog } from "@/components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
 import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useAppSelector } from "@/stores/hooks.ts";
 
 interface IndexSearch {

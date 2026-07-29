@@ -1,10 +1,10 @@
 import type { ParseKeys, TOptions } from "i18next";
+import infoIcon from "@/assets/icons/info.webp";
 import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input";
 import RequiredMark from "@/components/ui/RequiredMark.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
-import infoIcon from "@/assets/icons/info.webp";
 import TemplateInputDescription from "../TemplateInputDescription";
 import type { VariableInputProps } from "./types";
 
@@ -43,7 +43,13 @@ export default function TextInput({
         error={
           showError
             ? errorMessage
-              ? t(errorMessage as ParseKeys<"translation", TOptions, "components.TemplateVariableForm">)
+              ? t(
+                  errorMessage as ParseKeys<
+                    "translation",
+                    TOptions,
+                    "components.TemplateVariableForm"
+                  >,
+                )
               : t("validationError")
             : undefined
         }

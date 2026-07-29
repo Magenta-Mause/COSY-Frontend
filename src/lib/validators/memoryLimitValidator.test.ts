@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  MEMORY_LIMIT_MIN_ERROR,
   getMemoryLimitError,
+  MEMORY_LIMIT_MIN_ERROR,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
 

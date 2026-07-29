@@ -1,9 +1,9 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import InputFieldEditGameServer from "@/components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import SettingsActionButtons from "@/components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import UnsavedModal from "@/components/ui/UnsavedModal";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { coercedPortValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";

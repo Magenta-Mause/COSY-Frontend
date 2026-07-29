@@ -1,4 +1,3 @@
-import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetFooter } from "@/api/generated/backend-api.ts";
@@ -12,6 +11,7 @@ import duck6 from "@/assets/ducks/duck6.png";
 import duck7 from "@/assets/ducks/duck7.png";
 import duck8 from "@/assets/ducks/duck8.png";
 import duck9 from "@/assets/ducks/duck9.png";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { useRequireRoles } from "@/utils/routeGuards";
 import EditFooterModal from "./EditFooterModal";
 

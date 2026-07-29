@@ -22,12 +22,8 @@ const UnsavedChangesDialog = ({ open, onDiscard, onCancel }: UnsavedChangesDialo
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            {t("title")}
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("description")}
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={onCancel}>

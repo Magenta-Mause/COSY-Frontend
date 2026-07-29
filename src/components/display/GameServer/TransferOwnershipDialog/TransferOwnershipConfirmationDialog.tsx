@@ -1,3 +1,6 @@
+import { Dialog } from "@radix-ui/react-dialog";
+import { useState } from "react";
+import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -7,9 +10,6 @@ import {
   DialogMain,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Dialog } from "@radix-ui/react-dialog";
-import { useState } from "react";
-import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 

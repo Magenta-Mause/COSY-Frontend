@@ -1,18 +1,18 @@
-import LatestServerMetricsProvider from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider.tsx";
-import PublicWebSocketCollection from "@/components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
-import WebSocketCollection from "@/components/technical/WebsocketCollection/WebSocketCollection.tsx";
-import config from "@/config.ts";
 import { jwtDecode } from "jwt-decode";
 import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
-import { useAppDispatch } from "@/stores/hooks.ts";
 import { StompSessionProvider } from "react-stomp-hooks";
 import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
 import { fetchToken, logout } from "@/api/generated/backend-api";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import LoadingScreen from "@/components/technical/LoadingScreen/LoadingScreen";
+import LatestServerMetricsProvider from "@/components/technical/Providers/LatestServerMetricsProvider/LatestServerMetricsProvider.tsx";
+import PublicWebSocketCollection from "@/components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
+import WebSocketCollection from "@/components/technical/WebsocketCollection/WebSocketCollection.tsx";
+import config from "@/config.ts";
 import useAssetPreloader from "@/hooks/useAssetPreloader/useAssetPreloader";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { RESET_STORE } from "@/stores/rootReducer";
 
 interface AuthContextType {

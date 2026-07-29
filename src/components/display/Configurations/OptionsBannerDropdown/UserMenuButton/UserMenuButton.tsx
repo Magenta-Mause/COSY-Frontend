@@ -1,10 +1,10 @@
+import type { ComponentProps } from "react";
+import { forwardRef, useState } from "react";
+import userIcon from "@/assets/icons/user.webp";
 import { UserProfileModal } from "@/components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
-import type { ComponentProps } from "react";
-import { forwardRef, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import userIcon from "@/assets/icons/user.webp";
 import { cn } from "@/lib/utils.ts";
 
 type UserMenuButtonProps = ComponentProps<typeof Button>;

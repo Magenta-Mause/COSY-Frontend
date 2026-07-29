@@ -1,13 +1,13 @@
-import GameServerStartStopButton from "@/components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
-import GameServerStatusIndicator from "@/components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/ui/Icon.tsx";
-import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import { useNavigate } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 import globeIcon from "@/assets/icons/globe.webp";
 import globePrivateIcon from "@/assets/icons/globePrivate.webp";
+import GameServerStartStopButton from "@/components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
+import GameServerStatusIndicator from "@/components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
 

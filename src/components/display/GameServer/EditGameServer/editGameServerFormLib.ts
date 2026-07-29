@@ -1,10 +1,10 @@
 import { parse as parseCommand } from "shell-quote";
 import type { GameServerDto, GameServerUpdateDto } from "@/api/generated/model";
+import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 import { memoryLimitValidator } from "@/lib/validators/memoryLimitValidator.ts";
 import { portValidator } from "@/lib/validators/portValidator.ts";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
-import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import { escapeSequences, processEscapeSequences } from "../CreateGameServer/utils/inputValue";
 
 export interface AnnotationEntry {

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import eyeClosed from "@/assets/icons/eyeClosed.webp";
 import eyeOpen from "@/assets/icons/eyeOpen.webp";
 import { FieldGroup } from "@/components/ui/field";
 import Icon from "@/components/ui/Icon";
 import { Input } from "@/components/ui/input";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface FormElements extends HTMLFormControlsCollection {
   username: HTMLInputElement;

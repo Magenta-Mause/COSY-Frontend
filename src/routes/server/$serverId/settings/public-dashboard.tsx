@@ -1,7 +1,7 @@
-import PublicDashboardSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/PublicDashboardSettingsSection";
 import { createFileRoute } from "@tanstack/react-router";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import PublicDashboardSettingsSection from "@/components/display/GameServer/GameServerSettings/sections/PublicDashboardSettingsSection";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 export const Route = createFileRoute("/server/$serverId/settings/public-dashboard")({
   component: RouteComponent,

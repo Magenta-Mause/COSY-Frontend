@@ -1,3 +1,5 @@
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
@@ -8,8 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface LogOutAlertDialogProps {

@@ -1,3 +1,5 @@
+import { useCallback, useContext, useEffect } from "react";
+import type { ZodType } from "zod";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
@@ -5,8 +7,6 @@ import {
 import { GameServerCreationPageContext } from "@/components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import RequiredMark from "@/components/ui/RequiredMark.tsx";
-import { useCallback, useContext, useEffect } from "react";
-import type { ZodType } from "zod";
 
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationFormState;

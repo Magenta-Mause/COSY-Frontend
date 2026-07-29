@@ -28,12 +28,8 @@ const ConfirmCreateDialog = ({
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            {t("title")}
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("description")}
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={onCancel} disabled={isCreating}>
@@ -45,9 +41,7 @@ const ConfirmCreateDialog = ({
             onClick={onConfirm}
             disabled={isCreating}
           >
-            {isCreating
-              ? t("creating")
-              : t("confirm")}
+            {isCreating ? t("creating") : t("confirm")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

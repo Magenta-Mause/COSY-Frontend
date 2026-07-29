@@ -1,15 +1,13 @@
-import Icon from "@/components/ui/Icon.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { useMemo, useState } from "react";
 import type { GameDto, TemplateEntity } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import serverIcon from "@/assets/icons/console.webp";
 import searchIcon from "@/assets/icons/search.webp";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { templateMatchesGame } from "@/hooks/useTemplateGames/useTemplateGames.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import {
-  GENERIC_SIDEBAR_SELECTION,
-} from "../../CreateGameServerModal";
+import { GENERIC_SIDEBAR_SELECTION } from "../../CreateGameServerModal";
 
 interface GameSidebarProps {
   selectedGameId: string;
@@ -18,7 +16,12 @@ interface GameSidebarProps {
   onGameSelect: (gameUuid: string) => void;
 }
 
-const GameSidebar = ({ selectedGameId, templates, sidebarGames, onGameSelect }: GameSidebarProps) => {
+const GameSidebar = ({
+  selectedGameId,
+  templates,
+  sidebarGames,
+  onGameSelect,
+}: GameSidebarProps) => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
   const [gameSearchQuery, setGameSearchQuery] = useState("");
 

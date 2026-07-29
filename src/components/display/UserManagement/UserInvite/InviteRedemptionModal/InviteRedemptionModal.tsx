@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
+import spinner from "@/assets/gifs/spinner.gif";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -10,10 +14,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
-import spinner from "@/assets/gifs/spinner.gif";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { notificationModal } from "@/lib/notificationModal";
 import type { InvalidRequestError } from "@/types/errors.ts";

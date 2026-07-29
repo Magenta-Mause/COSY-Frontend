@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button.tsx";
 import type { ComponentProps, ReactNode } from "react";
+import { Button } from "@/components/ui/button.tsx";
 import { cn } from "@/lib/utils.ts";
 
 const buttonStyles = {

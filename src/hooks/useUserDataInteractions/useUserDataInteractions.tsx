@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   getGetAllUserInvitesQueryKey,
   useChangePasswordByAdmin,
@@ -15,6 +14,7 @@ import type {
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";

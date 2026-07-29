@@ -1,9 +1,9 @@
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
 import { getMetrics, getPublicEvaluableMetrics } from "@/api/generated/backend-api.ts";
 import type { MetricPointDto } from "@/api/generated/model";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 import type { DataLoadState } from "@/types/dataLoadState";
 import type { GameServerMetricsWithUuid } from "@/types/metricsTyp";

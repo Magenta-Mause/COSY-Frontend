@@ -1,13 +1,13 @@
-import { GameServerCreationContext } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import TemplateVariableForm from "./TemplateVariableForm";
-import { validateTemplateVariables } from "@/components/display/GameServer/CreateGameServer/utils/templateSubstitution";
 import { useContext } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { GameServerCreationContext } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { validateTemplateVariables } from "@/components/display/GameServer/CreateGameServer/utils/templateSubstitution";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import GenericGameServerCreationInputField from "../../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../../GenericGameServerCreationPage.tsx";
 import TemplateHeader from "./TemplateHeader.tsx";
+import TemplateVariableForm from "./TemplateVariableForm";
 
 export default function Step2() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step2");

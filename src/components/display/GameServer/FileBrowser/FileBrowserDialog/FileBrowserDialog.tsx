@@ -1,9 +1,9 @@
-import Icon from "@/components/ui/Icon.tsx";
-import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
 import closeIcon from "@/assets/icons/close.webp";
 import searchIcon from "@/assets/icons/search.webp";
+import Icon from "@/components/ui/Icon.tsx";
+import { Input } from "@/components/ui/input";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -61,7 +61,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const [search, setSearch] = useState("");
 
   const isSynthetic = useMemo(() => {
-    return !props.volumes?.some((v) => v.container_path && currentPath.startsWith(v.container_path));
+    return !props.volumes?.some(
+      (v) => v.container_path && currentPath.startsWith(v.container_path),
+    );
   }, [props.volumes, currentPath]);
 
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
@@ -183,7 +185,11 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         onDownloadAll={() => actions.openDownloadModal(currentPath)}
       />
 
-      <FileBrowserModals serverUuid={props.serverUuid} currentPath={currentPath} actions={actions} />
+      <FileBrowserModals
+        serverUuid={props.serverUuid}
+        currentPath={currentPath}
+        actions={actions}
+      />
 
       {!canReadFiles && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">

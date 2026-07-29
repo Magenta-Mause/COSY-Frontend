@@ -485,7 +485,8 @@ const translation: i18nLanguage = {
         subdirectoryNote: "Leer lassen, um direkt in das aktuelle Verzeichnis zu entpacken.",
         extract: "Entpacken",
         extracting: "Wird entpackt...",
-        extractionFailed: "Entpacken fehlgeschlagen. Stelle sicher, dass die Datei ein gültiges ZIP-Archiv ist.",
+        extractionFailed:
+          "Entpacken fehlgeschlagen. Stelle sicher, dass die Datei ein gültiges ZIP-Archiv ist.",
         cancel: "Abbrechen",
         clearExistingLabel: "Vorhandene Dateien löschen",
         clearExistingWarning:
@@ -504,7 +505,7 @@ const translation: i18nLanguage = {
         uncompressedSize: "Unkomprimierte Größe: {{size}}",
         chunkSizeLabel: "Chunk-Größe",
         firefoxWarning:
-          "Dein Browser unterstützt kein Streaming-Download. Dateien über ~500 MB können fehlschlagen oder den Tab zum Absturz bringen. Nutze Chrome oder Edge für große Verzeichnisse oder wähle \"Aufgeteilte Chunks\" unten.",
+          'Dein Browser unterstützt kein Streaming-Download. Dateien über ~500 MB können fehlschlagen oder den Tab zum Absturz bringen. Nutze Chrome oder Edge für große Verzeichnisse oder wähle "Aufgeteilte Chunks" unten.',
         downloadSingle: "Als einzelne Datei herunterladen",
         downloadSplit: "Als aufgeteilte Chunks herunterladen",
         mbPerChunk: "MB pro Chunk",

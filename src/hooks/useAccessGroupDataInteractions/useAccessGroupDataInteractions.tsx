@@ -1,4 +1,3 @@
-import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   useCreateGameServerAccessGroup,
   useDeleteGameServerAccessGroup,
@@ -6,6 +5,7 @@ import {
 } from "@/api/generated/backend-api.ts";
 import type { AccessGroupCreationDto, AccessGroupUpdateDto } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 

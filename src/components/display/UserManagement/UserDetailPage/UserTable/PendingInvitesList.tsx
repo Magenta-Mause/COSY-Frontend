@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { UserInviteDto } from "@/api/generated/model";
+import trashIcon from "@/assets/icons/trash.webp";
 import { Button } from "@/components/ui/button";
 import CopyButton from "@/components/ui/CopyButton.tsx";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,10 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import type { UserInviteDto } from "@/api/generated/model";
-import trashIcon from "@/assets/icons/trash.webp";
 
 interface UserListProps {
   onRevoke: (uuid: string) => void;

@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 export const GameServerNotFoundPage = () => {

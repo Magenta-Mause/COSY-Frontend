@@ -1,10 +1,10 @@
-import DashboardRenderer from "@/components/display/Dashboard/DashboardRenderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
 } from "@/api/generated/model";
+import DashboardRenderer from "@/components/display/Dashboard/DashboardRenderer";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";

@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card.tsx";
-import Icon from "@/components/ui/Icon.tsx";
 import { useRef, useState } from "react";
 import type { TemplateEntity } from "@/api/generated/model";
 import checkIcon from "@/assets/icons/check.webp";
+import { Card } from "@/components/ui/card.tsx";
+import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const TemplateList = ({

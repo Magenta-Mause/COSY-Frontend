@@ -38,7 +38,13 @@ export default function NumberInput({
         error={
           showError
             ? errorMessage
-              ? t(errorMessage as ParseKeys<"translation", TOptions, "components.TemplateVariableForm">)
+              ? t(
+                  errorMessage as ParseKeys<
+                    "translation",
+                    TOptions,
+                    "components.TemplateVariableForm"
+                  >,
+                )
               : t("validationError")
             : undefined
         }

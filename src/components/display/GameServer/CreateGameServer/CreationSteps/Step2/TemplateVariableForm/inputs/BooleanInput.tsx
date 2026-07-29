@@ -47,7 +47,15 @@ export default function BooleanInput({
       )}
       {showError && (
         <FieldError>
-          {errorMessage ? t(errorMessage as ParseKeys<"translation", TOptions, "components.TemplateVariableForm">) : t("validationError")}
+          {errorMessage
+            ? t(
+                errorMessage as ParseKeys<
+                  "translation",
+                  TOptions,
+                  "components.TemplateVariableForm"
+                >,
+              )
+            : t("validationError")}
         </FieldError>
       )}
     </div>

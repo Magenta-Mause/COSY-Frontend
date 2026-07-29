@@ -1,4 +1,5 @@
 import type { TFunction } from "i18next";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
 
 type Props = {
   open: boolean;

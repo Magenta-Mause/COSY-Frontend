@@ -1,9 +1,4 @@
-import { Button } from "@/components/ui/button.tsx";
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
-import Icon from "@/components/ui/Icon.tsx";
-import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { v7 as generateUuid } from "uuid";
 import attentionIcon from "@/assets/icons/attention.webp";
 import plusIcon from "@/assets/icons/plus.webp";
@@ -13,6 +8,11 @@ import {
   type GameServerCreationFormState,
 } from "@/components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@/components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
+import Icon from "@/components/ui/Icon.tsx";
+import TooltipWrapper from "@/components/ui/TooltipWrapper.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface Props<T extends { uuid: string }> {
   attribute: keyof GameServerCreationFormState;

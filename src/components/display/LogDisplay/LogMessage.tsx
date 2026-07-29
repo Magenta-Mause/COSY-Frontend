@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { format } from "date-fns";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {
   type GameServerLogMessageEntity,
   GameServerLogMessageEntityLevel,
 } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const LOG_STYLES: Record<
   string,
@@ -67,9 +67,7 @@ const LogMessage = ({
   const timestamp = message.timestamp
     ? format(
         new Date(message.timestamp),
-        showExtendedTimestamps
-          ? t("timestampFormatDetailed")
-          : t("timestampFormat"),
+        showExtendedTimestamps ? t("timestampFormatDetailed") : t("timestampFormat"),
       )
     : "--:--:--";
 

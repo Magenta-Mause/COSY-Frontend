@@ -1,3 +1,7 @@
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { UserEntityDtoRole } from "@/api/generated/model";
+import addUserIcon from "@/assets/icons/userAdd.webp";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
@@ -9,10 +13,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog.tsx";
 import Icon from "@/components/ui/Icon.tsx";
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import type { UserEntityDtoRole } from "@/api/generated/model";
-import addUserIcon from "@/assets/icons/userAdd.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
